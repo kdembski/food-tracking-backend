@@ -1,10 +1,8 @@
 {
   "name": "food-tracking-backend",
   "version": "1.0.0",
-  "description": "",
   "type": "module",
-  "main": "index.js",
-  "author": "",
+  "main": "src/index.js",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
