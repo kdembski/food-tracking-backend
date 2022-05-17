@@ -1,11 +1,12 @@
-import { getRecipesListQuery } from "../queries/recipe.js";
+import { sendQuery } from "../config/database.js";
+import recipeModel from "../models/recipe.js";
 
 export const getRecipesList = (request, response) => {
-  getRecipesListQuery((err, results) => {
-    if (err) {
-      response.send(err);
-    } else {
-      response.json(results);
+  sendQuery(recipeModel.recipesListQuery, (error, results) => {
+    if (error) {
+      response.send(error);
+      return;
     }
+    response.json(results);
   });
 };
