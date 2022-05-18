@@ -10,11 +10,11 @@ let pool_config = {
 
 let pool = mysql.createPool(pool_config);
 
-export const sendQuery = (query, callback) =>
+export const sendQuery = (query, callback, params) =>
   pool.getConnection((err, connection) => {
     if (err) throw err;
 
-    connection.query(query, (error, results) => {
+    connection.query(query, params, (error, results) => {
       callback(error, results);
       connection.release();
 
