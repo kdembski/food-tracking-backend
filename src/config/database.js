@@ -1,11 +1,16 @@
 import mysql from "mysql2";
+import dotenv from "dotenv";
+
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config({ path: "./.env.local" });
+}
 
 let pool_config = {
-  connectionLimit: 10,
-  host: "sql11.freesqldatabase.com",
-  user: "sql11492636",
-  password: "kDc2mfjxJv",
-  database: "sql11492636",
+  connectionLimit: 20,
+  host: process.env.DATABASE_HOST,
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
+  database: "food_tracking",
 };
 
 let pool = mysql.createPool(pool_config);
