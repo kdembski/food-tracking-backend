@@ -4,7 +4,7 @@ import getListWithPagination from "../helpers/get-list-with-pagination.js";
 export const getRecipesList = (request, response) => {
   getListWithPagination(
     recipeModel.recipesListQuery,
-    recipeModel.recipeListCountQuery,
+    recipeModel.recipesListCountQuery,
     request,
     response
   );

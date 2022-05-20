@@ -26,11 +26,14 @@ const getListPagination = (listCountQuery, page, size, offset) => {
       }
 
       const count = results[0]["COUNT(*)"];
+      let lastRecord = offset + parseInt(size);
+      lastRecord = lastRecord > count ? count : lastRecord;
+
       resolve({
         current_page: page,
         total_pages: Math.ceil(count / size),
         first_record: offset + 1,
-        last_record: offset + parseInt(size),
+        last_record: lastRecord,
         total_records: count,
       });
     });
