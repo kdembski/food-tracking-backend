@@ -1,25 +1,26 @@
 import { sendQuery } from "../config/database.js";
+import { convertKeysToCamelCase } from "./convert-keys-to-camel-case.js";
 
-const getListData = (listQuery, search, size, offset) => {
+const getListData = (selectList, search, size, offset) => {
   return new Promise((resolve, reject) => {
     sendQuery(
-      listQuery,
+      selectList,
       (error, results) => {
         if (error) {
           reject(error);
           return;
         }
 
-        resolve(results);
+        resolve(convertKeysToCamelCase(results));
       },
       [search, parseInt(size), parseInt(offset)]
     );
   });
 };
 
-const getListPagination = (listCountQuery, page, size, offset) => {
+const getListPagination = (selectListCount, page, size, offset) => {
   return new Promise((resolve, reject) => {
-    sendQuery(listCountQuery, (error, results) => {
+    sendQuery(selectListCount, (error, results) => {
       if (error) {
         reject(error);
         return;
@@ -30,19 +31,19 @@ const getListPagination = (listCountQuery, page, size, offset) => {
       lastRecord = lastRecord > count ? count : lastRecord;
 
       resolve({
-        current_page: page,
-        total_pages: Math.ceil(count / size),
-        first_record: offset + 1,
-        last_record: lastRecord,
-        total_records: count,
+        currentPage: page,
+        totalPages: Math.ceil(count / size),
+        firstRecord: offset + 1,
+        lastRecord: lastRecord,
+        totalRecords: count,
       });
     });
   });
 };
 
 const getListWithPagination = async (
-  listQuery,
-  listCountQuery,
+  selectList,
+  selectListCount,
   request,
   response
 ) => {
@@ -53,9 +54,9 @@ const getListWithPagination = async (
   search = search ? "%" + search + "%" : "%";
 
   let results = {};
-  results.data = await getListData(listQuery, search, size, offset);
+  results.data = await getListData(selectList, search, size, offset);
   results.pagination = await getListPagination(
-    listCountQuery,
+    selectListCount,
     page,
     size,
     offset

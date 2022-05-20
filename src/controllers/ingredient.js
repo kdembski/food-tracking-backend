@@ -1,10 +1,10 @@
 import ingredientModel from "../models/ingredient.js";
 import getListWithPagination from "../helpers/get-list-with-pagination.js";
 
-export const getIngredientsList = (request, response) => {
+export const getIngredientsListWithPagination = (request, response) => {
   getListWithPagination(
-    ingredientModel.ingredientsListQuery,
-    ingredientModel.ingredientsListCountQuery,
+    ingredientModel.selectIngredientsList,
+    ingredientModel.selectIngredientsCount,
     request,
     response
   );
