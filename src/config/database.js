@@ -1,11 +1,11 @@
-import mysql from "mysql2";
 import dotenv from "dotenv";
+import { createPool } from "mysql2";
 
 if (process.env.NODE_ENV !== "production") {
   dotenv.config({ path: "./.env.local" });
 }
 
-let pool_config = {
+const pool_config = {
   connectionLimit: 20,
   host: process.env.DATABASE_HOST,
   user: process.env.DATABASE_USER,
@@ -13,9 +13,9 @@ let pool_config = {
   database: "food_tracking",
 };
 
-let pool = mysql.createPool(pool_config);
+const pool = createPool(pool_config);
 
-export const sendQuery = (query, callback, params) =>
+const sendQuery = (query, callback, params) =>
   pool.getConnection((err, connection) => {
     if (err) throw err;
 
@@ -27,4 +27,4 @@ export const sendQuery = (query, callback, params) =>
     });
   });
 
-export default pool;
+export default { pool, sendQuery };
