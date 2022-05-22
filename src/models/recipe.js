@@ -11,35 +11,35 @@ const recipeModel = {
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci`,
 
   selectRecipesList: `
-    SELECT * FROM recipes 
-    WHERE concat(recipe_name,tags) 
-    COLLATE utf8mb4_general_ci 
-    LIKE ? 
-    LIMIT ? 
+    SELECT * FROM recipes
+    WHERE concat(recipe_name,tags)
+    COLLATE utf8mb4_general_ci
+    LIKE ?
+    LIMIT ?
     OFFSET ?`,
 
   selectRecipesCount: `
     SELECT COUNT(*) FROM recipes
-    WHERE concat(recipe_name,tags) 
-    COLLATE utf8mb4_general_ci 
+    WHERE concat(recipe_name,tags)
+    COLLATE utf8mb4_general_ci
     LIKE ?`,
 
-  selectRecipeById: `SELECT * FROM recipes WHERE id = ?`;
+  selectRecipeById: `SELECT * FROM recipes WHERE id = ?`,
 
   insertRecipe: `
-    INSERT INTO recipes SET 
-    recipe_name = ?, 
-    preparation_time = ?, 
+    INSERT INTO recipes SET
+    recipe_name = ?,
+    preparation_time = ?,
     tags = ?`,
 
   updateRecipe: `
-    UPDATE recipes SET 
-    recipe_name = ?, 
-    preparation_time = ?, 
-    tags = ? 
+    UPDATE recipes SET
+    recipe_name = ?,
+    preparation_time = ?,
+    tags = ?
     WHERE id = ?`,
 
-  deleteRecipe: `DELETE FROM recipes WHERE id = ?`
-}
+  deleteRecipe: `DELETE FROM recipes WHERE id = ?`,
+};
 
 export default recipeModel;

@@ -1,30 +1,36 @@
-import dotenv from "dotenv";
 import { createPool } from "mysql2";
 
-if (process.env.NODE_ENV !== "production") {
-  dotenv.config({ path: "./.env.local" });
+class Database {
+  static pool;
+
+  static initializeConnectionPool() {
+    if (this.pool) {
+      return console.log("Database pool should only be initialized once.");
+    }
+
+    const poolConfig = {
+      connectionLimit: 20,
+      host: process.env.DATABASE_HOST,
+      user: process.env.DATABASE_USER,
+      password: process.env.DATABASE_PASSWORD,
+      database: "food_tracking",
+    };
+
+    this.pool = createPool(poolConfig);
+  }
+
+  static sendQuery(query, params) {
+    return new Promise((resolve, reject) =>
+      this.pool.getConnection((connectionError, connection) => {
+        if (connectionError) return reject(connectionError);
+
+        connection.query(query, params, (error, results) => {
+          error ? reject(error) : resolve(results);
+          connection.release();
+        });
+      })
+    );
+  }
 }
 
-const pool_config = {
-  connectionLimit: 20,
-  host: process.env.DATABASE_HOST,
-  user: process.env.DATABASE_USER,
-  password: process.env.DATABASE_PASSWORD,
-  database: "food_tracking",
-};
-
-const pool = createPool(pool_config);
-
-const sendQuery = (query, callback, params) =>
-  pool.getConnection((err, connection) => {
-    if (err) throw err;
-
-    connection.query(query, params, (error, results) => {
-      callback(error, results);
-      connection.release();
-
-      if (error) throw error;
-    });
-  });
-
-export default { pool, sendQuery };
+export default Database;

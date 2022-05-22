@@ -1,10 +1,10 @@
 import recipeModel from "../models/recipe.js";
 import getListWithPagination from "../utils/get-list-with-pagination.js";
-import db from "../config/database.js";
+import Database from "../config/database.js";
 import { convertKeysToCamelCase } from "../utils/convert-keys-to-camel-case.js";
 
 class RecipeController {
-  setRoutes(router) {
+  static setRoutes(router) {
     router.get("/recipes", this.#getRecipesListWithPagination);
     router.get("/recipes/:id", this.#getRecipeById);
     router.post("/recipes", this.#addRecipe);
@@ -12,65 +12,57 @@ class RecipeController {
     router.delete("/recipes/:id", this.#deleteRecipe);
   }
 
-  #getRecipesListWithPagination(request, response) {
+  static #getRecipesListWithPagination(request, response) {
     getListWithPagination(
       recipeModel.selectRecipesList,
       recipeModel.selectRecipesCount,
-      request,
-      response
-    );
+      request
+    )
+      .then((results) => response.json(results))
+      .catch((error) => response.send(error));
   }
 
-  #getRecipeById(request, response) {
+  static #getRecipeById(request, response) {
     const id = request.params.id;
 
-    db.sendQuery(
-      recipeModel.selectRecipeById,
-      (error, results) => {
-        error
-          ? response.send(error)
-          : response.json(convertKeysToCamelCase(results[0]));
-      },
-      [id]
-    );
+    Database.sendQuery(recipeModel.selectRecipeById, [id])
+      .then((results) => response.json(convertKeysToCamelCase(results[0])))
+      .catch((error) => response.send(error));
   }
 
-  #addRecipe(request, response) {
+  static #addRecipe(request, response) {
     const data = request.body;
 
-    db.sendQuery(
-      recipeModel.insertRecipe,
-      (error, results) => {
-        error ? response.send(error) : response.json(results);
-      },
-      [data.recipeName, data.preparationTime, data.tags]
-    );
+    Database.sendQuery(recipeModel.insertRecipe, [
+      data.recipeName,
+      data.preparationTime,
+      data.tags,
+    ])
+      .then((results) => response.json(results))
+      .catch((error) => response.send(error));
   }
 
-  #updateRecipe(request, response) {
+  static #updateRecipe(request, response) {
     const id = request.params.id;
     const data = request.body;
 
-    db.sendQuery(
-      recipeModel.updateRecipe,
-      (error, results) => {
-        error ? response.send(error) : response.json(results);
-      },
-      [data.recipeName, data.preparationTime, data.tags, id]
-    );
+    Database.sendQuery(recipeModel.updateRecipe, [
+      data.recipeName,
+      data.preparationTime,
+      data.tags,
+      id,
+    ])
+      .then((results) => response.json(results))
+      .catch((error) => response.send(error));
   }
 
-  #deleteRecipe(request, response) {
+  static #deleteRecipe(request, response) {
     const id = request.params.id;
 
-    db.sendQuery(
-      recipeModel.deleteRecipe,
-      (error, results) => {
-        error ? response.send(error) : response.json(results);
-      },
-      [id]
-    );
+    Database.sendQuery(recipeModel.deleteRecipe, [id])
+      .then((results) => response.json(results))
+      .catch((error) => response.send(error));
   }
 }
 
-export default new RecipeController();
+export default RecipeController;

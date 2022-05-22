@@ -1,15 +1,11 @@
-import db from "../config/database.js";
+import Database from "../config/database.js";
 import { convertKeysToCamelCase } from "./convert-keys-to-camel-case.js";
 
 const getListData = (selectList, search, size, offset) => {
   return new Promise((resolve, reject) => {
-    db.sendQuery(
-      selectList,
-      (error, results) => {
-        error ? reject(error) : resolve(convertKeysToCamelCase(results));
-      },
-      [search, size, offset]
-    );
+    Database.sendQuery(selectList, [search, size, offset])
+      .then((results) => resolve(convertKeysToCamelCase(results)))
+      .catch((error) => reject(error));
   });
 };
 
@@ -22,14 +18,8 @@ const getListPagination = (
   listLength
 ) => {
   return new Promise((resolve, reject) => {
-    db.sendQuery(
-      selectListCount,
-      (error, results) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-
+    Database.sendQuery(selectListCount, [search])
+      .then((results) => {
         const count = parseInt(results[0]["COUNT(*)"]);
         resolve({
           currentPage: page,
@@ -38,18 +28,12 @@ const getListPagination = (
           lastRecord: offset + listLength,
           totalRecords: count,
         });
-      },
-      [search]
-    );
+      })
+      .catch((error) => reject(error));
   });
 };
 
-const getListWithPagination = async (
-  selectList,
-  selectListCount,
-  request,
-  response
-) => {
+const getListWithPagination = (selectList, selectListCount, request) => {
   let size = request?.query?.size || 10;
   size = parseInt(size);
 
@@ -61,22 +45,24 @@ const getListWithPagination = async (
 
   const offset = (page - 1) * size;
 
-  getListData(selectList, search, size, offset)
-    .then((data) => {
-      getListPagination(
-        selectListCount,
-        search,
-        page,
-        size,
-        offset,
-        data?.length
-      )
-        .then((pagination) => {
-          response.json({ data, pagination });
-        })
-        .catch((error) => response.send(error));
-    })
-    .catch((error) => response.send(error));
+  return new Promise((resolve, reject) => {
+    getListData(selectList, search, size, offset)
+      .then((data) => {
+        getListPagination(
+          selectListCount,
+          search,
+          page,
+          size,
+          offset,
+          data?.length
+        )
+          .then((pagination) => {
+            resolve({ data, pagination });
+          })
+          .catch((error) => reject(error));
+      })
+      .catch((error) => reject(error));
+  });
 };
 
 export default getListWithPagination;

@@ -7,18 +7,22 @@ const ingredientModel = {
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci`,
 
   selectIngredientsList: `
-    SELECT * FROM ingredients 
-    WHERE ingredient_name 
-    COLLATE utf8mb4_general_ci 
+    SELECT * FROM ingredients
+    WHERE ingredient_name
+    COLLATE utf8mb4_general_ci
     LIKE ?
-    LIMIT ? 
+    LIMIT ?
     OFFSET ?`,
 
   selectIngredientsCount: `
     SELECT COUNT(*) FROM ingredients
-    WHERE ingredient_name 
-    COLLATE utf8mb4_general_ci 
+    WHERE ingredient_name
+    COLLATE utf8mb4_general_ci
     LIKE ?`,
+
+  selectIngredientUnits: `
+    SELECT * FROM ingredients_with_units
+    WHERE ingredient_id = ?`,
 };
 
 export default ingredientModel;
