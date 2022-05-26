@@ -23,6 +23,17 @@ const ingredientModel = {
   selectIngredientUnits: `
     SELECT * FROM ingredients_with_units
     WHERE ingredient_id = ?`,
+
+  insertIngredient: `
+    INSERT INTO ingredients SET
+    ingredient_name = ?`,
+
+  updateIngredient: `
+    UPDATE ingredients SET
+    ingredient_name = ?
+    WHERE id = ?`,
+
+  deleteIngredient: `DELETE FROM ingredients WHERE id = ?`,
 };
 
 export default ingredientModel;
