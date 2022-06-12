@@ -6,6 +6,7 @@ import IngredientWithUnitController from "./controllers/ingredient-with-unit.js"
 import RecipeIngredientController from "./controllers/recipe-ingredient.js";
 import RecipeStepController from "./controllers/recipe-step.js";
 import UserController from "./controllers/user.js";
+import OrderedFoodController from "./controllers/ordered-food.js";
 
 const router = express.Router();
 router.all("*", authentication);
@@ -16,5 +17,6 @@ IngredientWithUnitController.setRoutes(router);
 RecipeIngredientController.setRoutes(router);
 RecipeStepController.setRoutes(router);
 UserController.setRoutes(router);
+OrderedFoodController.setRoutes(router);
 
 export default router;

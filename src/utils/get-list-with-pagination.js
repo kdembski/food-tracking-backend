@@ -39,6 +39,10 @@ export const addOrderByToSelectListQuery = (
   sortAttribute,
   sortDirection
 ) => {
+  if (!sortAttribute || !sortDirection) {
+    return selectList;
+  }
+
   selectList = selectList.split("LIMIT");
 
   selectList[0] += "ORDER BY " + sortAttribute + " " + sortDirection + "\n";
@@ -48,7 +52,7 @@ export const addOrderByToSelectListQuery = (
     : selectList[0];
 };
 
-export const addTagsToSelectListQuery = (selectList, tags) => {
+export const addTagsFilteringQuery = (selectList, tags) => {
   if (!tags) {
     return selectList;
   }
@@ -88,9 +92,9 @@ const getListWithPagination = (selectList, selectListCount, request) => {
     sortAttribute,
     sortDirection
   );
-  selectList = addTagsToSelectListQuery(selectList, tags);
+  selectList = addTagsFilteringQuery(selectList, tags);
 
-  selectListCount = addTagsToSelectListQuery(selectListCount, tags);
+  selectListCount = addTagsFilteringQuery(selectListCount, tags);
 
   return new Promise((resolve, reject) => {
     getListData(selectList, search, size, offset)

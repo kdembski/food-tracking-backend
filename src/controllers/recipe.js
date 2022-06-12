@@ -1,10 +1,8 @@
 import recipeModel from "../models/recipe.js";
-import getListWithPagination, {
-  addTagsToSelectListQuery,
-} from "../utils/get-list-with-pagination.js";
+import getListWithPagination from "../utils/get-list-with-pagination.js";
 import Database from "../config/database.js";
 import { convertKeysToCamelCase } from "../utils/convert-keys-to-camel-case.js";
-import lodash from "lodash";
+import getListTags from "../utils/get-list-tags.js";
 
 class RecipeController {
   static setRoutes(router) {
@@ -27,27 +25,8 @@ class RecipeController {
   }
 
   static #getRecipesListTags(request, response) {
-    let search = request?.query?.search;
-    search = search ? "%" + search + "%" : "%";
-
-    const tags = request?.query?.tags;
-
-    const selectRecipesTags = addTagsToSelectListQuery(
-      recipeModel.selectRecipesTags,
-      tags
-    );
-
-    Database.sendQuery(selectRecipesTags, [search])
-      .then((results) => {
-        let allTags = [];
-
-        results.forEach((record) => {
-          const recordTags = record.tags.split(",");
-          allTags = lodash.union(allTags, recordTags);
-        });
-
-        response.json({ recipesTags: allTags.sort().join(",") });
-      })
+    getListTags(request, recipeModel.selectRecipesTags)
+      .then((results) => response.json({ recipesTags: results }))
       .catch((error) => response.send(error));
   }
 
