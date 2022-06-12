@@ -1,16 +1,19 @@
 import userModel from "../models/user.js";
 import Database from "../config/database.js";
 import bcrypt from "bcryptjs";
+import lodash from "lodash";
 
 class UserController {
   static setRoutes(router) {
-    router.post("/authenticate", this.#authenticate);
+    router.post("/login", this.#login);
   }
 
-  static #authenticate(request, response) {
+  static #login(request, response) {
     const password = request.body.password;
-    if (!password) {
-      return response.status(400).json({ code: "PASSWORD_REQUIRED" });
+    if (!password || !lodash.isString(password)) {
+      return response
+        .status(400)
+        .json({ code: "PASSWORD_REQUIRED", message: "Hasło jest wymagane" });
     }
 
     Database.sendQuery(userModel.selectUser)
@@ -21,7 +24,9 @@ class UserController {
           return response.json({ accessToken: user.access_token });
         }
 
-        return response.status(400).json({ code: "PASSWORD_INVALID" });
+        return response
+          .status(400)
+          .json({ code: "PASSWORD_INVALID", message: "Niepoprawne hasło" });
       })
       .catch((error) => response.send(error));
   }

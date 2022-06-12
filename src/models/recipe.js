@@ -12,7 +12,7 @@ const recipeModel = {
 
   selectRecipesList: `
     SELECT * FROM recipes
-    WHERE concat(recipe_name,tags)
+    WHERE recipe_name
     COLLATE utf8mb4_general_ci
     LIKE ?
     LIMIT ?
@@ -20,7 +20,13 @@ const recipeModel = {
 
   selectRecipesCount: `
     SELECT COUNT(*) FROM recipes
-    WHERE concat(recipe_name,tags)
+    WHERE recipe_name
+    COLLATE utf8mb4_general_ci
+    LIKE ?`,
+
+  selectRecipesTags: `
+    SELECT tags FROM recipes
+    WHERE recipe_name
     COLLATE utf8mb4_general_ci
     LIKE ?`,
 
