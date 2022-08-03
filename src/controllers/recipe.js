@@ -1,5 +1,7 @@
 import recipeModel from "../models/recipe.js";
-import getListWithPagination from "../utils/get-list-with-pagination.js";
+import getListWithPagination, {
+  addTagsFilteringQuery,
+} from "../utils/get-list-with-pagination.js";
 import Database from "../config/database.js";
 import { convertKeysToCamelCase } from "../utils/convert-keys-to-camel-case.js";
 import getListTags from "../utils/get-list-tags.js";
@@ -8,6 +10,8 @@ class RecipeController {
   static setRoutes(router) {
     router.get("/recipes", this.#getRecipesListWithPagination);
     router.get("/recipes/tags", this.#getRecipesListTags);
+    router.get("/recipes/suggestions", this.#getRecipesListNames);
+    router.get("/recipes/count", this.#getRecipesListCount);
     router.get("/recipes/:id", this.#getRecipeById);
     router.post("/recipes", this.#addRecipe);
     router.put("/recipes/:id", this.#updateRecipe);
@@ -29,6 +33,31 @@ class RecipeController {
       .then((results) => response.json({ recipesTags: results }))
       .catch((error) => response.send(error));
   }
+
+  static #getRecipesListNames = (request, response) => {
+    let search = request?.query?.search;
+    search = search ? "%" + search + "%" : "%";
+    const tags = request?.query?.tags;
+    const selectRecipesNames = addTagsFilteringQuery(
+      recipeModel.selectRecipesNames,
+      tags
+    );
+
+    Database.sendQuery(recipeModel.selectRecipesNames, [search])
+      .then((results) =>
+        response.json(results.map((item) => item["recipe_name"]))
+      )
+      .catch((error) => response.send(error));
+  };
+
+  static #getRecipesListCount = (request, response) => {
+    let search = request?.query?.search;
+    search = search ? "%" + search + "%" : "%";
+
+    Database.sendQuery(recipeModel.selectRecipesCount, [search])
+      .then((results) => response.json(parseInt(results[0]["COUNT(*)"])))
+      .catch((error) => response.send(error));
+  };
 
   static #getRecipeById(request, response) {
     const id = request.params.id;

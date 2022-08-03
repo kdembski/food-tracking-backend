@@ -31,6 +31,12 @@ const recipeModel = {
     COLLATE utf8mb4_general_ci
     LIKE ?`,
 
+  selectRecipesNames: `
+    SELECT recipe_name FROM recipes
+    WHERE recipe_name
+    COLLATE utf8mb4_general_ci
+    LIKE ?`,
+
   selectRecipeById: `SELECT * FROM recipes WHERE id = ?`,
 
   insertRecipe: `
