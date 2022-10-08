@@ -7,7 +7,7 @@ export const getTagsWithCount = (request, selectTagsQuery) => {
   return new Promise((resolve, reject) => {
     getTags(request, selectTagsQuery)
       .then((result) => {
-        resolve(countTags(result));
+        resolve(countTags(result).sort((a, b) => b.count - a.count));
       })
       .catch((error) => reject(error));
   });

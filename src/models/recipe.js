@@ -6,7 +6,7 @@ const recipeModel = {
       preparation_time int DEFAULT NULL,
       tags varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_polish_ci DEFAULT NULL,
       kcal int DEFAULT NULL,
-      cooked_date TIMESTAMP DEFAULT NULL,
+      cooked_date DATE DEFAULT NULL,
       thermomix tinyint(1) DEFAULT 0,
       PRIMARY KEY (id)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci`,

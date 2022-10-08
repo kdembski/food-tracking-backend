@@ -54,7 +54,6 @@ class RecipeController {
   };
 
   static #getRecipesListCount = (request, response) => {
-    const { getRequestQueryParameters } = useRequestHelpers();
     const { searchPhrase } = getRequestQueryParameters(request);
 
     Database.sendQuery(recipeModel.selectRecipesCount, [searchPhrase])
