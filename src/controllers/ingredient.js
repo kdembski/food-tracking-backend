@@ -1,7 +1,7 @@
 import ingredientModel from "../models/ingredient.js";
-import getListWithPagination from "../utils/get-list-with-pagination.js";
-import { convertKeysToCamelCase } from "../utils/convert-keys-to-camel-case.js";
 import Database from "../config/database.js";
+import { getListWithPagination } from "../utils/list.js";
+import { convertKeysToCamelCase } from "../utils/convert-keys-to-camel-case.js";
 
 class IngredientController {
   static setRoutes(router) {

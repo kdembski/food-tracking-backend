@@ -15,9 +15,7 @@ const recipeModel = {
     SELECT * FROM recipes
     WHERE recipe_name
     COLLATE utf8mb4_general_ci
-    LIKE ?
-    LIMIT ?
-    OFFSET ?`,
+    LIKE ?`,
 
   selectRecipesCount: `
     SELECT COUNT(*) FROM recipes

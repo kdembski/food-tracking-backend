@@ -10,9 +10,7 @@ const ingredientModel = {
     SELECT * FROM ingredients
     WHERE ingredient_name
     COLLATE utf8mb4_general_ci
-    LIKE ?
-    LIMIT ?
-    OFFSET ?`,
+    LIKE ?`,
 
   selectIngredientsCount: `
     SELECT COUNT(*) FROM ingredients

@@ -1,6 +1,6 @@
 import orderedFoodModel from "../models/ordered-food.js";
-import getListWithPagination from "../utils/get-list-with-pagination.js";
-import getListTags from "../utils/get-list-tags.js";
+import { getListWithPagination } from "../utils/list.js";
+import { getTagsWithCount } from "../utils/tags.js";
 
 class OrderedFoodController {
   static setRoutes(router) {
@@ -19,7 +19,7 @@ class OrderedFoodController {
   }
 
   static #getOrderedFoodListTags(request, response) {
-    getListTags(request, orderedFoodModel.selectOrderedFoodTags)
+    getTagsWithCount(request, orderedFoodModel.selectOrderedFoodTags)
       .then((results) => response.json({ orderedFoodTags: results }))
       .catch((error) => response.send(error));
   }

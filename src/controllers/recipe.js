@@ -1,10 +1,10 @@
 import recipeModel from "../models/recipe.js";
-import getListWithPagination, {
-  addTagsFilteringQuery,
-} from "../utils/get-list-with-pagination.js";
 import Database from "../config/database.js";
+import { getFliterByTagsQuery } from "../utils/query-helpers.js";
+import { getRequestQueryParameters } from "../utils/request-helpers.js";
+import { getListWithPagination } from "../utils/list.js";
+import { getTagsWithCount } from "../utils/tags.js";
 import { convertKeysToCamelCase } from "../utils/convert-keys-to-camel-case.js";
-import getListTags from "../utils/get-list-tags.js";
 
 class RecipeController {
   static setRoutes(router) {
@@ -25,25 +25,28 @@ class RecipeController {
       request
     )
       .then((results) => response.json(results))
-      .catch((error) => response.send(error));
+      .catch((error) => {
+        response.send(error);
+        console.log(error);
+      });
   }
 
   static #getRecipesListTags(request, response) {
-    getListTags(request, recipeModel.selectRecipesTags)
+    getTagsWithCount(request, recipeModel.selectRecipesTags)
       .then((results) => response.json({ recipesTags: results }))
-      .catch((error) => response.send(error));
+      .catch((error) => {
+        response.send(error);
+        console.log(error);
+      });
   }
 
   static #getRecipesListNames = (request, response) => {
-    let search = request?.query?.search;
-    search = search ? "%" + search + "%" : "%";
-    const tags = request?.query?.tags;
-    const selectRecipesNames = addTagsFilteringQuery(
-      recipeModel.selectRecipesNames,
-      tags
-    );
+    const { searchPhrase, tags } = getRequestQueryParameters(request);
 
-    Database.sendQuery(recipeModel.selectRecipesNames, [search])
+    const selectRecipesNames =
+      recipeModel.selectRecipesNames + "\n" + getFliterByTagsQuery(tags);
+
+    Database.sendQuery(selectRecipesNames, [searchPhrase])
       .then((results) =>
         response.json(results.map((item) => item["recipe_name"]))
       )
@@ -51,10 +54,10 @@ class RecipeController {
   };
 
   static #getRecipesListCount = (request, response) => {
-    let search = request?.query?.search;
-    search = search ? "%" + search + "%" : "%";
+    const { getRequestQueryParameters } = useRequestHelpers();
+    const { searchPhrase } = getRequestQueryParameters(request);
 
-    Database.sendQuery(recipeModel.selectRecipesCount, [search])
+    Database.sendQuery(recipeModel.selectRecipesCount, [searchPhrase])
       .then((results) => response.json(parseInt(results[0]["COUNT(*)"])))
       .catch((error) => response.send(error));
   };

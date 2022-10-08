@@ -13,9 +13,7 @@ const orderedFoodModel = {
     SELECT * FROM ordered_food
     WHERE food_name
     COLLATE utf8mb4_general_ci
-    LIKE ?
-    LIMIT ?
-    OFFSET ?`,
+    LIKE ?`,
 
   selectOrderedFoodCount: `
     SELECT COUNT(*) FROM ordered_food
