@@ -27,23 +27,21 @@ export const getListWithPagination = (
     tags
   );
 
-  return new Promise((resolve, reject) => {
-    getListData(queryToSelectList, searchPhrase)
-      .then((data) => {
-        getListPagination(
-          queryToSelectListCount,
-          searchPhrase,
-          page,
-          size,
-          offset,
-          data?.length
-        )
-          .then((pagination) => {
-            resolve({ data, pagination });
-          })
-          .catch((error) => reject(error));
-      })
-      .catch((error) => reject(error));
+  return new Promise(async (resolve, reject) => {
+    try {
+      const data = await getListData(queryToSelectList, searchPhrase);
+      const pagination = await getListPagination(
+        queryToSelectListCount,
+        searchPhrase,
+        page,
+        size,
+        offset,
+        data?.length
+      );
+      resolve({ data, pagination });
+    } catch (error) {
+      reject(error);
+    }
   });
 };
 

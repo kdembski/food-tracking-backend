@@ -14,11 +14,11 @@ class RecipeController {
     );
   }
 
-  static getRecipesListTags(request) {
+  static getRecipesTags(request) {
     return getTagsWithCount(request, recipeQueries.selectTags);
   }
 
-  static getRecipesListNames = (searchPhrase, tags) => {
+  static getRecipesNames = (searchPhrase, tags) => {
     const queryToSelectRecipesNames =
       recipeQueries.selectNames + "\n" + getQueryToFiltersByTags(tags);
 
@@ -29,7 +29,7 @@ class RecipeController {
     });
   };
 
-  static getRecipesListCount = (searchPhrase) => {
+  static getRecipesCount = (searchPhrase) => {
     return new Promise((resolve, reject) => {
       Database.sendQuery(recipeQueries.selectCount, [searchPhrase])
         .then((results) => resolve(parseInt(results[0]["COUNT(*)"])))

@@ -11,7 +11,7 @@ recipeRouter.get("/", (request, response) => {
 });
 
 recipeRouter.get("/tags", (request, response) => {
-  RecipeController.getRecipesListTags(request)
+  RecipeController.getRecipesTags(request)
     .then((results) => response.json({ recipesTags: results }))
     .catch((error) => response.status(400).send(error));
 });
@@ -19,7 +19,7 @@ recipeRouter.get("/tags", (request, response) => {
 recipeRouter.get("/suggestions", (request, response) => {
   const { searchPhrase, tags } = getRequestQueryParameters(request);
 
-  RecipeController.getRecipesListNames(searchPhrase, tags)
+  RecipeController.getRecipesNames(searchPhrase, tags)
     .then((results) => response.json(results))
     .catch((error) => response.status(400).send(error));
 });
@@ -27,7 +27,7 @@ recipeRouter.get("/suggestions", (request, response) => {
 recipeRouter.get("/count", (request, response) => {
   const { searchPhrase } = getRequestQueryParameters(request);
 
-  RecipeController.getRecipesListCount(searchPhrase)
+  RecipeController.getRecipesCount(searchPhrase)
     .then((results) => response.json(results))
     .catch((error) => response.status(400).send(error));
 });

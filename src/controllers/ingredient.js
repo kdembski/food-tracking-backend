@@ -6,18 +6,18 @@ import { convertKeysToCamelCase } from "../utils/convert-keys-to-camel-case.js";
 
 class IngredientController {
   static getIngredientsListWithPagination(request) {
-    return new Promise((resolve, reject) => {
-      getListWithPagination(
-        ingredientQueries.select,
-        ingredientQueries.selectCount,
-        request
-      )
-        .then((list) => {
-          IngredientController.setUnitsForIngredients(list.data)
-            .then(() => resolve(list))
-            .catch((error) => reject(error));
-        })
-        .catch((error) => reject(error));
+    return new Promise(async (resolve, reject) => {
+      try {
+        const list = await getListWithPagination(
+          ingredientQueries.select,
+          ingredientQueries.selectCount,
+          request
+        );
+        await IngredientController.setUnitsForIngredients(list.data);
+        resolve(list);
+      } catch (error) {
+        reject(error);
+      }
     });
   }
 
