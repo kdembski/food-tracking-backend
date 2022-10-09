@@ -1,5 +1,5 @@
-const recipeStepModel = {
-  createRecipeStepsTable: `
+const recipeStepQueries = {
+  createTable: `
     CREATE TABLE recipe_steps (
       id int NOT NULL AUTO_INCREMENT,
       recipe_id int NOT NULL,
@@ -10,22 +10,22 @@ const recipeStepModel = {
       CONSTRAINT steps_recipe_id_fk FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON DELETE CASCADE ON UPDATE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci`,
 
-  selectRecipeStepsByRecipeId: `SELECT * FROM recipe_steps WHERE recipe_id = ?`,
+  selectByRecipeId: `SELECT * FROM recipe_steps WHERE recipe_id = ?`,
 
-  insertRecipeStep: `
+  insert: `
     INSERT INTO recipe_steps SET
     recipe_id = ?,
     step_number = ?,
     step_instructions = ?`,
 
-  updateRecipeStep: `
+  update: `
     UPDATE recipe_steps SET
     recipe_id = ?,
     step_number = ?,
     step_instructions = ?
     WHERE id = ?`,
 
-  deleteRecipeStep: `DELETE FROM recipe_steps WHERE id = ?`,
+  delete: `DELETE FROM recipe_steps WHERE id = ?`,
 };
 
-export default recipeStepModel;
+export default recipeStepQueries;

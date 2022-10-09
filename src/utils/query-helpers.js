@@ -1,4 +1,4 @@
-export const getFliterByTagsQuery = (tags) => {
+export const getQueryToFiltersByTags = (tags) => {
   if (!tags) {
     return "";
   }
@@ -13,7 +13,7 @@ export const getFliterByTagsQuery = (tags) => {
   return query;
 };
 
-export const getOrderByQuery = (sortAttribute, sortDirection) => {
+export const getQueryToOrderBy = (sortAttribute, sortDirection) => {
   if (!sortAttribute || !sortDirection) {
     return "";
   }

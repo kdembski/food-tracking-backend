@@ -1,5 +1,5 @@
-const orderedFoodModel = {
-  createOrderedFoodTable: `
+const orderedFoodQueries = {
+  createTable: `
     CREATE TABLE ordered_food (
       id int NOT NULL AUTO_INCREMENT,
       food_name varchar(63) CHARACTER SET utf8mb4 COLLATE utf8mb4_polish_ci NOT NULL,
@@ -10,23 +10,23 @@ const orderedFoodModel = {
       PRIMARY KEY (id)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci`,
 
-  selectOrderedFoodList: `
+  select: `
     SELECT * FROM ordered_food
     WHERE food_name
     COLLATE utf8mb4_general_ci
     LIKE ?`,
 
-  selectOrderedFoodCount: `
+  selectCount: `
     SELECT COUNT(*) FROM ordered_food
     WHERE food_name
     COLLATE utf8mb4_general_ci
     LIKE ?`,
 
-  selectOrderedFoodTags: `
+  selectTags: `
     SELECT tags FROM ordered_food
     WHERE food_name
     COLLATE utf8mb4_general_ci
     LIKE ?`,
 };
 
-export default orderedFoodModel;
+export default orderedFoodQueries;

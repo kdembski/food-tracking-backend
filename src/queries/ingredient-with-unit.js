@@ -1,5 +1,5 @@
-const ingredientWithUnitModel = {
-  createIngredientsWithUnitsTable: `
+const ingredientWithUnitQueries = {
+  createTable: `
     CREATE TABLE ingredients_with_units (
       id int NOT NULL AUTO_INCREMENT,
       ingredient_id int NOT NULL,
@@ -15,7 +15,11 @@ const ingredientWithUnitModel = {
       CONSTRAINT unit_id_fk FOREIGN KEY (unit_id) REFERENCES units (id) ON DELETE CASCADE ON UPDATE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci`,
 
-  insertIngredientWithUnit: `
+  selectByIngredientId: `
+    SELECT * FROM ingredients_with_units
+    WHERE ingredient_id = ?`,
+
+  insert: `
     INSERT INTO ingredients_with_units SET
     ingredient_id = ?,
     unit_id = ?,
@@ -23,7 +27,7 @@ const ingredientWithUnitModel = {
     is_primary = ?,
     converter_to_primary = ?`,
 
-  updateIngredientWithUnit: `
+  update: `
     UPDATE ingredients_with_units SET
     ingredient_id = ?,
     unit_id = ?,
@@ -32,7 +36,7 @@ const ingredientWithUnitModel = {
     converter_to_primary = ?
     WHERE id = ?`,
 
-  deleteIngredientWithUnit: `DELETE FROM ingredients_with_units WHERE id = ?`,
+  delete: `DELETE FROM ingredients_with_units WHERE id = ?`,
 };
 
-export default ingredientWithUnitModel;
+export default ingredientWithUnitQueries;

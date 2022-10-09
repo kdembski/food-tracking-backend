@@ -1,34 +1,27 @@
-import userModel from "../models/user.js";
+import userQueries from "../queries/user.js";
 import Database from "../config/database.js";
 import bcrypt from "bcryptjs";
-import lodash from "lodash";
+import { convertKeysToCamelCase } from "../utils/convert-keys-to-camel-case.js";
 
 class UserController {
-  static setRoutes(router) {
-    router.post("/login", this.#login);
+  static login(password) {
+    return new Promise((resolve, reject) => {
+      this.getUser
+        .then((user) => {
+          if (!bcrypt.compareSync(password, user.password)) {
+            reject({ code: "PASSWORD_INVALID", message: "Niepoprawne hasło" });
+          }
+
+          resolve(user.accessToken);
+        })
+        .catch((error) => reject(error));
+    });
   }
 
-  static #login(request, response) {
-    const password = request.body.password;
-    if (!password || !lodash.isString(password)) {
-      return response
-        .status(400)
-        .json({ code: "PASSWORD_REQUIRED", message: "Hasło jest wymagane" });
-    }
-
-    Database.sendQuery(userModel.selectUser)
-      .then((results) => {
-        const user = results[0];
-
-        if (bcrypt.compareSync(password, user.password)) {
-          return response.json({ accessToken: user.access_token });
-        }
-
-        return response
-          .status(400)
-          .json({ code: "PASSWORD_INVALID", message: "Niepoprawne hasło" });
-      })
-      .catch((error) => response.send(error));
+  static getUser() {
+    return Database.sendQuery(userQueries.selectUser)
+      .then((results) => resolve(convertKeysToCamelCase(results[0])))
+      .catch((error) => reject(error));
   }
 }
 

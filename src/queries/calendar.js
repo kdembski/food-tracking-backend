@@ -1,5 +1,5 @@
-const calendarModel = {
-  createCalendarTable: `
+const calendarQueries = {
+  createTable: `
     CREATE TABLE calendar (
       id int NOT NULL AUTO_INCREMENT,
       date DATE NOT NULL,
@@ -13,14 +13,14 @@ const calendarModel = {
       CONSTRAINT calendar_ordered_food_id_fk_idx FOREIGN KEY (ordered_food_id) REFERENCES ordered_food (id) ON DELETE CASCADE ON UPDATE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci`,
 
-  insertToCalendar: `
+  insert: `
     INSERT INTO calendar SET
     date = ?,
     recipe_id = ?,
     ordered_food_id = ?,
     portions = ?`,
 
-  deleteFromCalendar: `DELETE FROM ingredients_with_units WHERE id = ?`,
+  delete: `DELETE FROM ingredients_with_units WHERE id = ?`,
 };
 
-export default calendarModel;
+export default calendarQueries;

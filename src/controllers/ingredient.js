@@ -1,70 +1,51 @@
-import ingredientModel from "../models/ingredient.js";
+import ingredientQueries from "../queries/ingredient.js";
+import IngredientWithUnitController from "./ingredient-with-unit.js";
 import Database from "../config/database.js";
 import { getListWithPagination } from "../utils/list.js";
 import { convertKeysToCamelCase } from "../utils/convert-keys-to-camel-case.js";
 
 class IngredientController {
-  static setRoutes(router) {
-    router.get("/ingredients", this.#getIngredientsListWithPagination);
-    router.post("/ingredients", this.#addIngredient);
-    router.put("/ingredients/:id", this.#updateIngredient);
-    router.delete("/ingredients/:id", this.#deleteIngredient);
+  static getIngredientsListWithPagination(request) {
+    return new Promise((resolve, reject) => {
+      getListWithPagination(
+        ingredientQueries.select,
+        ingredientQueries.selectCount,
+        request
+      )
+        .then((list) => {
+          IngredientController.setUnitsForIngredients(list.data)
+            .then(() => resolve(list))
+            .catch((error) => reject(error));
+        })
+        .catch((error) => reject(error));
+    });
   }
 
-  static #getIngredientsListWithPagination(request, response) {
-    getListWithPagination(
-      ingredientModel.selectIngredientsList,
-      ingredientModel.selectIngredientsCount,
-      request
-    )
-      .then((results) => {
-        IngredientController.#getIngredientsUnits(results.data)
-          .then(() => {
-            response.json(results);
-          })
-          .catch((error) => response.send(error));
-      })
-      .catch((error) => response.send(error));
-  }
-
-  static #getIngredientsUnits(ingredients) {
+  static setUnitsForIngredients(ingredients) {
     return Promise.all(
       ingredients.map(async (ingredient) => {
-        const units = await Database.sendQuery(
-          ingredientModel.selectIngredientUnits,
-          [ingredient.id]
-        );
+        const units =
+          await IngredientWithUnitController.getIngredientsWithUnitsByIngredientId(
+            ingredient.id
+          );
         ingredient.units = convertKeysToCamelCase(units);
       })
     );
   }
 
-  static #addIngredient(request, response) {
-    const data = request.body;
-
-    Database.sendQuery(ingredientModel.insertIngredient, [data.ingredientName])
-      .then((results) => response.json(results))
-      .catch((error) => response.send(error));
+  static addIngredient(data) {
+    return Database.sendQuery(ingredientModel.insert, [data.ingredientName]);
   }
 
-  static #updateIngredient(request, response) {
-    const id = request.params.id;
-    const data = request.body;
-
-    Database.sendQuery(ingredientModel.updateIngredient, [
+  static updateIngredient(id, data) {
+    return Database.sendQuery(ingredientModel.updateIngredient, [
       data.ingredientName,
       id,
-    ])
-      .then((results) => response.json(results))
-      .catch((error) => response.send(error));
+    ]);
   }
 
-  static #deleteIngredient(request, response) {
-    const id = request.params.id;
-
-    Database.sendQuery(ingredientModel.deleteIngredient, [id])
-      .then((results) => response.json(results))
-      .catch((error) => response.send(error));
+  static deleteIngredient(id) {
+    return Database.sendQuery(ingredientModel.deleteIngredient, [id]);
   }
 }
 

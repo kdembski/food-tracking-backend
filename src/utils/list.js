@@ -1,16 +1,20 @@
 import { getRequestQueryParameters } from "./request-helpers.js";
-import { getFliterByTagsQuery, getOrderByQuery } from "./query-helpers.js";
+import { getQueryToFiltersByTags, getQueryToOrderBy } from "./query-helpers.js";
 import { convertKeysToCamelCase } from "../utils/convert-keys-to-camel-case.js";
 import Database from "../config/database.js";
 
-export const getListWithPagination = (selectList, selectListCount, request) => {
+export const getListWithPagination = (
+  queryToSelectList,
+  queryToSelectListCount,
+  request
+) => {
   const { size, page, sortAttribute, sortDirection, searchPhrase, tags } =
     getRequestQueryParameters(request);
 
   const offset = (page - 1) * size;
 
-  selectList = extendSelectListQuery(
-    selectList,
+  queryToSelectList = extendQueryToSelectList(
+    queryToSelectList,
     sortAttribute,
     sortDirection,
     tags,
@@ -18,13 +22,16 @@ export const getListWithPagination = (selectList, selectListCount, request) => {
     offset
   );
 
-  selectListCount = extendSelectListCountQuery(selectListCount, tags);
+  queryToSelectListCount = extendQueryToSelectListCount(
+    queryToSelectListCount,
+    tags
+  );
 
   return new Promise((resolve, reject) => {
-    getListData(selectList, searchPhrase)
+    getListData(queryToSelectList, searchPhrase)
       .then((data) => {
         getListPagination(
-          selectListCount,
+          queryToSelectListCount,
           searchPhrase,
           page,
           size,
@@ -40,8 +47,8 @@ export const getListWithPagination = (selectList, selectListCount, request) => {
   });
 };
 
-const extendSelectListQuery = (
-  selectList,
+const extendQueryToSelectList = (
+  queryToSelectList,
   sortAttribute,
   sortDirection,
   tags,
@@ -49,10 +56,10 @@ const extendSelectListQuery = (
   offset
 ) => {
   return (
-    selectList +
+    queryToSelectList +
     "\n" +
-    getFliterByTagsQuery(tags) +
-    getOrderByQuery(sortAttribute, sortDirection) +
+    getQueryToFiltersByTags(tags) +
+    getQueryToOrderBy(sortAttribute, sortDirection) +
     "LIMIT " +
     size +
     "\n" +
@@ -61,20 +68,20 @@ const extendSelectListQuery = (
   );
 };
 
-const extendSelectListCountQuery = (selectListCount, tags) => {
-  return selectListCount + "\n" + getFliterByTagsQuery(tags);
+const extendQueryToSelectListCount = (queryToSelectListCount, tags) => {
+  return queryToSelectListCount + "\n" + getQueryToFiltersByTags(tags);
 };
 
-const getListData = (selectList, search) => {
+const getListData = (queryToSelectList, search) => {
   return new Promise((resolve, reject) => {
-    Database.sendQuery(selectList, [search])
+    Database.sendQuery(queryToSelectList, [search])
       .then((results) => resolve(convertKeysToCamelCase(results)))
       .catch((error) => reject(error));
   });
 };
 
 const getListPagination = (
-  selectListCount,
+  queryToSelectListCount,
   search,
   page,
   size,
@@ -82,7 +89,7 @@ const getListPagination = (
   listLength
 ) => {
   return new Promise((resolve, reject) => {
-    Database.sendQuery(selectListCount, [search])
+    Database.sendQuery(queryToSelectListCount, [search])
       .then((results) => {
         const count = parseInt(results[0]["COUNT(*)"]);
         resolve({

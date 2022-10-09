@@ -1,49 +1,36 @@
-import ingredientWithUnitModel from "../models/ingredient-with-unit.js";
+import ingredientWithUnitQueries from "../queries/ingredient-with-unit.js";
 import Database from "../config/database.js";
 
 class IngredientWithUnitController {
-  static setRoutes(router) {
-    router.post("/ingredients/units", this.#addIngredientWithUnit);
-    router.put("/ingredients/units/:id", this.#updateIngredientWithUnit);
-    router.delete("/ingredients/units/:id", this.#deleteIngredientWithUnit);
+  static getIngredientsWithUnitsByIngredientId(id) {
+    return Database.sendQuery(ingredientWithUnitQueries.selectByIngredientId, [
+      id,
+    ]);
   }
 
-  static #addIngredientWithUnit(request, response) {
-    const data = request.body;
-
-    Database.sendQuery(ingredientWithUnitModel.insertIngredientWithUnit, [
+  static addIngredientWithUnit(data) {
+    return Database.sendQuery(ingredientWithUnitQueries.insert, [
       data.ingredientId,
       data.unitId,
       data.kcalPerUnit,
       data.isPrimary,
       data.converterToPrimary,
-    ])
-      .then((results) => response.json(results))
-      .catch((error) => response.send(error));
+    ]);
   }
 
-  static #updateIngredientWithUnit(request, response) {
-    const id = request.params.id;
-    const data = request.body;
-
-    Database.sendQuery(ingredientWithUnitModel.updateIngredientWithUnit, [
+  static updateIngredientWithUnit(id, data) {
+    return Database.sendQuery(ingredientWithUnitQueries.update, [
       data.ingredientId,
       data.unitId,
       data.kcalPerUnit,
       data.isPrimary,
       data.converterToPrimary,
       id,
-    ])
-      .then((results) => response.json(results))
-      .catch((error) => response.send(error));
+    ]);
   }
 
-  static #deleteIngredientWithUnit(request, response) {
-    const id = request.params.id;
-
-    Database.sendQuery(ingredientWithUnitModel.deleteIngredientWithUnit, [id])
-      .then((results) => response.json(results))
-      .catch((error) => response.send(error));
+  static deleteIngredientWithUnit(id) {
+    return Database.sendQuery(ingredientWithUnitQueries.delete, [id]);
   }
 }
 

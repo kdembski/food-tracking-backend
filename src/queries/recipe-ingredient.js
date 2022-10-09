@@ -1,5 +1,5 @@
-const recipeIngredientModel = {
-  createRecipeIngredientsTable: `
+const recipeIngredientQueries = {
+  createTable: `
     CREATE TABLE recipe_ingredients (
       id int NOT NULL AUTO_INCREMENT,
       recipe_id int NOT NULL,
@@ -12,22 +12,22 @@ const recipeIngredientModel = {
       CONSTRAINT ingredients_recipe_id_fk FOREIGN KEY (recipe_id) REFERENCES recipes (id)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci`,
 
-  selectRecipeIngredientsByRecipeId: `SELECT * FROM recipe_ingredients WHERE recipe_id = ?`,
+  selectByRecipeId: `SELECT * FROM recipe_ingredients WHERE recipe_id = ?`,
 
-  insertRecipeIngredient: `
+  insert: `
     INSERT INTO recipe_ingredients SET
     recipe_id = ?,
     ingredient_with_unit_id = ?,
     amount = ?`,
 
-  updateRecipeIngredient: `
+  update: `
     UPDATE recipe_ingredients SET
     recipe_id = ?,
     ingredient_with_unit_id = ?,
     amount = ?
     WHERE id = ?`,
 
-  deleteRecipeIngredient: `DELETE FROM recipe_ingredients WHERE id = ?`,
+  deletet: `DELETE FROM recipe_ingredients WHERE id = ?`,
 };
 
-export default recipeIngredientModel;
+export default recipeIngredientQueries;

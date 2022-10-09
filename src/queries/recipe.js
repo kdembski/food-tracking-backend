@@ -1,5 +1,5 @@
-const recipeModel = {
-  createRecipesTable: `
+const recipeQueries = {
+  createsTable: `
     CREATE TABLE recipes (
       id int NOT NULL AUTO_INCREMENT,
       recipe_name varchar(63) CHARACTER SET utf8mb4 COLLATE utf8mb4_polish_ci NOT NULL,
@@ -11,46 +11,46 @@ const recipeModel = {
       PRIMARY KEY (id)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci`,
 
-  selectRecipesList: `
+  select: `
     SELECT * FROM recipes
     WHERE recipe_name
     COLLATE utf8mb4_general_ci
     LIKE ?`,
 
-  selectRecipesCount: `
+  selectCount: `
     SELECT COUNT(*) FROM recipes
     WHERE recipe_name
     COLLATE utf8mb4_general_ci
     LIKE ?`,
 
-  selectRecipesTags: `
+  selectTags: `
     SELECT tags FROM recipes
     WHERE recipe_name
     COLLATE utf8mb4_general_ci
     LIKE ?`,
 
-  selectRecipesNames: `
+  selectNames: `
     SELECT recipe_name FROM recipes
     WHERE recipe_name
     COLLATE utf8mb4_general_ci
     LIKE ?`,
 
-  selectRecipeById: `SELECT * FROM recipes WHERE id = ?`,
+  selectById: `SELECT * FROM recipes WHERE id = ?`,
 
-  insertRecipe: `
+  insert: `
     INSERT INTO recipes SET
     recipe_name = ?,
     preparation_time = ?,
     tags = ?`,
 
-  updateRecipe: `
+  update: `
     UPDATE recipes SET
     recipe_name = ?,
     preparation_time = ?,
     tags = ?
     WHERE id = ?`,
 
-  deleteRecipe: `DELETE FROM recipes WHERE id = ?`,
+  delete: `DELETE FROM recipes WHERE id = ?`,
 };
 
-export default recipeModel;
+export default recipeQueries;

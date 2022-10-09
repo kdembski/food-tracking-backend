@@ -1,37 +1,33 @@
-const ingredientModel = {
-  createIngredientsTable: `
+const ingredientQueries = {
+  createTable: `
     CREATE TABLE ingredients (
       id int NOT NULL AUTO_INCREMENT,
       ingredient_name varchar(63) CHARACTER SET utf8mb4 COLLATE utf8mb4_polish_ci NOT NULL,
       PRIMARY KEY (id)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci`,
 
-  selectIngredientsList: `
+  select: `
     SELECT * FROM ingredients
     WHERE ingredient_name
     COLLATE utf8mb4_general_ci
     LIKE ?`,
 
-  selectIngredientsCount: `
+  selectCount: `
     SELECT COUNT(*) FROM ingredients
     WHERE ingredient_name
     COLLATE utf8mb4_general_ci
     LIKE ?`,
 
-  selectIngredientUnits: `
-    SELECT * FROM ingredients_with_units
-    WHERE ingredient_id = ?`,
-
-  insertIngredient: `
+  insert: `
     INSERT INTO ingredients SET
     ingredient_name = ?`,
 
-  updateIngredient: `
+  update: `
     UPDATE ingredients SET
     ingredient_name = ?
     WHERE id = ?`,
 
-  deleteIngredient: `DELETE FROM ingredients WHERE id = ?`,
+  delete: `DELETE FROM ingredients WHERE id = ?`,
 };
 
-export default ingredientModel;
+export default ingredientQueries;

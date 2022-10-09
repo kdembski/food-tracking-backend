@@ -1,11 +1,11 @@
 import Database from "../config/database.js";
 import lodash from "lodash";
 import { getRequestQueryParameters } from "./request-helpers.js";
-import { getFliterByTagsQuery } from "./query-helpers.js";
+import { getQueryToFiltersByTags } from "./query-helpers.js";
 
-export const getTagsWithCount = (request, selectTagsQuery) => {
+export const getTagsWithCount = (request, queryToSelectTags) => {
   return new Promise((resolve, reject) => {
-    getTags(request, selectTagsQuery)
+    getTags(request, queryToSelectTags)
       .then((result) => {
         resolve(countTags(result).sort((a, b) => b.count - a.count));
       })
@@ -30,12 +30,12 @@ const countTags = (allTags) => {
   }, []);
 };
 
-export const getTags = (request, selectTagsQuery) => {
+export const getTags = (request, queryToSelectTags) => {
   const { searchPhrase, tags } = getRequestQueryParameters(request);
-  selectTagsQuery = selectTagsQuery + "\n" + getFliterByTagsQuery(tags);
+  queryToSelectTags = queryToSelectTags + "\n" + getQueryToFiltersByTags(tags);
 
   return new Promise((resolve, reject) => {
-    Database.sendQuery(selectTagsQuery, [searchPhrase])
+    Database.sendQuery(queryToSelectTags, [searchPhrase])
       .then((results) => {
         let allTags = [];
 

@@ -1,5 +1,5 @@
 import Database from "../config/database.js";
-import userModel from "../models/user.js";
+import userQueries from "../queries/user.js";
 
 const verifyToken = async (request, response, next) => {
   const publicPaths = ["/login"];
@@ -14,7 +14,7 @@ const verifyToken = async (request, response, next) => {
     });
   }
 
-  const results = await Database.sendQuery(userModel.selectUser);
+  const results = await Database.sendQuery(userQueries.select);
   if (token !== results[0].access_token) {
     return response.status(401).json({ code: "TOKEN_INVALID" });
   }
