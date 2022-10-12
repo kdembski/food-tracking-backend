@@ -27,6 +27,8 @@ const orderedFoodQueries = {
     WHERE food_name
     COLLATE utf8mb4_general_ci
     LIKE ?`,
+
+  selectById: `SELECT * FROM ordered_food WHERE id = ?`,
 };
 
 export default orderedFoodQueries;

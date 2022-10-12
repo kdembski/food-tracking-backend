@@ -15,6 +15,9 @@ export const getRequestQueryParameters = (request) => {
 
   const tags = request?.query?.tags;
 
+  const fromDate = request?.query?.fromDate;
+  const toDate = request?.query?.toDate;
+
   return {
     size,
     page,
@@ -22,5 +25,7 @@ export const getRequestQueryParameters = (request) => {
     sortDirection,
     searchPhrase,
     tags,
+    fromDate,
+    toDate,
   };
 };

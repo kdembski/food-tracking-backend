@@ -2,12 +2,13 @@ import Database from "../config/database.js";
 import userQueries from "../queries/user.js";
 
 const verifyToken = async (request, response, next) => {
-  const publicPaths = ["/login"];
+  const publicPaths = ["/users/login"];
   if (publicPaths.includes(request.path)) {
     return next();
   }
 
   const token = request?.headers["authorization"]?.split(" ")[1];
+
   if (!token) {
     return response.status(403).json({
       code: "TOKEN_REQUIRED",

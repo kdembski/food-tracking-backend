@@ -4,7 +4,7 @@ import lodash from "lodash";
 
 const userRouter = Router();
 
-userRouter.get("/login", (request, response) => {
+userRouter.post("/login", (request, response) => {
   const password = request.body.password;
 
   if (!password || !lodash.isString(password)) {
@@ -13,7 +13,7 @@ userRouter.get("/login", (request, response) => {
       .json({ code: "PASSWORD_REQUIRED", message: "Hasło jest wymagane" });
   }
 
-  UserController.login()
+  UserController.login(password)
     .then((accessToken) => response.json({ accessToken }))
     .catch((error) => response.status(400).send(error));
 });

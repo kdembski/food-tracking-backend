@@ -6,7 +6,7 @@ import { convertKeysToCamelCase } from "../utils/convert-keys-to-camel-case.js";
 class UserController {
   static login(password) {
     return new Promise((resolve, reject) => {
-      this.getUser
+      this.getUser()
         .then((user) => {
           if (!bcrypt.compareSync(password, user.password)) {
             reject({ code: "PASSWORD_INVALID", message: "Niepoprawne hasło" });
@@ -19,9 +19,11 @@ class UserController {
   }
 
   static getUser() {
-    return Database.sendQuery(userQueries.selectUser)
-      .then((results) => resolve(convertKeysToCamelCase(results[0])))
-      .catch((error) => reject(error));
+    return new Promise((resolve, reject) => {
+      Database.sendQuery(userQueries.select)
+        .then((results) => resolve(convertKeysToCamelCase(results[0])))
+        .catch((error) => reject(error));
+    });
   }
 }
 

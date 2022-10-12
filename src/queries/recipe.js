@@ -41,13 +41,16 @@ const recipeQueries = {
     INSERT INTO recipes SET
     recipe_name = ?,
     preparation_time = ?,
-    tags = ?`,
+    tags = ?,
+    cookidoo_link = ?`,
 
   update: `
     UPDATE recipes SET
     recipe_name = ?,
     preparation_time = ?,
-    tags = ?
+    tags = ?,
+    cooked_date = ?,
+    cookidoo_link = ?
     WHERE id = ?`,
 
   delete: `DELETE FROM recipes WHERE id = ?`,
