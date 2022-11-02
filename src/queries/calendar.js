@@ -14,15 +14,30 @@ const calendarQueries = {
       CONSTRAINT calendar_ordered_food_id_fk_idx FOREIGN KEY (ordered_food_id) REFERENCES ordered_food (id) ON DELETE CASCADE ON UPDATE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci`,
 
-  selectDatesByRecipeId: `SELECT date FROM calendar WHERE recipe_id = ?`,
+  selectDatesByRecipeId: `
+    SELECT date
+    FROM calendar
+    WHERE recipe_id = ?
+    AND date 
+    BETWEEN ? AND ?`,
 
-  selectDatesByOrderedFoodId: `SELECT date FROM calendar WHERE ordered_food_id = ?`,
+  selectDatesByOrderedFoodId: `
+    SELECT date
+    FROM calendar
+    WHERE ordered_food_id = ?
+    AND date 
+    BETWEEN ? AND ?`,
 
   select: `
     SELECT * 
     FROM calendar
     WHERE date 
     BETWEEN ? AND ?`,
+
+  selectById: `
+    SELECT * 
+    FROM calendar
+    WHERE id = ?`,
 
   insert: `
     INSERT INTO calendar SET
@@ -41,7 +56,7 @@ const calendarQueries = {
     sort_order = ?
     WHERE id = ?`,
 
-  delete: `DELETE FROM ingredients_with_units WHERE id = ?`,
+  delete: `DELETE FROM calendar WHERE id = ?`,
 };
 
 export default calendarQueries;

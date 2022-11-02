@@ -1,8 +1,10 @@
 import orderedFoodQueries from "../queries/ordered-food.js";
 import Database from "../config/database.js";
+import CalendarController from "./calendar/index.js";
 import { getListWithPagination } from "../utils/list.js";
 import { getTagsWithCount } from "../utils/tags.js";
 import { convertKeysToCamelCase } from "../utils/convert-keys-to-camel-case.js";
+import { isEqual } from "date-fns";
 
 class OrderedFoodController {
   static getOrderedFoodListWithPagination(request) {
@@ -22,6 +24,51 @@ class OrderedFoodController {
       Database.sendQuery(orderedFoodQueries.selectById, [id])
         .then((results) => resolve(convertKeysToCamelCase(results[0])))
         .catch((error) => reject(error));
+    });
+  }
+
+  static addOrderedFood(data) {
+    return Database.sendQuery(orderedFoodQueries.insert, [
+      data.foodName,
+      data.placeName,
+      data.tags,
+      data.placeLink,
+    ]);
+  }
+
+  static updateOrderedFood(id, data) {
+    return Database.sendQuery(orderedFoodQueries.update, [
+      data.foodName,
+      data.placeName,
+      data.tags,
+      data.placeLink,
+      data.orderDate,
+      id,
+    ]);
+  }
+
+  static updateOrderedFoodOrderDate(id) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const orderedFood = await this.getOrderedFoodById(id);
+        const lastDate = await CalendarController.getOrderedFoodLastOrderDate(
+          id
+        );
+
+        if (isEqual(lastDate, orderedFood.orderDate)) {
+          return resolve();
+        }
+
+        orderedFood.orderDate = null;
+        if (lastDate) {
+          orderedFood.orderDate = lastDate;
+        }
+
+        await this.updateOrderedFood(id, orderedFood);
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
     });
   }
 }

@@ -4,15 +4,38 @@ import { getQueryToFiltersByTags } from "../utils/query-helpers.js";
 import { getListWithPagination } from "../utils/list.js";
 import { getTagsWithCount } from "../utils/tags.js";
 import { convertKeysToCamelCase } from "../utils/convert-keys-to-camel-case.js";
-import { isEqual } from "date-fns";
+import { isEqual, startOfMonth, endOfMonth } from "date-fns";
 import CalendarController from "./calendar/index.js";
 
 class RecipeController {
   static getRecipesListWithPagination(request) {
-    return getListWithPagination(
-      recipeQueries.select,
-      recipeQueries.selectCount,
-      request
+    return new Promise(async (resolve, reject) => {
+      try {
+        const list = await getListWithPagination(
+          recipeQueries.select,
+          recipeQueries.selectCount,
+          request
+        );
+
+        for (let i = 0; i < list.data.length; i++) {
+          const recipe = list.data[i];
+          recipe.cookedDatesInCurrentMonth =
+            await this.getRecipeCookedDateInCurrentMonth(recipe.id);
+        }
+
+        resolve(list);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  static getRecipeCookedDateInCurrentMonth(recipeId) {
+    const today = new Date();
+    return CalendarController.getRecipeCookedDates(
+      recipeId,
+      startOfMonth(today),
+      endOfMonth(today)
     );
   }
 
@@ -77,17 +100,15 @@ class RecipeController {
         const recipe = await this.getRecipeById(id);
         const lastDate = await CalendarController.getRecipeLastCookedDate(id);
 
-        if (!lastDate) {
-          recipe.cookedDate = null;
-          await this.updateRecipe(id, recipe);
-          return resolve();
-        }
-
         if (isEqual(lastDate, recipe.cookedDate)) {
           return resolve();
         }
 
-        recipe.cookedDate = lastDate;
+        recipe.cookedDate = null;
+        if (lastDate) {
+          recipe.cookedDate = lastDate;
+        }
+
         await this.updateRecipe(id, recipe);
         resolve();
       } catch (error) {

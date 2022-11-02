@@ -2,12 +2,15 @@ import calendarQueries from "../../queries/calendar.js";
 import Database from "../../config/database.js";
 import { getCalendar } from "./get-calendar.js";
 import RecipeController from "../recipe.js";
+import OrderedFoodController from "../ordered-food.js";
+import { convertKeysToCamelCase } from "../../utils/convert-keys-to-camel-case.js";
+import { getRecipeCookedDates, getRecipeLastCookedDate } from "./recipe.js";
+import {
+  getOrderedFoodOrderDates,
+  getOrderedFoodLastOrderDate,
+} from "./ordered-food.js";
 
 class CalendarController {
-  static getCalendar(fromDate, toDate) {
-    return getCalendar(fromDate, toDate);
-  }
-
   static addDateToCalendar(data) {
     return new Promise(async (resolve, reject) => {
       try {
@@ -18,12 +21,9 @@ class CalendarController {
           data.portions,
           data.sortOrder,
         ]);
-
         resolve(results);
 
-        if (data.recipeId) {
-          await RecipeController.updateRecipeCookedDate(data.recipeId);
-        }
+        this.updateAddedItemDate(data);
       } catch (error) {
         reject(error);
       }
@@ -41,41 +41,53 @@ class CalendarController {
           data.sortOrder,
           id,
         ]);
-
         resolve(results);
 
-        if (data.recipeId) {
-          await RecipeController.updateRecipeCookedDate(data.recipeId);
-        }
+        this.updateAddedItemDate(data);
       } catch (error) {
         reject(error);
       }
     });
   }
 
-  static getRecipeLastCookedDate(recipeId) {
+  static getCalendarDate(id) {
     return new Promise((resolve, reject) => {
-      Database.sendQuery(calendarQueries.selectDatesByRecipeId, [recipeId])
+      Database.sendQuery(calendarQueries.selectById, [id])
         .then((results) => {
-          const dates = results.sort((a, b) => b.date - a.date);
-          resolve(dates[0]?.date);
+          resolve(convertKeysToCamelCase(results[0]));
         })
         .catch((error) => reject(error));
     });
   }
 
-  static getOrderedFoodLastOrderDate(orderedFoodId) {
-    return new Promise((resolve, reject) => {
-      Database.sendQuery(calendarQueries.selectDatesByOrderedFoodId, [
-        orderedFoodId,
-      ])
-        .then((results) => {
-          const dates = results.sort((a, b) => b.date - a.date);
-          resolve(dates[0]?.date);
-        })
-        .catch((error) => reject(error));
+  static deleteDateFromCalendar(id) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const itemData = await this.getCalendarDate(id);
+        const results = await Database.sendQuery(calendarQueries.delete, [id]);
+        resolve(results);
+
+        this.updateAddedItemDate(itemData);
+      } catch (error) {
+        reject(error);
+      }
     });
   }
+
+  static updateAddedItemDate(data) {
+    if (data.recipeId) {
+      RecipeController.updateRecipeCookedDate(data.recipeId);
+    }
+    if (data.orderedFoodId) {
+      OrderedFoodController.updateOrderedFoodOrderDate(data.orderedFoodId);
+    }
+  }
+
+  static getCalendar = getCalendar;
+  static getRecipeCookedDates = getRecipeCookedDates;
+  static getRecipeLastCookedDate = getRecipeLastCookedDate;
+  static getOrderedFoodOrderDates = getOrderedFoodOrderDates;
+  static getOrderedFoodLastOrderDate = getOrderedFoodLastOrderDate;
 }
 
 export default CalendarController;
