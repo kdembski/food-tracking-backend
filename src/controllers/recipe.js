@@ -84,7 +84,7 @@ class RecipeController {
       data.recipeName,
       data.preparationTime,
       data.tags,
-      data.cookedDate,
+      data.cookedDate ? new Date(data.cookedDate) : null,
       data.cookidooLink,
       id,
     ]);
