@@ -1,12 +1,12 @@
 import Database from "../../config/database.js";
-import RecipeController from "./../recipe.js";
-import OrderedFoodController from "./../ordered-food.js";
-import calendarQueries from "../../queries/calendar.js";
+import RecipeController from "../recipe.js";
+import OrderedFoodController from "../ordered-food.js";
+import calendarQueries from "../../queries/calendar-item.js";
 import { isEqual } from "date-fns";
 import lodash from "lodash";
 import { convertKeysToCamelCase } from "../../utils/convert-keys-to-camel-case.js";
 
-export const getCalendar = (fromDate, toDate) => {
+export const getCalendarItems = (fromDate, toDate) => {
   return new Promise((resolve, reject) => {
     Database.sendQuery(calendarQueries.select, [fromDate, toDate])
       .then(async (items) => {
@@ -17,32 +17,30 @@ export const getCalendar = (fromDate, toDate) => {
 };
 
 const mergeItemsWithSameDate = async (items) => {
-  const mergedItems = [];
+  const calendarDays = [];
 
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
-    const mergedItem = mergedItems.find((mergedItem) =>
-      isEqual(mergedItem.date, item.date)
-    );
-    const calendarItem = await getCalendarItem(
+    const day = calendarDays.find((day) => isEqual(day.date, item.date));
+    const preparedItem = await prepareCalendarItem(
       lodash.cloneDeep(convertKeysToCamelCase(item))
     );
 
-    if (mergedItem) {
-      mergedItem.items.push(calendarItem);
+    if (day) {
+      day.items.push(preparedItem);
       continue;
     }
 
-    mergedItems.push({
+    calendarDays.push({
       date: item.date,
-      items: [calendarItem],
+      items: [preparedItem],
     });
   }
 
-  return mergedItems;
+  return calendarDays;
 };
 
-const getCalendarItem = async (item) => {
+const prepareCalendarItem = async (item) => {
   delete item.date;
 
   if (item.recipeId) {

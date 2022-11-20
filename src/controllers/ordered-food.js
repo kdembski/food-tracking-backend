@@ -1,6 +1,6 @@
 import orderedFoodQueries from "../queries/ordered-food.js";
 import Database from "../config/database.js";
-import CalendarController from "./calendar/controller.js";
+import CalendarItemController from "./calendar-item/controller.js";
 import { getListWithPagination } from "../utils/list.js";
 import { getTagsWithCount } from "../utils/tags.js";
 import { convertKeysToCamelCase } from "../utils/convert-keys-to-camel-case.js";
@@ -51,9 +51,8 @@ class OrderedFoodController {
     return new Promise(async (resolve, reject) => {
       try {
         const orderedFood = await this.getOrderedFoodById(id);
-        const lastDate = await CalendarController.getOrderedFoodLastOrderDate(
-          id
-        );
+        const lastDate =
+          await CalendarItemController.getOrderedFoodLastOrderDate(id);
 
         if (isEqual(lastDate, orderedFood.orderDate)) {
           return resolve();

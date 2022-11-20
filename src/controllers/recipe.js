@@ -5,7 +5,7 @@ import { getListWithPagination } from "../utils/list.js";
 import { getTagsWithCount } from "../utils/tags.js";
 import { convertKeysToCamelCase } from "../utils/convert-keys-to-camel-case.js";
 import { isEqual, startOfMonth, endOfMonth } from "date-fns";
-import CalendarController from "./calendar/controller.js";
+import CalendarItemController from "./calendar-item/controller.js";
 
 class RecipeController {
   static getRecipesListWithPagination(request) {
@@ -32,7 +32,7 @@ class RecipeController {
 
   static getRecipeCookedDateInCurrentMonth(recipeId) {
     const today = new Date();
-    return CalendarController.getRecipeCookedDates(
+    return CalendarItemController.getRecipeCookedDates(
       recipeId,
       startOfMonth(today),
       endOfMonth(today)
@@ -98,7 +98,9 @@ class RecipeController {
     return new Promise(async (resolve, reject) => {
       try {
         const recipe = await this.getRecipeById(id);
-        const lastDate = await CalendarController.getRecipeLastCookedDate(id);
+        const lastDate = await CalendarItemController.getRecipeLastCookedDate(
+          id
+        );
 
         if (isEqual(lastDate, recipe.cookedDate)) {
           return resolve();

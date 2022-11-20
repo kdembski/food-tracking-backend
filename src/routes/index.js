@@ -1,5 +1,5 @@
 import { Router } from "express";
-import calendarRouter from "./calendar.js";
+import calendarItemRouter from "./calendar-item.js";
 import ingredientWithUnitRouter from "./ingredient-with-unit.js";
 import ingredientRouter from "./ingredient.js";
 import orderedFoodRouter from "./ordered-food.js";
@@ -13,7 +13,7 @@ import authentication from "../middlewares/authentication.js";
 const router = Router();
 router.all("*", authentication);
 
-router.use("/calendar", calendarRouter);
+router.use("/calendar", calendarItemRouter);
 router.use("/ingredients/units", ingredientWithUnitRouter);
 router.use("/ingredients", ingredientRouter);
 router.use("/ordered", orderedFoodRouter);

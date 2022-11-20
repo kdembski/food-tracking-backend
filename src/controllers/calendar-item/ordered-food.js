@@ -1,4 +1,4 @@
-import calendarQueries from "../../queries/calendar.js";
+import calendarItemQueries from "../../queries/calendar-item.js";
 import Database from "../../config/database.js";
 
 export function getOrderedFoodOrderDates(
@@ -7,7 +7,7 @@ export function getOrderedFoodOrderDates(
   toDate = new Date(2070, 1, 1)
 ) {
   return new Promise((resolve, reject) => {
-    Database.sendQuery(calendarQueries.selectDatesByOrderedFoodId, [
+    Database.sendQuery(calendarItemQueries.selectDatesByOrderedFoodId, [
       orderedFoodId,
       fromDate,
       toDate,

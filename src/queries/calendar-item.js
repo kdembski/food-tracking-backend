@@ -1,11 +1,10 @@
-const calendarQueries = {
+const calendarItemQueries = {
   createTable: `
-    CREATE TABLE calendar (
+    CREATE TABLE calendar_items (
       id int NOT NULL AUTO_INCREMENT,
       date DATE NOT NULL,
       recipe_id int DEFAULT NULL,
       ordered_food_id int DEFAULT NULL,
-      portions int DEFAULT NULL,
       sort_order int DEFAULT NULL,
       PRIMARY KEY (id),
       KEY calendar_recipe_id_fk_idx (recipe_id),
@@ -16,47 +15,45 @@ const calendarQueries = {
 
   selectDatesByRecipeId: `
     SELECT date
-    FROM calendar
+    FROM calendar_items
     WHERE recipe_id = ?
     AND date 
     BETWEEN ? AND ?`,
 
   selectDatesByOrderedFoodId: `
     SELECT date
-    FROM calendar
+    FROM calendar_items
     WHERE ordered_food_id = ?
     AND date 
     BETWEEN ? AND ?`,
 
   select: `
     SELECT * 
-    FROM calendar
+    FROM calendar_items
     WHERE date 
     BETWEEN ? AND ?`,
 
   selectById: `
     SELECT * 
-    FROM calendar
+    FROM calendar_items
     WHERE id = ?`,
 
   insert: `
-    INSERT INTO calendar SET
+    INSERT INTO calendar_items SET
     date = ?,
     recipe_id = ?,
     ordered_food_id = ?,
-    portions = ?,
     sort_order = ?`,
 
   update: `
-    UPDATE calendar SET
+    UPDATE calendar_items SET
     date = ?,
     recipe_id = ?,
     ordered_food_id = ?,
-    portions = ?,
     sort_order = ?
     WHERE id = ?`,
 
-  delete: `DELETE FROM calendar WHERE id = ?`,
+  delete: `DELETE FROM calendar_items WHERE id = ?`,
 };
 
-export default calendarQueries;
+export default calendarItemQueries;
