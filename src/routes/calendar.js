@@ -8,10 +8,7 @@ calendarRouter.get("/", (request, response) => {
   const { fromDate, toDate } = getRequestQueryParameters(request);
   CalendarController.getCalendar(fromDate, toDate)
     .then((results) => response.json(results))
-    .catch((error) => {
-      response.status(400).json(error);
-      console.log(error);
-    });
+    .catch((error) => response.status(400).send(error));
 });
 
 calendarRouter.post("/", (request, response) => {
@@ -20,10 +17,7 @@ calendarRouter.post("/", (request, response) => {
 
   CalendarController.addDateToCalendar(data)
     .then((results) => response.json(results))
-    .catch((error) => {
-      response.status(400).json(error);
-      console.log(error);
-    });
+    .catch((error) => response.status(400).send(error));
 });
 
 calendarRouter.put("/:id", (request, response) => {
@@ -33,10 +27,7 @@ calendarRouter.put("/:id", (request, response) => {
 
   CalendarController.updateDateInCalendar(id, data)
     .then((results) => response.json(results))
-    .catch((error) => {
-      response.status(400).json(error);
-      console.log(error);
-    });
+    .catch((error) => response.status(400).send(error));
 });
 
 calendarRouter.delete("/:id", (request, response) => {
@@ -44,10 +35,7 @@ calendarRouter.delete("/:id", (request, response) => {
 
   CalendarController.deleteDateFromCalendar(id)
     .then((results) => response.json(results))
-    .catch((error) => {
-      response.status(400).json(error);
-      console.log(error);
-    });
+    .catch((error) => response.status(400).send(error));
 });
 
 export default calendarRouter;

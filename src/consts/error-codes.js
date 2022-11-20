@@ -1,0 +1,4 @@
+export const TOKEN_INVALID = "TOKEN_INVALID";
+export const TOKEN_REQUIRED = "TOKEN_REQUIRED";
+export const FIELD_REQUIRED = "FIELD_REQUIRED";
+export const FIELD_INVALID = "FIELD_INVALID";

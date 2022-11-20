@@ -5,7 +5,7 @@ class Database {
 
   static initializeConnectionPool() {
     if (this.pool) {
-      return console.log("Database pool should only be initialized once.");
+      throw new Error("Database pool should only be initialized once.");
     }
 
     const poolConfig = {

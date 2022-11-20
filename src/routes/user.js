@@ -1,6 +1,7 @@
 import { Router } from "express";
 import UserController from "../controllers/user.js";
 import lodash from "lodash";
+import { FIELD_REQUIRED } from "../consts/error-codes.js";
 
 const userRouter = Router();
 
@@ -10,7 +11,7 @@ userRouter.post("/login", (request, response) => {
   if (!password || !lodash.isString(password)) {
     return response
       .status(400)
-      .json({ code: "PASSWORD_REQUIRED", message: "Hasło jest wymagane" });
+      .json({ code: FIELD_REQUIRED, message: "Hasło jest wymagane" });
   }
 
   UserController.login(password)
