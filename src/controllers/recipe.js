@@ -5,7 +5,7 @@ import { getListWithPagination } from "../utils/list.js";
 import { getTagsWithCount } from "../utils/tags.js";
 import { convertKeysToCamelCase } from "../utils/convert-keys-to-camel-case.js";
 import { isEqual, startOfMonth, endOfMonth } from "date-fns";
-import CalendarController from "./calendar/index.js";
+import CalendarController from "./calendar/controller.js";
 
 class RecipeController {
   static getRecipesListWithPagination(request) {

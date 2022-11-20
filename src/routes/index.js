@@ -7,6 +7,7 @@ import recipeIngredientRouter from "./recipe-ingredient.js";
 import recipeStepRouter from "./recipe-step.js";
 import recipeRouter from "./recipe.js";
 import userRouter from "./user.js";
+import memberRouter from "./member.js";
 import authentication from "../middlewares/authentication.js";
 
 const router = Router();
@@ -20,5 +21,6 @@ router.use("/recipes", recipeIngredientRouter);
 router.use("/recipes", recipeStepRouter);
 router.use("/recipes", recipeRouter);
 router.use("/users", userRouter);
+router.use("/members", memberRouter);
 
 export default router;

@@ -1,6 +1,6 @@
 import orderedFoodQueries from "../queries/ordered-food.js";
 import Database from "../config/database.js";
-import CalendarController from "./calendar/index.js";
+import CalendarController from "./calendar/controller.js";
 import { getListWithPagination } from "../utils/list.js";
 import { getTagsWithCount } from "../utils/tags.js";
 import { convertKeysToCamelCase } from "../utils/convert-keys-to-camel-case.js";

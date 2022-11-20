@@ -1,5 +1,5 @@
 import { Router } from "express";
-import CalendarController from "../controllers/calendar/index.js";
+import CalendarController from "../controllers/calendar/controller.js";
 import { getRequestQueryParameters } from "../utils/request-helpers.js";
 
 const calendarRouter = Router();

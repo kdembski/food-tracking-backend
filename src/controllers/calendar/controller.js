@@ -11,6 +11,16 @@ import {
 } from "./ordered-food.js";
 
 class CalendarController {
+  static getCalendarDate(id) {
+    return new Promise((resolve, reject) => {
+      Database.sendQuery(calendarQueries.selectById, [id])
+        .then((results) => {
+          resolve(convertKeysToCamelCase(results[0]));
+        })
+        .catch((error) => reject(error));
+    });
+  }
+
   static addDateToCalendar(data) {
     return new Promise(async (resolve, reject) => {
       try {
@@ -47,16 +57,6 @@ class CalendarController {
       } catch (error) {
         reject(error);
       }
-    });
-  }
-
-  static getCalendarDate(id) {
-    return new Promise((resolve, reject) => {
-      Database.sendQuery(calendarQueries.selectById, [id])
-        .then((results) => {
-          resolve(convertKeysToCamelCase(results[0]));
-        })
-        .catch((error) => reject(error));
     });
   }
 
