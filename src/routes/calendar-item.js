@@ -38,4 +38,13 @@ calendarItemRouter.delete("/:id", (request, response) => {
     .catch((error) => response.status(400).send(error));
 });
 
+calendarItemRouter.patch("/:id/members", (request, response) => {
+  const id = request.params.id;
+  const memberIds = request.body;
+
+  CalendarItemController.updateCalendarItemForMembers(id, memberIds)
+    .then((results) => response.json(results))
+    .catch((error) => response.status(400).send(error));
+});
+
 export default calendarItemRouter;

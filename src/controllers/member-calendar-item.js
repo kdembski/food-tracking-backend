@@ -1,14 +1,23 @@
 import Database from "../config/database.js";
 import memberCalendarItemQueries from "../queries/member-calendar-item.js";
 import MemberCalendarItem from "../models/member-calendar-item.js";
+import { convertKeysToCamelCase } from "../utils/convert-keys-to-camel-case.js";
 
 class MemberCalendarItemController {
-  static getMemberCalendarItemByItemId(id) {
-    return Database.sendQuery(memberCalendarItemQueries.selectByItemId, [id]);
+  static getMemberCalendarItemsByItemId(id) {
+    return new Promise((resolve, reject) => {
+      Database.sendQuery(memberCalendarItemQueries.selectByItemId, [id])
+        .then((results) => resolve(convertKeysToCamelCase(results)))
+        .catch((error) => reject(error));
+    });
   }
 
-  static getMemberCalendarItemByMemberId(id) {
-    return Database.sendQuery(memberCalendarItemQueries.selectByMemberId, [id]);
+  static getMemberCalendarItemsByMemberId(id) {
+    return new Promise((resolve, reject) => {
+      Database.sendQuery(memberCalendarItemQueries.selectByMemberId, [id])
+        .then((results) => resolve(convertKeysToCamelCase(results)))
+        .catch((error) => reject(error));
+    });
   }
 
   static addMemberCalendarItem(data) {
@@ -19,7 +28,7 @@ class MemberCalendarItemController {
     );
   }
 
-  static updateMemberCalendarItemByItemId(itemId, memberId) {
+  static updateMemberCalendarItemsByItemId(itemId, memberId) {
     return Database.sendQuery(memberCalendarItemQueries.update, [
       memberId,
       itemId,

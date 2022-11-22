@@ -10,6 +10,10 @@ import {
   getOrderedFoodOrderDates,
   getOrderedFoodLastOrderDate,
 } from "./ordered-food.js";
+import {
+  addCalendarItemToMembers,
+  updateCalendarItemForMembers,
+} from "./member-calendar-item.js";
 
 class CalendarItemController {
   static getCalendarItem(id) {
@@ -25,7 +29,7 @@ class CalendarItemController {
   static addCalendarItem(data) {
     return new Promise(async (resolve, reject) => {
       try {
-        const date = new CalendarItem(
+        const item = new CalendarItem(
           data.date,
           data.recipeId,
           data.orderedFoodId,
@@ -35,12 +39,14 @@ class CalendarItemController {
 
         const results = await Database.sendQuery(
           calendarItemQueries.insert,
-          date.getValues()
+          item.getValues()
         );
+        await addCalendarItemToMembers(results.insertId, item.members);
         resolve(results);
 
-        this.updateLinkedDates(data);
+        this.updateLinkedDates(item);
       } catch (error) {
+        console.log(error);
         reject(error);
       }
     });
@@ -49,7 +55,7 @@ class CalendarItemController {
   static updateCalendarItem(id, data) {
     return new Promise(async (resolve, reject) => {
       try {
-        const date = new CalendarItem(
+        const item = new CalendarItem(
           data.date,
           data.recipeId,
           data.orderedFoodId,
@@ -58,13 +64,12 @@ class CalendarItemController {
         );
 
         const results = await Database.sendQuery(calendarItemQueries.update, [
-          ...date.getValues(),
+          ...item.getValues(),
           id,
         ]);
-
         resolve(results);
 
-        this.updateLinkedDates(data);
+        this.updateLinkedDates(item);
       } catch (error) {
         reject(error);
       }
@@ -97,10 +102,14 @@ class CalendarItemController {
   }
 
   static getCalendarItems = getCalendarItems;
+
   static getRecipeCookedDates = getRecipeCookedDates;
   static getRecipeLastCookedDate = getRecipeLastCookedDate;
+
   static getOrderedFoodOrderDates = getOrderedFoodOrderDates;
   static getOrderedFoodLastOrderDate = getOrderedFoodLastOrderDate;
+
+  static updateCalendarItemForMembers = updateCalendarItemForMembers;
 }
 
 export default CalendarItemController;
