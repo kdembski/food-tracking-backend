@@ -7,14 +7,30 @@ import lodash from "lodash";
 import { convertKeysToCamelCase } from "../../utils/convert-keys-to-camel-case.js";
 import MemberCalendarItemController from "../member-calendar-item.js";
 
-export const getCalendarItems = (fromDate, toDate) => {
+export const getCalendarItems = (fromDate, toDate, members) => {
   return new Promise((resolve, reject) => {
     Database.sendQuery(calendarQueries.select, [fromDate, toDate])
       .then(async (items) => {
-        resolve(await mergeItemsWithSameDate(items));
+        items = await mergeItemsWithSameDate(items);
+        items = filterByMembers(items, members);
+        resolve(items);
       })
       .catch((error) => reject(error));
   });
+};
+
+const filterByMembers = (items, members) => {
+  if (!members) {
+    return items;
+  }
+
+  items.forEach((day) => {
+    day.items = day.items.filter((item) => {
+      return members.some((id) => item.members.includes(parseInt(id)));
+    });
+  });
+
+  return items;
 };
 
 const mergeItemsWithSameDate = async (items) => {

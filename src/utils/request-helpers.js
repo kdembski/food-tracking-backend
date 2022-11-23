@@ -18,6 +18,8 @@ export const getRequestQueryParameters = (request) => {
   const fromDate = request?.query?.fromDate;
   const toDate = request?.query?.toDate;
 
+  const members = request?.query?.members?.split(",");
+
   return {
     size,
     page,
@@ -27,5 +29,6 @@ export const getRequestQueryParameters = (request) => {
     tags,
     fromDate,
     toDate,
+    members,
   };
 };

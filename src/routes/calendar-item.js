@@ -5,8 +5,8 @@ import { getRequestQueryParameters } from "../utils/request-helpers.js";
 const calendarItemRouter = Router();
 
 calendarItemRouter.get("/", (request, response) => {
-  const { fromDate, toDate } = getRequestQueryParameters(request);
-  CalendarItemController.getCalendarItems(fromDate, toDate)
+  const { fromDate, toDate, members } = getRequestQueryParameters(request);
+  CalendarItemController.getCalendarItems(fromDate, toDate, members)
     .then((results) => response.json(results))
     .catch((error) => response.status(400).send(error));
 });
