@@ -31,12 +31,12 @@ const memberCalendarItemQueries = {
     member_id = ?
     WHERE id = ?`,
 
-  updateByItemId: `
-    UPDATE member_calendar_items SET
-    member_id = ?
-    WHERE item_id = ?`,
-
   delete: `DELETE FROM member_calendar_items WHERE id = ?`,
+
+  deleteByItemIdAndMemberId: `
+    DELETE FROM member_calendar_items 
+    WHERE item_id = ? 
+    AND member_id = ?`,
 };
 
 export default memberCalendarItemQueries;

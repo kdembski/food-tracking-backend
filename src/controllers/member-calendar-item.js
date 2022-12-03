@@ -28,15 +28,15 @@ class MemberCalendarItemController {
     );
   }
 
-  static updateMemberCalendarItemsByItemId(itemId, memberId) {
-    return Database.sendQuery(memberCalendarItemQueries.update, [
-      memberId,
-      itemId,
-    ]);
-  }
-
   static deleteMemberCalendarItem(id) {
     return Database.sendQuery(memberCalendarItemQueries.delete, [id]);
+  }
+
+  static deleteMemberCalendarItemByMemberIdAndItemId(itemId, memberId) {
+    return Database.sendQuery(
+      memberCalendarItemQueries.deleteByItemIdAndMemberId,
+      [itemId, memberId]
+    );
   }
 }
 

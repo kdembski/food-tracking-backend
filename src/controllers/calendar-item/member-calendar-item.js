@@ -17,15 +17,14 @@ export function addCalendarItemToMembers(itemId, memberIds) {
   });
 }
 
-export function removeCalendarItemFromMembers(itemId) {
+export function removeCalendarItemFromMembers(itemId, memberIds) {
   return new Promise(async (resolve, reject) => {
     try {
-      const memberCalendarItems =
-        await MemberCalendarItemController.getMemberCalendarItemsByItemId(
-          itemId
+      const promises = memberIds.map((memberId) => {
+        MemberCalendarItemController.deleteMemberCalendarItemByMemberIdAndItemId(
+          itemId,
+          memberId
         );
-      const promises = memberCalendarItems.map((item) => {
-        MemberCalendarItemController.deleteMemberCalendarItem(item.id);
       });
       await Promise.all(promises);
       resolve();
@@ -38,8 +37,23 @@ export function removeCalendarItemFromMembers(itemId) {
 export function updateCalendarItemForMembers(itemId, memberIds) {
   return new Promise(async (resolve, reject) => {
     try {
-      await removeCalendarItemFromMembers(itemId);
-      await addCalendarItemToMembers(itemId, memberIds);
+      const calendarItemMembers =
+        await MemberCalendarItemController.getMemberCalendarItemsByItemId(
+          itemId
+        );
+      const calendarItemMemberIds = calendarItemMembers.map(
+        (item) => item.memberId
+      );
+
+      const memberIdsToBeAdded = memberIds.filter(
+        (id) => !calendarItemMemberIds.includes(id)
+      );
+      const memberIdsToBeRemoved = calendarItemMemberIds.filter(
+        (id) => !memberIds.includes(id)
+      );
+
+      await removeCalendarItemFromMembers(itemId, memberIdsToBeRemoved);
+      await addCalendarItemToMembers(itemId, memberIdsToBeAdded);
       resolve();
     } catch (error) {
       reject(error);
