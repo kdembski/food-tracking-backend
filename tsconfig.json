@@ -16,5 +16,13 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["./**/*"]
+  "tsc-alias": {
+    "verbose": false,
+    "resolveFullPaths": true,
+    "fileExtensions": {
+      "inputGlob": "js",
+      "outputCheck": ["js", "json"]
+    }
+  },
+  "include": ["./src/**/*", "./src/**/*.js"]
 }
