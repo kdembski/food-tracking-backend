@@ -2,19 +2,30 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "rootDir": "./src",
+    "strict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "strictNullChecks": true,
+    "jsx": "preserve",
     "moduleResolution": "node",
-    "types": ["node"],
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "useDefineForClassFields": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "sourceMap": true,
+    "rootDir": ".",
+    "types": ["node", "jest"],
     "resolveJsonModule": true,
     "outDir": "./dist/",
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
-    },
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true
+    }
   },
   "tsc-alias": {
     "verbose": false,
@@ -24,5 +35,6 @@
       "outputCheck": ["js", "json"]
     }
   },
-  "include": ["./src/**/*", "./src/**/*.js"]
+  "include": ["src/**/*", "tests/unit/**/*.ts"],
+  "exclude": ["node_modules"]
 }
