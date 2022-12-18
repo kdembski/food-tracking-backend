@@ -6,6 +6,7 @@ import {
   ICalendarItemsRepository,
 } from "@/interfaces/calendar/calendarItem";
 import calendarItemsQueries from "@/queries/calendarItems";
+import { CustomError } from "@/models/errors/customError";
 
 export class CalendarItemsRepository implements ICalendarItemsRepository {
   async selectById(id: number) {
@@ -45,23 +46,29 @@ export class CalendarItemsRepository implements ICalendarItemsRepository {
     return results as CalendarItemDTO[];
   }
 
-  async insert(data: CalendarItem) {
+  async insert(item: CalendarItem) {
+    if (!item.recipeId && !item.orderedFoodId) {
+      throw new CustomError({
+        message: "No child assigned to item",
+      });
+    }
+
     const results = await Database.sendQuery(calendarItemsQueries.insert, [
-      data.date,
-      data.recipeId,
-      data.orderedFoodId,
-      data.sortOrder,
+      item.date,
+      item.recipeId,
+      item.orderedFoodId,
+      item.sortOrder,
     ]);
     return results as OkPacket;
   }
 
-  async update(data: CalendarItem) {
+  async update(item: CalendarItem) {
     const results = await Database.sendQuery(calendarItemsQueries.update, [
-      data.date,
-      data.recipeId,
-      data.orderedFoodId,
-      data.sortOrder,
-      data.id,
+      item.date,
+      item.recipeId,
+      item.orderedFoodId,
+      item.sortOrder,
+      item.id,
     ]);
     return results as OkPacket;
   }

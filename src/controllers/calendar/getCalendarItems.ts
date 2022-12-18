@@ -1,11 +1,9 @@
+import { OrderedFoodController } from "@/controllers/orderedFood";
+import { RecipesController } from "@/controllers/recipes/recipes";
 import { CalendarDay } from "@/interfaces/calendar/calendarDay";
 import { CalendarItem } from "@/models/calendarItem";
 import { isEqual } from "date-fns";
-import { OrderedFood } from "@/models/ordered-food/orderedFood";
-import { Recipe } from "@/models/recipes/recipe";
-import { CalendarItemsRepository } from "@/repositories/calendarItem";
-import { RecipesRepository } from "@/repositories/recipes/recipes";
-import { OrderedFoodRepository } from "@/repositories/orderedFood";
+import { CalendarItemsRepository } from "@/repositories/calendarItems";
 
 export class GetCalendarItemsController {
   async getCalendarItems(fromDate: Date, toDate: Date, members?: number[]) {
@@ -76,6 +74,7 @@ export class GetCalendarItemsController {
       sortOrder: item.sortOrder,
       members: item.members,
     };
+
     if (item.recipeId) {
       return {
         ...data,
@@ -89,11 +88,12 @@ export class GetCalendarItemsController {
         ...(await this.getCalendarItemOrderedFoodData(item.orderedFoodId)),
       };
     }
+
+    return;
   }
 
   private async getCalendarItemRecipeData(recipeId: number) {
-    const recipeDto = await new RecipesRepository().selectById(recipeId);
-    const recipe = new Recipe(recipeDto);
+    const recipe = await new RecipesController().getRecipeById(recipeId);
 
     return {
       isRecipe: true,
@@ -104,10 +104,9 @@ export class GetCalendarItemsController {
   }
 
   private async getCalendarItemOrderedFoodData(orderedFoodId: number) {
-    const orderedFoodDto = await new OrderedFoodRepository().selectById(
+    const orderedFood = await new OrderedFoodController().getOrderedFoodById(
       orderedFoodId
     );
-    const orderedFood = new OrderedFood(orderedFoodDto);
 
     return {
       isOrderedFood: true,

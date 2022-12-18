@@ -17,5 +17,5 @@ export default {
   moduleNameMapper: {
     "^@/(.*)": "<rootDir>/src/$1",
   },
-  collectCoverageFrom: ["src/**/*.ts"],
+  collectCoverageFrom: ["src/**/*.ts", "!src/queries/**/*", "!src/routes/**/*"],
 };

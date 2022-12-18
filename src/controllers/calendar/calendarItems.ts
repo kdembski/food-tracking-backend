@@ -6,7 +6,7 @@ import {
   ICalendarItemsController,
 } from "@/interfaces/calendar/calendarItem";
 import { GetCalendarItemsController } from "./getCalendarItems";
-import { CalendarItemsRepository } from "@/repositories/calendarItem";
+import { CalendarItemsRepository } from "@/repositories/calendarItems";
 import { CalendarItemMembersController } from "./calendarItemMembers";
 
 export class CalendarItemsController implements ICalendarItemsController {
@@ -42,11 +42,10 @@ export class CalendarItemsController implements ICalendarItemsController {
 
   async deleteCalendarItem(id: number) {
     const calendarItemsRepository = new CalendarItemsRepository();
-    const dto = await calendarItemsRepository.selectById(id);
-
-    const calendarItem = new CalendarItem(dto);
     const results = await calendarItemsRepository.delete(id);
 
+    const dto = await calendarItemsRepository.selectById(id);
+    const calendarItem = new CalendarItem(dto);
     this.updateChildDates(calendarItem);
 
     return results;
