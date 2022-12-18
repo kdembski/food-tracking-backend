@@ -1,5 +1,5 @@
 import { OkPacket } from "mysql2";
-import recipesQueries from "@/queries/recipes/recipes";
+import { recipesQueries } from "@/queries/recipes/recipes";
 import { RecipeDTO, IRecipesRepository } from "@/interfaces/recipes/recipes";
 import Database from "@/config/database";
 import { Recipe } from "@/models/recipes/recipe";

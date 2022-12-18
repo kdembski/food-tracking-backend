@@ -1,4 +1,4 @@
-const memberQueries = {
+export const membersQueries = {
   createTable: `
     CREATE TABLE members (
       id int NOT NULL AUTO_INCREMENT,
@@ -8,5 +8,3 @@ const memberQueries = {
 
   select: `SELECT * FROM members`,
 };
-
-export default memberQueries;

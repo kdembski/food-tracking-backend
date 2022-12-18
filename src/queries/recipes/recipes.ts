@@ -1,4 +1,4 @@
-const recipesQueries = {
+export const recipesQueries = {
   createsTable: `
     CREATE TABLE recipes (
       id int NOT NULL AUTO_INCREMENT,
@@ -55,5 +55,3 @@ const recipesQueries = {
 
   delete: `DELETE FROM recipes WHERE id = ?`,
 };
-
-export default recipesQueries;

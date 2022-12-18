@@ -5,7 +5,7 @@ import {
   IOrderedFoodRepository,
   OrderedFoodDTO,
 } from "@/interfaces/orderedFood";
-import orderedFoodQueries from "@/queries/orderedFood";
+import { orderedFoodQueries } from "@/queries/orderedFood";
 import { OkPacket } from "mysql2";
 import { CustomError } from "@/models/errors/customError";
 

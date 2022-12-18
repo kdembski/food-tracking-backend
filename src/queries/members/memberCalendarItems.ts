@@ -1,4 +1,4 @@
-const memberCalendarItemQueries = {
+export const memberCalendarItemsQueries = {
   createTable: `
     CREATE TABLE member_calendar_items (
       id int NOT NULL AUTO_INCREMENT,
@@ -38,5 +38,3 @@ const memberCalendarItemQueries = {
     WHERE item_id = ? 
     AND member_id = ?`,
 };
-
-export default memberCalendarItemQueries;

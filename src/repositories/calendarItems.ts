@@ -5,7 +5,7 @@ import {
   CalendarItemDTO,
   ICalendarItemsRepository,
 } from "@/interfaces/calendar/calendarItem";
-import calendarItemsQueries from "@/queries/calendarItems";
+import { calendarItemsQueries } from "@/queries/calendarItems";
 import { CustomError } from "@/models/errors/customError";
 
 export class CalendarItemsRepository implements ICalendarItemsRepository {

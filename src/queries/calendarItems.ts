@@ -1,4 +1,4 @@
-const calendarItemQueries = {
+export const calendarItemsQueries = {
   createTable: `
     CREATE TABLE calendar_items (
       id int NOT NULL AUTO_INCREMENT,
@@ -55,5 +55,3 @@ const calendarItemQueries = {
 
   delete: `DELETE FROM calendar_items WHERE id = ?`,
 };
-
-export default calendarItemQueries;

@@ -1,6 +1,6 @@
-const ingredientWithUnitQueries = {
+export const ingredientUnitsQueries = {
   createTable: `
-    CREATE TABLE ingredients_with_units (
+    CREATE TABLE ingredient_units (
       id int NOT NULL AUTO_INCREMENT,
       ingredient_id int NOT NULL,
       unit_id int NOT NULL,
@@ -16,11 +16,11 @@ const ingredientWithUnitQueries = {
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci`,
 
   selectByIngredientId: `
-    SELECT * FROM ingredients_with_units
+    SELECT * FROM ingredient_units
     WHERE ingredient_id = ?`,
 
   insert: `
-    INSERT INTO ingredients_with_units SET
+    INSERT INTO ingredient_units SET
     ingredient_id = ?,
     unit_id = ?,
     kcal_per_unit = ?,
@@ -28,7 +28,7 @@ const ingredientWithUnitQueries = {
     converter_to_primary = ?`,
 
   update: `
-    UPDATE ingredients_with_units SET
+    UPDATE ingredient_units SET
     ingredient_id = ?,
     unit_id = ?,
     kcal_per_unit = ?,
@@ -36,7 +36,5 @@ const ingredientWithUnitQueries = {
     converter_to_primary = ?
     WHERE id = ?`,
 
-  delete: `DELETE FROM ingredients_with_units WHERE id = ?`,
+  delete: `DELETE FROM ingredient_units WHERE id = ?`,
 };
-
-export default ingredientWithUnitQueries;

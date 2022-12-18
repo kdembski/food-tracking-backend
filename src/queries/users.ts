@@ -1,4 +1,4 @@
-const userQueries = {
+export const usersQueries = {
   createTable: `
     CREATE TABLE users (
       id int NOT NULL AUTO_INCREMENT,
@@ -9,5 +9,3 @@ const userQueries = {
 
   selectById: `SELECT * FROM users WHERE id = ?`,
 };
-
-export default userQueries;
