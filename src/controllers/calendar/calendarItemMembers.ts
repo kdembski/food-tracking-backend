@@ -1,18 +1,15 @@
-import { MemberCalendarItemsController } from "@/controllers/members/memberCalendarItems";
-import { MemberCalendarItem } from "@/models/members/memberCalendarItem";
 import { ICalendarItemMembersController } from "@/interfaces/calendar/calendarItemMembers";
-import { MemberCalendarItemsRepository } from "@/repositories/members/memberCalendarItems";
+import { MemberCalendarItemsController } from "@/controllers/members/memberCalendarItems";
 
 export class CalendarItemMembersController
   implements ICalendarItemMembersController
 {
   async addCalendarItemToMembers(itemId: number, memberIds: number[]) {
     const promises = memberIds.map((memberId) => {
-      const memberCalendarItem = new MemberCalendarItem({
-        memberId,
+      return new MemberCalendarItemsController().createMemberCalendarItem({
         itemId,
+        memberId,
       });
-      return new MemberCalendarItemsRepository().insert(memberCalendarItem);
     });
 
     const results = await Promise.all(promises);
@@ -21,7 +18,7 @@ export class CalendarItemMembersController
 
   async removeCalendarItemFromMembers(itemId: number, memberIds: number[]) {
     const promises = memberIds.map((memberId) => {
-      return new MemberCalendarItemsRepository().deleteByMemberIdAndItemId(
+      return new MemberCalendarItemsController().deleteMemberCalendarItem(
         itemId,
         memberId
       );

@@ -1,15 +1,7 @@
-import { MemberCalendarItem } from "@/models/members/memberCalendarItem";
 import { CalendarItemMembersController } from "@/controllers/calendar/calendarItemMembers";
 
-const insert = jest.fn();
-const deleteByMemberIdAndItemId = jest.fn();
-jest.mock("@/repositories/members/memberCalendarItems", () => ({
-  MemberCalendarItemsRepository: jest.fn().mockImplementation(() => ({
-    insert,
-    deleteByMemberIdAndItemId,
-  })),
-}));
-
+const createMemberCalendarItem = jest.fn();
+const deleteMemberCalendarItem = jest.fn();
 const getMemberCalendarItemsByItemId = jest
   .fn()
   .mockImplementation(() =>
@@ -17,6 +9,8 @@ const getMemberCalendarItemsByItemId = jest
   );
 jest.mock("@/controllers/members/memberCalendarItems", () => ({
   MemberCalendarItemsController: jest.fn().mockImplementation(() => ({
+    createMemberCalendarItem,
+    deleteMemberCalendarItem,
     getMemberCalendarItemsByItemId,
   })),
 }));
@@ -28,18 +22,19 @@ describe("Calendar Item Members Controller", () => {
     controller = new CalendarItemMembersController();
   });
 
-  it("Should trigger repository insert for each member id on addCalendarItemToMembers call", async () => {
+  it("Should trigger createMemberCalendarItem for each member id on addCalendarItemToMembers call", async () => {
     await controller.addCalendarItemToMembers(1, [1, 2]);
-    expect(insert).toHaveBeenCalledTimes(2);
-    expect(insert).toHaveBeenLastCalledWith(
-      new MemberCalendarItem({ itemId: 1, memberId: 2 })
-    );
+    expect(createMemberCalendarItem).toHaveBeenCalledTimes(2);
+    expect(createMemberCalendarItem).toHaveBeenLastCalledWith({
+      itemId: 1,
+      memberId: 2,
+    });
   });
 
-  it("Should trigger repository delete for each member id on removeCalendarItemFromMembers call", async () => {
+  it("Should trigger deleteMemberCalendarItem for each member id on removeCalendarItemFromMembers call", async () => {
     await controller.removeCalendarItemFromMembers(1, [1, 2]);
-    expect(deleteByMemberIdAndItemId).toHaveBeenCalledTimes(2);
-    expect(deleteByMemberIdAndItemId).toHaveBeenLastCalledWith(1, 2);
+    expect(deleteMemberCalendarItem).toHaveBeenCalledTimes(2);
+    expect(deleteMemberCalendarItem).toHaveBeenLastCalledWith(1, 2);
   });
 
   it("Should update item members on updateCalendarItemForMembers", async () => {
