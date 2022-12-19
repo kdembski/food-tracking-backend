@@ -1,6 +1,4 @@
 import { Response, Request, NextFunction } from "express";
-import Database from "@/config/database";
-import usersQueries from "@/queries/users";
 import { TOKEN_INVALID, TOKEN_REQUIRED } from "@/consts/errorCodes";
 import { UsersController } from "@/controllers/users";
 
