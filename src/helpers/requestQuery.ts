@@ -56,11 +56,11 @@ export class RequestQueryHelper implements IRequestQueryHelper {
   }
 
   get fromDate() {
-    return this._fromDate ? new Date(this._fromDate) : undefined;
+    return this._fromDate ? new Date(parseInt(this._fromDate)) : undefined;
   }
 
   get toDate() {
-    return this._toDate ? new Date(this._toDate) : undefined;
+    return this._toDate ? new Date(parseInt(this._toDate)) : undefined;
   }
 
   getQueryValues() {

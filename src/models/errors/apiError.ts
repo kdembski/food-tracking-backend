@@ -15,6 +15,7 @@ export class ApiError {
     this._code = error.code;
     this._status = error.status;
     this._response = response;
+    console.log(error);
   }
 
   static create(error: unknown, response: Response) {

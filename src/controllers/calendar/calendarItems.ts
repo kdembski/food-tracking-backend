@@ -42,9 +42,9 @@ export class CalendarItemsController implements ICalendarItemsController {
 
   async deleteCalendarItem(id: number) {
     const calendarItemsRepository = new CalendarItemsRepository();
+    const dto = await calendarItemsRepository.selectById(id);
     const results = await calendarItemsRepository.delete(id);
 
-    const dto = await calendarItemsRepository.selectById(id);
     const calendarItem = new CalendarItem(dto);
     this.updateChildDates(calendarItem);
 
