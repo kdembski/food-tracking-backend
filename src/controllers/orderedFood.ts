@@ -25,24 +25,20 @@ export class OrderedFoodController implements IOrderedFoodController {
 
   async getOrderedFoodById(id: number) {
     const dto = await new OrderedFoodRepository().selectById(id);
-    const orderedFood = new OrderedFood(dto);
-    return orderedFood;
+    return new OrderedFood(dto);
   }
 
-  async createOrderedFood(data: OrderedFoodDTO) {
+  createOrderedFood(data: OrderedFoodDTO) {
     const orderedFood = new OrderedFood(data);
-    const results = await new OrderedFoodRepository().insert(orderedFood);
-    return results;
+    return new OrderedFoodRepository().insert(orderedFood);
   }
 
-  async updateOrderedFood(data: OrderedFoodDTO) {
+  updateOrderedFood(data: OrderedFoodDTO) {
     const orderedFood = new OrderedFood(data);
-    const results = await new OrderedFoodRepository().update(orderedFood);
-    return results;
+    return new OrderedFoodRepository().update(orderedFood);
   }
 
-  async deleteOrderedFood(id: number) {
-    const results = await new OrderedFoodRepository().delete(id);
-    return results;
+  deleteOrderedFood(id: number) {
+    return new OrderedFoodRepository().delete(id);
   }
 }

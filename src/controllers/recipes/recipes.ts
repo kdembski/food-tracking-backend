@@ -31,24 +31,20 @@ export class RecipesController implements IRecipesController {
 
   async getRecipeById(id: number) {
     const dto = await new RecipesRepository().selectById(id);
-    const recipe = new Recipe(dto);
-    return recipe;
+    return new Recipe(dto);
   }
 
-  async createRecipe(data: RecipeDTO) {
+  createRecipe(data: RecipeDTO) {
     const recipe = new Recipe(data);
-    const results = await new RecipesRepository().insert(recipe);
-    return results;
+    return new RecipesRepository().insert(recipe);
   }
 
-  async updateRecipe(data: RecipeDTO) {
+  updateRecipe(data: RecipeDTO) {
     const recipe = new Recipe(data);
-    const results = await new RecipesRepository().update(recipe);
-    return results;
+    return new RecipesRepository().update(recipe);
   }
 
-  async deleteRecipe(id: number) {
-    const results = await new RecipesRepository().delete(id);
-    return results;
+  deleteRecipe(id: number) {
+    return new RecipesRepository().delete(id);
   }
 }

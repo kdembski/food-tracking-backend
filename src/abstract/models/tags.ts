@@ -21,9 +21,13 @@ export abstract class Tags implements ITags {
     ).getQueryValues();
 
     const tags = await this.getTags(searchPhrase, queryTags);
+    this._tags = this.prepareTags(tags);
+  }
+
+  private prepareTags(tags: string[]) {
     const splittedTags = this.splitTags(tags);
     const countedTags = this.countTags(splittedTags);
-    this._tags = countedTags.sort((a, b) => b.count - a.count);
+    return countedTags.sort((a, b) => b.count - a.count);
   }
 
   private countTags(tagNames: string[]) {
@@ -42,6 +46,7 @@ export abstract class Tags implements ITags {
         name: tagName,
         count: 1,
       });
+
       return accum;
     }, []);
   }
