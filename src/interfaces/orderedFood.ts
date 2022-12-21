@@ -1,8 +1,11 @@
+import { IRepository } from "./base/repositories/repository";
 import { OrderedFoodList } from "@/models/ordered-food/orderedFoodList";
 import { OrderedFood } from "@/models/ordered-food/orderedFood";
-import { Tag } from "./tags";
+import { Tag } from "./base/models/tags";
 import { OkPacket } from "mysql2";
 import { RequestQueryData } from "./helpers/requestQuery";
+import { IListRepository } from "./base/repositories/list";
+import { IModel } from "./base/models/model";
 
 export type OrderedFoodDTO = {
   id?: number;
@@ -13,27 +16,15 @@ export type OrderedFoodDTO = {
   orderedDate?: Date;
 };
 
-export interface IOrderedFood {
-  setFromDTO: (data: OrderedFoodDTO) => void;
-  getDTO: () => OrderedFoodDTO;
+export interface IOrderedFood extends IModel<OrderedFoodDTO> {
   updateOrderedDate: () => Promise<void>;
 }
 
-export interface IOrderedFoodRepository {
+export interface IOrderedFoodRepository
+  extends IRepository<OrderedFood>,
+    IListRepository<OrderedFoodDTO> {
   selectById: (id: number) => Promise<OrderedFoodDTO>;
-  selectList: (
-    searchPhrase: string,
-    sortAttribute: string,
-    sortDirection: string,
-    tags: string,
-    size: number,
-    offset: number
-  ) => Promise<OrderedFoodDTO[]>;
   selectTags: (searchPhrase: string, tags?: string) => Promise<string[]>;
-  selectCount: (searchPhrase: string, tags?: string) => Promise<number>;
-  insert: (data: OrderedFood) => Promise<OkPacket>;
-  update: (data: OrderedFood) => Promise<OkPacket>;
-  delete: (id: number) => Promise<OkPacket>;
 }
 
 export interface IOrderedFoodController {

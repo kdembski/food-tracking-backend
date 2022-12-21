@@ -8,6 +8,7 @@ import {
 import { orderedFoodQueries } from "@/queries/orderedFood";
 import { OkPacket } from "mysql2";
 import { CustomError } from "@/models/errors/customError";
+import { ListConfig } from "@/interfaces/base/models/list";
 
 export class OrderedFoodRepository implements IOrderedFoodRepository {
   async selectById(id: number) {
@@ -24,24 +25,17 @@ export class OrderedFoodRepository implements IOrderedFoodRepository {
     return dto;
   }
 
-  async selectList(
-    searchPhrase: string,
-    sortAttribute: string,
-    sortDirection: string,
-    tags: string,
-    size: number,
-    offset: number
-  ) {
+  async selectList(config: ListConfig) {
     const query = new DatabaseQueryHelper().extendQueryToSelectList(
       orderedFoodQueries.select,
-      sortAttribute,
-      sortDirection,
-      tags,
-      size,
-      offset
+      config.sortAttribute,
+      config.sortDirection,
+      config.tags,
+      config.size,
+      config.offset
     );
 
-    const data = await Database.sendQuery(query, [searchPhrase]);
+    const data = await Database.sendQuery(query, [config.searchPhrase]);
     return data as OrderedFoodDTO[];
   }
 

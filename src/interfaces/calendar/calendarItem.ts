@@ -1,5 +1,7 @@
 import { CalendarItem } from "@/models/calendarItem";
 import { OkPacket } from "mysql2";
+import { IModel } from "../base/models/model";
+import { IRepository } from "../base/repositories/repository";
 import { CalendarDay } from "./calendarDay";
 
 export type CalendarItemDTO = {
@@ -11,13 +13,11 @@ export type CalendarItemDTO = {
   sortOrder?: number;
 };
 
-export interface ICalendarItem {
-  setFromDTO: (data: CalendarItemDTO) => void;
-  getDTO: () => CalendarItemDTO;
+export interface ICalendarItem extends IModel<CalendarItemDTO> {
   loadMembers: () => void;
 }
 
-export interface ICalendarItemsRepository {
+export interface ICalendarItemsRepository extends IRepository<CalendarItem> {
   selectById: (id: number) => Promise<CalendarItemDTO>;
   selectAll: (fromDate: Date, toDate: Date) => Promise<CalendarItemDTO[]>;
   selectDatesByRecipeId: (
@@ -30,9 +30,6 @@ export interface ICalendarItemsRepository {
     fromDate: Date,
     toDate: Date
   ) => Promise<Date[]>;
-  insert: (data: CalendarItem) => Promise<OkPacket>;
-  update: (data: CalendarItem) => Promise<OkPacket>;
-  delete: (id: number) => Promise<OkPacket>;
 }
 
 export interface ICalendarItemsController extends IGetCalendarItemsController {

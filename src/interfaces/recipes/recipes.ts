@@ -1,8 +1,11 @@
+import { IListRepository } from "./../base/repositories/list";
+import { IRepository } from "./../base/repositories/repository";
 import { RecipesList } from "@/models/recipes/recipesList";
 import { Recipe } from "@/models/recipes/recipe";
 import { OkPacket } from "mysql2";
 import { RequestQueryData } from "@/interfaces/helpers/requestQuery";
-import { Tag } from "../tags";
+import { Tag } from "@/interfaces/base/models/tags";
+import { IModel } from "../base/models/model";
 
 export type RecipeDTO = {
   id?: number;
@@ -15,27 +18,15 @@ export type RecipeDTO = {
   cookedDatesInCurrentMonth?: Date[];
 };
 
-export interface IRecipe {
-  setFromDTO: (data: RecipeDTO) => void;
-  getDTO: () => RecipeDTO;
+export interface IRecipe extends IModel<RecipeDTO> {
   updateCookedDate: () => Promise<void>;
 }
 
-export interface IRecipesRepository {
+export interface IRecipesRepository
+  extends IRepository<Recipe>,
+    IListRepository<RecipeDTO> {
   selectById: (id: number) => Promise<RecipeDTO>;
-  selectList: (
-    searchPhrase: string,
-    sortAttribute: string,
-    sortDirection: string,
-    tags: string,
-    size: number,
-    offset: number
-  ) => Promise<RecipeDTO[]>;
   selectTags: (searchPhrase: string, tags?: string) => Promise<string[]>;
-  selectCount: (searchPhrase: string, tags?: string) => Promise<number>;
-  insert: (data: Recipe) => Promise<OkPacket>;
-  update: (data: Recipe) => Promise<OkPacket>;
-  delete: (id: number) => Promise<OkPacket>;
 }
 
 export interface IRecipesController {

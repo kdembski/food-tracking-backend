@@ -1,27 +1,14 @@
-import { RecipesRepository } from "../../repositories/recipes/recipes";
+import { RecipesRepository } from "@/repositories/recipes/recipes";
 import { Recipe } from "./recipe";
 import { RecipeDTO } from "@/interfaces/recipes/recipes";
 import { List } from "@/abstract/models/list";
 import { RecipesController } from "@/controllers/recipes/recipes";
 import { CalendarItemRecipesController } from "@/controllers/calendar/calendarItemRecipes";
+import { ListConfig } from "@/interfaces/base/models/list";
 
 export class RecipesList extends List<Recipe, RecipeDTO> {
-  protected async getListData(
-    searchPhrase: string,
-    sortAttribute: string,
-    sortDirection: string,
-    tags: string,
-    size: number,
-    offset: number
-  ) {
-    return new RecipesRepository().selectList(
-      searchPhrase,
-      sortAttribute,
-      sortDirection,
-      tags,
-      size,
-      offset
-    );
+  protected async getListData(config: ListConfig) {
+    return new RecipesRepository().selectList(config);
   }
 
   protected getListCount(searchPhrase: string, tags: string): Promise<number> {

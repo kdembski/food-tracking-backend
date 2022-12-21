@@ -1,6 +1,6 @@
 import { RequestQueryHelper } from "@/helpers/requestQuery";
 import { RequestQueryData } from "@/interfaces/helpers/requestQuery";
-import { IList, ListItem } from "@/interfaces/list";
+import { IList, ListConfig, ListItem } from "@/interfaces/base/models/list";
 import { Pagination } from "@/models/pagination";
 
 export abstract class List<Item extends ListItem<ItemDTO>, ItemDTO>
@@ -9,14 +9,7 @@ export abstract class List<Item extends ListItem<ItemDTO>, ItemDTO>
   protected data?: Item[];
   private pagination?: Pagination;
 
-  protected abstract getListData(
-    searchPhrase: string,
-    sortAttribute: string,
-    sortDirection: string,
-    tags: string,
-    size: number,
-    offset: number
-  ): Promise<ItemDTO[]>;
+  protected abstract getListData(config: ListConfig): Promise<ItemDTO[]>;
 
   protected abstract getListCount(
     searchPhrase: string,
@@ -39,14 +32,14 @@ export abstract class List<Item extends ListItem<ItemDTO>, ItemDTO>
       new RequestQueryHelper(query).getQueryValues();
     const offset = (page - 1) * size;
 
-    await this.setListData(
+    await this.setListData({
       searchPhrase,
       sortAttribute,
       sortDirection,
       tags,
       size,
-      offset
-    );
+      offset,
+    });
     await this.setPagination(
       searchPhrase,
       tags,
@@ -57,23 +50,8 @@ export abstract class List<Item extends ListItem<ItemDTO>, ItemDTO>
     );
   }
 
-  private async setListData(
-    searchPhrase: string,
-    sortAttribute: string,
-    sortDirection: string,
-    tags: string,
-    size: number,
-    offset: number
-  ) {
-    const data = await this.getListData(
-      searchPhrase,
-      sortAttribute,
-      sortDirection,
-      tags,
-      size,
-      offset
-    );
-
+  private async setListData(config: ListConfig) {
+    const data = await this.getListData(config);
     this.data = data.map((item) => this.createListItem(item));
   }
 

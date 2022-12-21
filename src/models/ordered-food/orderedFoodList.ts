@@ -3,24 +3,11 @@ import { OrderedFood } from "./orderedFood";
 import { OrderedFoodController } from "@/controllers/orderedFood";
 import { OrderedFoodRepository } from "@/repositories/orderedFood";
 import { OrderedFoodDTO } from "@/interfaces/orderedFood";
+import { ListConfig } from "@/interfaces/base/models/list";
 
 export class OrderedFoodList extends List<OrderedFood, OrderedFoodDTO> {
-  protected async getListData(
-    searchPhrase: string,
-    sortAttribute: string,
-    sortDirection: string,
-    tags: string,
-    size: number,
-    offset: number
-  ) {
-    return new OrderedFoodRepository().selectList(
-      searchPhrase,
-      sortAttribute,
-      sortDirection,
-      tags,
-      size,
-      offset
-    );
+  protected async getListData(config: ListConfig) {
+    return new OrderedFoodRepository().selectList(config);
   }
 
   protected getListCount(searchPhrase: string, tags: string): Promise<number> {

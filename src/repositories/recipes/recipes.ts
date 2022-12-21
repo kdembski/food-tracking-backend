@@ -5,6 +5,7 @@ import Database from "@/config/database";
 import { Recipe } from "@/models/recipes/recipe";
 import { DatabaseQueryHelper } from "@/helpers/databaseQuery";
 import { CustomError } from "@/models/errors/customError";
+import { ListConfig } from "@/interfaces/base/models/list";
 
 export class RecipesRepository implements IRecipesRepository {
   async selectById(id: number) {
@@ -20,24 +21,17 @@ export class RecipesRepository implements IRecipesRepository {
     return dto;
   }
 
-  async selectList(
-    searchPhrase: string,
-    sortAttribute: string,
-    sortDirection: string,
-    tags: string,
-    size: number,
-    offset: number
-  ) {
+  async selectList(config: ListConfig) {
     const query = new DatabaseQueryHelper().extendQueryToSelectList(
       recipesQueries.select,
-      sortAttribute,
-      sortDirection,
-      tags,
-      size,
-      offset
+      config.sortAttribute,
+      config.sortDirection,
+      config.tags,
+      config.size,
+      config.offset
     );
 
-    const data = await Database.sendQuery(query, [searchPhrase]);
+    const data = await Database.sendQuery(query, [config.searchPhrase]);
     return data as RecipeDTO[];
   }
 

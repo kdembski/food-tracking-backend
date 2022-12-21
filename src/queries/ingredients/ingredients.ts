@@ -11,13 +11,17 @@ export const ingredientsQueries = {
     COLLATE utf8mb4_general_ci
     LIKE ?`,
 
+  selectById: `SELECT * FROM ingredients WHERE id = ?`,
+
   insert: `
     INSERT INTO ingredients SET
-    name = ?`,
+    name = ?,
+    category_id = ?`,
 
   update: `
     UPDATE ingredients SET
-    name = ?
+    name = ?,
+    category_id = ?
     WHERE id = ?`,
 
   delete: `DELETE FROM ingredients WHERE id = ?`,

@@ -1,4 +1,5 @@
 import { List } from "@/abstract/models/list";
+import { ListConfig } from "@/interfaces/base/models/list";
 
 class Item {
   _prop: string;
@@ -25,14 +26,7 @@ class TestList extends List<Item, ItemDTO> {
     return Promise.resolve(1);
   }
 
-  protected getListData(
-    searchPhrase: string,
-    sortAttribute: string,
-    sortDirection: string,
-    tags: string,
-    size: number,
-    offset: number
-  ) {
+  protected getListData(config: ListConfig) {
     return Promise.resolve(listData);
   }
 

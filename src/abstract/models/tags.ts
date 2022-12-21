@@ -1,5 +1,5 @@
 import { RequestQueryData } from "@/interfaces/helpers/requestQuery";
-import { ITags, Tag } from "@/interfaces/tags";
+import { ITags, Tag } from "@/interfaces/base/models/tags";
 import lodash from "lodash";
 import { RequestQueryHelper } from "@/helpers/requestQuery";
 
@@ -8,6 +8,10 @@ export abstract class Tags implements ITags {
 
   get tags() {
     return this._tags || [];
+  }
+
+  set tags(value) {
+    this._tags = value;
   }
 
   protected abstract getTags(
@@ -21,7 +25,7 @@ export abstract class Tags implements ITags {
     ).getQueryValues();
 
     const tags = await this.getTags(searchPhrase, queryTags);
-    this._tags = this.prepareTags(tags);
+    this.tags = this.prepareTags(tags);
   }
 
   private prepareTags(tags: string[]) {
