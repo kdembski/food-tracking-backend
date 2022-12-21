@@ -15,13 +15,9 @@ export type IngredientDTO = {
 export interface IIngredient extends IModel<IngredientDTO> {}
 
 export interface IIngredientsRepository
-  extends IRepository<Ingredient>,
-    IListRepository<IngredientDTO> {
-  selectById: (id: number) => Promise<IngredientDTO>;
-}
+  extends IRepository<Ingredient, IngredientDTO>,
+    IListRepository<IngredientDTO> {}
 
 export interface IIngredientsController
-  extends IController<IngredientDTO>,
-    IListController<IngredientsList> {
-  getById: (id: number) => Promise<Ingredient>;
-}
+  extends IController<Ingredient, IngredientDTO>,
+    IListController<IngredientsList> {}

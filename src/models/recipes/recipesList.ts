@@ -12,7 +12,7 @@ export class RecipesList extends List<Recipe, RecipeDTO> {
   }
 
   protected getListCount(searchPhrase: string, tags: string): Promise<number> {
-    return new RecipesController().getRecipesCount(searchPhrase, tags);
+    return new RecipesController().getCount(searchPhrase, tags);
   }
 
   protected createListItem(data: RecipeDTO) {

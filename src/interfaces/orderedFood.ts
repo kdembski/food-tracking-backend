@@ -1,3 +1,5 @@
+import { IListController } from "./base/controllers/list";
+import { IController } from "@/interfaces/base/controllers/controller";
 import { IRepository } from "./base/repositories/repository";
 import { OrderedFoodList } from "@/models/ordered-food/orderedFoodList";
 import { OrderedFood } from "@/models/ordered-food/orderedFood";
@@ -16,23 +18,16 @@ export type OrderedFoodDTO = {
   orderedDate?: Date;
 };
 
-export interface IOrderedFood extends IModel<OrderedFoodDTO> {
-  updateOrderedDate: () => Promise<void>;
-}
+export interface IOrderedFood extends IModel<OrderedFoodDTO> {}
 
 export interface IOrderedFoodRepository
-  extends IRepository<OrderedFood>,
+  extends IRepository<OrderedFood, OrderedFoodDTO>,
     IListRepository<OrderedFoodDTO> {
-  selectById: (id: number) => Promise<OrderedFoodDTO>;
   selectTags: (searchPhrase: string, tags?: string) => Promise<string[]>;
 }
 
-export interface IOrderedFoodController {
-  getOrderedFoodList: (query: RequestQueryData) => Promise<OrderedFoodList>;
-  getOrderedFoodTags: (query: RequestQueryData) => Promise<Tag[]>;
-  getOrderedFoodCount: (searchPhrase: string, tags?: string) => Promise<number>;
-  getOrderedFoodById: (id: number) => Promise<OrderedFood>;
-  createOrderedFood: (data: OrderedFoodDTO) => Promise<OkPacket>;
-  updateOrderedFood: (data: OrderedFoodDTO) => Promise<OkPacket>;
-  deleteOrderedFood: (id: number) => Promise<OkPacket>;
+export interface IOrderedFoodController
+  extends IController<OrderedFood, OrderedFoodDTO>,
+    IListController<OrderedFoodList> {
+  getTags: (query: RequestQueryData) => Promise<Tag[]>;
 }

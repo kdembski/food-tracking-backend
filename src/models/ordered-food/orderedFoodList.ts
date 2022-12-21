@@ -11,7 +11,7 @@ export class OrderedFoodList extends List<OrderedFood, OrderedFoodDTO> {
   }
 
   protected getListCount(searchPhrase: string, tags: string): Promise<number> {
-    return new OrderedFoodController().getOrderedFoodCount(searchPhrase, tags);
+    return new OrderedFoodController().getCount(searchPhrase, tags);
   }
 
   protected createListItem(data: OrderedFoodDTO) {

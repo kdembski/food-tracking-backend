@@ -1,15 +1,48 @@
 import { CalendarItemChildController } from "@/abstract/controllers/calendarItemChild";
+import { IController } from "@/interfaces/base/controllers/controller";
+import { IModel } from "@/interfaces/base/models/model";
 import { endOfMonth, endOfYear, startOfMonth, startOfYear } from "date-fns";
 
 const dates = [new Date(2000, 0, 0), new Date(2000, 0, 1)];
 
-class CalendarItemTestChildController extends CalendarItemChildController {
+const item = {
+  date: new Date(2000, 0, 1),
+  getDTO: jest.fn(),
+};
+
+const getById = jest.fn().mockImplementation(() => Promise.resolve(item));
+const create = jest.fn();
+const update = jest.fn();
+const _delete = jest.fn();
+class TestController implements IController<IModel<any>, any> {
+  getById = getById;
+  create = create;
+  update = update;
+  delete = _delete;
+}
+
+class CalendarItemTestChildController extends CalendarItemChildController<
+  IModel<any>,
+  any
+> {
+  constructor() {
+    super(new TestController());
+  }
+
   protected getCalendarItemChildDates(
     childId: number,
     fromDate: Date,
     toDate: Date
   ) {
     return Promise.resolve([...dates]);
+  }
+
+  getDate(item: any) {
+    return item.date;
+  }
+
+  setDate(item: any, date: any) {
+    item.date = date;
   }
 }
 
@@ -43,5 +76,18 @@ describe("Tags Model", () => {
       startOfYear(new Date(2000, 0, 0)),
       endOfYear(new Date(2000, 0, 0))
     );
+  });
+
+  it("Should not update last date if the same as item current date", async () => {
+    await testChildController.updateLastDate(1);
+    expect(getById).toHaveBeenCalledTimes(1);
+    expect(update).toHaveBeenCalledTimes(0);
+  });
+
+  it("Should update last date if the same as item current date", async () => {
+    item.date = new Date(2000, 0, 0);
+    await testChildController.updateLastDate(1);
+    expect(getById).toHaveBeenCalledTimes(1);
+    expect(update).toHaveBeenCalledTimes(1);
   });
 });

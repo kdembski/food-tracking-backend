@@ -6,7 +6,7 @@ import { isEqual } from "date-fns";
 import { CalendarItemsRepository } from "@/repositories/calendarItems";
 
 export class GetCalendarItemsController {
-  async getCalendarItems(fromDate: Date, toDate: Date, members?: number[]) {
+  async getDays(fromDate: Date, toDate: Date, members?: number[]) {
     const dtos = await new CalendarItemsRepository().selectAll(
       fromDate,
       toDate
@@ -93,7 +93,7 @@ export class GetCalendarItemsController {
   }
 
   private async getCalendarItemRecipeData(recipeId: number) {
-    const recipe = await new RecipesController().getRecipeById(recipeId);
+    const recipe = await new RecipesController().getById(recipeId);
 
     return {
       isRecipe: true,
@@ -104,7 +104,7 @@ export class GetCalendarItemsController {
   }
 
   private async getCalendarItemOrderedFoodData(orderedFoodId: number) {
-    const orderedFood = await new OrderedFoodController().getOrderedFoodById(
+    const orderedFood = await new OrderedFoodController().getById(
       orderedFoodId
     );
 

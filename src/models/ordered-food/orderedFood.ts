@@ -1,7 +1,4 @@
-import { CalendarItemOrderedFoodController } from "@/controllers/calendar/calendarItemOrderedFood";
 import { IOrderedFood, OrderedFoodDTO } from "@/interfaces/orderedFood";
-import { isEqual } from "date-fns";
-import { OrderedFoodRepository } from "@/repositories/orderedFood";
 
 export class OrderedFood implements IOrderedFood {
   private _id?: number;
@@ -61,30 +58,5 @@ export class OrderedFood implements IOrderedFood {
       placeLink: this.placeLink,
       orderedDate: this.orderedDate,
     };
-  }
-
-  async updateOrderedDate() {
-    if (!this.id) {
-      return;
-    }
-
-    const orderedFoodRepositiory = new OrderedFoodRepository();
-    const orderedFoodDTO = await orderedFoodRepositiory.selectById(this.id);
-
-    if (!orderedFoodDTO) {
-      return;
-    }
-
-    await this.setFromDTO(orderedFoodDTO);
-    const lastDate = await new CalendarItemOrderedFoodController().getLastDate(
-      this.id
-    );
-
-    if (this.orderedDate && lastDate && isEqual(lastDate, this.orderedDate)) {
-      return;
-    }
-
-    this.orderedDate = lastDate;
-    await orderedFoodRepositiory.update(this);
   }
 }

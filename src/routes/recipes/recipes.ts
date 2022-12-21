@@ -10,7 +10,7 @@ const recipesController = new RecipesController();
 
 recipesRouter.get("/", async (request, response) => {
   try {
-    const list = await recipesController.getRecipesList(request.query);
+    const list = await recipesController.getList(request.query);
     response.json(list.getListDTO());
   } catch (error) {
     ApiError.create(error, response).send();
@@ -19,7 +19,7 @@ recipesRouter.get("/", async (request, response) => {
 
 recipesRouter.get("/tags", async (request, response) => {
   try {
-    const tags = await recipesController.getRecipesTags(request.query);
+    const tags = await recipesController.getTags(request.query);
     response.json(tags);
   } catch (error) {
     ApiError.create(error, response).send();
@@ -32,7 +32,7 @@ recipesRouter.get("/suggestions", async (request, response) => {
     const searchPhrase = requestQuery.searchPhrase;
     const tags = requestQuery.tags;
 
-    const results = await recipesController.getRecipesNames(searchPhrase, tags);
+    const results = await recipesController.getNames(searchPhrase, tags);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();
@@ -44,7 +44,7 @@ recipesRouter.get("/count", async (request, response) => {
     const requestQuery = new RequestQueryHelper(request.query);
     const searchPhrase = requestQuery.searchPhrase;
 
-    const results = await recipesController.getRecipesCount(searchPhrase);
+    const results = await recipesController.getCount(searchPhrase);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();
@@ -55,7 +55,7 @@ recipesRouter.get("/:id", async (request, response) => {
   try {
     const id = new RequestParamsHelper(request.params).id;
 
-    const recipe = await recipesController.getRecipeById(id);
+    const recipe = await recipesController.getById(id);
     response.json(recipe.getDTO());
   } catch (error) {
     ApiError.create(error, response).send();
@@ -66,7 +66,7 @@ recipesRouter.post("/", async (request, response) => {
   try {
     const data: RecipeDTO = request.body;
 
-    const results = await recipesController.createRecipe(data);
+    const results = await recipesController.create(data);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();
@@ -79,7 +79,7 @@ recipesRouter.put("/:id", async (request, response) => {
     const data: RecipeDTO = request.body;
     data.id = id;
 
-    const results = await recipesController.updateRecipe(data);
+    const results = await recipesController.update(data);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();
@@ -90,7 +90,7 @@ recipesRouter.delete("/:id", async (request, response) => {
   try {
     const id = new RequestParamsHelper(request.params).id;
 
-    const results = await recipesController.deleteRecipe(id);
+    const results = await recipesController.delete(id);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();

@@ -1,7 +1,4 @@
-import { RecipesRepository } from "../../repositories/recipes/recipes";
 import { IRecipe, RecipeDTO } from "@/interfaces/recipes/recipes";
-import { CalendarItemRecipesController } from "@/controllers/calendar/calendarItemRecipes";
-import { isEqual } from "date-fns";
 
 export class Recipe implements IRecipe {
   private _id?: number;
@@ -78,30 +75,5 @@ export class Recipe implements IRecipe {
       cookidooLink: this.cookidooLink,
       cookedDatesInCurrentMonth: this.cookedDatesInCurrentMonth,
     };
-  }
-
-  async updateCookedDate() {
-    if (!this.id) {
-      return;
-    }
-
-    const recipesRepository = new RecipesRepository();
-    const recipeDto = await recipesRepository.selectById(this.id);
-
-    if (!recipeDto) {
-      return;
-    }
-
-    await this.setFromDTO(recipeDto);
-    const lastDate = await new CalendarItemRecipesController().getLastDate(
-      this.id
-    );
-
-    if (this.cookedDate && lastDate && isEqual(lastDate, this.cookedDate)) {
-      return;
-    }
-
-    this.cookedDate = lastDate;
-    await recipesRepository.update(this);
   }
 }

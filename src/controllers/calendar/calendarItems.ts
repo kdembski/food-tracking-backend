@@ -1,5 +1,5 @@
-import { OrderedFood } from "@/models/ordered-food/orderedFood";
-import { Recipe } from "@/models/recipes/recipe";
+import { CalendarItemOrderedFoodController } from "@/controllers/calendar/calendarItemOrderedFood";
+import { CalendarItemRecipesController } from "@/controllers/calendar/calendarItemRecipes";
 import { CalendarItem } from "@/models/calendarItem";
 import {
   CalendarItemDTO,
@@ -10,15 +10,16 @@ import { CalendarItemsRepository } from "@/repositories/calendarItems";
 import { CalendarItemMembersController } from "./calendarItemMembers";
 
 export class CalendarItemsController implements ICalendarItemsController {
-  getCalendarItems(fromDate: Date, toDate: Date, members?: number[]) {
-    return new GetCalendarItemsController().getCalendarItems(
-      fromDate,
-      toDate,
-      members
-    );
+  getDays(fromDate: Date, toDate: Date, members?: number[]) {
+    return new GetCalendarItemsController().getDays(fromDate, toDate, members);
   }
 
-  async createCalendarItem(data: CalendarItemDTO) {
+  async getById(id: number) {
+    const dto = await new CalendarItemsRepository().selectById(id);
+    return new CalendarItem(dto);
+  }
+
+  async create(data: CalendarItemDTO) {
     const calendarItem = new CalendarItem(data);
     const results = await new CalendarItemsRepository().insert(calendarItem);
     await new CalendarItemMembersController().addCalendarItemToMembers(
@@ -26,37 +27,40 @@ export class CalendarItemsController implements ICalendarItemsController {
       calendarItem.members || []
     );
 
-    this.updateChildDates(calendarItem);
+    this.updateChildLastDate(calendarItem);
 
     return results;
   }
 
-  async updateCalendarItem(data: CalendarItemDTO) {
+  async update(data: CalendarItemDTO) {
     const calendarItem = new CalendarItem(data);
     const results = await new CalendarItemsRepository().update(calendarItem);
 
-    this.updateChildDates(calendarItem);
+    this.updateChildLastDate(calendarItem);
 
     return results;
   }
 
-  async deleteCalendarItem(id: number) {
+  async delete(id: number) {
     const calendarItemsRepository = new CalendarItemsRepository();
     const dto = await calendarItemsRepository.selectById(id);
     const results = await calendarItemsRepository.delete(id);
 
     const calendarItem = new CalendarItem(dto);
-    this.updateChildDates(calendarItem);
+    this.updateChildLastDate(calendarItem);
 
     return results;
   }
 
-  private updateChildDates(item: CalendarItem) {
+  private updateChildLastDate(item: CalendarItem) {
     if (item.recipeId) {
-      new Recipe({ id: item.recipeId }).updateCookedDate();
+      new CalendarItemRecipesController().updateLastDate(item.recipeId);
     }
+
     if (item.orderedFoodId) {
-      new OrderedFood({ id: item.orderedFoodId }).updateOrderedDate();
+      new CalendarItemOrderedFoodController().updateLastDate(
+        item.orderedFoodId
+      );
     }
   }
 }

@@ -1,3 +1,4 @@
+import { IController } from "@/interfaces/base/controllers/controller";
 import { CalendarItem } from "@/models/calendarItem";
 import { OkPacket } from "mysql2";
 import { IModel } from "../base/models/model";
@@ -17,8 +18,8 @@ export interface ICalendarItem extends IModel<CalendarItemDTO> {
   loadMembers: () => void;
 }
 
-export interface ICalendarItemsRepository extends IRepository<CalendarItem> {
-  selectById: (id: number) => Promise<CalendarItemDTO>;
+export interface ICalendarItemsRepository
+  extends IRepository<CalendarItem, CalendarItemDTO> {
   selectAll: (fromDate: Date, toDate: Date) => Promise<CalendarItemDTO[]>;
   selectDatesByRecipeId: (
     recipeId: number,
@@ -32,14 +33,12 @@ export interface ICalendarItemsRepository extends IRepository<CalendarItem> {
   ) => Promise<Date[]>;
 }
 
-export interface ICalendarItemsController extends IGetCalendarItemsController {
-  createCalendarItem: (data: CalendarItemDTO) => Promise<OkPacket>;
-  updateCalendarItem: (data: CalendarItemDTO) => Promise<OkPacket>;
-  deleteCalendarItem: (id: number) => Promise<OkPacket>;
-}
+export interface ICalendarItemsController
+  extends IController<CalendarItem, CalendarItemDTO>,
+    IGetCalendarItemsController {}
 
 export interface IGetCalendarItemsController {
-  getCalendarItems: (
+  getDays: (
     fromDate: Date,
     toDate: Date,
     members: number[]

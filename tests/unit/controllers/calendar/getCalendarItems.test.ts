@@ -42,7 +42,7 @@ const getOrderedFoodById = jest.fn().mockImplementation(() => ({
 }));
 jest.mock("@/controllers/orderedFood", () => ({
   OrderedFoodController: jest.fn().mockImplementation(() => ({
-    getOrderedFoodById,
+    getById: getOrderedFoodById,
   })),
 }));
 
@@ -53,7 +53,7 @@ const getRecipeById = jest.fn().mockImplementation(() => ({
 }));
 jest.mock("@/controllers/recipes/recipes", () => ({
   RecipesController: jest.fn().mockImplementation(() => ({
-    getRecipeById,
+    getById: getRecipeById,
   })),
 }));
 
@@ -65,9 +65,7 @@ describe("Get Calendar Items Controller", () => {
   });
 
   it("Should get filtered calendar days on getCalendarItems call", async () => {
-    expect(
-      await controller.getCalendarItems(new Date(), new Date(), [1])
-    ).toEqual([
+    expect(await controller.getDays(new Date(), new Date(), [1])).toEqual([
       {
         date: new Date(2000, 0, 0),
         items: [
@@ -116,7 +114,7 @@ describe("Get Calendar Items Controller", () => {
 
     expect.assertions(1);
     try {
-      await controller.getCalendarItems(new Date(), new Date());
+      await controller.getDays(new Date(), new Date());
     } catch (error) {
       expect(error).toBeTruthy();
     }

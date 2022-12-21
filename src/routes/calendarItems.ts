@@ -16,7 +16,7 @@ calendarItemsRouter.get("/", async (request, response) => {
       request.query
     ).getQueryValues();
 
-    const results = await calendarItemsController.getCalendarItems(
+    const results = await calendarItemsController.getDays(
       fromDate || new Date(1970, 0, 0),
       toDate || new Date(2070, 0, 0),
       members
@@ -31,7 +31,7 @@ calendarItemsRouter.post("/", async (request, response) => {
   try {
     const data: CalendarItemDTO = request.body;
 
-    const results = await calendarItemsController.createCalendarItem(data);
+    const results = await calendarItemsController.create(data);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();
@@ -44,7 +44,7 @@ calendarItemsRouter.put("/:id", async (request, response) => {
     const data: CalendarItemDTO = request.body;
     data.id = id;
 
-    const results = await calendarItemsController.updateCalendarItem(data);
+    const results = await calendarItemsController.update(data);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();
@@ -55,7 +55,7 @@ calendarItemsRouter.delete("/:id", async (request, response) => {
   try {
     const id = new RequestParamsHelper(request.params).id;
 
-    const results = await calendarItemsController.deleteCalendarItem(id);
+    const results = await calendarItemsController.delete(id);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();
