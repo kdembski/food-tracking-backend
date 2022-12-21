@@ -16,6 +16,15 @@ ingredientsRouter.get("/", async (request, response) => {
   }
 });
 
+ingredientsRouter.get("/options", async (request, response) => {
+  try {
+    const options = await ingredientsController.getOptions(request.query);
+    response.json(options);
+  } catch (error) {
+    ApiError.create(error, response).send();
+  }
+});
+
 ingredientsRouter.get("/:id", async (request, response) => {
   try {
     const id = new RequestParamsHelper(request.params).id;
