@@ -6,6 +6,7 @@ export class Ingredient implements IIngredient {
   private _id?: number;
   private _name?: string;
   private _categoryId?: number;
+  private _categoryName?: string;
   private _unitNames?: string[];
 
   get id() {
@@ -20,6 +21,10 @@ export class Ingredient implements IIngredient {
     return this._categoryId;
   }
 
+  get categoryName() {
+    return this._categoryName;
+  }
+
   get unitNames() {
     return this._unitNames;
   }
@@ -32,6 +37,7 @@ export class Ingredient implements IIngredient {
     this._id = data.id;
     this._name = data.name;
     this._categoryId = data.categoryId;
+    this._categoryName = data.categoryName;
     this._unitNames = data.unitNames;
   }
 
@@ -40,6 +46,7 @@ export class Ingredient implements IIngredient {
       id: this.id,
       name: this.name,
       categoryId: this.categoryId,
+      categoryName: this.categoryName,
       unitNames: this.unitNames,
     };
   }

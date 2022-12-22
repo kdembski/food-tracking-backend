@@ -1,7 +1,9 @@
 export const ingredientsQueries = {
   select: `
-    SELECT * FROM ingredients
-    WHERE name
+    SELECT ingredients.*, ingredient_categories.name AS category_name 
+    FROM ingredients
+    JOIN ingredient_categories ON ingredients.category_id = ingredient_categories.id
+    WHERE ingredients.name
     COLLATE utf8mb4_general_ci
     LIKE ?`,
 
@@ -11,7 +13,11 @@ export const ingredientsQueries = {
     COLLATE utf8mb4_general_ci
     LIKE ?`,
 
-  selectById: `SELECT * FROM ingredients WHERE id = ?`,
+  selectById: `
+    SELECT ingredients.*, ingredient_categories.name AS category_name 
+    FROM ingredients
+    JOIN ingredient_categories ON ingredients.category_id = ingredient_categories.id 
+    WHERE ingredients.id = ?`,
 
   insert: `
     INSERT INTO ingredients SET
