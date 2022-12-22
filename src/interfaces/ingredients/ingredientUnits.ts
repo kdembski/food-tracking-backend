@@ -8,7 +8,6 @@ import { IngredientUnit } from "@/models/ingredients/ingredientUnit";
 export type IngredientUnitDTO = {
   id?: number;
   ingredientId?: number;
-  ingredientName?: string;
   unitId?: number;
   unitName?: string;
   kcalPerUnit?: number;

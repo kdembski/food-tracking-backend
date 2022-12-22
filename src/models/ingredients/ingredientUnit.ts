@@ -6,7 +6,6 @@ import {
 export class IngredientUnit implements IIngredientUnit {
   private _id?: number;
   private _ingredientId?: number;
-  private _ingredientName?: string;
   private _unitId?: number;
   private _unitName?: string;
   private _kcalPerUnit?: number;
@@ -19,10 +18,6 @@ export class IngredientUnit implements IIngredientUnit {
 
   get ingredientId() {
     return this._ingredientId;
-  }
-
-  get ingredientName() {
-    return this._ingredientName;
   }
 
   get unitId() {
@@ -52,7 +47,6 @@ export class IngredientUnit implements IIngredientUnit {
   setFromDTO(data: IngredientUnitDTO) {
     this._id = data.id;
     this._ingredientId = data.ingredientId;
-    this._ingredientName = data.ingredientName;
     this._unitId = data.unitId;
     this._unitName = data.unitName;
     this._kcalPerUnit = data.kcalPerUnit;
@@ -64,7 +58,6 @@ export class IngredientUnit implements IIngredientUnit {
     return {
       id: this.id,
       ingredientId: this.ingredientId,
-      ingredientName: this.ingredientName,
       unitId: this.unitId,
       unitName: this.unitName,
       kcalPerUnit: this.kcalPerUnit,

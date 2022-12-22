@@ -4,9 +4,11 @@ import { RequestQueryHelper } from "@/helpers/requestQuery";
 import { Router } from "express";
 import { RecipesController } from "@/controllers/recipes/recipes";
 import { RequestParamsHelper } from "@/helpers/requestParams";
+import { RecipeIngredientsController } from "@/controllers/recipes/recipeIngredients";
 
 const recipesRouter = Router();
 const recipesController = new RecipesController();
+const recipeIngredientsController = new RecipeIngredientsController();
 
 recipesRouter.get("/", async (request, response) => {
   try {
@@ -46,6 +48,17 @@ recipesRouter.get("/count", async (request, response) => {
 
     const results = await recipesController.getCount(searchPhrase);
     response.json(results);
+  } catch (error) {
+    ApiError.create(error, response).send();
+  }
+});
+
+recipesRouter.get("/:id/ingredients", async (request, response) => {
+  try {
+    const id = new RequestParamsHelper(request.params).id;
+
+    const ingredients = await recipeIngredientsController.getByRecipeId(id);
+    response.json(ingredients.map((ingredient) => ingredient.getDTO()));
   } catch (error) {
     ApiError.create(error, response).send();
   }
