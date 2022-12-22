@@ -11,9 +11,12 @@ export type IngredientDTO = {
   id?: number;
   name?: string;
   categoryId?: number;
+  unitNames?: string[];
 };
 
-export interface IIngredient extends IDbEntityModel<IngredientDTO> {}
+export interface IIngredient extends IDbEntityModel<IngredientDTO> {
+  loadUnitNames: () => void;
+}
 
 export interface IIngredientsRepository
   extends IRepository<Ingredient, IngredientDTO>,

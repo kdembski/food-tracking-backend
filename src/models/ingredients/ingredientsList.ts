@@ -17,4 +17,16 @@ export class IngredientsList extends List<Ingredient, IngredientDTO> {
   protected createListItem(data: IngredientDTO) {
     return new Ingredient(data);
   }
+
+  async setUnitNames() {
+    const promises = this.iterate(async (item) => {
+      return item.loadUnitNames();
+    });
+
+    if (!promises) {
+      return;
+    }
+
+    await Promise.all(promises);
+  }
 }

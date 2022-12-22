@@ -11,6 +11,7 @@ export class IngredientsController implements IIngredientsController {
   async getList(query: RequestQueryData) {
     const ingredientsList = new IngredientsList();
     await ingredientsList.loadList(query);
+    await ingredientsList.setUnitNames();
 
     return ingredientsList;
   }
