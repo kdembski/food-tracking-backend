@@ -57,6 +57,11 @@ describe("Calendar Items Controller", () => {
     expect(getDays).toHaveBeenCalledTimes(1);
   });
 
+  it("Should trigger repository selectById method on getById call", async () => {
+    await controller.getById(1);
+    expect(selectById).toHaveBeenCalledTimes(1);
+  });
+
   it("Should trigger repository insert on create method", async () => {
     const date = new Date(2000, 0, 0);
     const members = [1, 2];

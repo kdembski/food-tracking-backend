@@ -20,7 +20,9 @@ export type RecipeDTO = {
   cookedDatesInCurrentMonth?: Date[];
 };
 
-export interface IRecipe extends IDbEntityModel<RecipeDTO> {}
+export interface IRecipe extends IDbEntityModel<RecipeDTO> {
+  setCookedDatesInCurrentMonth: () => Promise<void>;
+}
 
 export interface IRecipesRepository
   extends IRepository<Recipe, RecipeDTO>,

@@ -3,7 +3,6 @@ import { Recipe } from "./recipe";
 import { RecipeDTO } from "@/interfaces/recipes/recipes";
 import { List } from "@/abstract/models/list";
 import { RecipesController } from "@/controllers/recipes/recipes";
-import { CalendarItemRecipesController } from "@/controllers/calendar/calendarItemRecipes";
 import { ListConfig } from "@/interfaces/base/list";
 
 export class RecipesList extends List<Recipe, RecipeDTO> {
@@ -21,14 +20,7 @@ export class RecipesList extends List<Recipe, RecipeDTO> {
 
   async setCookedDatesInCurrentMonth() {
     const promises = this.iterate(async (item) => {
-      if (!item.id) {
-        return;
-      }
-
-      item.cookedDatesInCurrentMonth =
-        await new CalendarItemRecipesController().getDatesInCurrentMonth(
-          item.id
-        );
+      return item.setCookedDatesInCurrentMonth();
     });
 
     if (!promises) {

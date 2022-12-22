@@ -1,3 +1,4 @@
+import { CalendarItemRecipesController } from "@/controllers/calendar/calendarItemRecipes";
 import { IRecipe, RecipeDTO } from "@/interfaces/recipes/recipes";
 
 export class Recipe implements IRecipe {
@@ -75,5 +76,13 @@ export class Recipe implements IRecipe {
       cookidooLink: this.cookidooLink,
       cookedDatesInCurrentMonth: this.cookedDatesInCurrentMonth,
     };
+  }
+
+  async setCookedDatesInCurrentMonth() {
+    if (!this.id) {
+      return;
+    }
+    this.cookedDatesInCurrentMonth =
+      await new CalendarItemRecipesController().getDatesInCurrentMonth(this.id);
   }
 }

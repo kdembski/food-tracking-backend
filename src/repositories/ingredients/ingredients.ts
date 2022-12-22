@@ -26,11 +26,7 @@ export class IngredientsRepository {
   async selectList(config: ListConfig) {
     const query = new DatabaseQueryHelper().extendQueryToSelectList(
       ingredientsQueries.select,
-      config.sortAttribute,
-      config.sortDirection,
-      config.tags,
-      config.size,
-      config.offset
+      config
     );
 
     const data = await Database.sendQuery(query, [config.searchPhrase]);

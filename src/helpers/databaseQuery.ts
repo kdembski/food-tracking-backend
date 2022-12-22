@@ -1,3 +1,5 @@
+import { ListConfig } from "@/interfaces/base/list";
+
 export class DatabaseQueryHelper {
   getQueryToFiltersByTags = (tags?: string) => {
     if (!tags) {
@@ -23,11 +25,7 @@ export class DatabaseQueryHelper {
 
   extendQueryToSelectList(
     queryToSelectList: string,
-    sortAttribute: string,
-    sortDirection: string,
-    tags: string,
-    size: number,
-    offset: number
+    { sortAttribute, sortDirection, tags, size, offset }: ListConfig
   ) {
     return (
       queryToSelectList +

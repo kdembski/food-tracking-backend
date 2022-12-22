@@ -21,7 +21,7 @@ export class RecipesController implements IRecipesController {
     return recipesTags.tags;
   }
 
-  getNames(searchPhrase: string, tags: string) {
+  getNames(searchPhrase: string, tags?: string) {
     return new RecipesRepository().selectNames(searchPhrase, tags);
   }
 
