@@ -1,5 +1,5 @@
 import { List } from "@/abstract/models/list";
-import { ListConfig } from "@/interfaces/base/models/list";
+import { ListConfig } from "@/interfaces/base/list";
 
 class Item {
   _prop: string;

@@ -1,5 +1,10 @@
 import { MemberCalendarItem } from "@/models/members/memberCalendarItem";
 import { OkPacket } from "mysql2";
+import {
+  IDbEntityController,
+  IDbEntityModel,
+  IRepository,
+} from "../base/dbEntity";
 
 export type MemberCalendarItemDTO = {
   id?: number;
@@ -7,27 +12,21 @@ export type MemberCalendarItemDTO = {
   memberId?: number;
 };
 
-export interface IMemberCalendarItem {
-  setFromDTO: (data: MemberCalendarItemDTO) => void;
-  getDTO: () => MemberCalendarItemDTO;
-}
+export interface IMemberCalendarItem
+  extends IDbEntityModel<MemberCalendarItemDTO> {}
 
-export interface IMemberCalendarItemsRepository {
+export interface IMemberCalendarItemsRepository
+  extends IRepository<MemberCalendarItem, MemberCalendarItemDTO> {
   selectByItemId: (itemId: number) => Promise<MemberCalendarItemDTO[]>;
   selectByMemberId: (memberId: number) => Promise<MemberCalendarItemDTO[]>;
-  insert: (data: MemberCalendarItem) => Promise<OkPacket>;
-  delete: (id: number) => Promise<OkPacket>;
   deleteByMemberIdAndItemId: (
     itemId: number,
     memberId: number
   ) => Promise<OkPacket>;
 }
 
-export interface IMemberCalendarItemsController {
-  getMemberCalendarItemsByItemId: (
-    itemId: number
-  ) => Promise<MemberCalendarItem[]>;
-  getMemberCalendarItemsByMemberId: (
-    memberId: number
-  ) => Promise<MemberCalendarItem[]>;
+export interface IMemberCalendarItemsController
+  extends IDbEntityController<MemberCalendarItem, MemberCalendarItemDTO> {
+  getByItemId: (itemId: number) => Promise<MemberCalendarItem[]>;
+  getByMemberId: (memberId: number) => Promise<MemberCalendarItem[]>;
 }

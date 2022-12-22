@@ -64,7 +64,7 @@ describe("Get Calendar Items Controller", () => {
     controller = new GetCalendarItemsController();
   });
 
-  it("Should get filtered calendar days on getCalendarItems call", async () => {
+  it("Should get filtered calendar days on getDays call", async () => {
     expect(await controller.getDays(new Date(), new Date(), [1])).toEqual([
       {
         date: new Date(2000, 0, 0),

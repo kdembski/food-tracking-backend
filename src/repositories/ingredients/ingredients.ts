@@ -1,6 +1,6 @@
 import Database from "@/config/database";
 import { DatabaseQueryHelper } from "@/helpers/databaseQuery";
-import { ListConfig } from "@/interfaces/base/models/list";
+import { ListConfig } from "@/interfaces/base/list";
 import { IngredientDTO } from "@/interfaces/ingredients/ingredients";
 import { CustomError } from "@/models/errors/customError";
 import { Ingredient } from "@/models/ingredients/ingredient";

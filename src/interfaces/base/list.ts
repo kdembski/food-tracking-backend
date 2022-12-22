@@ -23,3 +23,13 @@ export interface IList<Item extends ListItem<ItemDTO>, ItemDTO> {
   getDataLength: () => number;
   iterate: (callback: (item: Item) => void) => void;
 }
+
+export interface IListRepository<ItemDTO> {
+  selectList: (config: ListConfig) => Promise<ItemDTO[]>;
+  selectCount: (searchPhrase: string, tags?: string) => Promise<number>;
+}
+
+export interface IListController<List> {
+  getList: (query: RequestQueryData) => Promise<List>;
+  getCount: (searchPhrase: string, tags?: string) => Promise<number>;
+}

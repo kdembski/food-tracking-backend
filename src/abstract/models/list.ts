@@ -1,6 +1,6 @@
 import { RequestQueryHelper } from "@/helpers/requestQuery";
 import { RequestQueryData } from "@/interfaces/helpers/requestQuery";
-import { IList, ListConfig, ListItem } from "@/interfaces/base/models/list";
+import { IList, ListConfig, ListItem } from "@/interfaces/base/list";
 import { Pagination } from "@/models/pagination";
 
 export abstract class List<Item extends ListItem<ItemDTO>, ItemDTO>

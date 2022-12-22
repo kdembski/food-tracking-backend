@@ -4,7 +4,7 @@ import { RecipeDTO } from "@/interfaces/recipes/recipes";
 import { List } from "@/abstract/models/list";
 import { RecipesController } from "@/controllers/recipes/recipes";
 import { CalendarItemRecipesController } from "@/controllers/calendar/calendarItemRecipes";
-import { ListConfig } from "@/interfaces/base/models/list";
+import { ListConfig } from "@/interfaces/base/list";
 
 export class RecipesList extends List<Recipe, RecipeDTO> {
   protected async getListData(config: ListConfig) {

@@ -1,5 +1,5 @@
 import { RequestQueryData } from "@/interfaces/helpers/requestQuery";
-import { ITags, Tag } from "@/interfaces/base/models/tags";
+import { ITags, Tag } from "@/interfaces/base/tags";
 import lodash from "lodash";
 import { RequestQueryHelper } from "@/helpers/requestQuery";
 

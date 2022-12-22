@@ -1,4 +1,8 @@
 export const memberCalendarItemsQueries = {
+  selectById: `
+  SELECT * FROM member_calendar_items
+  WHERE id = ?`,
+
   selectByItemId: `
     SELECT * FROM member_calendar_items
     WHERE item_id = ?`,

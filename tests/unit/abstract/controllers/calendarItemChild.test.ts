@@ -1,6 +1,8 @@
 import { CalendarItemChildController } from "@/abstract/controllers/calendarItemChild";
-import { IController } from "@/interfaces/base/controllers/controller";
-import { IModel } from "@/interfaces/base/models/model";
+import {
+  IDbEntityController,
+  IDbEntityModel,
+} from "@/interfaces/base/dbEntity";
 import { endOfMonth, endOfYear, startOfMonth, startOfYear } from "date-fns";
 
 const dates = [new Date(2000, 0, 0), new Date(2000, 0, 1)];
@@ -14,7 +16,7 @@ const getById = jest.fn().mockImplementation(() => Promise.resolve(item));
 const create = jest.fn();
 const update = jest.fn();
 const _delete = jest.fn();
-class TestController implements IController<IModel<any>, any> {
+class TestController implements IDbEntityController<IDbEntityModel<any>, any> {
   getById = getById;
   create = create;
   update = update;
@@ -22,7 +24,7 @@ class TestController implements IController<IModel<any>, any> {
 }
 
 class CalendarItemTestChildController extends CalendarItemChildController<
-  IModel<any>,
+  IDbEntityModel<any>,
   any
 > {
   constructor() {

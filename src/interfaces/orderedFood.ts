@@ -1,13 +1,13 @@
-import { IListController } from "./base/controllers/list";
-import { IController } from "@/interfaces/base/controllers/controller";
-import { IRepository } from "./base/repositories/repository";
 import { OrderedFoodList } from "@/models/ordered-food/orderedFoodList";
 import { OrderedFood } from "@/models/ordered-food/orderedFood";
-import { Tag } from "./base/models/tags";
-import { OkPacket } from "mysql2";
+import { Tag } from "./base/tags";
 import { RequestQueryData } from "./helpers/requestQuery";
-import { IListRepository } from "./base/repositories/list";
-import { IModel } from "./base/models/model";
+import { IListController, IListRepository } from "./base/list";
+import {
+  IDbEntityController,
+  IDbEntityModel,
+  IRepository,
+} from "./base/dbEntity";
 
 export type OrderedFoodDTO = {
   id?: number;
@@ -18,7 +18,7 @@ export type OrderedFoodDTO = {
   orderedDate?: Date;
 };
 
-export interface IOrderedFood extends IModel<OrderedFoodDTO> {}
+export interface IOrderedFood extends IDbEntityModel<OrderedFoodDTO> {}
 
 export interface IOrderedFoodRepository
   extends IRepository<OrderedFood, OrderedFoodDTO>,
@@ -27,7 +27,7 @@ export interface IOrderedFoodRepository
 }
 
 export interface IOrderedFoodController
-  extends IController<OrderedFood, OrderedFoodDTO>,
+  extends IDbEntityController<OrderedFood, OrderedFoodDTO>,
     IListController<OrderedFoodList> {
   getTags: (query: RequestQueryData) => Promise<Tag[]>;
 }

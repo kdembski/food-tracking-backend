@@ -14,6 +14,7 @@ const insert = jest
 const update = jest.fn();
 const selectById = jest.fn().mockImplementation(() => ({}));
 const _delete = jest.fn();
+
 jest.mock("@/repositories/calendarItems", () => ({
   CalendarItemsRepository: jest.fn().mockImplementation(() => ({
     insert,
@@ -51,12 +52,12 @@ describe("Calendar Items Controller", () => {
     controller = new CalendarItemsController();
   });
 
-  it("Should trigger getCalendarItemsController getCalendarItems method on getCalendarItems call", async () => {
+  it("Should trigger getCalendarItemsController getDays method on getDays call", async () => {
     await controller.getDays(new Date(), new Date());
     expect(getDays).toHaveBeenCalledTimes(1);
   });
 
-  it("Should trigger repository insert on createCalendarItem method", async () => {
+  it("Should trigger repository insert on create method", async () => {
     const date = new Date(2000, 0, 0);
     const members = [1, 2];
     const dto = {
@@ -75,14 +76,14 @@ describe("Calendar Items Controller", () => {
     expect(updateOrderedDate).toHaveBeenCalledTimes(1);
   });
 
-  it("Should trigger repository update on updateCalendarItem method", async () => {
+  it("Should trigger repository update on update method", async () => {
     const date = new Date(2000, 0, 0);
     await controller.update({ date });
 
     expect(update).toHaveBeenCalledWith(new CalendarItem({ date }));
   });
 
-  it("Should trigger repository delete on deleteCalendarItem method", async () => {
+  it("Should trigger repository delete on delete method", async () => {
     const date = new Date(2000, 0, 0);
     await controller.delete(1);
 

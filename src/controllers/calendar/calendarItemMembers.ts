@@ -6,7 +6,7 @@ export class CalendarItemMembersController
 {
   async addCalendarItemToMembers(itemId: number, memberIds: number[]) {
     const promises = memberIds.map((memberId) => {
-      return new MemberCalendarItemsController().createMemberCalendarItem({
+      return new MemberCalendarItemsController().create({
         itemId,
         memberId,
       });
@@ -18,7 +18,7 @@ export class CalendarItemMembersController
 
   async removeCalendarItemFromMembers(itemId: number, memberIds: number[]) {
     const promises = memberIds.map((memberId) => {
-      return new MemberCalendarItemsController().deleteMemberCalendarItem(
+      return new MemberCalendarItemsController().deleteByMemberIdAndItemId(
         itemId,
         memberId
       );
@@ -30,9 +30,7 @@ export class CalendarItemMembersController
 
   async updateCalendarItemForMembers(itemId: number, memberIds: number[]) {
     const calendarItemMembers =
-      await new MemberCalendarItemsController().getMemberCalendarItemsByItemId(
-        itemId
-      );
+      await new MemberCalendarItemsController().getByItemId(itemId);
 
     const calendarItemMemberIds = calendarItemMembers
       .map((item) => item.memberId)

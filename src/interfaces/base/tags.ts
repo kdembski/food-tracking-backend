@@ -1,4 +1,4 @@
-import { RequestQueryData } from "../../helpers/requestQuery";
+import { RequestQueryData } from "../helpers/requestQuery";
 
 export type Tag = {
   name: string;

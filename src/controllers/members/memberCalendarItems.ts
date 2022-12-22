@@ -6,7 +6,7 @@ import { IMemberCalendarItemsController } from "@/interfaces/members/memberCalen
 export class MemberCalendarItemsController
   implements IMemberCalendarItemsController
 {
-  async getMemberCalendarItemsByItemId(itemId: number) {
+  async getByItemId(itemId: number) {
     const results = await new MemberCalendarItemsRepository().selectByItemId(
       itemId
     );
@@ -14,7 +14,7 @@ export class MemberCalendarItemsController
     return results.map((result) => new MemberCalendarItem(result));
   }
 
-  async getMemberCalendarItemsByMemberId(memberId: number) {
+  async getByMemberId(memberId: number) {
     const results = await new MemberCalendarItemsRepository().selectByMemberId(
       memberId
     );
@@ -22,12 +22,26 @@ export class MemberCalendarItemsController
     return results.map((result) => new MemberCalendarItem(result));
   }
 
-  createMemberCalendarItem(dto: MemberCalendarItemDTO) {
-    const item = new MemberCalendarItem(dto);
-    return new MemberCalendarItemsRepository().insert(item);
+  async getById(id: number) {
+    const dto = await new MemberCalendarItemsRepository().selectById(id);
+    return new MemberCalendarItem(dto);
   }
 
-  deleteMemberCalendarItem(itemId: number, memberId: number) {
+  create(data: MemberCalendarItemDTO) {
+    const recipe = new MemberCalendarItem(data);
+    return new MemberCalendarItemsRepository().insert(recipe);
+  }
+
+  update(data: MemberCalendarItemDTO) {
+    const recipe = new MemberCalendarItem(data);
+    return new MemberCalendarItemsRepository().update(recipe);
+  }
+
+  delete(id: number) {
+    return new MemberCalendarItemsRepository().delete(id);
+  }
+
+  deleteByMemberIdAndItemId(itemId: number, memberId: number) {
     return new MemberCalendarItemsRepository().deleteByMemberIdAndItemId(
       itemId,
       memberId

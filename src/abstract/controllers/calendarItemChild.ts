@@ -1,5 +1,7 @@
-import { IModel } from "@/interfaces/base/models/model";
-import { IController } from "@/interfaces/base/controllers/controller";
+import {
+  IDbEntityController,
+  IDbEntityModel,
+} from "@/interfaces/base/dbEntity";
 import { ICalendarItemChildController } from "@/interfaces/calendar/calendarItemChild";
 import {
   endOfMonth,
@@ -10,13 +12,13 @@ import {
 } from "date-fns";
 
 export abstract class CalendarItemChildController<
-  Item extends IModel<ItemDTO>,
+  Item extends IDbEntityModel<ItemDTO>,
   ItemDTO
 > implements ICalendarItemChildController
 {
-  private childController: IController<Item, ItemDTO>;
+  private childController: IDbEntityController<Item, ItemDTO>;
 
-  constructor(childController: IController<Item, ItemDTO>) {
+  constructor(childController: IDbEntityController<Item, ItemDTO>) {
     this.childController = childController;
   }
 

@@ -1,8 +1,9 @@
-import { IController } from "@/interfaces/base/controllers/controller";
 import { CalendarItem } from "@/models/calendarItem";
-import { OkPacket } from "mysql2";
-import { IModel } from "../base/models/model";
-import { IRepository } from "../base/repositories/repository";
+import {
+  IDbEntityController,
+  IDbEntityModel,
+  IRepository,
+} from "../base/dbEntity";
 import { CalendarDay } from "./calendarDay";
 
 export type CalendarItemDTO = {
@@ -14,7 +15,7 @@ export type CalendarItemDTO = {
   sortOrder?: number;
 };
 
-export interface ICalendarItem extends IModel<CalendarItemDTO> {
+export interface ICalendarItem extends IDbEntityModel<CalendarItemDTO> {
   loadMembers: () => void;
 }
 
@@ -34,7 +35,7 @@ export interface ICalendarItemsRepository
 }
 
 export interface ICalendarItemsController
-  extends IController<CalendarItem, CalendarItemDTO>,
+  extends IDbEntityController<CalendarItem, CalendarItemDTO>,
     IGetCalendarItemsController {}
 
 export interface IGetCalendarItemsController {

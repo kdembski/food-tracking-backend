@@ -74,10 +74,7 @@ export class CalendarItem implements ICalendarItem {
       return;
     }
 
-    const results =
-      await new MemberCalendarItemsController().getMemberCalendarItemsByItemId(
-        id
-      );
+    const results = await new MemberCalendarItemsController().getByItemId(id);
 
     this.members = results
       .map((result) => result.memberId)

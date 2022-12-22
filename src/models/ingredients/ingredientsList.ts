@@ -1,4 +1,4 @@
-import { ListConfig } from "@/interfaces/base/models/list";
+import { ListConfig } from "@/interfaces/base/list";
 import { IngredientsRepository } from "@/repositories/ingredients/ingredients";
 import { IngredientDTO } from "@/interfaces/ingredients/ingredients";
 import { List } from "@/abstract/models/list";

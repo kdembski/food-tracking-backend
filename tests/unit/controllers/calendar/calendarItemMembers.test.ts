@@ -1,17 +1,18 @@
 import { CalendarItemMembersController } from "@/controllers/calendar/calendarItemMembers";
 
-const createMemberCalendarItem = jest.fn();
-const deleteMemberCalendarItem = jest.fn();
-const getMemberCalendarItemsByItemId = jest
+const create = jest.fn();
+const deleteByMemberIdAndItemId = jest.fn();
+const getByItemId = jest
   .fn()
   .mockImplementation(() =>
     Promise.resolve([{ memberId: 1 }, { memberId: 2 }])
   );
+
 jest.mock("@/controllers/members/memberCalendarItems", () => ({
   MemberCalendarItemsController: jest.fn().mockImplementation(() => ({
-    createMemberCalendarItem,
-    deleteMemberCalendarItem,
-    getMemberCalendarItemsByItemId,
+    create,
+    deleteByMemberIdAndItemId,
+    getByItemId,
   })),
 }));
 
@@ -22,19 +23,19 @@ describe("Calendar Item Members Controller", () => {
     controller = new CalendarItemMembersController();
   });
 
-  it("Should trigger createMemberCalendarItem for each member id on addCalendarItemToMembers call", async () => {
+  it("Should trigger create for each member id on addCalendarItemToMembers call", async () => {
     await controller.addCalendarItemToMembers(1, [1, 2]);
-    expect(createMemberCalendarItem).toHaveBeenCalledTimes(2);
-    expect(createMemberCalendarItem).toHaveBeenLastCalledWith({
+    expect(create).toHaveBeenCalledTimes(2);
+    expect(create).toHaveBeenLastCalledWith({
       itemId: 1,
       memberId: 2,
     });
   });
 
-  it("Should trigger deleteMemberCalendarItem for each member id on removeCalendarItemFromMembers call", async () => {
+  it("Should trigger deleteByMemberIdAndItemId for each member id on removeCalendarItemFromMembers call", async () => {
     await controller.removeCalendarItemFromMembers(1, [1, 2]);
-    expect(deleteMemberCalendarItem).toHaveBeenCalledTimes(2);
-    expect(deleteMemberCalendarItem).toHaveBeenLastCalledWith(1, 2);
+    expect(deleteByMemberIdAndItemId).toHaveBeenCalledTimes(2);
+    expect(deleteByMemberIdAndItemId).toHaveBeenLastCalledWith(1, 2);
   });
 
   it("Should update item members on updateCalendarItemForMembers", async () => {

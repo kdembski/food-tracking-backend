@@ -1,3 +1,4 @@
+import { MemberCalendarItem } from "./../../models/members/memberCalendarItem";
 import { MemberCalendarItemDTO } from "@/interfaces/members/memberCalendarItem";
 import Database from "@/config/database";
 import { IMemberCalendarItemsRepository } from "@/interfaces/members/memberCalendarItem";
@@ -7,6 +8,16 @@ import { OkPacket } from "mysql2";
 export class MemberCalendarItemsRepository
   implements IMemberCalendarItemsRepository
 {
+  async selectById(id: number) {
+    const results = await Database.sendQuery(
+      memberCalendarItemsQueries.selectById,
+      [id]
+    );
+    const dto = results[0] as MemberCalendarItemDTO;
+
+    return dto;
+  }
+
   async selectByItemId(itemId: number) {
     const results = await Database.sendQuery(
       memberCalendarItemsQueries.selectByItemId,
@@ -29,6 +40,15 @@ export class MemberCalendarItemsRepository
     const results = await Database.sendQuery(
       memberCalendarItemsQueries.insert,
       [data.itemId, data.memberId]
+    );
+
+    return results as OkPacket;
+  }
+
+  async update(data: MemberCalendarItem) {
+    const results = await Database.sendQuery(
+      memberCalendarItemsQueries.update,
+      [data.itemId, data.memberId, data.id]
     );
 
     return results as OkPacket;

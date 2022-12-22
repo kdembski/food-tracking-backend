@@ -1,10 +1,11 @@
-import { IListController } from "./../base/controllers/list";
 import { IngredientsList } from "@/models/ingredients/ingredientsList";
-import { IListRepository } from "../base/repositories/list";
-import { IRepository } from "../base/repositories/repository";
-import { IModel } from "../base/models/model";
+import { IListController, IListRepository } from "../base/list";
 import { Ingredient } from "@/models/ingredients/ingredient";
-import { IController } from "../base/controllers/controller";
+import {
+  IDbEntityController,
+  IDbEntityModel,
+  IRepository,
+} from "../base/dbEntity";
 
 export type IngredientDTO = {
   id?: number;
@@ -12,12 +13,12 @@ export type IngredientDTO = {
   categoryId?: number;
 };
 
-export interface IIngredient extends IModel<IngredientDTO> {}
+export interface IIngredient extends IDbEntityModel<IngredientDTO> {}
 
 export interface IIngredientsRepository
   extends IRepository<Ingredient, IngredientDTO>,
     IListRepository<IngredientDTO> {}
 
 export interface IIngredientsController
-  extends IController<Ingredient, IngredientDTO>,
+  extends IDbEntityController<Ingredient, IngredientDTO>,
     IListController<IngredientsList> {}

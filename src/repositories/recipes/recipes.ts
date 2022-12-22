@@ -5,7 +5,7 @@ import Database from "@/config/database";
 import { Recipe } from "@/models/recipes/recipe";
 import { DatabaseQueryHelper } from "@/helpers/databaseQuery";
 import { CustomError } from "@/models/errors/customError";
-import { ListConfig } from "@/interfaces/base/models/list";
+import { ListConfig } from "@/interfaces/base/list";
 
 export class RecipesRepository implements IRecipesRepository {
   async selectById(id: number) {

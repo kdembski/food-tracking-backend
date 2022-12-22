@@ -3,7 +3,7 @@ import { OrderedFood } from "./orderedFood";
 import { OrderedFoodController } from "@/controllers/orderedFood";
 import { OrderedFoodRepository } from "@/repositories/orderedFood";
 import { OrderedFoodDTO } from "@/interfaces/orderedFood";
-import { ListConfig } from "@/interfaces/base/models/list";
+import { ListConfig } from "@/interfaces/base/list";
 
 export class OrderedFoodList extends List<OrderedFood, OrderedFoodDTO> {
   protected async getListData(config: ListConfig) {

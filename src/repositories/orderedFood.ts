@@ -8,7 +8,7 @@ import {
 import { orderedFoodQueries } from "@/queries/orderedFood";
 import { OkPacket } from "mysql2";
 import { CustomError } from "@/models/errors/customError";
-import { ListConfig } from "@/interfaces/base/models/list";
+import { ListConfig } from "@/interfaces/base/list";
 
 export class OrderedFoodRepository implements IOrderedFoodRepository {
   async selectById(id: number) {

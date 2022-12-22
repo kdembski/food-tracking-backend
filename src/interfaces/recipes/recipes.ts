@@ -1,12 +1,13 @@
-import { IListController } from "./../base/controllers/list";
-import { IController } from "./../base/controllers/controller";
-import { IListRepository } from "./../base/repositories/list";
-import { IRepository } from "./../base/repositories/repository";
+import { IListController, IListRepository } from "../base/list";
 import { RecipesList } from "@/models/recipes/recipesList";
 import { Recipe } from "@/models/recipes/recipe";
 import { RequestQueryData } from "@/interfaces/helpers/requestQuery";
-import { Tag } from "@/interfaces/base/models/tags";
-import { IModel } from "../base/models/model";
+import { Tag } from "@/interfaces/base/tags";
+import {
+  IDbEntityController,
+  IDbEntityModel,
+  IRepository,
+} from "../base/dbEntity";
 
 export type RecipeDTO = {
   id?: number;
@@ -19,7 +20,7 @@ export type RecipeDTO = {
   cookedDatesInCurrentMonth?: Date[];
 };
 
-export interface IRecipe extends IModel<RecipeDTO> {}
+export interface IRecipe extends IDbEntityModel<RecipeDTO> {}
 
 export interface IRecipesRepository
   extends IRepository<Recipe, RecipeDTO>,
@@ -28,7 +29,7 @@ export interface IRecipesRepository
 }
 
 export interface IRecipesController
-  extends IController<Recipe, RecipeDTO>,
+  extends IDbEntityController<Recipe, RecipeDTO>,
     IListController<RecipesList> {
   getTags: (query: RequestQueryData) => Promise<Tag[]>;
   getNames: (searchPhrase: string, tags: string) => Promise<string[]>;
