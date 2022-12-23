@@ -3,13 +3,7 @@ import {
   IDbEntityModel,
 } from "@/interfaces/base/dbEntity";
 import { ICalendarItemChildController } from "@/interfaces/calendar/calendarItemChild";
-import {
-  endOfMonth,
-  endOfYear,
-  isEqual,
-  startOfMonth,
-  startOfYear,
-} from "date-fns";
+import { endOfMonth, isEqual, startOfMonth, subMonths } from "date-fns";
 
 export abstract class CalendarItemChildController<
   Item extends IDbEntityModel<ItemDTO>,
@@ -64,9 +58,21 @@ export abstract class CalendarItemChildController<
     return this.getDates(childId, startOfMonth(today), endOfMonth(today));
   }
 
-  getDatesInCurrentYear(childId: number) {
+  async getDatesFromLastYear(childId: number) {
     const today = new Date();
 
-    return this.getDates(childId, startOfYear(today), endOfYear(today));
+    const dates = await this.getDates(
+      childId,
+      startOfMonth(subMonths(today, 11)),
+      today
+    );
+
+    const months: Date[][] = Array.from(Array(12), () => []);
+    dates.forEach((date) => {
+      const month = date.getMonth();
+      months[month].push(date);
+    });
+
+    return months;
   }
 }

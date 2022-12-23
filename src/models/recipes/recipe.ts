@@ -9,7 +9,7 @@ export class Recipe implements IRecipe {
   private _kcal?: number;
   private _cookedDate?: Date;
   private _cookidooLink?: string;
-  private _cookedDatesInCurrentMonth?: Date[];
+  private _datesFromLastYear?: Date[][];
 
   constructor(data: RecipeDTO) {
     this.setFromDTO(data);
@@ -43,12 +43,12 @@ export class Recipe implements IRecipe {
     return this._cookidooLink;
   }
 
-  get cookedDatesInCurrentMonth() {
-    return this._cookedDatesInCurrentMonth;
+  get datesFromLastYear() {
+    return this._datesFromLastYear;
   }
 
-  set cookedDatesInCurrentMonth(value) {
-    this._cookedDatesInCurrentMonth = value;
+  set datesFromLastYear(value) {
+    this._datesFromLastYear = value;
   }
 
   set cookedDate(value) {
@@ -74,15 +74,15 @@ export class Recipe implements IRecipe {
       kcal: this.kcal,
       cookedDate: this.cookedDate,
       cookidooLink: this.cookidooLink,
-      cookedDatesInCurrentMonth: this.cookedDatesInCurrentMonth,
+      datesFromLastYear: this.datesFromLastYear,
     };
   }
 
-  async setCookedDatesInCurrentMonth() {
+  async setDatesFromLastYear() {
     if (!this.id) {
       return;
     }
-    this.cookedDatesInCurrentMonth =
-      await new CalendarItemRecipesController().getDatesInCurrentMonth(this.id);
+    this.datesFromLastYear =
+      await new CalendarItemRecipesController().getDatesFromLastYear(this.id);
   }
 }

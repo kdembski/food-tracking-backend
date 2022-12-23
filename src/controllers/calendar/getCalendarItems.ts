@@ -1,6 +1,6 @@
 import { OrderedFoodController } from "@/controllers/orderedFood";
 import { RecipesController } from "@/controllers/recipes/recipes";
-import { CalendarDay } from "@/interfaces/calendar/calendarDay";
+import { CalendarDay } from "@/interfaces/calendar/calendar";
 import { CalendarItem } from "@/models/calendarItem";
 import { isEqual } from "date-fns";
 import { CalendarItemsRepository } from "@/repositories/calendarItems";

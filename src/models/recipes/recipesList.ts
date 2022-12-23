@@ -18,9 +18,9 @@ export class RecipesList extends List<Recipe, RecipeDTO> {
     return new Recipe(data);
   }
 
-  async setCookedDatesInCurrentMonth() {
+  async setDatesFromLastYear() {
     const promises = this.iterate(async (item) => {
-      return item.setCookedDatesInCurrentMonth();
+      return item.setDatesFromLastYear();
     });
 
     if (!promises) {

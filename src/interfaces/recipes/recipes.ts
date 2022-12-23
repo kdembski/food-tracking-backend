@@ -17,11 +17,11 @@ export type RecipeDTO = {
   kcal?: number;
   cookedDate?: Date;
   cookidooLink?: string;
-  cookedDatesInCurrentMonth?: Date[];
+  getFromLastYear?: Date[][];
 };
 
 export interface IRecipe extends IDbEntityModel<RecipeDTO> {
-  setCookedDatesInCurrentMonth: () => Promise<void>;
+  setDatesFromLastYear: () => Promise<void>;
 }
 
 export interface IRecipesRepository

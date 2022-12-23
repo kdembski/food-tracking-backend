@@ -3,7 +3,7 @@ import {
   IDbEntityController,
   IDbEntityModel,
 } from "@/interfaces/base/dbEntity";
-import { endOfMonth, endOfYear, startOfMonth, startOfYear } from "date-fns";
+import { endOfMonth, startOfMonth, subMonths } from "date-fns";
 
 const dates = [new Date(2000, 0, 0), new Date(2000, 0, 1)];
 
@@ -70,13 +70,28 @@ describe("Tags Model", () => {
     );
   });
 
-  it("Should call getDates with start and end of year on getDatesInCurrentYear call", async () => {
-    testChildController.getDates = jest.fn();
-    testChildController.getDatesInCurrentYear(1);
+  it("Should call getDates on setDatesFromLastYear call and return dates split into months", async () => {
+    testChildController.getDates = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve([...dates]));
+    expect(await testChildController.getDatesFromLastYear(1)).toEqual([
+      [new Date(2000, 0, 1)],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [new Date(2000, 0, 0)],
+    ]);
     expect(testChildController.getDates).toHaveBeenCalledWith(
       1,
-      startOfYear(new Date(2000, 0, 0)),
-      endOfYear(new Date(2000, 0, 0))
+      startOfMonth(subMonths(new Date(2000, 0, 0), 11)),
+      new Date(2000, 0, 0)
     );
   });
 

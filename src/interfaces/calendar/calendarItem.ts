@@ -4,7 +4,7 @@ import {
   IDbEntityModel,
   IRepository,
 } from "../base/dbEntity";
-import { CalendarDay } from "./calendarDay";
+import { CalendarDay } from "./calendar";
 
 export type CalendarItemDTO = {
   id?: number;

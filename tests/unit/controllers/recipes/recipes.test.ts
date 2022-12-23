@@ -19,12 +19,12 @@ jest.mock("@/repositories/recipes/recipes", () => ({
 }));
 
 const loadList = jest.fn();
-const setCookedDatesInCurrentMonth = jest.fn();
+const setDatesFromLastYear = jest.fn();
 
 jest.mock("@/models/recipes/recipesList", () => ({
   RecipesList: jest.fn().mockImplementation(() => ({
     loadList,
-    setCookedDatesInCurrentMonth,
+    setDatesFromLastYear,
   })),
 }));
 

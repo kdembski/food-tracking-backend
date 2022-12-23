@@ -10,7 +10,7 @@ export class RecipesController implements IRecipesController {
   async getList(query: RequestQueryData) {
     const recipesList = new RecipesList();
     await recipesList.loadList(query);
-    await recipesList.setCookedDatesInCurrentMonth();
+    await recipesList.setDatesFromLastYear();
 
     return recipesList;
   }
