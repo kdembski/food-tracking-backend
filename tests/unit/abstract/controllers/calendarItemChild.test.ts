@@ -75,7 +75,7 @@ describe("Tags Model", () => {
       .fn()
       .mockImplementation(() => Promise.resolve([...dates]));
     expect(await testChildController.getDatesFromLastYear(1)).toEqual([
-      [new Date(2000, 0, 1)],
+      [],
       [],
       [],
       [],

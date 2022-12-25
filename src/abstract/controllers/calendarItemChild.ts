@@ -67,12 +67,30 @@ export abstract class CalendarItemChildController<
       today
     );
 
-    const months: Date[][] = Array.from(Array(12), () => []);
+    const months: {
+      number: number;
+      year: number;
+      dates: Date[];
+    }[] = Array(12)
+      .fill(undefined)
+      .map((_, index) => {
+        const date = startOfMonth(subMonths(today, 11 - index));
+        return {
+          number: date.getMonth(),
+          year: date.getFullYear(),
+          dates: [],
+        };
+      });
+
     dates.forEach((date) => {
-      const month = date.getMonth();
-      months[month].push(date);
+      const monthNumber = date.getMonth();
+      const year = date.getFullYear();
+      const month = months.find(
+        (month) => month.number === monthNumber && month.year === year
+      );
+      month?.dates.push(date);
     });
 
-    return months;
+    return months.map((month) => month.dates);
   }
 }
