@@ -1,4 +1,4 @@
-import { CalendarItemRecipesController } from "@/controllers/calendar/calendarItemRecipes";
+import { CalendarItemRecipesController } from "@/controllers/calendar/children/calendarItemRecipes";
 
 const selectDatesByRecipeId = jest.fn();
 jest.mock("@/repositories/calendarItems", () => ({
@@ -11,11 +11,11 @@ describe("Calendar Item Recipes Controller", () => {
   let controller: CalendarItemRecipesController;
 
   beforeEach(() => {
-    controller = new CalendarItemRecipesController();
+    controller = new CalendarItemRecipesController(1);
   });
 
   it("Should trigger repository select dates on getDates call", async () => {
-    await controller.getDates(1);
+    await controller.getDates();
     expect(selectDatesByRecipeId).toHaveBeenCalledTimes(1);
   });
 });

@@ -1,19 +1,13 @@
-import { CalendarItemOrderedFoodController } from "@/controllers/calendar/calendarItemOrderedFood";
-import { CalendarItemRecipesController } from "@/controllers/calendar/calendarItemRecipes";
+import { CalendarItemChildControllersFactory } from "./children/factories/calendarItemChildControllers";
 import { CalendarItem } from "@/models/calendarItem";
 import {
   CalendarItemDTO,
   ICalendarItemsController,
 } from "@/interfaces/calendar/calendarItem";
-import { GetCalendarItemsController } from "./getCalendarItems";
 import { CalendarItemsRepository } from "@/repositories/calendarItems";
 import { CalendarItemMembersController } from "./calendarItemMembers";
 
 export class CalendarItemsController implements ICalendarItemsController {
-  getDays(fromDate: Date, toDate: Date, members?: number[]) {
-    return new GetCalendarItemsController().getDays(fromDate, toDate, members);
-  }
-
   async getById(id: number) {
     const dto = await new CalendarItemsRepository().selectById(id);
     return new CalendarItem(dto);
@@ -52,15 +46,15 @@ export class CalendarItemsController implements ICalendarItemsController {
     return results;
   }
 
-  private updateChildLastDate(item: CalendarItem) {
-    if (item.recipeId) {
-      new CalendarItemRecipesController().updateLastDate(item.recipeId);
+  private async updateChildLastDate(item: CalendarItem) {
+    const childController = await new CalendarItemChildControllersFactory(
+      item
+    ).getChildController();
+
+    if (!childController) {
+      return;
     }
 
-    if (item.orderedFoodId) {
-      new CalendarItemOrderedFoodController().updateLastDate(
-        item.orderedFoodId
-      );
-    }
+    childController.updateLastDate();
   }
 }

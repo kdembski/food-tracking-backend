@@ -1,4 +1,4 @@
-import { CalendarItemOrderedFoodController } from "@/controllers/calendar/calendarItemOrderedFood";
+import { CalendarItemOrderedFoodController } from "@/controllers/calendar/children/calendarItemOrderedFood";
 
 const selectDatesByOrderedFoodId = jest.fn();
 jest.mock("@/repositories/calendarItems", () => ({
@@ -11,11 +11,11 @@ describe("Calendar Item Ordered Food Controller", () => {
   let controller: CalendarItemOrderedFoodController;
 
   beforeEach(() => {
-    controller = new CalendarItemOrderedFoodController();
+    controller = new CalendarItemOrderedFoodController(1);
   });
 
   it("Should trigger repository select dates on getDates call", async () => {
-    await controller.getDates(1);
+    await controller.getDates();
     expect(selectDatesByOrderedFoodId).toHaveBeenCalledTimes(1);
   });
 });

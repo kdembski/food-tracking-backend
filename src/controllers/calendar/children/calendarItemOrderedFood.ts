@@ -1,34 +1,28 @@
+import { CalendarItemOrderedFoodAdapter } from "./adapters/calendarItemOrderedFood";
 import { OrderedFoodController } from "@/controllers/orderedFood";
 import { OrderedFoodDTO } from "@/interfaces/orderedFood";
 import { OrderedFood } from "@/models/ordered-food/orderedFood";
-import { CalendarItemChildController } from "@/abstract/controllers/calendarItemChild";
 import { CalendarItemsRepository } from "@/repositories/calendarItems";
+import { CalendarItemChildController } from "./calendarItemChild";
 
 export class CalendarItemOrderedFoodController extends CalendarItemChildController<
   OrderedFood,
   OrderedFoodDTO
 > {
-  constructor() {
-    super(new OrderedFoodController());
+  constructor(orderedFoodId: number) {
+    super(new OrderedFoodController(), orderedFoodId);
   }
 
-  protected getCalendarItemChildDates(
-    orderedFoodId: number,
-    fromDate: Date,
-    toDate: Date
-  ) {
+  getCalendarItemChildDates(fromDate: Date, toDate: Date) {
     return new CalendarItemsRepository().selectDatesByOrderedFoodId(
-      orderedFoodId,
+      this.childId,
       fromDate,
       toDate
     );
   }
 
-  protected getDate(orederedFood: OrderedFood) {
-    return orederedFood.orderedDate;
-  }
-
-  protected setDate(orederedFood: OrderedFood, date: Date): void {
-    orederedFood.orderedDate = date;
+  async getAdaptedCalendarItemChild() {
+    const orderedFood = await this.childController.getById(this.childId);
+    return new CalendarItemOrderedFoodAdapter(orderedFood);
   }
 }

@@ -35,8 +35,7 @@ export interface ICalendarItemsRepository
 }
 
 export interface ICalendarItemsController
-  extends IDbEntityController<CalendarItem, CalendarItemDTO>,
-    IGetCalendarItemsController {}
+  extends IDbEntityController<CalendarItem, CalendarItemDTO> {}
 
 export interface IGetCalendarItemsController {
   getDays: (

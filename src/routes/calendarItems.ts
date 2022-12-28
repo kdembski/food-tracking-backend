@@ -1,13 +1,15 @@
-import { CalendarItemMembersController } from "./../controllers/calendar/calendarItemMembers";
+import { CalendarItemMembersController } from "@/controllers/calendar/calendarItemMembers";
 import { CalendarItemDTO } from "@/interfaces/calendar/calendarItem";
 import { RequestQueryHelper } from "@/helpers/requestQuery";
 import { CalendarItemsController } from "@/controllers/calendar/calendarItems";
 import { Router } from "express";
 import { ApiError } from "@/models/errors/apiError";
 import { RequestParamsHelper } from "@/helpers/requestParams";
+import { GetCalendarItemsController } from "@/controllers/calendar/getCalendarItems";
 
 const calendarItemsRouter = Router();
 const calendarItemsController = new CalendarItemsController();
+const getCalendarItemsController = new GetCalendarItemsController();
 const calendarItemMembersController = new CalendarItemMembersController();
 
 calendarItemsRouter.get("/", async (request, response) => {
@@ -16,7 +18,7 @@ calendarItemsRouter.get("/", async (request, response) => {
       request.query
     ).getQueryValues();
 
-    const results = await calendarItemsController.getDays(
+    const results = await getCalendarItemsController.getDays(
       fromDate || new Date(1970, 0, 0),
       toDate || new Date(2070, 0, 0),
       members

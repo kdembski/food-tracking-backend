@@ -1,4 +1,4 @@
-import { CalendarItemRecipesController } from "@/controllers/calendar/calendarItemRecipes";
+import { CalendarItemRecipesController } from "@/controllers/calendar/children/calendarItemRecipes";
 import { IRecipe, RecipeDTO } from "@/interfaces/recipes/recipes";
 
 export class Recipe implements IRecipe {
@@ -82,7 +82,8 @@ export class Recipe implements IRecipe {
     if (!this.id) {
       return;
     }
-    this.datesFromLastYear =
-      await new CalendarItemRecipesController().getDatesFromLastYear(this.id);
+    this.datesFromLastYear = await new CalendarItemRecipesController(
+      this.id
+    ).getDatesFromLastYear();
   }
 }

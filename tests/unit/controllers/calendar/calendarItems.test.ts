@@ -1,13 +1,6 @@
 import { CalendarItem } from "@/models/calendarItem";
 import { CalendarItemsController } from "@/controllers/calendar/calendarItems";
 
-const getDays = jest.fn();
-jest.mock("@/controllers/calendar/getCalendarItems", () => ({
-  GetCalendarItemsController: jest.fn().mockImplementation(() => ({
-    getDays,
-  })),
-}));
-
 const insert = jest
   .fn()
   .mockImplementation(() => Promise.resolve({ insertId: 1 }));
@@ -31,30 +24,25 @@ jest.mock("@/controllers/calendar/calendarItemMembers", () => ({
     .mockImplementation(() => ({ addCalendarItemToMembers })),
 }));
 
-const updateCookedDate = jest.fn();
-jest.mock("@/controllers/calendar/calendarItemRecipes", () => ({
-  CalendarItemRecipesController: jest
-    .fn()
-    .mockImplementation(() => ({ updateLastDate: updateCookedDate })),
-}));
+const getChildController = jest
+  .fn()
+  .mockImplementation(() => ({ updateLastDate }));
+const updateLastDate = jest.fn();
 
-const updateOrderedDate = jest.fn();
-jest.mock("@/controllers/calendar/calendarItemOrderedFood", () => ({
-  CalendarItemOrderedFoodController: jest
-    .fn()
-    .mockImplementation(() => ({ updateLastDate: updateOrderedDate })),
-}));
+jest.mock(
+  "@/controllers/calendar/children/factories/calendarItemChildControllers",
+  () => ({
+    CalendarItemChildControllersFactory: jest
+      .fn()
+      .mockImplementation(() => ({ getChildController })),
+  })
+);
 
 describe("Calendar Items Controller", () => {
   let controller: CalendarItemsController;
 
   beforeEach(() => {
     controller = new CalendarItemsController();
-  });
-
-  it("Should trigger getCalendarItemsController getDays method on getDays call", async () => {
-    await controller.getDays(new Date(), new Date());
-    expect(getDays).toHaveBeenCalledTimes(1);
   });
 
   it("Should trigger repository selectById method on getById call", async () => {
@@ -77,8 +65,7 @@ describe("Calendar Items Controller", () => {
     expect(insert).toHaveBeenCalledWith(new CalendarItem(dto));
     expect(addCalendarItemToMembers).toHaveBeenCalledWith(1, [1, 2]);
 
-    expect(updateCookedDate).toHaveBeenCalledTimes(1);
-    expect(updateOrderedDate).toHaveBeenCalledTimes(1);
+    expect(updateLastDate).toHaveBeenCalledTimes(1);
   });
 
   it("Should trigger repository update on update method", async () => {
