@@ -1,6 +1,6 @@
 import { IListController, IListRepository } from "../base/list";
 import { RecipesList } from "@/models/recipes/recipesList";
-import { Recipe } from "@/models/recipes/recipe";
+import { Recipe } from "@/main/recipes/models/recipe";
 import { RequestQueryData } from "@/interfaces/helpers/requestQuery";
 import { Tag } from "@/interfaces/base/tags";
 import {

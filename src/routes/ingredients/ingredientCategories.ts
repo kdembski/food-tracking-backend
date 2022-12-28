@@ -1,7 +1,7 @@
-import { IngredientCategoriesController } from "@/controllers/ingredients/ingredientCategories";
+import { IngredientCategoriesController } from "@/main/ingredients/controllers/ingredientCategories";
 import { RequestParamsHelper } from "@/helpers/requestParams";
 import { IngredientCategoryDTO } from "@/interfaces/ingredients/ingredientCategories";
-import { ApiError } from "@/models/errors/apiError";
+import { ApiError } from "@/base/errors/models/apiError";
 import { Router } from "express";
 
 const ingredientCategoriesRouter = Router();

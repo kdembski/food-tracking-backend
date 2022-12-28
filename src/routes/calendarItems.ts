@@ -1,11 +1,11 @@
-import { CalendarItemMembersController } from "@/controllers/calendar/calendarItemMembers";
+import { CalendarItemMembersController } from "@/main/calendar/controllers/calendarItemMembers";
 import { CalendarItemDTO } from "@/interfaces/calendar/calendarItem";
 import { RequestQueryHelper } from "@/helpers/requestQuery";
-import { CalendarItemsController } from "@/controllers/calendar/calendarItems";
 import { Router } from "express";
-import { ApiError } from "@/models/errors/apiError";
+import { ApiError } from "@/base/errors/models/apiError";
 import { RequestParamsHelper } from "@/helpers/requestParams";
-import { GetCalendarItemsController } from "@/controllers/calendar/getCalendarItems";
+import { CalendarItemsController } from "@/main/calendar/controllers/calendarItems";
+import { GetCalendarItemsController } from "@/main/calendar/controllers/getCalendarItems";
 
 const calendarItemsRouter = Router();
 const calendarItemsController = new CalendarItemsController();

@@ -1,4 +1,4 @@
-import { MemberCalendarItem } from "@/models/members/memberCalendarItem";
+import { MemberCalendarItem } from "@/main/members/models/memberCalendarItem";
 import { OkPacket } from "mysql2";
 import {
   IDbEntityController,

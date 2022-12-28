@@ -1,4 +1,4 @@
-import { OrderedFood } from "@/models/ordered-food/orderedFood";
+import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
 import Database from "@/config/database";
 import { DatabaseQueryHelper } from "@/helpers/databaseQuery";
 import {
@@ -7,8 +7,8 @@ import {
 } from "@/interfaces/orderedFood";
 import { orderedFoodQueries } from "@/queries/orderedFood";
 import { OkPacket } from "mysql2";
-import { CustomError } from "@/models/errors/customError";
 import { ListConfig } from "@/interfaces/base/list";
+import { CustomError } from "@/base/errors/models/customError";
 
 export class OrderedFoodRepository implements IOrderedFoodRepository {
   async selectById(id: number) {

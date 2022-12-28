@@ -1,12 +1,12 @@
 import { OkPacket } from "mysql2";
-import { CalendarItem } from "@/models/calendarItem";
+import { CalendarItem } from "@/main/calendar/models/calendarItem";
 import Database from "@/config/database";
 import {
   CalendarItemDTO,
   ICalendarItemsRepository,
 } from "@/interfaces/calendar/calendarItem";
 import { calendarItemsQueries } from "@/queries/calendarItems";
-import { CustomError } from "@/models/errors/customError";
+import { CustomError } from "@/base/errors/models/customError";
 
 export class CalendarItemsRepository implements ICalendarItemsRepository {
   async selectById(id: number) {

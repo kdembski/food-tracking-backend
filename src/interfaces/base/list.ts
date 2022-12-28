@@ -1,4 +1,4 @@
-import { Pagination } from "@/models/pagination";
+import { Pagination } from "@/base/list/models/pagination";
 import { RequestQueryData } from "@/interfaces/helpers/requestQuery";
 
 export type ListItem<T> = {

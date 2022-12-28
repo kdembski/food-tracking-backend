@@ -1,4 +1,4 @@
-import { MemberCalendarItem } from "./../../models/members/memberCalendarItem";
+import { MemberCalendarItem } from "../../main/members/models/memberCalendarItem";
 import { MemberCalendarItemDTO } from "@/interfaces/members/memberCalendarItem";
 import Database from "@/config/database";
 import { IMemberCalendarItemsRepository } from "@/interfaces/members/memberCalendarItem";

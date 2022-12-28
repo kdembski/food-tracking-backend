@@ -1,5 +1,5 @@
 import { OrderedFoodList } from "@/models/ordered-food/orderedFoodList";
-import { OrderedFood } from "@/models/ordered-food/orderedFood";
+import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
 import { Tag } from "./base/tags";
 import { RequestQueryData } from "./helpers/requestQuery";
 import { IListController, IListRepository } from "./base/list";

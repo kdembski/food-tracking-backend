@@ -1,9 +1,9 @@
+import { CustomError } from "@/base/errors/models/customError";
 import Database from "@/config/database";
 import { DatabaseQueryHelper } from "@/helpers/databaseQuery";
 import { ListConfig } from "@/interfaces/base/list";
 import { IngredientDTO } from "@/interfaces/ingredients/ingredients";
-import { CustomError } from "@/models/errors/customError";
-import { Ingredient } from "@/models/ingredients/ingredient";
+import { Ingredient } from "@/main/ingredients/models/ingredient";
 import { ingredientsQueries } from "@/queries/ingredients/ingredients";
 import { OkPacket } from "mysql2";
 

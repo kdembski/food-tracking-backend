@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { UsersController } from "@/controllers/users";
-import { ApiError } from "@/models/errors/apiError";
+import { UsersController } from "@/main/users/controllers/users";
+import { ApiError } from "@/base/errors/models/apiError";
 
 const usersRouter = Router();
 const usersController = new UsersController();

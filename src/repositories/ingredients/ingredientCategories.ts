@@ -3,10 +3,10 @@ import {
   IngredientCategoryDTO,
 } from "@/interfaces/ingredients/ingredientCategories";
 import Database from "@/config/database";
-import { CustomError } from "@/models/errors/customError";
 import { OkPacket } from "mysql2";
 import { ingredientCategoriesQueries } from "@/queries/ingredients/ingredientCategories";
-import { IngredientCategory } from "@/models/ingredients/ingredientCategory";
+import { CustomError } from "@/base/errors/models/customError";
+import { IngredientCategory } from "@/main/ingredients/models/ingredientCategory";
 
 export class IngredientCategoriesRepository
   implements IIngredientCategoriesRepository

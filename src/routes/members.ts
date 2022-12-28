@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { MembersController } from "@/controllers/members/members";
-import { ApiError } from "@/models/errors/apiError";
+import { ApiError } from "@/base/errors/models/apiError";
+import { MembersController } from "@/main/members/controllers/members";
 
 const membersRouter = Router();
 const membersController = new MembersController();

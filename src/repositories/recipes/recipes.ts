@@ -2,10 +2,10 @@ import { OkPacket } from "mysql2";
 import { recipesQueries } from "@/queries/recipes/recipes";
 import { RecipeDTO, IRecipesRepository } from "@/interfaces/recipes/recipes";
 import Database from "@/config/database";
-import { Recipe } from "@/models/recipes/recipe";
+import { Recipe } from "@/main/recipes/models/recipe";
 import { DatabaseQueryHelper } from "@/helpers/databaseQuery";
-import { CustomError } from "@/models/errors/customError";
 import { ListConfig } from "@/interfaces/base/list";
+import { CustomError } from "@/base/errors/models/customError";
 
 export class RecipesRepository implements IRecipesRepository {
   async selectById(id: number) {

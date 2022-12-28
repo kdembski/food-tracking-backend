@@ -1,10 +1,10 @@
-import { RecipeIngredient } from "@/models/recipes/recipesIngredients";
 import { RecipeIngredientDTO } from "@/interfaces/recipes/recipesIngredients";
 import { IRecipeIngredientsRepository } from "@/interfaces/recipes/recipesIngredients";
 import Database from "@/config/database";
-import { CustomError } from "@/models/errors/customError";
 import { OkPacket } from "mysql2";
 import { recipeIngredientsQueries } from "@/queries/recipes/recipeIngredients";
+import { CustomError } from "@/base/errors/models/customError";
+import { RecipeIngredient } from "@/main/recipes/models/recipesIngredients";
 
 export class RecipeIngredientsRepository
   implements IRecipeIngredientsRepository

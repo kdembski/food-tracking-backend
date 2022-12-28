@@ -1,4 +1,4 @@
-import { CalendarItem } from "@/models/calendarItem";
+import { CalendarItem } from "@/main/calendar/models/calendarItem";
 import {
   IDbEntityController,
   IDbEntityModel,

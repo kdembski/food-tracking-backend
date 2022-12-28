@@ -1,6 +1,6 @@
 import { IngredientsList } from "@/models/ingredients/ingredientsList";
 import { IListController, IListRepository } from "../base/list";
-import { Ingredient } from "@/models/ingredients/ingredient";
+import { Ingredient } from "@/main/ingredients/models/ingredient";
 import {
   IDbEntityController,
   IDbEntityModel,

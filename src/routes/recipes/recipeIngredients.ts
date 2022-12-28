@@ -1,7 +1,7 @@
-import { ApiError } from "@/models/errors/apiError";
+import { ApiError } from "@/base/errors/models/apiError";
 import { Router } from "express";
 import { RequestParamsHelper } from "@/helpers/requestParams";
-import { RecipeIngredientsController } from "@/controllers/recipes/recipeIngredients";
+import { RecipeIngredientsController } from "@/main/recipes/controllers/recipeIngredients";
 import { RecipeIngredientDTO } from "@/interfaces/recipes/recipesIngredients";
 
 const recipeIngredientsRouter = Router();

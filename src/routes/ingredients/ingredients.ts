@@ -1,9 +1,9 @@
-import { IngredientsController } from "@/controllers/ingredients/ingredients";
-import { IngredientUnitsController } from "@/controllers/ingredients/ingredientUnits";
 import { RequestParamsHelper } from "@/helpers/requestParams";
 import { IngredientDTO } from "@/interfaces/ingredients/ingredients";
-import { ApiError } from "@/models/errors/apiError";
+import { ApiError } from "@/base/errors/models/apiError";
 import { Router } from "express";
+import { IngredientsController } from "@/main/ingredients/controllers/ingredients";
+import { IngredientUnitsController } from "@/main/ingredients/controllers/ingredientUnits";
 
 const ingredientsRouter = Router();
 const ingredientsController = new IngredientsController();

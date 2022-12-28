@@ -1,10 +1,10 @@
-import { ApiError } from "@/models/errors/apiError";
+import { ApiError } from "@/base/errors/models/apiError";
 import { RecipeDTO } from "@/interfaces/recipes/recipes";
 import { RequestQueryHelper } from "@/helpers/requestQuery";
 import { Router } from "express";
-import { RecipesController } from "@/controllers/recipes/recipes";
 import { RequestParamsHelper } from "@/helpers/requestParams";
-import { RecipeIngredientsController } from "@/controllers/recipes/recipeIngredients";
+import { RecipeIngredientsController } from "@/main/recipes/controllers/recipeIngredients";
+import { RecipesController } from "@/main/recipes/controllers/recipes";
 
 const recipesRouter = Router();
 const recipesController = new RecipesController();

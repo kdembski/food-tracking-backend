@@ -1,6 +1,6 @@
 import { Response, Request, NextFunction } from "express";
 import { TOKEN_INVALID, TOKEN_REQUIRED } from "@/consts/errorCodes";
-import { UsersController } from "@/controllers/users";
+import { UsersController } from "@/main/users/controllers/users";
 
 export const verifyToken = async (
   request: Request,

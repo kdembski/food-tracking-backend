@@ -1,7 +1,7 @@
 import { OrderedFoodDTO } from "@/interfaces/orderedFood";
 import { Router } from "express";
-import { OrderedFoodController } from "../controllers/orderedFood";
-import { ApiError } from "@/models/errors/apiError";
+import { OrderedFoodController } from "../main/ordered-food/controllers/orderedFood";
+import { ApiError } from "@/base/errors/models/apiError";
 import { RequestParamsHelper } from "@/helpers/requestParams";
 
 const orderedFoodRouter = Router();
