@@ -18,21 +18,25 @@ jest.mock("@/repositories/recipes/recipes", () => ({
   })),
 }));
 
-const loadList = jest.fn();
+const buildList = jest.fn();
 const setDatesFromLastYear = jest.fn();
 
 jest.mock("@/main/recipes/models/recipesList", () => ({
   RecipesList: jest.fn().mockImplementation(() => ({
-    loadList,
     setDatesFromLastYear,
   })),
 }));
 
-const loadTags = jest.fn();
+jest.mock("@/base/list/builders/list", () => ({
+  ListBuilder: jest.fn().mockImplementation(() => ({
+    build: buildList,
+  })),
+}));
 
-jest.mock("@/main/recipes/models/recipesTags", () => ({
-  RecipesTags: jest.fn().mockImplementation(() => ({
-    loadTags,
+const buildTags = jest.fn();
+jest.mock("@/base/tags/builders/tags", () => ({
+  TagsBuilder: jest.fn().mockImplementation(() => ({
+    build: buildTags,
   })),
 }));
 
@@ -45,12 +49,12 @@ describe("Recipes Controller", () => {
 
   it("Should trigger loadList from recipesList on getList call", async () => {
     await controller.getList({});
-    expect(loadList).toHaveBeenCalledTimes(1);
+    expect(buildList).toHaveBeenCalledTimes(1);
   });
 
   it("Should trigger loadTags from recipesTags on getTags call", async () => {
     await controller.getTags({});
-    expect(loadTags).toHaveBeenCalledTimes(1);
+    expect(buildTags).toHaveBeenCalledTimes(1);
   });
 
   it("Should trigger repository selectNames on getNames call", async () => {

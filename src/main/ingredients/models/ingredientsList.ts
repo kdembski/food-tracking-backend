@@ -6,15 +6,15 @@ import { Ingredient } from "./ingredient";
 import { IngredientsController } from "../controllers/ingredients";
 
 export class IngredientsList extends List<Ingredient, IngredientDTO> {
-  protected async getListData(config: ListConfig) {
+  async getListData(config: ListConfig) {
     return new IngredientsRepository().selectList(config);
   }
 
-  protected getListCount(searchPhrase: string, tags: string): Promise<number> {
+  getListCount(searchPhrase: string, tags: string): Promise<number> {
     return new IngredientsController().getCount(searchPhrase, tags);
   }
 
-  protected createListItem(data: IngredientDTO) {
+  createListItem(data: IngredientDTO) {
     return new Ingredient(data);
   }
 

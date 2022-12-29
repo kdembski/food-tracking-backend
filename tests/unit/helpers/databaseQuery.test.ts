@@ -28,6 +28,7 @@ describe("Database Query Helper", () => {
         sortDirection: "dir",
         tags: "tag",
         size: 10,
+        page: 1,
         offset: 10,
       })
     ).toEqual(

@@ -1,25 +1,29 @@
+import { TagsConfig } from "@/interfaces/base/tags";
+import { TagsBuilder } from "@/base/tags/builders/tags";
 import { Tags } from "@/base/tags/models/tags";
 
 const tagsData = ["tag1,tag2", "tag2,tag3"];
 
 class TestTags extends Tags {
-  protected getTags(searchPhrase: string, tags?: string) {
+  getTags(config: TagsConfig) {
     return Promise.resolve(tagsData);
   }
 }
 
 describe("Tags Model", () => {
   let tags: TestTags;
+  let builder: TagsBuilder;
 
   beforeEach(() => {
     tags = new TestTags();
+    builder = new TagsBuilder(tags);
   });
 
   it("Should set sorted tags with count on loadTags method call", async () => {
-    expect(tags.tags).toEqual([]);
+    expect(tags.items).toEqual([]);
 
-    await tags.loadTags({});
-    expect(tags.tags).toEqual([
+    await builder.build({});
+    expect(tags.getItemsDTO()).toEqual([
       {
         name: "tag2",
         count: 2,

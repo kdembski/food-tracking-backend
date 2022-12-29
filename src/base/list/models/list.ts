@@ -1,74 +1,57 @@
-import { RequestQueryHelper } from "@/helpers/requestQuery";
-import { RequestQueryData } from "@/interfaces/helpers/requestQuery";
 import { IList, ListConfig, ListItem } from "@/interfaces/base/list";
 import { Pagination } from "@/base/list/models/pagination";
 
 export abstract class List<Item extends ListItem<ItemDTO>, ItemDTO>
   implements IList<Item, ItemDTO>
 {
-  protected data?: Item[];
-  private pagination?: Pagination;
+  private _data?: Item[];
+  private _pagination?: Pagination;
+  private _config?: ListConfig;
 
-  protected abstract getListData(config: ListConfig): Promise<ItemDTO[]>;
+  abstract getListData(config: ListConfig): Promise<ItemDTO[]>;
+  abstract getListCount(searchPhrase: string, tags: string): Promise<number>;
+  abstract createListItem(data: ItemDTO): Item;
 
-  protected abstract getListCount(
-    searchPhrase: string,
-    tags: string
-  ): Promise<number>;
+  get data() {
+    if (!this._data) {
+      throw Error("List data is missing");
+    }
+    return this._data;
+  }
 
-  protected abstract createListItem(data: ItemDTO): Item;
+  get pagination() {
+    if (!this._pagination) {
+      throw Error("List pagination is missing");
+    }
+    return this._pagination;
+  }
+
+  get config() {
+    if (!this._config) {
+      throw Error("List config is missing");
+    }
+    return this._config;
+  }
+
+  set data(data: Item[]) {
+    this._data = data;
+  }
+
+  set pagination(pagination: Pagination) {
+    this._pagination = pagination;
+  }
+
+  set config(config: ListConfig) {
+    this._config = config;
+  }
 
   getListDTO() {
-    if (!this.data || !this.pagination) {
-      throw Error("List data or pagination is missing");
-    }
-
     const dataDTOs = this.data?.map((item) => item.getDTO());
     return { data: dataDTOs, pagination: this.pagination };
   }
 
-  async loadList(query: RequestQueryData) {
-    const { size, page, sortAttribute, sortDirection, searchPhrase, tags } =
-      new RequestQueryHelper(query).getQueryValues();
-    const offset = (page - 1) * size;
-
-    await this.setListData({
-      searchPhrase,
-      sortAttribute,
-      sortDirection,
-      tags,
-      size,
-      offset,
-    });
-    await this.setPagination(
-      searchPhrase,
-      tags,
-      page,
-      size,
-      offset,
-      this.getDataLength()
-    );
-  }
-
-  private async setListData(config: ListConfig) {
-    const data = await this.getListData(config);
-    this.data = data.map((item) => this.createListItem(item));
-  }
-
-  private async setPagination(
-    searchPhrase: string,
-    tags: string,
-    page: number,
-    size: number,
-    offset: number,
-    listLength: number
-  ) {
-    const count = await this.getListCount(searchPhrase, tags);
-    this.pagination = new Pagination(count, page, size, listLength, offset);
-  }
-
   getDataLength() {
-    return this.data?.length || 0;
+    return this.data?.length;
   }
 
   iterate(callback: (item: Item) => any) {

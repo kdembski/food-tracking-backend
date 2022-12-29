@@ -6,15 +6,15 @@ import { ListConfig } from "@/interfaces/base/list";
 import { RecipesController } from "../controllers/recipes";
 
 export class RecipesList extends List<Recipe, RecipeDTO> {
-  protected async getListData(config: ListConfig) {
+  async getListData(config: ListConfig) {
     return new RecipesRepository().selectList(config);
   }
 
-  protected getListCount(searchPhrase: string, tags: string): Promise<number> {
+  getListCount(searchPhrase: string, tags: string): Promise<number> {
     return new RecipesController().getCount(searchPhrase, tags);
   }
 
-  protected createListItem(data: RecipeDTO) {
+  createListItem(data: RecipeDTO) {
     return new Recipe(data);
   }
 

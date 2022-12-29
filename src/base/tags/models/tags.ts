@@ -1,68 +1,32 @@
-import { RequestQueryData } from "@/interfaces/helpers/requestQuery";
-import { ITags, Tag } from "@/interfaces/base/tags";
-import lodash from "lodash";
-import { RequestQueryHelper } from "@/helpers/requestQuery";
+import { ITags, TagsConfig } from "@/interfaces/base/tags";
+import { Tag } from "./tag";
 
 export abstract class Tags implements ITags {
-  private _tags?: Tag[];
+  private _items?: Tag[];
+  private _config?: TagsConfig;
 
-  get tags() {
-    return this._tags || [];
+  get items() {
+    return this._items || [];
   }
 
-  set tags(value) {
-    this._tags = value;
+  get config() {
+    if (!this._config) {
+      throw Error("Tags config is missing");
+    }
+    return this._config;
   }
 
-  protected abstract getTags(
-    searchPhrase: string,
-    tags?: string
-  ): Promise<string[]>;
-
-  async loadTags(query: RequestQueryData) {
-    const { searchPhrase, tags: queryTags } = new RequestQueryHelper(
-      query
-    ).getQueryValues();
-
-    const tags = await this.getTags(searchPhrase, queryTags);
-    this.tags = this.prepareTags(tags);
+  set items(value) {
+    this._items = value;
   }
 
-  private prepareTags(tags: string[]) {
-    const splittedTags = this.splitTags(tags);
-    const countedTags = this.countTags(splittedTags);
-    return countedTags.sort((a, b) => b.count - a.count);
+  set config(value) {
+    this._config = value;
   }
 
-  private countTags(tagNames: string[]) {
-    return tagNames.reduce((accum: Tag[], tagName) => {
-      const duplicateIndex = accum.findIndex(
-        (tag: Tag) => tag.name === tagName
-      );
-      const isDuplicate = duplicateIndex !== -1;
+  abstract getTags(config: TagsConfig): Promise<string[]>;
 
-      if (isDuplicate) {
-        accum[duplicateIndex].count++;
-        return accum;
-      }
-
-      accum.push({
-        name: tagName,
-        count: 1,
-      });
-
-      return accum;
-    }, []);
-  }
-
-  private splitTags(itemsTags: string[]) {
-    let splittedTags: string[] = [];
-
-    itemsTags.forEach((itemTags) => {
-      const splittedItemTags = itemTags.split(",");
-      splittedTags = lodash.concat(splittedTags, splittedItemTags);
-    });
-
-    return splittedTags;
+  getItemsDTO() {
+    return this.items.map((item) => ({ name: item.name, count: item.count }));
   }
 }

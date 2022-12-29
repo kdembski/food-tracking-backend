@@ -1,9 +1,9 @@
+import { RecipeIngredient } from "@/main/recipes/models/recipesIngredients";
 import {
   IDbEntityController,
   IDbEntityModel,
   IRepository,
 } from "../base/dbEntity";
-import { RecipeIngredient } from "@/models/recipes/recipesIngredients";
 
 export type RecipeIngredientDTO = {
   id?: number;

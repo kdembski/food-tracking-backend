@@ -1,3 +1,4 @@
+import { ListBuilder } from "@/base/list/builders/list";
 import { IRecipesController } from "@/interfaces/recipes/recipes";
 import { RecipesRepository } from "@/repositories/recipes/recipes";
 import { Recipe } from "@/main/recipes/models/recipe";
@@ -5,11 +6,13 @@ import { RecipeDTO } from "@/interfaces/recipes/recipes";
 import { RequestQueryData } from "@/interfaces/helpers/requestQuery";
 import { RecipesList } from "../models/recipesList";
 import { RecipesTags } from "../models/recipesTags";
+import { TagsBuilder } from "@/base/tags/builders/tags";
 
 export class RecipesController implements IRecipesController {
   async getList(query: RequestQueryData) {
     const recipesList = new RecipesList();
-    await recipesList.loadList(query);
+    const listBuilder = new ListBuilder(recipesList);
+    await listBuilder.build(query);
     await recipesList.setDatesFromLastYear();
 
     return recipesList;
@@ -17,8 +20,9 @@ export class RecipesController implements IRecipesController {
 
   async getTags(query: RequestQueryData) {
     const recipesTags = new RecipesTags();
-    await recipesTags.loadTags(query);
-    return recipesTags.tags;
+    const tagsBuilder = new TagsBuilder(recipesTags);
+    await tagsBuilder.build(query);
+    return recipesTags.getItemsDTO();
   }
 
   getNames(searchPhrase: string, tags?: string) {

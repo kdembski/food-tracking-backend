@@ -1,9 +1,9 @@
+import { IngredientCategory } from "@/main/ingredients/models/ingredientCategory";
 import {
   IDbEntityController,
   IDbEntityModel,
   IRepository,
 } from "../base/dbEntity";
-import { IngredientCategory } from "@/models/ingredients/ingredientCategory";
 
 export type IngredientCategoryDTO = {
   id?: number;

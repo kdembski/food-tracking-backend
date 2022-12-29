@@ -9,6 +9,7 @@ import { orderedFoodQueries } from "@/queries/orderedFood";
 import { OkPacket } from "mysql2";
 import { ListConfig } from "@/interfaces/base/list";
 import { CustomError } from "@/base/errors/models/customError";
+import { TagsConfig } from "@/interfaces/base/tags";
 
 export class OrderedFoodRepository implements IOrderedFoodRepository {
   async selectById(id: number) {
@@ -35,7 +36,7 @@ export class OrderedFoodRepository implements IOrderedFoodRepository {
     return data as OrderedFoodDTO[];
   }
 
-  async selectTags(searchPhrase: string, tags?: string) {
+  async selectTags({ searchPhrase, tags }: TagsConfig) {
     const queryToFilterByTags =
       new DatabaseQueryHelper().getQueryToFiltersByTags(tags);
     const queryToSelectTags =

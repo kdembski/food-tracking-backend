@@ -1,6 +1,4 @@
-import { OrderedFoodList } from "@/models/ordered-food/orderedFoodList";
 import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
-import { Tag } from "./base/tags";
 import { RequestQueryData } from "./helpers/requestQuery";
 import { IListController, IListRepository } from "./base/list";
 import {
@@ -8,6 +6,8 @@ import {
   IDbEntityModel,
   IRepository,
 } from "./base/dbEntity";
+import { OrderedFoodList } from "@/main/ordered-food/models/orderedFoodList";
+import { TagDTO, TagsConfig } from "./base/tags";
 
 export type OrderedFoodDTO = {
   id?: number;
@@ -23,11 +23,11 @@ export interface IOrderedFood extends IDbEntityModel<OrderedFoodDTO> {}
 export interface IOrderedFoodRepository
   extends IRepository<OrderedFood, OrderedFoodDTO>,
     IListRepository<OrderedFoodDTO> {
-  selectTags: (searchPhrase: string, tags?: string) => Promise<string[]>;
+  selectTags: (config: TagsConfig) => Promise<string[]>;
 }
 
 export interface IOrderedFoodController
   extends IDbEntityController<OrderedFood, OrderedFoodDTO>,
     IListController<OrderedFoodList> {
-  getTags: (query: RequestQueryData) => Promise<Tag[]>;
+  getTags: (query: RequestQueryData) => Promise<TagDTO[]>;
 }

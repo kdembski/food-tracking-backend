@@ -5,18 +5,22 @@ import { RequestQueryData } from "@/interfaces/helpers/requestQuery";
 import { OrderedFoodRepository } from "@/repositories/orderedFood";
 import { OrderedFoodList } from "../models/orderedFoodList";
 import { OrderedFoodTags } from "../models/orderedFoodTags";
+import { ListBuilder } from "@/base/list/builders/list";
+import { TagsBuilder } from "@/base/tags/builders/tags";
 
 export class OrderedFoodController implements IOrderedFoodController {
   async getList(query: RequestQueryData) {
     const orderedFoodList = new OrderedFoodList();
-    await orderedFoodList.loadList(query);
+    const listBuilder = new ListBuilder(orderedFoodList);
+    await listBuilder.build(query);
     return orderedFoodList;
   }
 
   async getTags(query: RequestQueryData) {
     const orderedFoodTags = new OrderedFoodTags();
-    await orderedFoodTags.loadTags(query);
-    return orderedFoodTags.tags;
+    const tagsBuilder = new TagsBuilder(orderedFoodTags);
+    await tagsBuilder.build(query);
+    return orderedFoodTags.getItemsDTO();
   }
 
   getCount(searchPhrase: string, tags?: string) {

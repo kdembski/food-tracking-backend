@@ -6,6 +6,7 @@ import { Recipe } from "@/main/recipes/models/recipe";
 import { DatabaseQueryHelper } from "@/helpers/databaseQuery";
 import { ListConfig } from "@/interfaces/base/list";
 import { CustomError } from "@/base/errors/models/customError";
+import { TagsConfig } from "@/interfaces/base/tags";
 
 export class RecipesRepository implements IRecipesRepository {
   async selectById(id: number) {
@@ -31,7 +32,7 @@ export class RecipesRepository implements IRecipesRepository {
     return data as RecipeDTO[];
   }
 
-  async selectTags(searchPhrase: string, tags?: string) {
+  async selectTags({ searchPhrase, tags }: TagsConfig) {
     const queryToFilterByTags =
       new DatabaseQueryHelper().getQueryToFiltersByTags(tags);
     const queryToSelectTags =

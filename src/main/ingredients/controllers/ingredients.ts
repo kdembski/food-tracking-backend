@@ -6,11 +6,13 @@ import {
 } from "@/interfaces/ingredients/ingredients";
 import { RequestQueryData } from "@/interfaces/helpers/requestQuery";
 import { IngredientsList } from "../models/ingredientsList";
+import { ListBuilder } from "@/base/list/builders/list";
 
 export class IngredientsController implements IIngredientsController {
   async getList(query: RequestQueryData) {
     const ingredientsList = new IngredientsList();
-    await ingredientsList.loadList(query);
+    const listBuilder = new ListBuilder(ingredientsList);
+    await listBuilder.build(query);
     await ingredientsList.setUnitNames();
 
     return ingredientsList;
@@ -18,7 +20,9 @@ export class IngredientsController implements IIngredientsController {
 
   async getOptions(query: RequestQueryData) {
     const ingredientsList = new IngredientsList();
-    await ingredientsList.loadList(query);
+    const listBuilder = new ListBuilder(ingredientsList);
+    await listBuilder.build(query);
+
     const options = ingredientsList.iterate((item) => ({
       id: item.id,
       name: item.name,

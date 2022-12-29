@@ -1,4 +1,3 @@
-import { IngredientsList } from "@/models/ingredients/ingredientsList";
 import { IListController, IListRepository } from "../base/list";
 import { Ingredient } from "@/main/ingredients/models/ingredient";
 import {
@@ -6,6 +5,7 @@ import {
   IDbEntityModel,
   IRepository,
 } from "../base/dbEntity";
+import { IngredientsList } from "@/main/ingredients/models/ingredientsList";
 
 export type IngredientDTO = {
   id?: number;

@@ -11,15 +11,22 @@ export type ListConfig = {
   sortDirection: string;
   tags: string;
   size: number;
+  page: number;
   offset: number;
 };
+
+export interface IListBuilder {
+  buildConfig(query: RequestQueryData): void;
+  build(query: RequestQueryData): void;
+  buildData(): void;
+  buildPagination(): void;
+}
 
 export interface IList<Item extends ListItem<ItemDTO>, ItemDTO> {
   getListDTO: () => {
     data: ItemDTO[];
     pagination: Pagination;
   };
-  loadList: (query: RequestQueryData) => void;
   getDataLength: () => number;
   iterate: (callback: (item: Item) => void) => void;
 }
