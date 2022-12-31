@@ -1,10 +1,9 @@
+import { ExtendedCalendarItemDTO } from "@/main/calendar/dtos/extendedCalendarItem";
+import { BaseCalendarItemDTO } from "@/main/calendar/dtos/baseCalendarItem";
 import { OkPacket } from "mysql2";
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
 import Database from "@/config/database";
-import {
-  CalendarItemDTO,
-  ICalendarItemsRepository,
-} from "@/interfaces/calendar/calendarItem";
+import { ICalendarItemsRepository } from "@/interfaces/calendar/calendarItem";
 import { calendarItemsQueries } from "@/queries/calendarItems";
 import { CustomError } from "@/base/errors/models/customError";
 
@@ -13,7 +12,7 @@ export class CalendarItemsRepository implements ICalendarItemsRepository {
     const results = await Database.sendQuery(calendarItemsQueries.selectById, [
       id,
     ]);
-    return results[0] as CalendarItemDTO;
+    return results[0] as BaseCalendarItemDTO;
   }
 
   async selectDatesByRecipeId(recipeId: number, fromDate: Date, toDate: Date) {
@@ -43,7 +42,7 @@ export class CalendarItemsRepository implements ICalendarItemsRepository {
       fromDate,
       toDate,
     ]);
-    return results as CalendarItemDTO[];
+    return results as ExtendedCalendarItemDTO[];
   }
 
   async insert(item: CalendarItem) {

@@ -1,27 +1,19 @@
+import { BaseCalendarItemDTO } from "@/main/calendar/dtos/baseCalendarItem";
+import { CalendarDaysDTO } from "@/main/calendar/dtos/calendarDays";
+import { ExtendedCalendarItemDTO } from "@/main/calendar/dtos/extendedCalendarItem";
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
-import {
-  IDbEntityController,
-  IDbEntityModel,
-  IRepository,
-} from "../base/dbEntity";
-import { CalendarDay } from "./calendar";
+import { IDbEntityController, IRepository } from "../base/dbEntity";
 
-export type CalendarItemDTO = {
-  id?: number;
-  date?: Date;
-  recipeId?: number;
-  orderedFoodId?: number;
-  members?: number[];
-  sortOrder?: number;
-};
-
-export interface ICalendarItem extends IDbEntityModel<CalendarItemDTO> {
+export interface ICalendarItem {
   loadMembers: () => void;
 }
 
 export interface ICalendarItemsRepository
-  extends IRepository<CalendarItem, CalendarItemDTO> {
-  selectAll: (fromDate: Date, toDate: Date) => Promise<CalendarItemDTO[]>;
+  extends IRepository<CalendarItem, BaseCalendarItemDTO> {
+  selectAll: (
+    fromDate: Date,
+    toDate: Date
+  ) => Promise<ExtendedCalendarItemDTO[]>;
   selectDatesByRecipeId: (
     recipeId: number,
     fromDate: Date,
@@ -35,12 +27,10 @@ export interface ICalendarItemsRepository
 }
 
 export interface ICalendarItemsController
-  extends IDbEntityController<CalendarItem, CalendarItemDTO> {}
-
-export interface IGetCalendarItemsController {
+  extends IDbEntityController<CalendarItem, BaseCalendarItemDTO> {
   getDays: (
     fromDate: Date,
     toDate: Date,
     members: number[]
-  ) => Promise<CalendarDay[]>;
+  ) => Promise<CalendarDaysDTO[]>;
 }

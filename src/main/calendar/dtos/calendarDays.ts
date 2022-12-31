@@ -1,14 +1,13 @@
-export type CalendarDay = {
+export type CalendarDaysDTO = {
   date: Date;
   items: {
     id?: number;
+    date?: Date;
     recipeId?: number;
     orderedFoodId?: number;
-    sortOrder?: number;
-    isRecipe?: boolean;
-    isOrderedFood?: boolean;
     name?: string;
     tags?: string;
     members?: number[];
+    sortOrder?: number;
   }[];
 };

@@ -1,19 +1,26 @@
 import { MemberCalendarItemsController } from "@/main/members/controllers/memberCalendarItems";
-import {
-  CalendarItemDTO,
-  ICalendarItem,
-} from "@/interfaces/calendar/calendarItem";
+import { ICalendarItem } from "@/interfaces/calendar/calendarItem";
+import { BaseCalendarItemDTO } from "../dtos/baseCalendarItem";
 
 export class CalendarItem implements ICalendarItem {
   private _id?: number;
   private _date?: Date;
   private _recipeId?: number;
   private _orderedFoodId?: number;
+  private _name?: string;
+  private _tags?: string;
   private _members?: number[];
   private _sortOrder?: number;
 
-  constructor(data: CalendarItemDTO) {
-    this.setFromDTO(data);
+  constructor(data: BaseCalendarItemDTO) {
+    this._id = data.id;
+    this._date = data.date;
+    this._recipeId = data.recipeId;
+    this._orderedFoodId = data.orderedFoodId;
+    this._name = data.name;
+    this._tags = data.tags;
+    this._members = data.members;
+    this._sortOrder = data.sortOrder;
   }
 
   get id() {
@@ -32,6 +39,14 @@ export class CalendarItem implements ICalendarItem {
     return this._orderedFoodId;
   }
 
+  get name() {
+    return this._name;
+  }
+
+  get tags() {
+    return this._tags;
+  }
+
   get members() {
     return this._members;
   }
@@ -48,26 +63,6 @@ export class CalendarItem implements ICalendarItem {
     this._members = value || [];
   }
 
-  setFromDTO(data: CalendarItemDTO) {
-    this._id = data.id;
-    this.date = data.date;
-    this._recipeId = data.recipeId;
-    this._orderedFoodId = data.orderedFoodId;
-    this._members = data.members;
-    this._sortOrder = data.sortOrder;
-  }
-
-  getDTO() {
-    return {
-      id: this.id,
-      date: this.date,
-      recipeId: this.recipeId,
-      orderedFoodId: this.orderedFoodId,
-      members: this.members,
-      sortOrder: this.sortOrder,
-    };
-  }
-
   async loadMembers() {
     const id = this.id;
     if (!id) {
@@ -75,7 +70,6 @@ export class CalendarItem implements ICalendarItem {
     }
 
     const results = await new MemberCalendarItemsController().getByItemId(id);
-
     this.members = results
       .map((result) => result.memberId)
       .filter((id): id is number => !!id);

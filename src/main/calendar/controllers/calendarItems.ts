@@ -1,19 +1,35 @@
+import { CalendarDaysMapper } from "./../mappers/calendarDays";
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
-import {
-  CalendarItemDTO,
-  ICalendarItemsController,
-} from "@/interfaces/calendar/calendarItem";
+import { ICalendarItemsController } from "@/interfaces/calendar/calendarItem";
 import { CalendarItemsRepository } from "@/repositories/calendarItems";
 import { CalendarItemMembersController } from "./calendarItemMembers";
 import { CalendarItemChildControllersFactory } from "../children/factories/calendarItemChildControllers";
+import { BaseCalendarItemDTO } from "../dtos/baseCalendarItem";
+import { ExtendedCalendarItemMapper } from "../mappers/extendedCalendarItem";
+import { CalendarItemsCollection } from "../collections/calendarItems";
+import { CalendarDaysCollection } from "../collections/calendarDays";
 
 export class CalendarItemsController implements ICalendarItemsController {
+  async getDays(fromDate: Date, toDate: Date, members?: number[]) {
+    const dtos = await new CalendarItemsRepository().selectAll(
+      fromDate,
+      toDate
+    );
+    const calendarItems = new CalendarItemsCollection(
+      dtos.map((dto) => new ExtendedCalendarItemMapper().toDomain(dto))
+    );
+    await calendarItems.filterByMembers(members);
+    const calendarDays = new CalendarDaysCollection(calendarItems.items);
+
+    return new CalendarDaysMapper().toDTO(calendarDays.items);
+  }
+
   async getById(id: number) {
     const dto = await new CalendarItemsRepository().selectById(id);
     return new CalendarItem(dto);
   }
 
-  async create(data: CalendarItemDTO) {
+  async create(data: BaseCalendarItemDTO) {
     const calendarItem = new CalendarItem(data);
     const results = await new CalendarItemsRepository().insert(calendarItem);
     await new CalendarItemMembersController().addCalendarItemToMembers(
@@ -26,7 +42,7 @@ export class CalendarItemsController implements ICalendarItemsController {
     return results;
   }
 
-  async update(data: CalendarItemDTO) {
+  async update(data: BaseCalendarItemDTO) {
     const calendarItem = new CalendarItem(data);
     const results = await new CalendarItemsRepository().update(calendarItem);
 
