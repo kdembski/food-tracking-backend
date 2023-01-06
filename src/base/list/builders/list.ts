@@ -1,10 +1,10 @@
 import { List } from "@/base/list/models/list";
 import { RequestQueryHelper } from "@/helpers/requestQuery";
-import { IListBuilder, ListItem } from "@/interfaces/base/list";
+import { IListBuilder, IListItem } from "@/interfaces/base/list";
 import { RequestQueryData } from "@/types/helpers/requestQuery";
 import { Pagination } from "../models/pagination";
 
-export class ListBuilder<Item extends ListItem<ItemDTO>, ItemDTO>
+export class ListBuilder<Item extends IListItem<ItemDTO>, ItemDTO>
   implements IListBuilder
 {
   private list: List<Item, ItemDTO>;
@@ -37,7 +37,7 @@ export class ListBuilder<Item extends ListItem<ItemDTO>, ItemDTO>
 
   async buildData() {
     const data = await this.list.getListData(this.list.config);
-    this.list.data = data.map((item) => this.list.createListItem(item));
+    this.list.data = data.map((item) => this.list.createIListItem(item));
   }
 
   async buildPagination() {

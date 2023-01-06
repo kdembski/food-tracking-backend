@@ -1,8 +1,8 @@
-import { IList, ListItem } from "@/interfaces/base/list";
+import { IList, IListItem } from "@/interfaces/base/list";
 import { Pagination } from "@/base/list/models/pagination";
 import { ListConfig } from "@/types/base/list";
 
-export abstract class List<Item extends ListItem<ItemDTO>, ItemDTO>
+export abstract class List<Item extends IListItem<ItemDTO>, ItemDTO>
   implements IList<Item, ItemDTO>
 {
   private _data?: Item[];
@@ -11,7 +11,7 @@ export abstract class List<Item extends ListItem<ItemDTO>, ItemDTO>
 
   abstract getListData(config: ListConfig): Promise<ItemDTO[]>;
   abstract getListCount(searchPhrase: string, tags: string): Promise<number>;
-  abstract createListItem(data: ItemDTO): Item;
+  abstract createIListItem(data: ItemDTO): Item;
 
   get data() {
     if (!this._data) {

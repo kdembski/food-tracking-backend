@@ -14,7 +14,7 @@ export class IngredientsList extends List<Ingredient, IngredientDTO> {
     return new IngredientsController().getCount(searchPhrase, tags);
   }
 
-  createListItem(data: IngredientDTO) {
+  createIListItem(data: IngredientDTO) {
     return new Ingredient(data);
   }
 

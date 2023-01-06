@@ -31,7 +31,7 @@ class TestList extends List<Item, ItemDTO> {
     return Promise.resolve(listData);
   }
 
-  createListItem(data: ItemDTO) {
+  createIListItem(data: ItemDTO) {
     return new Item(data);
   }
 }

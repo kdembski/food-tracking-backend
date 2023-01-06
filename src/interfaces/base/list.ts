@@ -2,7 +2,7 @@ import { Pagination } from "@/base/list/models/pagination";
 import { RequestQueryData } from "@/types/helpers/requestQuery";
 import { ListConfig } from "@/types/base/list";
 
-export type ListItem<T> = {
+export type IListItem<T> = {
   getDTO: () => T;
 };
 
@@ -13,7 +13,7 @@ export interface IListBuilder {
   buildPagination(): void;
 }
 
-export interface IList<Item extends ListItem<ItemDTO>, ItemDTO> {
+export interface IList<Item extends IListItem<ItemDTO>, ItemDTO> {
   getListDTO: () => {
     data: ItemDTO[];
     pagination: Pagination;
