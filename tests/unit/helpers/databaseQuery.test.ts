@@ -23,16 +23,21 @@ describe("Database Query Helper", () => {
 
   it("Should extend list query based on provided config", async () => {
     expect(
-      helper.extendQueryToSelectList("query", {
-        sortAttribute: "attr",
-        sortDirection: "dir",
-        tags: "tag",
-        size: 10,
-        page: 1,
-        offset: 10,
-      })
+      helper.extendQueryToSelectList(
+        "query",
+        {
+          searchPhrase: "search",
+          sortAttribute: "attr",
+          sortDirection: "dir",
+          tags: "tag",
+          size: 10,
+          page: 1,
+          offset: 10,
+        },
+        ["test_column"]
+      )
     ).toEqual(
-      "query\nAND tags COLLATE utf8mb4_general_ci LIKE '%tag%'\nORDER BY attr dir\nLIMIT 10\nOFFSET 10"
+      "query WHERE\n(\ntest_column COLLATE utf8mb4_general_ci LIKE 'search'\n)\nAND tags COLLATE utf8mb4_general_ci LIKE '%tag%'\nORDER BY attr dir\nLIMIT 10\nOFFSET 10"
     );
   });
 });

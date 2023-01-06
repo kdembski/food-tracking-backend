@@ -14,7 +14,7 @@ export class CalendarItem implements ICalendarItem {
 
   constructor(data: BaseCalendarItemDTO) {
     this._id = data.id;
-    this._date = data.date;
+    this._date = data.date ? new Date(data.date) : undefined;
     this._recipeId = data.recipeId;
     this._orderedFoodId = data.orderedFoodId;
     this._name = data.name;

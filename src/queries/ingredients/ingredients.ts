@@ -7,6 +7,8 @@ export const ingredientsQueries = {
     COLLATE utf8mb4_general_ci
     LIKE ?`,
 
+  selectOptions: `SELECT id, name FROM ingredients`,
+
   selectCount: `
     SELECT COUNT(*) FROM ingredients
     WHERE name

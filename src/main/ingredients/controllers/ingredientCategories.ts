@@ -13,6 +13,10 @@ export class IngredientCategoriesController
     return dtos.map((dto) => new IngredientCategory(dto));
   }
 
+  async getOptions() {
+    return await new IngredientCategoriesRepository().selectOptions();
+  }
+
   async getById(id: number) {
     const dto = await new IngredientCategoriesRepository().selectById(id);
     return new IngredientCategory(dto);

@@ -1,6 +1,7 @@
 import {
   IIngredientCategoriesRepository,
   IngredientCategoryDTO,
+  IngredientCategoryOptionDTO,
 } from "@/interfaces/ingredients/ingredientCategories";
 import Database from "@/config/database";
 import { OkPacket } from "mysql2";
@@ -33,6 +34,14 @@ export class IngredientCategoriesRepository
     );
 
     return results as IngredientCategoryDTO[];
+  }
+
+  async selectOptions() {
+    const results = await Database.sendQuery(
+      ingredientCategoriesQueries.selectOptions
+    );
+
+    return results as IngredientCategoryOptionDTO[];
   }
 
   async insert(data: IngredientCategory) {

@@ -1,6 +1,8 @@
 export const ingredientCategoriesQueries = {
   select: `SELECT * FROM ingredient_categories`,
 
+  selectOptions: `SELECT id, name FROM ingredient_categories`,
+
   selectById: `
     SELECT * FROM ingredient_categories
     WHERE id = ?`,

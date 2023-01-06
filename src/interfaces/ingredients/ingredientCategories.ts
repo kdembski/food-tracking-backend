@@ -10,6 +10,11 @@ export type IngredientCategoryDTO = {
   name?: string;
 };
 
+export type IngredientCategoryOptionDTO = {
+  id?: number;
+  name?: string;
+};
+
 export interface IIngredientCategory
   extends IDbEntityModel<IngredientCategoryDTO> {}
 

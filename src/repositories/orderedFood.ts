@@ -29,18 +29,30 @@ export class OrderedFoodRepository implements IOrderedFoodRepository {
   async selectList(config: ListConfig) {
     const query = new DatabaseQueryHelper().extendQueryToSelectList(
       orderedFoodQueries.select,
-      config
+      config,
+      ["food_name", "place_name"]
     );
 
-    const data = await Database.sendQuery(query, [config.searchPhrase]);
+    const data = await Database.sendQuery(query);
     return data as OrderedFoodDTO[];
   }
 
   async selectTags({ searchPhrase, tags }: TagsConfig) {
+    const databaseQueryHelper = new DatabaseQueryHelper();
+
     const queryToFilterByTags =
-      new DatabaseQueryHelper().getQueryToFiltersByTags(tags);
+      databaseQueryHelper.getQueryToFiltersByTags(tags);
+
+    const queryToFilterBySearchPhrase =
+      databaseQueryHelper.getQueryToFilterBySearchPhrase(searchPhrase, [
+        "food_name",
+        "place_name",
+      ]);
+
     const queryToSelectTags =
-      orderedFoodQueries.selectTags + "\n" + queryToFilterByTags;
+      orderedFoodQueries.selectTags +
+      queryToFilterBySearchPhrase +
+      queryToFilterByTags;
 
     const results = await Database.sendQuery(queryToSelectTags, [searchPhrase]);
 
@@ -48,14 +60,23 @@ export class OrderedFoodRepository implements IOrderedFoodRepository {
   }
 
   async selectCount(searchPhrase: string, tags?: string) {
+    const databaseQueryHelper = new DatabaseQueryHelper();
+
+    const queryToFilterByTags =
+      databaseQueryHelper.getQueryToFiltersByTags(tags);
+
+    const queryToFilterBySearchPhrase =
+      databaseQueryHelper.getQueryToFilterBySearchPhrase(searchPhrase, [
+        "food_name",
+        "place_name",
+      ]);
+
     const queryToSelectListCount =
       orderedFoodQueries.selectCount +
-      "\n" +
-      new DatabaseQueryHelper().getQueryToFiltersByTags(tags);
+      queryToFilterBySearchPhrase +
+      queryToFilterByTags;
 
-    const results = await Database.sendQuery(queryToSelectListCount, [
-      searchPhrase,
-    ]);
+    const results = await Database.sendQuery(queryToSelectListCount);
 
     return parseInt(results[0].count);
   }

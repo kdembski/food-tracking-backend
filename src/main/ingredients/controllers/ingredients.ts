@@ -18,17 +18,8 @@ export class IngredientsController implements IIngredientsController {
     return ingredientsList;
   }
 
-  async getOptions(query: RequestQueryData) {
-    const ingredientsList = new IngredientsList();
-    const listBuilder = new ListBuilder(ingredientsList);
-    await listBuilder.build(query);
-
-    const options = ingredientsList.iterate((item) => ({
-      id: item.id,
-      name: item.name,
-    }));
-
-    return options;
+  async getOptions() {
+    return new IngredientsRepository().selectOptions();
   }
 
   getCount(searchPhrase: string, tags?: string) {

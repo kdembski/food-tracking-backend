@@ -20,7 +20,7 @@ ingredientsRouter.get("/", async (request, response) => {
 
 ingredientsRouter.get("/options", async (request, response) => {
   try {
-    const options = await ingredientsController.getOptions(request.query);
+    const options = await ingredientsController.getOptions();
     response.json(options);
   } catch (error) {
     ApiError.create(error, response).send();

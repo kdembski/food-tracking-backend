@@ -1,21 +1,9 @@
 export const orderedFoodQueries = {
-  select: `
-    SELECT * FROM ordered_food
-    WHERE food_name
-    COLLATE utf8mb4_general_ci
-    LIKE ?`,
+  select: `SELECT * FROM ordered_food`,
 
-  selectCount: `
-    SELECT COUNT(*) FROM ordered_food
-    WHERE food_name
-    COLLATE utf8mb4_general_ci
-    LIKE ?`,
+  selectCount: `SELECT COUNT(*) FROM ordered_food`,
 
-  selectTags: `
-    SELECT tags FROM ordered_food
-    WHERE food_name
-    COLLATE utf8mb4_general_ci
-    LIKE ?`,
+  selectTags: `SELECT tags FROM ordered_food`,
 
   selectById: `SELECT * FROM ordered_food WHERE id = ?`,
 

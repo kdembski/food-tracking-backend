@@ -2,7 +2,10 @@ import { CustomError } from "@/base/errors/models/customError";
 import Database from "@/config/database";
 import { DatabaseQueryHelper } from "@/helpers/databaseQuery";
 import { ListConfig } from "@/interfaces/base/list";
-import { IngredientDTO } from "@/interfaces/ingredients/ingredients";
+import {
+  IngredientDTO,
+  IngredientOptionDTO,
+} from "@/interfaces/ingredients/ingredients";
 import { Ingredient } from "@/main/ingredients/models/ingredient";
 import { ingredientsQueries } from "@/queries/ingredients/ingredients";
 import { OkPacket } from "mysql2";
@@ -31,6 +34,11 @@ export class IngredientsRepository {
 
     const data = await Database.sendQuery(query, [config.searchPhrase]);
     return data as IngredientDTO[];
+  }
+
+  async selectOptions() {
+    const data = await Database.sendQuery(ingredientsQueries.selectOptions);
+    return data as IngredientOptionDTO[];
   }
 
   async selectCount(searchPhrase: string, tags?: string) {

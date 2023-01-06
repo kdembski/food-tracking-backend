@@ -15,6 +15,11 @@ export type IngredientDTO = {
   unitNames?: string[];
 };
 
+export type IngredientOptionDTO = {
+  id?: number;
+  name?: string;
+};
+
 export interface IIngredient extends IDbEntityModel<IngredientDTO> {
   loadUnitNames: () => void;
 }
