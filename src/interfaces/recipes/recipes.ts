@@ -8,8 +8,7 @@ import {
   IRepository,
 } from "../base/dbEntity";
 import { RecipeDTO } from "@/dtos/recipes/recipe";
-import { TagDTO } from "@/dtos/base/tag";
-import { TagsConfig } from "@/types/base/tags";
+import { Tags } from "@/base/tags/models/tags";
 
 export interface IRecipe extends IDbEntityModel<RecipeDTO> {
   setDatesFromLastYear: () => Promise<void>;
@@ -22,6 +21,6 @@ export interface IRecipesRepository
 
 export interface IRecipesController
   extends IDbEntityController<Recipe, RecipeDTO> {
-  getTags: (query: RequestQueryData) => Promise<TagDTO[]>;
+  getTags: (query: RequestQueryData) => Promise<Tags>;
   getNames: (searchPhrase: string, tags: string) => Promise<string[]>;
 }

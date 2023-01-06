@@ -1,8 +1,8 @@
 import {
   BaseCalendarItemDTO,
-  CalendarDayDTO,
   ExtendedCalendarItemDTO,
 } from "@/dtos/calendar/calendarItem";
+import { CalendarDaysCollection } from "@/main/calendar/collections/calendarDays";
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
 import { IDbEntityController, IRepository } from "../base/dbEntity";
 
@@ -34,5 +34,5 @@ export interface ICalendarItemsController
     fromDate: Date,
     toDate: Date,
     members: number[]
-  ) => Promise<CalendarDayDTO[]>;
+  ) => Promise<CalendarDaysCollection>;
 }

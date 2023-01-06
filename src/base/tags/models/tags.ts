@@ -1,8 +1,8 @@
-import { ITags, ITagsRepository } from "@/interfaces/base/tags";
+import { ITagsRepository } from "@/interfaces/base/tags";
 import { TagsConfig } from "@/types/base/tags";
 import { Tag } from "./tag";
 
-export abstract class Tags implements ITags {
+export abstract class Tags {
   private _items?: Tag[];
   private _config?: TagsConfig;
   private repository: ITagsRepository;
@@ -32,9 +32,5 @@ export abstract class Tags implements ITags {
 
   getTags(config: TagsConfig): Promise<string[]> {
     return this.repository.selectTags(config);
-  }
-
-  getItemsDTO() {
-    return this.items.map((item) => ({ name: item.name, count: item.count }));
   }
 }

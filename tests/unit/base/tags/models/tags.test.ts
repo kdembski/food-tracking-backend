@@ -29,18 +29,18 @@ describe("Tags Model", () => {
     expect(tags.items).toEqual([]);
 
     await builder.build({});
-    expect(tags.getItemsDTO()).toEqual([
+    expect(tags.items).toEqual([
       {
-        name: "tag2",
-        count: 2,
+        _name: "tag2",
+        _count: 2,
       },
       {
-        name: "tag1",
-        count: 1,
+        _name: "tag1",
+        _count: 1,
       },
       {
-        name: "tag3",
-        count: 1,
+        _name: "tag3",
+        _count: 1,
       },
     ]);
   });

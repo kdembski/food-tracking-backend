@@ -5,6 +5,7 @@ import { ApiError } from "@/base/errors/models/apiError";
 import { RequestParamsHelper } from "@/helpers/requestParams";
 import { CalendarItemsController } from "@/main/calendar/controllers/calendarItems";
 import { BaseCalendarItemDTO } from "@/dtos/calendar/calendarItem";
+import { CalendarDaysMapper } from "@/main/calendar/mappers/calendarDays";
 
 const calendarItemsRouter = Router();
 const calendarItemsController = new CalendarItemsController();
@@ -16,12 +17,12 @@ calendarItemsRouter.get("/", async (request, response) => {
       request.query
     ).getQueryValues();
 
-    const results = await calendarItemsController.getDays(
+    const calendarDays = await calendarItemsController.getDays(
       fromDate || new Date(1970, 0, 0),
       toDate || new Date(2070, 0, 0),
       members
     );
-    response.json(results);
+    response.json(new CalendarDaysMapper().toDTO(calendarDays.items));
   } catch (error) {
     ApiError.create(error, response).send();
   }

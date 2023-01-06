@@ -5,6 +5,7 @@ import { RequestParamsHelper } from "@/helpers/requestParams";
 import { RecipeIngredientsController } from "@/main/recipes/controllers/recipeIngredients";
 import { RecipesController } from "@/main/recipes/controllers/recipes";
 import { RecipeDTO } from "@/dtos/recipes/recipe";
+import { TagsMapper } from "@/base/tags/mappers/tags";
 
 const recipesRouter = Router();
 const recipesController = new RecipesController();
@@ -22,7 +23,7 @@ recipesRouter.get("/", async (request, response) => {
 recipesRouter.get("/tags", async (request, response) => {
   try {
     const tags = await recipesController.getTags(request.query);
-    response.json(tags);
+    response.json(new TagsMapper().toDTO(tags));
   } catch (error) {
     ApiError.create(error, response).send();
   }

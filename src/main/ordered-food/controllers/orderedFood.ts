@@ -20,7 +20,7 @@ export class OrderedFoodController implements IOrderedFoodController {
     const orderedFoodTags = new OrderedFoodTags();
     const tagsBuilder = new TagsBuilder(orderedFoodTags);
     await tagsBuilder.build(query);
-    return orderedFoodTags.getItemsDTO();
+    return orderedFoodTags;
   }
 
   getCount(searchPhrase: string, tags?: string) {

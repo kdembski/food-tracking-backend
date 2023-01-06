@@ -21,7 +21,7 @@ export class CalendarItemsController implements ICalendarItemsController {
     await calendarItems.filterByMembers(members);
     const calendarDays = new CalendarDaysCollection(calendarItems.items);
 
-    return new CalendarDaysMapper().toDTO(calendarDays.items);
+    return calendarDays;
   }
 
   async getById(id: number) {

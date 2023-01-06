@@ -1,7 +1,10 @@
 import { ExtendedCalendarItemDTO } from "@/dtos/calendar/calendarItem";
+import { Mapper } from "@/interfaces/base/mapper";
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
 
-export class ExtendedCalendarItemMapper {
+export class ExtendedCalendarItemMapper
+  implements Mapper<CalendarItem, ExtendedCalendarItemDTO>
+{
   toDTO(item: CalendarItem) {
     return {
       id: item.id,
