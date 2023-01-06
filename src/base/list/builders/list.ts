@@ -37,7 +37,7 @@ export class ListBuilder<Item extends IListItem<ItemDTO>, ItemDTO>
 
   async buildData() {
     const data = await this.list.getListData(this.list.config);
-    this.list.data = data.map((item) => this.list.createIListItem(item));
+    this.list.data = data.map((item) => this.list.createListItem(item));
   }
 
   async buildPagination() {

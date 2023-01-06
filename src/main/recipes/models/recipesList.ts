@@ -14,7 +14,7 @@ export class RecipesList extends List<Recipe, RecipeDTO> {
     return new RecipesController().getCount(searchPhrase, tags);
   }
 
-  createIListItem(data: RecipeDTO) {
+  createListItem(data: RecipeDTO) {
     return new Recipe(data);
   }
 

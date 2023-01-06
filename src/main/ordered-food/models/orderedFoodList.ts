@@ -14,7 +14,7 @@ export class OrderedFoodList extends List<OrderedFood, OrderedFoodDTO> {
     return new OrderedFoodController().getCount(searchPhrase, tags);
   }
 
-  createIListItem(data: OrderedFoodDTO) {
+  createListItem(data: OrderedFoodDTO) {
     return new OrderedFood(data);
   }
 }

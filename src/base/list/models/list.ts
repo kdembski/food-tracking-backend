@@ -11,7 +11,7 @@ export abstract class List<Item extends IListItem<ItemDTO>, ItemDTO>
 
   abstract getListData(config: ListConfig): Promise<ItemDTO[]>;
   abstract getListCount(searchPhrase: string, tags: string): Promise<number>;
-  abstract createIListItem(data: ItemDTO): Item;
+  abstract createListItem(data: ItemDTO): Item;
 
   get data() {
     if (!this._data) {
