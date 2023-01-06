@@ -4,7 +4,8 @@ export const ingredientCategoriesQueries = {
   selectOptions: `SELECT id, name FROM ingredient_categories`,
 
   selectById: `
-    SELECT * FROM ingredient_categories
+    SELECT * 
+    FROM ingredient_categories
     WHERE id = ?`,
 
   insert: `

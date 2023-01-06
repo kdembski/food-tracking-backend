@@ -26,8 +26,12 @@ export interface IIngredient extends IDbEntityModel<IngredientDTO> {
 
 export interface IIngredientsRepository
   extends IRepository<Ingredient, IngredientDTO>,
-    IListRepository<IngredientDTO> {}
+    IListRepository<IngredientDTO> {
+  selectOptions: () => Promise<IngredientOptionDTO[]>;
+}
 
 export interface IIngredientsController
   extends IDbEntityController<Ingredient, IngredientDTO>,
-    IListController<IngredientsList> {}
+    IListController<IngredientsList> {
+  getOptions: () => Promise<IngredientOptionDTO[]>;
+}

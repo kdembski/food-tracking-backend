@@ -6,8 +6,8 @@ import recipeIngredientsRouter from "./recipes/recipeIngredients";
 import usersRouter from "./users";
 import membersRouter from "./members";
 import ingredientsRouter from "./ingredients/ingredients";
-import ingredientUnitsRouter from "./ingredients/ingredientUnits";
 import ingredientCategoriesRouter from "./ingredients/ingredientCategories";
+import unitsRouter from "./ingredients/units";
 import { verifyToken } from "@/middlewares/authentication";
 
 const router = Router();
@@ -19,7 +19,7 @@ router.use("/users", usersRouter);
 router.use("/members", membersRouter);
 
 router.use("/ingredients/categories", ingredientCategoriesRouter);
-router.use("/ingredients/units", ingredientUnitsRouter);
+router.use("/ingredients/units", unitsRouter);
 router.use("/ingredients", ingredientsRouter);
 
 router.use("/recipes/ingredients", recipeIngredientsRouter);
