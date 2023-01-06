@@ -14,7 +14,8 @@ export class IngredientCategory implements IIngredientCategory {
   }
 
   constructor(dto: IngredientCategoryDTO) {
-    this.setFromDTO(dto);
+    this._id = dto.id;
+    this._name = dto.name;
   }
 
   setFromDTO(data: IngredientCategoryDTO) {

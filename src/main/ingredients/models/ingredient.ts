@@ -30,7 +30,11 @@ export class Ingredient implements IIngredient {
   }
 
   constructor(dto: IngredientDTO) {
-    this.setFromDTO(dto);
+    this._id = dto.id;
+    this._name = dto.name;
+    this._categoryId = dto.categoryId;
+    this._categoryName = dto.categoryName;
+    this._unitNames = dto.unitNames;
   }
 
   setFromDTO(data: IngredientDTO) {

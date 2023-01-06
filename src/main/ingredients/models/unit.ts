@@ -13,8 +13,14 @@ export class Unit {
     return this._name;
   }
 
+  get shortcut() {
+    return this._shortcut;
+  }
+
   constructor(dto: UnitDTO) {
-    this.setFromDTO(dto);
+    this._id = dto.id;
+    this._name = dto.name;
+    this._shortcut = dto.shortcut;
   }
 
   setFromDTO(data: UnitDTO) {

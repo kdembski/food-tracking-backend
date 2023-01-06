@@ -1,5 +1,5 @@
 import { RecipeIngredientDTO } from "@/dtos/recipes/recipeIngredient";
-import { RecipeIngredient } from "@/main/recipes/models/recipesIngredients";
+import { RecipeIngredient } from "@/main/recipes/models/recipeIngredient";
 import {
   IDbEntityController,
   IDbEntityModel,

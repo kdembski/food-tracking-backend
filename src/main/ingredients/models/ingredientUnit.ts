@@ -39,7 +39,13 @@ export class IngredientUnit implements IIngredientUnit {
   }
 
   constructor(dto: IngredientUnitDTO) {
-    this.setFromDTO(dto);
+    this._id = dto.id;
+    this._ingredientId = dto.ingredientId;
+    this._unitId = dto.unitId;
+    this._unitName = dto.unitName;
+    this._kcalPerUnit = dto.kcalPerUnit;
+    this._isPrimary = dto.isPrimary;
+    this._converterToPrimary = dto.converterToPrimary;
   }
 
   setFromDTO(data: IngredientUnitDTO) {

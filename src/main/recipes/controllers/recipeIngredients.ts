@@ -1,7 +1,7 @@
 import { RecipeIngredientDTO } from "@/dtos/recipes/recipeIngredient";
 import { IRecipeIngredientsController } from "@/interfaces/recipes/recipeIngredients";
 import { RecipeIngredientsRepository } from "@/repositories/recipes/recipeIngredients";
-import { RecipeIngredient } from "../models/recipesIngredients";
+import { RecipeIngredient } from "../models/recipeIngredient";
 
 export class RecipeIngredientsController
   implements IRecipeIngredientsController
