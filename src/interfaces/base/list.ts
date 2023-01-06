@@ -13,21 +13,18 @@ export interface IListBuilder {
   buildPagination(): void;
 }
 
-export interface IList<Item extends IListItem<ItemDTO>, ItemDTO> {
+export interface IList<Item, ItemDTO> {
+  createListItem(data: ItemDTO): Item;
+  getListData(config: ListConfig): Promise<ItemDTO[]>;
+  getListCount(searchPhrase: string, tags: string): Promise<number>;
   getListDTO: () => {
     data: ItemDTO[];
     pagination: Pagination;
   };
   getDataLength: () => number;
-  iterate: (callback: (item: Item) => void) => void;
 }
 
 export interface IListRepository<ItemDTO> {
   selectList: (config: ListConfig) => Promise<ItemDTO[]>;
   selectCount: (searchPhrase: string, tags?: string) => Promise<number>;
-}
-
-export interface IListController<List> {
-  getList: (query: RequestQueryData) => Promise<List>;
-  getCount: (searchPhrase: string, tags?: string) => Promise<number>;
 }

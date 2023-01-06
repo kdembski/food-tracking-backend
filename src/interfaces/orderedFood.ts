@@ -1,11 +1,11 @@
+import { ITagsRepository } from "./base/tags";
 import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
-import { IListController, IListRepository } from "./base/list";
+import { IListRepository } from "./base/list";
 import {
   IDbEntityController,
   IDbEntityModel,
   IRepository,
 } from "./base/dbEntity";
-import { OrderedFoodList } from "@/main/ordered-food/models/orderedFoodList";
 import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
 import { TagDTO } from "@/dtos/base/tag";
 import { RequestQueryData } from "@/types/helpers/requestQuery";
@@ -15,12 +15,10 @@ export interface IOrderedFood extends IDbEntityModel<OrderedFoodDTO> {}
 
 export interface IOrderedFoodRepository
   extends IRepository<OrderedFood, OrderedFoodDTO>,
-    IListRepository<OrderedFoodDTO> {
-  selectTags: (config: TagsConfig) => Promise<string[]>;
-}
+    IListRepository<OrderedFoodDTO>,
+    ITagsRepository {}
 
 export interface IOrderedFoodController
-  extends IDbEntityController<OrderedFood, OrderedFoodDTO>,
-    IListController<OrderedFoodList> {
+  extends IDbEntityController<OrderedFood, OrderedFoodDTO> {
   getTags: (query: RequestQueryData) => Promise<TagDTO[]>;
 }

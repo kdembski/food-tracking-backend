@@ -1,11 +1,10 @@
-import { IListController, IListRepository } from "../base/list";
+import { IListRepository } from "../base/list";
 import { Ingredient } from "@/main/ingredients/models/ingredient";
 import {
   IDbEntityController,
   IDbEntityModel,
   IRepository,
 } from "../base/dbEntity";
-import { IngredientsList } from "@/main/ingredients/models/ingredientsList";
 import {
   IngredientDTO,
   IngredientOptionDTO,
@@ -22,7 +21,6 @@ export interface IIngredientsRepository
 }
 
 export interface IIngredientsController
-  extends IDbEntityController<Ingredient, IngredientDTO>,
-    IListController<IngredientsList> {
+  extends IDbEntityController<Ingredient, IngredientDTO> {
   getOptions: () => Promise<IngredientOptionDTO[]>;
 }

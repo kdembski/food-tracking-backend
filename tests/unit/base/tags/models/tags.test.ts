@@ -4,9 +4,15 @@ import { Tags } from "@/base/tags/models/tags";
 
 const tagsData = ["tag1,tag2", "tag2,tag3"];
 
-class TestTags extends Tags {
-  getTags(config: TagsConfig) {
+class TestRepository {
+  selectTags(config: TagsConfig) {
     return Promise.resolve(tagsData);
+  }
+}
+
+class TestTags extends Tags {
+  constructor() {
+    super(new TestRepository());
   }
 }
 

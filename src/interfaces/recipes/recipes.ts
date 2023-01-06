@@ -1,4 +1,5 @@
-import { IListController, IListRepository } from "../base/list";
+import { ITagsRepository } from "./../base/tags";
+import { IListRepository } from "../base/list";
 import { Recipe } from "@/main/recipes/models/recipe";
 import { RequestQueryData } from "@/types/helpers/requestQuery";
 import {
@@ -6,7 +7,6 @@ import {
   IDbEntityModel,
   IRepository,
 } from "../base/dbEntity";
-import { RecipesList } from "@/main/recipes/models/recipesList";
 import { RecipeDTO } from "@/dtos/recipes/recipe";
 import { TagDTO } from "@/dtos/base/tag";
 import { TagsConfig } from "@/types/base/tags";
@@ -17,13 +17,11 @@ export interface IRecipe extends IDbEntityModel<RecipeDTO> {
 
 export interface IRecipesRepository
   extends IRepository<Recipe, RecipeDTO>,
-    IListRepository<RecipeDTO> {
-  selectTags: (config: TagsConfig) => Promise<string[]>;
-}
+    IListRepository<RecipeDTO>,
+    ITagsRepository {}
 
 export interface IRecipesController
-  extends IDbEntityController<Recipe, RecipeDTO>,
-    IListController<RecipesList> {
+  extends IDbEntityController<Recipe, RecipeDTO> {
   getTags: (query: RequestQueryData) => Promise<TagDTO[]>;
   getNames: (searchPhrase: string, tags: string) => Promise<string[]>;
 }

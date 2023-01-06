@@ -22,13 +22,19 @@ type ItemDTO = {
 
 const listData = [{ prop: "test" }];
 
-class TestList extends List<Item, ItemDTO> {
-  getListCount(searchPhrase: string, tags: string) {
+class TestRepository {
+  selectCount(searchPhrase: string, tags?: string) {
     return Promise.resolve(1);
   }
 
-  getListData(config: ListConfig) {
+  selectList(config: ListConfig) {
     return Promise.resolve(listData);
+  }
+}
+
+class TestList extends List<Item, ItemDTO> {
+  constructor() {
+    super(new TestRepository());
   }
 
   createListItem(data: ItemDTO) {
@@ -70,15 +76,5 @@ describe("List Model", () => {
   it("Should return list data length", async () => {
     await builder.build({ size: "10", page: "1" });
     expect(list.getDataLength()).toEqual(1);
-  });
-
-  it("Should iterate through list data with provided callback", async () => {
-    await builder.build({ size: "10", page: "1" });
-
-    const callback = jest.fn().mockImplementation((item: Item) => false);
-    list.iterate(callback);
-
-    expect(callback).toHaveBeenCalledTimes(1);
-    expect(callback).toHaveBeenCalledWith(new Item(listData[0]));
   });
 });

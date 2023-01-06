@@ -1,3 +1,4 @@
+import { IListRepository } from "@/interfaces/base/list";
 import { IList, IListItem } from "@/interfaces/base/list";
 import { Pagination } from "@/base/list/models/pagination";
 import { ListConfig } from "@/types/base/list";
@@ -8,10 +9,21 @@ export abstract class List<Item extends IListItem<ItemDTO>, ItemDTO>
   private _data?: Item[];
   private _pagination?: Pagination;
   private _config?: ListConfig;
+  private repository: IListRepository<ItemDTO>;
 
-  abstract getListData(config: ListConfig): Promise<ItemDTO[]>;
-  abstract getListCount(searchPhrase: string, tags: string): Promise<number>;
+  constructor(repository: IListRepository<ItemDTO>) {
+    this.repository = repository;
+  }
+
   abstract createListItem(data: ItemDTO): Item;
+
+  getListData(config: ListConfig) {
+    return this.repository.selectList(config);
+  }
+
+  getListCount(searchPhrase: string, tags: string) {
+    return this.repository.selectCount(searchPhrase, tags);
+  }
 
   get data() {
     if (!this._data) {
@@ -53,11 +65,5 @@ export abstract class List<Item extends IListItem<ItemDTO>, ItemDTO>
 
   getDataLength() {
     return this.data?.length;
-  }
-
-  iterate(callback: (item: Item) => any) {
-    return this.data?.map((item) => {
-      return callback(item);
-    });
   }
 }

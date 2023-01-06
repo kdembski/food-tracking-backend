@@ -1,17 +1,11 @@
-import { RecipesRepository } from "@/repositories/recipes/recipes";
 import { Recipe } from "./recipe";
 import { List } from "@/base/list/models/list";
-import { ListConfig } from "@/types/base/list";
-import { RecipesController } from "../controllers/recipes";
 import { RecipeDTO } from "@/dtos/recipes/recipe";
+import { RecipesRepository } from "@/repositories/recipes/recipes";
 
 export class RecipesList extends List<Recipe, RecipeDTO> {
-  async getListData(config: ListConfig) {
-    return new RecipesRepository().selectList(config);
-  }
-
-  getListCount(searchPhrase: string, tags: string): Promise<number> {
-    return new RecipesController().getCount(searchPhrase, tags);
+  constructor() {
+    super(new RecipesRepository());
   }
 
   createListItem(data: RecipeDTO) {
@@ -19,7 +13,7 @@ export class RecipesList extends List<Recipe, RecipeDTO> {
   }
 
   async setDatesFromLastYear() {
-    const promises = this.iterate(async (item) => {
+    const promises = this.data.map(async (item) => {
       return item.setDatesFromLastYear();
     });
 
