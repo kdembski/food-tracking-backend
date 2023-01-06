@@ -1,5 +1,5 @@
 import { CustomError } from "@/base/errors/models/customError";
-import { RequestParamsData } from "@/interfaces/helpers/requestParams";
+import { RequestParamsData } from "@/types/helpers/requestParams";
 
 export class RequestParamsHelper {
   private _id: string;

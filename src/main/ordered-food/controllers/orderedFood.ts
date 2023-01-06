@@ -1,6 +1,6 @@
 import { IOrderedFoodController } from "@/interfaces/orderedFood";
 import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
-import { RequestQueryData } from "@/interfaces/helpers/requestQuery";
+import { RequestQueryData } from "@/types/helpers/requestQuery";
 import { OrderedFoodRepository } from "@/repositories/orderedFood";
 import { OrderedFoodList } from "../models/orderedFoodList";
 import { OrderedFoodTags } from "../models/orderedFoodTags";

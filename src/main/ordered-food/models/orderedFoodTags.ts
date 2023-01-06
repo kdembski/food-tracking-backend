@@ -1,5 +1,5 @@
 import { Tags } from "@/base/tags/models/tags";
-import { TagsConfig } from "@/interfaces/base/tags";
+import { TagsConfig } from "@/types/base/tags";
 import { OrderedFoodRepository } from "@/repositories/orderedFood";
 
 export class OrderedFoodTags extends Tags {

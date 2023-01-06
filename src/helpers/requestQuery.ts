@@ -1,7 +1,5 @@
-import {
-  IRequestQueryHelper,
-  RequestQueryData,
-} from "@/interfaces/helpers/requestQuery";
+import { IRequestQueryHelper } from "@/interfaces/helpers/requestQuery";
+import { RequestQueryData } from "@/types/helpers/requestQuery";
 import loadsh from "lodash";
 
 export class RequestQueryHelper implements IRequestQueryHelper {

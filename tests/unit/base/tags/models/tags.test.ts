@@ -1,4 +1,4 @@
-import { TagsConfig } from "@/interfaces/base/tags";
+import { TagsConfig } from "@/types/base/tags";
 import { TagsBuilder } from "@/base/tags/builders/tags";
 import { Tags } from "@/base/tags/models/tags";
 

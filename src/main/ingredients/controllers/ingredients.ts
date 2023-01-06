@@ -1,7 +1,7 @@
 import { Ingredient } from "@/main/ingredients/models/ingredient";
 import { IngredientsRepository } from "@/repositories/ingredients/ingredients";
 import { IIngredientsController } from "@/interfaces/ingredients/ingredients";
-import { RequestQueryData } from "@/interfaces/helpers/requestQuery";
+import { RequestQueryData } from "@/types/helpers/requestQuery";
 import { IngredientsList } from "../models/ingredientsList";
 import { ListBuilder } from "@/base/list/builders/list";
 import { IngredientDTO } from "@/dtos/ingredients/ingredient";

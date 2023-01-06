@@ -1,6 +1,6 @@
 import { RequestQueryHelper } from "@/helpers/requestQuery";
 import { ITagsBuilder } from "@/interfaces/base/tags";
-import { RequestQueryData } from "@/interfaces/helpers/requestQuery";
+import { RequestQueryData } from "@/types/helpers/requestQuery";
 import lodash from "lodash";
 import { Tag } from "../models/tag";
 import { Tags } from "../models/tags";

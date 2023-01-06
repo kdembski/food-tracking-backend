@@ -1,4 +1,4 @@
-import { ListConfig } from "@/interfaces/base/list";
+import { ListConfig } from "@/types/base/list";
 
 export class DatabaseQueryHelper {
   getQueryToFiltersByTags(tags?: string) {

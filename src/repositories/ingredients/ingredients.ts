@@ -5,7 +5,7 @@ import {
   IngredientOptionDTO,
 } from "@/dtos/ingredients/ingredient";
 import { DatabaseQueryHelper } from "@/helpers/databaseQuery";
-import { ListConfig } from "@/interfaces/base/list";
+import { ListConfig } from "@/types/base/list";
 import { Ingredient } from "@/main/ingredients/models/ingredient";
 import { ingredientsQueries } from "@/queries/ingredients/ingredients";
 import { OkPacket } from "mysql2";

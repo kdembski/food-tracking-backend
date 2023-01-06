@@ -1,9 +1,4 @@
-import { RequestQueryData } from "../helpers/requestQuery";
-
-export type TagsConfig = {
-  searchPhrase: string;
-  tags?: string;
-};
+import { RequestQueryData } from "@/types/helpers/requestQuery";
 
 export interface ITags {
   getItemsDTO: () => void;

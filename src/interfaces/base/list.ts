@@ -1,18 +1,9 @@
 import { Pagination } from "@/base/list/models/pagination";
-import { RequestQueryData } from "@/interfaces/helpers/requestQuery";
+import { RequestQueryData } from "@/types/helpers/requestQuery";
+import { ListConfig } from "@/types/base/list";
 
 export type ListItem<T> = {
   getDTO: () => T;
-};
-
-export type ListConfig = {
-  searchPhrase?: string;
-  sortAttribute: string;
-  sortDirection: string;
-  tags: string;
-  size: number;
-  page: number;
-  offset: number;
 };
 
 export interface IListBuilder {

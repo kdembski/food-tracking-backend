@@ -2,7 +2,7 @@ import { ListBuilder } from "@/base/list/builders/list";
 import { IRecipesController } from "@/interfaces/recipes/recipes";
 import { RecipesRepository } from "@/repositories/recipes/recipes";
 import { Recipe } from "@/main/recipes/models/recipe";
-import { RequestQueryData } from "@/interfaces/helpers/requestQuery";
+import { RequestQueryData } from "@/types/helpers/requestQuery";
 import { RecipesList } from "../models/recipesList";
 import { RecipesTags } from "../models/recipesTags";
 import { TagsBuilder } from "@/base/tags/builders/tags";

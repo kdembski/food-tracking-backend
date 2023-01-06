@@ -1,4 +1,5 @@
-import { ITags, TagsConfig } from "@/interfaces/base/tags";
+import { ITags } from "@/interfaces/base/tags";
+import { TagsConfig } from "@/types/base/tags";
 import { Tag } from "./tag";
 
 export abstract class Tags implements ITags {

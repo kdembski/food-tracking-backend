@@ -1,4 +1,4 @@
-import { TagsConfig } from "@/interfaces/base/tags";
+import { TagsConfig } from "@/types/base/tags";
 import { Tags } from "@/base/tags/models/tags";
 import { RecipesRepository } from "@/repositories/recipes/recipes";
 

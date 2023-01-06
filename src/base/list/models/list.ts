@@ -1,5 +1,6 @@
-import { IList, ListConfig, ListItem } from "@/interfaces/base/list";
+import { IList, ListItem } from "@/interfaces/base/list";
 import { Pagination } from "@/base/list/models/pagination";
+import { ListConfig } from "@/types/base/list";
 
 export abstract class List<Item extends ListItem<ItemDTO>, ItemDTO>
   implements IList<Item, ItemDTO>

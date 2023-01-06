@@ -4,9 +4,9 @@ import { DatabaseQueryHelper } from "@/helpers/databaseQuery";
 import { IOrderedFoodRepository } from "@/interfaces/orderedFood";
 import { orderedFoodQueries } from "@/queries/orderedFood";
 import { OkPacket } from "mysql2";
-import { ListConfig } from "@/interfaces/base/list";
+import { ListConfig } from "@/types/base/list";
 import { CustomError } from "@/base/errors/models/customError";
-import { TagsConfig } from "@/interfaces/base/tags";
+import { TagsConfig } from "@/types/base/tags";
 import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
 
 export class OrderedFoodRepository implements IOrderedFoodRepository {

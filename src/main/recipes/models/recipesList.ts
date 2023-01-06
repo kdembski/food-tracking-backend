@@ -1,7 +1,7 @@
 import { RecipesRepository } from "@/repositories/recipes/recipes";
 import { Recipe } from "./recipe";
 import { List } from "@/base/list/models/list";
-import { ListConfig } from "@/interfaces/base/list";
+import { ListConfig } from "@/types/base/list";
 import { RecipesController } from "../controllers/recipes";
 import { RecipeDTO } from "@/dtos/recipes/recipe";
 

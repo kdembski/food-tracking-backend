@@ -1,6 +1,6 @@
 import { ListBuilder } from "@/base/list/builders/list";
 import { List } from "@/base/list/models/list";
-import { ListConfig } from "@/interfaces/base/list";
+import { ListConfig } from "@/types/base/list";
 
 class Item {
   _prop: string;

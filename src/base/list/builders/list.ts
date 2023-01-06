@@ -1,7 +1,7 @@
 import { List } from "@/base/list/models/list";
 import { RequestQueryHelper } from "@/helpers/requestQuery";
 import { IListBuilder, ListItem } from "@/interfaces/base/list";
-import { RequestQueryData } from "@/interfaces/helpers/requestQuery";
+import { RequestQueryData } from "@/types/helpers/requestQuery";
 import { Pagination } from "../models/pagination";
 
 export class ListBuilder<Item extends ListItem<ItemDTO>, ItemDTO>
