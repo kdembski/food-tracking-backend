@@ -1,21 +1,10 @@
+import { RecipeIngredientDTO } from "@/dtos/recipes/recipeIngredient";
 import { RecipeIngredient } from "@/main/recipes/models/recipesIngredients";
 import {
   IDbEntityController,
   IDbEntityModel,
   IRepository,
 } from "../base/dbEntity";
-
-export type RecipeIngredientDTO = {
-  id?: number;
-  recipeId?: number;
-  ingredientUnitId?: number;
-  amount?: number;
-  ingredientName?: string;
-  unitShortcut?: string;
-  kcalPerUnit?: number;
-  isPrimary?: boolean;
-  converterToPrimary?: number;
-};
 
 export interface IRecipeIngredient
   extends IDbEntityModel<RecipeIngredientDTO> {}

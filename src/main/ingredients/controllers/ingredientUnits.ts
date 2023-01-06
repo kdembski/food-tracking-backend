@@ -1,7 +1,5 @@
-import {
-  IIngredientUnitsController,
-  IngredientUnitDTO,
-} from "@/interfaces/ingredients/ingredientUnits";
+import { IngredientUnitDTO } from "@/dtos/ingredients/ingredientUnit";
+import { IIngredientUnitsController } from "@/interfaces/ingredients/ingredientUnits";
 import { IngredientUnitsRepository } from "@/repositories/ingredients/ingredientUnits";
 import { IngredientUnit } from "../models/ingredientUnit";
 

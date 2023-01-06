@@ -5,11 +5,6 @@ export type TagsConfig = {
   tags?: string;
 };
 
-export type TagDTO = {
-  name: string;
-  count: number;
-};
-
 export interface ITags {
   getItemsDTO: () => void;
 }

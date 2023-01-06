@@ -1,9 +1,9 @@
 import { RecipesRepository } from "@/repositories/recipes/recipes";
 import { Recipe } from "./recipe";
-import { RecipeDTO } from "@/interfaces/recipes/recipes";
 import { List } from "@/base/list/models/list";
 import { ListConfig } from "@/interfaces/base/list";
 import { RecipesController } from "../controllers/recipes";
+import { RecipeDTO } from "@/dtos/recipes/recipe";
 
 export class RecipesList extends List<Recipe, RecipeDTO> {
   async getListData(config: ListConfig) {

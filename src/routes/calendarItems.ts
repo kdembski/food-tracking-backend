@@ -4,7 +4,7 @@ import { Router } from "express";
 import { ApiError } from "@/base/errors/models/apiError";
 import { RequestParamsHelper } from "@/helpers/requestParams";
 import { CalendarItemsController } from "@/main/calendar/controllers/calendarItems";
-import { BaseCalendarItemDTO } from "@/main/calendar/dtos/baseCalendarItem";
+import { BaseCalendarItemDTO } from "@/dtos/calendar/calendarItem";
 
 const calendarItemsRouter = Router();
 const calendarItemsController = new CalendarItemsController();

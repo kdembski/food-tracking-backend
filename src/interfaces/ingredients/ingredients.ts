@@ -6,19 +6,10 @@ import {
   IRepository,
 } from "../base/dbEntity";
 import { IngredientsList } from "@/main/ingredients/models/ingredientsList";
-
-export type IngredientDTO = {
-  id?: number;
-  name?: string;
-  categoryId?: number;
-  categoryName?: string;
-  unitNames?: string[];
-};
-
-export type IngredientOptionDTO = {
-  id?: number;
-  name?: string;
-};
+import {
+  IngredientDTO,
+  IngredientOptionDTO,
+} from "@/dtos/ingredients/ingredient";
 
 export interface IIngredient extends IDbEntityModel<IngredientDTO> {
   loadUnitNames: () => void;

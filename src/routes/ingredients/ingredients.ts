@@ -1,9 +1,9 @@
 import { RequestParamsHelper } from "@/helpers/requestParams";
-import { IngredientDTO } from "@/interfaces/ingredients/ingredients";
 import { ApiError } from "@/base/errors/models/apiError";
 import { Router } from "express";
 import { IngredientsController } from "@/main/ingredients/controllers/ingredients";
 import { IngredientUnitsController } from "@/main/ingredients/controllers/ingredientUnits";
+import { IngredientDTO } from "@/dtos/ingredients/ingredient";
 
 const ingredientsRouter = Router();
 const ingredientsController = new IngredientsController();

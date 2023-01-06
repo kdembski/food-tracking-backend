@@ -7,18 +7,9 @@ import {
   IRepository,
 } from "../base/dbEntity";
 import { RecipesList } from "@/main/recipes/models/recipesList";
-import { TagDTO, TagsConfig } from "../base/tags";
-
-export type RecipeDTO = {
-  id?: number;
-  recipeName?: string;
-  preparationTime?: number;
-  tags?: string;
-  kcal?: number;
-  cookedDate?: Date;
-  cookidooLink?: string;
-  getFromLastYear?: Date[][];
-};
+import { TagsConfig } from "../base/tags";
+import { RecipeDTO } from "@/dtos/recipes/recipe";
+import { TagDTO } from "@/dtos/base/tag";
 
 export interface IRecipe extends IDbEntityModel<RecipeDTO> {
   setDatesFromLastYear: () => Promise<void>;

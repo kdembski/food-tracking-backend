@@ -1,12 +1,12 @@
 import { IOrderedFoodController } from "@/interfaces/orderedFood";
 import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
-import { OrderedFoodDTO } from "@/interfaces/orderedFood";
 import { RequestQueryData } from "@/interfaces/helpers/requestQuery";
 import { OrderedFoodRepository } from "@/repositories/orderedFood";
 import { OrderedFoodList } from "../models/orderedFoodList";
 import { OrderedFoodTags } from "../models/orderedFoodTags";
 import { ListBuilder } from "@/base/list/builders/list";
 import { TagsBuilder } from "@/base/tags/builders/tags";
+import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
 
 export class OrderedFoodController implements IOrderedFoodController {
   async getList(query: RequestQueryData) {

@@ -7,16 +7,9 @@ import {
   IRepository,
 } from "./base/dbEntity";
 import { OrderedFoodList } from "@/main/ordered-food/models/orderedFoodList";
-import { TagDTO, TagsConfig } from "./base/tags";
-
-export type OrderedFoodDTO = {
-  id?: number;
-  foodName?: string;
-  placeName?: string;
-  tags?: string;
-  placeLink?: string;
-  orderedDate?: Date;
-};
+import { TagsConfig } from "./base/tags";
+import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
+import { TagDTO } from "@/dtos/base/tag";
 
 export interface IOrderedFood extends IDbEntityModel<OrderedFoodDTO> {}
 

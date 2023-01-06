@@ -1,11 +1,11 @@
 import { CustomError } from "@/base/errors/models/customError";
 import Database from "@/config/database";
-import { DatabaseQueryHelper } from "@/helpers/databaseQuery";
-import { ListConfig } from "@/interfaces/base/list";
 import {
   IngredientDTO,
   IngredientOptionDTO,
-} from "@/interfaces/ingredients/ingredients";
+} from "@/dtos/ingredients/ingredient";
+import { DatabaseQueryHelper } from "@/helpers/databaseQuery";
+import { ListConfig } from "@/interfaces/base/list";
 import { Ingredient } from "@/main/ingredients/models/ingredient";
 import { ingredientsQueries } from "@/queries/ingredients/ingredients";
 import { OkPacket } from "mysql2";

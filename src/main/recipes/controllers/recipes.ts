@@ -2,11 +2,11 @@ import { ListBuilder } from "@/base/list/builders/list";
 import { IRecipesController } from "@/interfaces/recipes/recipes";
 import { RecipesRepository } from "@/repositories/recipes/recipes";
 import { Recipe } from "@/main/recipes/models/recipe";
-import { RecipeDTO } from "@/interfaces/recipes/recipes";
 import { RequestQueryData } from "@/interfaces/helpers/requestQuery";
 import { RecipesList } from "../models/recipesList";
 import { RecipesTags } from "../models/recipesTags";
 import { TagsBuilder } from "@/base/tags/builders/tags";
+import { RecipeDTO } from "@/dtos/recipes/recipe";
 
 export class RecipesController implements IRecipesController {
   async getList(query: RequestQueryData) {

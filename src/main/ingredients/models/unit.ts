@@ -1,4 +1,4 @@
-import { UnitDTO } from "@/interfaces/ingredients/units";
+import { UnitDTO } from "@/dtos/ingredients/unit";
 
 export class Unit {
   private _id?: number;

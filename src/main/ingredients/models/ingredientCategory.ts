@@ -1,7 +1,5 @@
-import {
-  IIngredientCategory,
-  IngredientCategoryDTO,
-} from "@/interfaces/ingredients/ingredientCategories";
+import { IngredientCategoryDTO } from "@/dtos/ingredients/ingredientCategory";
+import { IIngredientCategory } from "@/interfaces/ingredients/ingredientCategories";
 
 export class IngredientCategory implements IIngredientCategory {
   private _id?: number;

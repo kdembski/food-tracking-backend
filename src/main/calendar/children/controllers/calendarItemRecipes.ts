@@ -1,4 +1,4 @@
-import { RecipeDTO } from "@/interfaces/recipes/recipes";
+import { RecipeDTO } from "@/dtos/recipes/recipe";
 import { RecipesController } from "@/main/recipes/controllers/recipes";
 import { Recipe } from "@/main/recipes/models/recipe";
 import { CalendarItemsRepository } from "@/repositories/calendarItems";

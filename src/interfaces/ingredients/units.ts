@@ -1,20 +1,10 @@
+import { UnitDTO, UnitOptionDTO } from "@/dtos/ingredients/unit";
 import { Unit } from "@/main/ingredients/models/unit";
 import {
   IDbEntityController,
   IDbEntityModel,
   IRepository,
 } from "../base/dbEntity";
-
-export type UnitDTO = {
-  id?: number;
-  name?: string;
-  shortcut?: string;
-};
-
-export type UnitOptionDTO = {
-  id?: number;
-  name?: string;
-};
 
 export interface IUnit extends IDbEntityModel<UnitDTO> {}
 

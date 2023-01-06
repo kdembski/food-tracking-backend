@@ -1,8 +1,4 @@
-export interface UserDTO {
-  id: number;
-  password: string;
-  accessToken: string;
-}
+import { UserDTO } from "@/dtos/user";
 
 export interface IUsersRepository {
   selectById: (id: number) => Promise<UserDTO>;

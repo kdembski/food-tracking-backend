@@ -1,19 +1,10 @@
+import { IngredientCategoryDTO } from "@/dtos/ingredients/ingredientCategory";
 import { IngredientCategory } from "@/main/ingredients/models/ingredientCategory";
 import {
   IDbEntityController,
   IDbEntityModel,
   IRepository,
 } from "../base/dbEntity";
-
-export type IngredientCategoryDTO = {
-  id?: number;
-  name?: string;
-};
-
-export type IngredientCategoryOptionDTO = {
-  id?: number;
-  name?: string;
-};
 
 export interface IIngredientCategory
   extends IDbEntityModel<IngredientCategoryDTO> {}

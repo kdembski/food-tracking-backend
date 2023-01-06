@@ -1,6 +1,6 @@
 import { MemberCalendarItemsController } from "@/main/members/controllers/memberCalendarItems";
-import { ICalendarItem } from "@/interfaces/calendar/calendarItem";
-import { BaseCalendarItemDTO } from "../dtos/baseCalendarItem";
+import { ICalendarItem } from "@/interfaces/calendar/calendarItems";
+import { BaseCalendarItemDTO } from "@/dtos/calendar/calendarItem";
 
 export class CalendarItem implements ICalendarItem {
   private _id?: number;

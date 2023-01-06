@@ -1,5 +1,5 @@
-import { RecipeIngredientDTO } from "@/interfaces/recipes/recipesIngredients";
-import { IRecipeIngredientsController } from "@/interfaces/recipes/recipesIngredients";
+import { RecipeIngredientDTO } from "@/dtos/recipes/recipeIngredient";
+import { IRecipeIngredientsController } from "@/interfaces/recipes/recipeIngredients";
 import { RecipeIngredientsRepository } from "@/repositories/recipes/recipeIngredients";
 import { RecipeIngredient } from "../models/recipesIngredients";
 

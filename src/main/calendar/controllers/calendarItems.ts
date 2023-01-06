@@ -1,13 +1,13 @@
 import { CalendarDaysMapper } from "./../mappers/calendarDays";
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
-import { ICalendarItemsController } from "@/interfaces/calendar/calendarItem";
+import { ICalendarItemsController } from "@/interfaces/calendar/calendarItems";
 import { CalendarItemsRepository } from "@/repositories/calendarItems";
 import { CalendarItemMembersController } from "./calendarItemMembers";
 import { CalendarItemChildControllersFactory } from "../children/factories/calendarItemChildControllers";
-import { BaseCalendarItemDTO } from "../dtos/baseCalendarItem";
 import { ExtendedCalendarItemMapper } from "../mappers/extendedCalendarItem";
 import { CalendarItemsCollection } from "../collections/calendarItems";
 import { CalendarDaysCollection } from "../collections/calendarDays";
+import { BaseCalendarItemDTO } from "@/dtos/calendar/calendarItem";
 
 export class CalendarItemsController implements ICalendarItemsController {
   async getDays(fromDate: Date, toDate: Date, members?: number[]) {

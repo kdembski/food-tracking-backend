@@ -1,10 +1,10 @@
 import { IIngredientUnitsRepository } from "@/interfaces/ingredients/ingredientUnits";
 import Database from "@/config/database";
-import { IngredientUnitDTO } from "@/interfaces/ingredients/ingredientUnits";
 import { ingredientUnitsQueries } from "@/queries/ingredients/ingredientUnits";
 import { OkPacket } from "mysql2";
 import { CustomError } from "@/base/errors/models/customError";
 import { IngredientUnit } from "@/main/ingredients/models/ingredientUnit";
+import { IngredientUnitDTO } from "@/dtos/ingredients/ingredientUnit";
 
 export class IngredientUnitsRepository implements IIngredientUnitsRepository {
   async selectById(id: number) {

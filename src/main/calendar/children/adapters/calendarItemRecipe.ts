@@ -1,6 +1,6 @@
 import { Recipe } from "@/main/recipes/models/recipe";
 import { ICalendarItemChild } from "@/interfaces/calendar/calendarItemChild";
-import { RecipeDTO } from "@/interfaces/recipes/recipes";
+import { RecipeDTO } from "@/dtos/recipes/recipe";
 
 export class CalendarItemRecipeAdapter
   implements ICalendarItemChild<RecipeDTO>

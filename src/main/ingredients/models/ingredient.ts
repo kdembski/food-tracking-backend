@@ -1,4 +1,4 @@
-import { IngredientDTO } from "@/interfaces/ingredients/ingredients";
+import { IngredientDTO } from "@/dtos/ingredients/ingredient";
 import { IIngredient } from "@/interfaces/ingredients/ingredients";
 import { IngredientUnitsController } from "../controllers/ingredientUnits";
 

@@ -1,4 +1,5 @@
-import { IUnitsController, UnitDTO } from "@/interfaces/ingredients/units";
+import { UnitDTO } from "@/dtos/ingredients/unit";
+import { IUnitsController } from "@/interfaces/ingredients/units";
 import { UnitsRepository } from "@/repositories/ingredients/units";
 import { Unit } from "../models/unit";
 

@@ -1,9 +1,9 @@
 import { OrderedFoodController } from "@/main/ordered-food/controllers/orderedFood";
-import { OrderedFoodDTO } from "@/interfaces/orderedFood";
 import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
 import { CalendarItemsRepository } from "@/repositories/calendarItems";
 import { CalendarItemChildController } from "./calendarItemChild";
 import { CalendarItemOrderedFoodAdapter } from "../adapters/calendarItemOrderedFood";
+import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
 
 export class CalendarItemOrderedFoodController extends CalendarItemChildController<
   OrderedFood,

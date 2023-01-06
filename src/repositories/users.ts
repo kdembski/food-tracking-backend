@@ -1,5 +1,6 @@
 import Database from "@/config/database";
-import { IUsersRepository, UserDTO } from "@/interfaces/users";
+import { UserDTO } from "@/dtos/user";
+import { IUsersRepository } from "@/interfaces/users";
 import { usersQueries } from "@/queries/users";
 
 export class UsersRepository implements IUsersRepository {

@@ -1,15 +1,13 @@
 import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
 import Database from "@/config/database";
 import { DatabaseQueryHelper } from "@/helpers/databaseQuery";
-import {
-  IOrderedFoodRepository,
-  OrderedFoodDTO,
-} from "@/interfaces/orderedFood";
+import { IOrderedFoodRepository } from "@/interfaces/orderedFood";
 import { orderedFoodQueries } from "@/queries/orderedFood";
 import { OkPacket } from "mysql2";
 import { ListConfig } from "@/interfaces/base/list";
 import { CustomError } from "@/base/errors/models/customError";
 import { TagsConfig } from "@/interfaces/base/tags";
+import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
 
 export class OrderedFoodRepository implements IOrderedFoodRepository {
   async selectById(id: number) {

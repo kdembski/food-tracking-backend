@@ -1,4 +1,5 @@
-import { IOrderedFood, OrderedFoodDTO } from "@/interfaces/orderedFood";
+import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
+import { IOrderedFood } from "@/interfaces/orderedFood";
 
 export class OrderedFood implements IOrderedFood {
   private _id?: number;

@@ -1,10 +1,7 @@
 import { CustomError } from "@/base/errors/models/customError";
 import Database from "@/config/database";
-import {
-  IUnitsRepository,
-  UnitDTO,
-  UnitOptionDTO,
-} from "@/interfaces/ingredients/units";
+import { UnitDTO, UnitOptionDTO } from "@/dtos/ingredients/unit";
+import { IUnitsRepository } from "@/interfaces/ingredients/units";
 import { Unit } from "@/main/ingredients/models/unit";
 import { unitsQueries } from "@/queries/ingredients/units";
 import { OkPacket } from "mysql2";

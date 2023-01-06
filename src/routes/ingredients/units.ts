@@ -2,7 +2,7 @@ import { RequestParamsHelper } from "@/helpers/requestParams";
 import { ApiError } from "@/base/errors/models/apiError";
 import { Router } from "express";
 import { UnitsController } from "@/main/ingredients/controllers/units";
-import { UnitDTO } from "@/interfaces/ingredients/units";
+import { UnitDTO } from "@/dtos/ingredients/unit";
 
 const unitsRouter = Router();
 const unitsController = new UnitsController();

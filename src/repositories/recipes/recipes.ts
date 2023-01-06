@@ -1,12 +1,13 @@
 import { OkPacket } from "mysql2";
 import { recipesQueries } from "@/queries/recipes/recipes";
-import { RecipeDTO, IRecipesRepository } from "@/interfaces/recipes/recipes";
+import { IRecipesRepository } from "@/interfaces/recipes/recipes";
 import Database from "@/config/database";
 import { Recipe } from "@/main/recipes/models/recipe";
 import { DatabaseQueryHelper } from "@/helpers/databaseQuery";
 import { ListConfig } from "@/interfaces/base/list";
 import { CustomError } from "@/base/errors/models/customError";
 import { TagsConfig } from "@/interfaces/base/tags";
+import { RecipeDTO } from "@/dtos/recipes/recipe";
 
 export class RecipesRepository implements IRecipesRepository {
   async selectById(id: number) {

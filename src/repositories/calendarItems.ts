@@ -1,11 +1,13 @@
-import { ExtendedCalendarItemDTO } from "@/main/calendar/dtos/extendedCalendarItem";
-import { BaseCalendarItemDTO } from "@/main/calendar/dtos/baseCalendarItem";
 import { OkPacket } from "mysql2";
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
 import Database from "@/config/database";
-import { ICalendarItemsRepository } from "@/interfaces/calendar/calendarItem";
+import { ICalendarItemsRepository } from "@/interfaces/calendar/calendarItems";
 import { calendarItemsQueries } from "@/queries/calendarItems";
 import { CustomError } from "@/base/errors/models/customError";
+import {
+  BaseCalendarItemDTO,
+  ExtendedCalendarItemDTO,
+} from "@/dtos/calendar/calendarItem";
 
 export class CalendarItemsRepository implements ICalendarItemsRepository {
   async selectById(id: number) {

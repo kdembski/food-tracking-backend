@@ -1,6 +1,6 @@
 import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
 import { ICalendarItemChild } from "@/interfaces/calendar/calendarItemChild";
-import { OrderedFoodDTO } from "@/interfaces/orderedFood";
+import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
 
 export class CalendarItemOrderedFoodAdapter
   implements ICalendarItemChild<OrderedFoodDTO>

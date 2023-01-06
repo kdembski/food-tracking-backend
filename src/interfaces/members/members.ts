@@ -1,7 +1,4 @@
-export type MemberDTO = {
-  id?: number;
-  name?: string;
-};
+import { MemberDTO } from "@/dtos/members/member";
 
 export interface IMembersRepository {
   selectAll: () => Promise<MemberDTO[]>;

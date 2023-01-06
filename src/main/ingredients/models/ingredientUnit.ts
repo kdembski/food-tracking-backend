@@ -1,7 +1,5 @@
-import {
-  IngredientUnitDTO,
-  IIngredientUnit,
-} from "@/interfaces/ingredients/ingredientUnits";
+import { IngredientUnitDTO } from "@/dtos/ingredients/ingredientUnit";
+import { IIngredientUnit } from "@/interfaces/ingredients/ingredientUnits";
 
 export class IngredientUnit implements IIngredientUnit {
   private _id?: number;

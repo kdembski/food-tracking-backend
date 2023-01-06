@@ -1,5 +1,6 @@
 import Database from "@/config/database";
-import { IMembersRepository, MemberDTO } from "@/interfaces/members/members";
+import { MemberDTO } from "@/dtos/members/member";
+import { IMembersRepository } from "@/interfaces/members/members";
 import { membersQueries } from "@/queries/members/members";
 
 export class MembersRepository implements IMembersRepository {

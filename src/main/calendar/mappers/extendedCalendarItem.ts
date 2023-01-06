@@ -1,4 +1,4 @@
-import { ExtendedCalendarItemDTO } from "./../dtos/extendedCalendarItem";
+import { ExtendedCalendarItemDTO } from "@/dtos/calendar/calendarItem";
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
 
 export class ExtendedCalendarItemMapper {

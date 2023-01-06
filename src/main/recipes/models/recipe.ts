@@ -1,4 +1,5 @@
-import { IRecipe, RecipeDTO } from "@/interfaces/recipes/recipes";
+import { RecipeDTO } from "@/dtos/recipes/recipe";
+import { IRecipe } from "@/interfaces/recipes/recipes";
 import { CalendarItemRecipesController } from "@/main/calendar/children/controllers/calendarItemRecipes";
 
 export class Recipe implements IRecipe {

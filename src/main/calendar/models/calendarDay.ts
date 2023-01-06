@@ -1,4 +1,5 @@
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
+
 export class CalendarDay {
   private _date: Date;
   private _items: CalendarItem[];

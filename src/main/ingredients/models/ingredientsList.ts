@@ -1,9 +1,9 @@
 import { ListConfig } from "@/interfaces/base/list";
 import { IngredientsRepository } from "@/repositories/ingredients/ingredients";
-import { IngredientDTO } from "@/interfaces/ingredients/ingredients";
 import { List } from "@/base/list/models/list";
 import { Ingredient } from "./ingredient";
 import { IngredientsController } from "../controllers/ingredients";
+import { IngredientDTO } from "@/dtos/ingredients/ingredient";
 
 export class IngredientsList extends List<Ingredient, IngredientDTO> {
   async getListData(config: ListConfig) {

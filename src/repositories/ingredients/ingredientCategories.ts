@@ -1,13 +1,13 @@
-import {
-  IIngredientCategoriesRepository,
-  IngredientCategoryDTO,
-  IngredientCategoryOptionDTO,
-} from "@/interfaces/ingredients/ingredientCategories";
+import { IIngredientCategoriesRepository } from "@/interfaces/ingredients/ingredientCategories";
 import Database from "@/config/database";
 import { OkPacket } from "mysql2";
 import { ingredientCategoriesQueries } from "@/queries/ingredients/ingredientCategories";
 import { CustomError } from "@/base/errors/models/customError";
 import { IngredientCategory } from "@/main/ingredients/models/ingredientCategory";
+import {
+  IngredientCategoryDTO,
+  IngredientCategoryOptionDTO,
+} from "@/dtos/ingredients/ingredientCategory";
 
 export class IngredientCategoriesRepository
   implements IIngredientCategoriesRepository
