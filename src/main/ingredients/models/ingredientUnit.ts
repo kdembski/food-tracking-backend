@@ -47,26 +47,4 @@ export class IngredientUnit implements IIngredientUnit {
     this._isPrimary = dto.isPrimary;
     this._converterToPrimary = dto.converterToPrimary;
   }
-
-  setFromDTO(data: IngredientUnitDTO) {
-    this._id = data.id;
-    this._ingredientId = data.ingredientId;
-    this._unitId = data.unitId;
-    this._unitName = data.unitName;
-    this._kcalPerUnit = data.kcalPerUnit;
-    this._isPrimary = data.isPrimary;
-    this._converterToPrimary = data.converterToPrimary;
-  }
-
-  getDTO() {
-    return {
-      id: this.id,
-      ingredientId: this.ingredientId,
-      unitId: this.unitId,
-      unitName: this.unitName,
-      kcalPerUnit: this.kcalPerUnit,
-      isPrimary: this.isPrimary,
-      converterToPrimary: this.converterToPrimary,
-    };
-  }
 }

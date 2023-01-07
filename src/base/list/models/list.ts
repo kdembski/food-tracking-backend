@@ -1,18 +1,23 @@
+import { IMapper } from "./../../../interfaces/base/mapper";
 import { IListRepository } from "@/interfaces/base/list";
-import { IList, IListItem } from "@/interfaces/base/list";
+import { IList } from "@/interfaces/base/list";
 import { Pagination } from "@/base/list/models/pagination";
 import { ListConfig } from "@/types/base/list";
 
-export abstract class List<Item extends IListItem<ItemDTO>, ItemDTO>
-  implements IList<Item, ItemDTO>
-{
+export abstract class List<Item, ItemDTO> implements IList<Item, ItemDTO> {
   private _data?: Item[];
   private _pagination?: Pagination;
   private _config?: ListConfig;
-  private repository: IListRepository<ItemDTO>;
 
-  constructor(repository: IListRepository<ItemDTO>) {
+  private repository: IListRepository<ItemDTO>;
+  private mapper: IMapper<Item, ItemDTO>;
+
+  constructor(
+    repository: IListRepository<ItemDTO>,
+    mapper: IMapper<Item, ItemDTO>
+  ) {
     this.repository = repository;
+    this.mapper = mapper;
   }
 
   abstract createListItem(data: ItemDTO): Item;
@@ -58,12 +63,14 @@ export abstract class List<Item extends IListItem<ItemDTO>, ItemDTO>
     this._config = config;
   }
 
-  getListDTO() {
-    const dataDTOs = this.data?.map((item) => item.getDTO());
-    return { data: dataDTOs, pagination: this.pagination };
-  }
-
   getDataLength() {
     return this.data?.length;
+  }
+
+  toDTO() {
+    return {
+      data: this.data.map((item) => this.mapper.toDTO(item)),
+      pagination: this.pagination,
+    };
   }
 }

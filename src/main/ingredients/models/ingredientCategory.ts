@@ -17,16 +17,4 @@ export class IngredientCategory implements IIngredientCategory {
     this._id = dto.id;
     this._name = dto.name;
   }
-
-  setFromDTO(data: IngredientCategoryDTO) {
-    this._id = data.id;
-    this._name = data.name;
-  }
-
-  getDTO() {
-    return {
-      id: this.id,
-      name: this.name,
-    };
-  }
 }

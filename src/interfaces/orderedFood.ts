@@ -1,16 +1,12 @@
 import { ITagsRepository } from "./base/tags";
 import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
 import { IListRepository } from "./base/list";
-import {
-  IDbEntityController,
-  IDbEntityModel,
-  IRepository,
-} from "./base/dbEntity";
+import { IDbEntityController, IRepository } from "./base/dbEntity";
 import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
 import { RequestQueryData } from "@/types/helpers/requestQuery";
 import { Tags } from "@/base/tags/models/tags";
 
-export interface IOrderedFood extends IDbEntityModel<OrderedFoodDTO> {}
+export interface IOrderedFood {}
 
 export interface IOrderedFoodRepository
   extends IRepository<OrderedFood, OrderedFoodDTO>,

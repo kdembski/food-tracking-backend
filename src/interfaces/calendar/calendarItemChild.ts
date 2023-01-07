@@ -1,5 +1,6 @@
-export interface ICalendarItemChild<ModelDTO> {
-  getDTO(): ModelDTO;
+export interface ICalendarItemChild<Model> {
+  get item(): Model;
+  set item(item: Model);
   getDate(): Date | undefined;
   setDate(date: Date): void;
 }

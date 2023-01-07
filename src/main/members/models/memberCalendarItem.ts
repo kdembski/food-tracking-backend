@@ -7,7 +7,9 @@ export class MemberCalendarItem implements IMemberCalendarItem {
   private _memberId?: number;
 
   constructor(data: MemberCalendarItemDTO) {
-    this.setFromDTO(data);
+    this._id = data.id;
+    this._itemId = data.itemId;
+    this._memberId = data.memberId;
   }
 
   get id() {
@@ -20,19 +22,5 @@ export class MemberCalendarItem implements IMemberCalendarItem {
 
   get memberId() {
     return this._memberId;
-  }
-
-  setFromDTO(data: MemberCalendarItemDTO) {
-    this._id = data.id;
-    this._itemId = data.itemId;
-    this._memberId = data.memberId;
-  }
-
-  getDTO() {
-    return {
-      id: this.id,
-      itemId: this.itemId,
-      memberId: this.memberId,
-    };
   }
 }

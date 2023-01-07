@@ -1,9 +1,11 @@
+import { IngredientUnitMapper } from "./../../main/ingredients/mappers/ingredientUnit";
 import { RequestParamsHelper } from "@/helpers/requestParams";
 import { ApiError } from "@/base/errors/models/apiError";
 import { Router } from "express";
 import { IngredientsController } from "@/main/ingredients/controllers/ingredients";
 import { IngredientUnitsController } from "@/main/ingredients/controllers/ingredientUnits";
 import { IngredientDTO } from "@/dtos/ingredients/ingredient";
+import { IngredientMapper } from "@/main/ingredients/mappers/ingredient";
 
 const ingredientsRouter = Router();
 const ingredientsController = new IngredientsController();
@@ -12,7 +14,7 @@ const ingredientUnitsController = new IngredientUnitsController();
 ingredientsRouter.get("/", async (request, response) => {
   try {
     const list = await ingredientsController.getList(request.query);
-    response.json(list.getListDTO());
+    response.json(list.toDTO());
   } catch (error) {
     ApiError.create(error, response).send();
   }
@@ -32,7 +34,7 @@ ingredientsRouter.get("/:id", async (request, response) => {
     const id = new RequestParamsHelper(request.params).id;
 
     const ingredient = await ingredientsController.getById(id);
-    response.json(ingredient.getDTO());
+    response.json(new IngredientMapper().toDTO(ingredient));
   } catch (error) {
     ApiError.create(error, response).send();
   }
@@ -43,7 +45,7 @@ ingredientsRouter.get("/:id/units", async (request, response) => {
     const id = new RequestParamsHelper(request.params).id;
 
     const units = await ingredientUnitsController.getByIngredientId(id);
-    response.json(units.map((unit) => unit.getDTO()));
+    response.json(units.map((unit) => new IngredientUnitMapper().toDTO(unit)));
   } catch (error) {
     ApiError.create(error, response).send();
   }

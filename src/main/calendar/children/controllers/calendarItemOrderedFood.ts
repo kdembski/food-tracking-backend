@@ -4,13 +4,14 @@ import { CalendarItemsRepository } from "@/repositories/calendarItems";
 import { CalendarItemChildController } from "./calendarItemChild";
 import { CalendarItemOrderedFoodAdapter } from "../adapters/calendarItemOrderedFood";
 import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
+import { OrderedFoodMapper } from "@/main/ordered-food/mappers/orderedFood";
 
 export class CalendarItemOrderedFoodController extends CalendarItemChildController<
   OrderedFood,
   OrderedFoodDTO
 > {
   constructor(orderedFoodId: number) {
-    super(new OrderedFoodController(), orderedFoodId);
+    super(new OrderedFoodController(), new OrderedFoodMapper(), orderedFoodId);
   }
 
   getCalendarItemChildDates(fromDate: Date, toDate: Date) {

@@ -3,14 +3,19 @@ import { RequestParamsHelper } from "@/helpers/requestParams";
 import { ApiError } from "@/base/errors/models/apiError";
 import { Router } from "express";
 import { IngredientCategoryDTO } from "@/dtos/ingredients/ingredientCategory";
+import { IngredientCategoryMapper } from "@/main/ingredients/mappers/ingredientCategory";
 
 const ingredientCategoriesRouter = Router();
 const ingredientCategoriesController = new IngredientCategoriesController();
 
 ingredientCategoriesRouter.get("/", async (request, response) => {
   try {
-    const ingredients = await ingredientCategoriesController.getAll();
-    response.json(ingredients.map((ingredient) => ingredient.getDTO()));
+    const ingredientCategories = await ingredientCategoriesController.getAll();
+    response.json(
+      ingredientCategories.map((category) =>
+        new IngredientCategoryMapper().toDTO(category)
+      )
+    );
   } catch (error) {
     ApiError.create(error, response).send();
   }
@@ -29,8 +34,8 @@ ingredientCategoriesRouter.get("/:id", async (request, response) => {
   try {
     const id = new RequestParamsHelper(request.params).id;
 
-    const ingredient = await ingredientCategoriesController.getById(id);
-    response.json(ingredient.getDTO());
+    const ingredientCategory = await ingredientCategoriesController.getById(id);
+    response.json(new IngredientCategoryMapper().toDTO(ingredientCategory));
   } catch (error) {
     ApiError.create(error, response).send();
   }

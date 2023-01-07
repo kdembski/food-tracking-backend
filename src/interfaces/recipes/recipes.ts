@@ -2,15 +2,11 @@ import { ITagsRepository } from "./../base/tags";
 import { IListRepository } from "../base/list";
 import { Recipe } from "@/main/recipes/models/recipe";
 import { RequestQueryData } from "@/types/helpers/requestQuery";
-import {
-  IDbEntityController,
-  IDbEntityModel,
-  IRepository,
-} from "../base/dbEntity";
+import { IDbEntityController, IRepository } from "../base/dbEntity";
 import { RecipeDTO } from "@/dtos/recipes/recipe";
 import { Tags } from "@/base/tags/models/tags";
 
-export interface IRecipe extends IDbEntityModel<RecipeDTO> {
+export interface IRecipe {
   setDatesFromLastYear: () => Promise<void>;
 }
 

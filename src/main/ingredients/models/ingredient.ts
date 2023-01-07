@@ -37,24 +37,6 @@ export class Ingredient implements IIngredient {
     this._unitNames = dto.unitNames;
   }
 
-  setFromDTO(data: IngredientDTO) {
-    this._id = data.id;
-    this._name = data.name;
-    this._categoryId = data.categoryId;
-    this._categoryName = data.categoryName;
-    this._unitNames = data.unitNames;
-  }
-
-  getDTO() {
-    return {
-      id: this.id,
-      name: this.name,
-      categoryId: this.categoryId,
-      categoryName: this.categoryName,
-      unitNames: this.unitNames,
-    };
-  }
-
   async loadUnitNames() {
     if (!this.id) {
       return;

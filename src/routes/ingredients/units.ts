@@ -3,6 +3,7 @@ import { ApiError } from "@/base/errors/models/apiError";
 import { Router } from "express";
 import { UnitsController } from "@/main/ingredients/controllers/units";
 import { UnitDTO } from "@/dtos/ingredients/unit";
+import { UnitMapper } from "@/main/ingredients/mappers/unit";
 
 const unitsRouter = Router();
 const unitsController = new UnitsController();
@@ -10,7 +11,7 @@ const unitsController = new UnitsController();
 unitsRouter.get("/", async (request, response) => {
   try {
     const units = await unitsController.getAll();
-    response.json(units.map((unit) => unit.getDTO()));
+    response.json(units.map((unit) => new UnitMapper().toDTO(unit)));
   } catch (error) {
     ApiError.create(error, response).send();
   }
@@ -30,7 +31,7 @@ unitsRouter.get("/:id", async (request, response) => {
     const id = new RequestParamsHelper(request.params).id;
 
     const unit = await unitsController.getById(id);
-    response.json(unit.getDTO());
+    response.json(new UnitMapper().toDTO(unit));
   } catch (error) {
     ApiError.create(error, response).send();
   }

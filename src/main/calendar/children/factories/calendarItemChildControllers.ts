@@ -1,3 +1,4 @@
+import { CustomError } from "@/base/errors/models/customError";
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
 import { CalendarItemOrderedFoodController } from "../controllers/calendarItemOrderedFood";
 import { CalendarItemRecipesController } from "../controllers/calendarItemRecipes";
@@ -20,6 +21,6 @@ export class CalendarItemChildControllersFactory {
       return new CalendarItemOrderedFoodController(this.orderedFoodId);
     }
 
-    return;
+    throw new CustomError({ message: "Calendar item child is missing" });
   }
 }

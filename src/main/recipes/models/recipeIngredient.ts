@@ -48,11 +48,7 @@ export class RecipeIngredient implements IRecipeIngredient {
     return this._converterToPrimary;
   }
 
-  constructor(dto: RecipeIngredientDTO) {
-    this.setFromDTO(dto);
-  }
-
-  setFromDTO(data: RecipeIngredientDTO) {
+  constructor(data: RecipeIngredientDTO) {
     this._id = data.id;
     this._recipeId = data.recipeId;
     this._ingredientUnitId = data.ingredientUnitId;
@@ -62,19 +58,5 @@ export class RecipeIngredient implements IRecipeIngredient {
     this._kcalPerUnit = data.kcalPerUnit;
     this._isPrimary = data.isPrimary;
     this._converterToPrimary = data.converterToPrimary;
-  }
-
-  getDTO() {
-    return {
-      id: this.id,
-      ingredierecipeIdtId: this.recipeId,
-      ingredientUnitId: this._ingredientUnitId,
-      amount: this.amount,
-      ingredientName: this.ingredientName,
-      unitShortcut: this.unitShortcut,
-      kcalPerUnit: this.kcalPerUnit,
-      isPrimary: this.isPrimary,
-      converterToPrimary: this.converterToPrimary,
-    };
   }
 }

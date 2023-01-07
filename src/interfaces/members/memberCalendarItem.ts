@@ -1,14 +1,9 @@
 import { MemberCalendarItemDTO } from "@/dtos/members/memberCalendarItem";
 import { MemberCalendarItem } from "@/main/members/models/memberCalendarItem";
 import { OkPacket } from "mysql2";
-import {
-  IDbEntityController,
-  IDbEntityModel,
-  IRepository,
-} from "../base/dbEntity";
+import { IDbEntityController, IRepository } from "../base/dbEntity";
 
-export interface IMemberCalendarItem
-  extends IDbEntityModel<MemberCalendarItemDTO> {}
+export interface IMemberCalendarItem {}
 
 export interface IMemberCalendarItemsRepository
   extends IRepository<MemberCalendarItem, MemberCalendarItemDTO> {

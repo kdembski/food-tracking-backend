@@ -4,6 +4,7 @@ import { ApiError } from "@/base/errors/models/apiError";
 import { RequestParamsHelper } from "@/helpers/requestParams";
 import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
 import { TagsMapper } from "@/base/tags/mappers/tags";
+import { OrderedFoodMapper } from "@/main/ordered-food/mappers/orderedFood";
 
 const orderedFoodRouter = Router();
 const orderedFoodController = new OrderedFoodController();
@@ -11,7 +12,7 @@ const orderedFoodController = new OrderedFoodController();
 orderedFoodRouter.get("/", async (request, response) => {
   try {
     const list = await orderedFoodController.getList(request.query);
-    response.json(list.getListDTO());
+    response.json(list.toDTO());
   } catch (error) {
     ApiError.create(error, response).send();
   }
@@ -31,7 +32,7 @@ orderedFoodRouter.get("/:id", async (request, response) => {
     const id = new RequestParamsHelper(request.params).id;
 
     const orderedFood = await orderedFoodController.getById(id);
-    response.json(orderedFood.getDTO());
+    response.json(new OrderedFoodMapper().toDTO(orderedFood));
   } catch (error) {
     ApiError.create(error, response).send();
   }

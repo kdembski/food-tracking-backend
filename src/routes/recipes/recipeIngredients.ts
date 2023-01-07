@@ -3,6 +3,7 @@ import { Router } from "express";
 import { RequestParamsHelper } from "@/helpers/requestParams";
 import { RecipeIngredientsController } from "@/main/recipes/controllers/recipeIngredients";
 import { RecipeIngredientDTO } from "@/dtos/recipes/recipeIngredient";
+import { RecipeIngredientMapper } from "@/main/recipes/mappers/recipeIngredient";
 
 const recipeIngredientsRouter = Router();
 const recipeIngredientsController = new RecipeIngredientsController();
@@ -12,7 +13,7 @@ recipeIngredientsRouter.get("/:id", async (request, response) => {
     const id = new RequestParamsHelper(request.params).id;
 
     const recipeIngredient = await recipeIngredientsController.getById(id);
-    response.json(recipeIngredient.getDTO());
+    response.json(new RecipeIngredientMapper().toDTO(recipeIngredient));
   } catch (error) {
     ApiError.create(error, response).send();
   }

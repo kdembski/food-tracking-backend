@@ -1,12 +1,10 @@
 import { List } from "@/base/list/models/list";
 import { RequestQueryHelper } from "@/helpers/requestQuery";
-import { IListBuilder, IListItem } from "@/interfaces/base/list";
+import { IListBuilder } from "@/interfaces/base/list";
 import { RequestQueryData } from "@/types/helpers/requestQuery";
 import { Pagination } from "../models/pagination";
 
-export class ListBuilder<Item extends IListItem<ItemDTO>, ItemDTO>
-  implements IListBuilder
-{
+export class ListBuilder<Item, ItemDTO> implements IListBuilder {
   private list: List<Item, ItemDTO>;
 
   constructor(list: List<Item, ItemDTO>) {

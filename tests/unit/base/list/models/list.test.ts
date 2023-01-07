@@ -8,12 +8,6 @@ class Item {
   constructor(data: { prop: string }) {
     this._prop = data.prop;
   }
-
-  getDTO() {
-    return {
-      prop: this._prop,
-    };
-  }
 }
 
 type ItemDTO = {
@@ -32,9 +26,21 @@ class TestRepository {
   }
 }
 
+class TestMapper {
+  toDTO(item: Item) {
+    return {
+      prop: item._prop,
+    };
+  }
+
+  toDomain(dto: ItemDTO) {
+    return new Item(dto);
+  }
+}
+
 class TestList extends List<Item, ItemDTO> {
   constructor() {
-    super(new TestRepository());
+    super(new TestRepository(), new TestMapper());
   }
 
   createListItem(data: ItemDTO) {
@@ -61,7 +67,7 @@ describe("List Model", () => {
 
   it("Should return list items dtos", async () => {
     await builder.build({ size: "10", page: "1" });
-    expect(list.getListDTO()).toEqual({
+    expect(list.toDTO()).toEqual({
       data: [{ prop: "test" }],
       pagination: {
         currentPage: 1,

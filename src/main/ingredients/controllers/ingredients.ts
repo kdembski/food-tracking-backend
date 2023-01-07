@@ -16,7 +16,7 @@ export class IngredientsController implements IIngredientsController {
     return ingredientsList;
   }
 
-  async getOptions() {
+  getOptions() {
     return new IngredientsRepository().selectOptions();
   }
 

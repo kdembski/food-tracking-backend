@@ -22,18 +22,4 @@ export class Unit {
     this._name = dto.name;
     this._shortcut = dto.shortcut;
   }
-
-  setFromDTO(data: UnitDTO) {
-    this._id = data.id;
-    this._name = data.name;
-    this._shortcut = data.shortcut;
-  }
-
-  getDTO() {
-    return {
-      id: this.id,
-      name: this.name,
-      shortcut: this._shortcut,
-    };
-  }
 }

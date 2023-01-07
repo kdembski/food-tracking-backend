@@ -1,25 +1,28 @@
 import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
 import { ICalendarItemChild } from "@/interfaces/calendar/calendarItemChild";
-import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
 
 export class CalendarItemOrderedFoodAdapter
-  implements ICalendarItemChild<OrderedFoodDTO>
+  implements ICalendarItemChild<OrderedFood>
 {
-  private orderedFood: OrderedFood;
+  private _item: OrderedFood;
 
   constructor(orderedFood: OrderedFood) {
-    this.orderedFood = orderedFood;
+    this._item = orderedFood;
   }
 
-  getDTO() {
-    return this.orderedFood.getDTO();
+  get item() {
+    return this._item;
+  }
+
+  set item(value) {
+    this._item = value;
   }
 
   getDate() {
-    return this.orderedFood.orderedDate;
+    return this.item.orderedDate;
   }
 
   setDate(date: Date): void {
-    this.orderedFood.orderedDate = date;
+    this.item.orderedDate = date;
   }
 }

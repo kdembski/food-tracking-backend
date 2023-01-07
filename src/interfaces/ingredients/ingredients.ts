@@ -1,16 +1,12 @@
 import { IListRepository } from "../base/list";
 import { Ingredient } from "@/main/ingredients/models/ingredient";
-import {
-  IDbEntityController,
-  IDbEntityModel,
-  IRepository,
-} from "../base/dbEntity";
+import { IDbEntityController, IRepository } from "../base/dbEntity";
 import {
   IngredientDTO,
   IngredientOptionDTO,
 } from "@/dtos/ingredients/ingredient";
 
-export interface IIngredient extends IDbEntityModel<IngredientDTO> {
+export interface IIngredient {
   loadUnitNames: () => void;
 }
 

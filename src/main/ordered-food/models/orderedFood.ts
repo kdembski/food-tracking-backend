@@ -10,7 +10,12 @@ export class OrderedFood implements IOrderedFood {
   private _orderedDate?: Date;
 
   constructor(data: OrderedFoodDTO) {
-    this.setFromDTO(data);
+    this._id = data.id;
+    this._foodName = data.foodName;
+    this._placeName = data.placeName;
+    this._tags = data.tags;
+    this._placeLink = data.placeLink;
+    this.orderedDate = data.orderedDate;
   }
 
   get id() {
@@ -39,25 +44,5 @@ export class OrderedFood implements IOrderedFood {
 
   set orderedDate(value) {
     this._orderedDate = value ? new Date(value) : undefined;
-  }
-
-  setFromDTO(data: OrderedFoodDTO) {
-    this._id = data.id;
-    this._foodName = data.foodName;
-    this._placeName = data.placeName;
-    this._tags = data.tags;
-    this._placeLink = data.placeLink;
-    this.orderedDate = data.orderedDate;
-  }
-
-  getDTO() {
-    return {
-      id: this.id,
-      foodName: this.foodName,
-      placeName: this.placeName,
-      tags: this.tags,
-      placeLink: this.placeLink,
-      orderedDate: this.orderedDate,
-    };
   }
 }
