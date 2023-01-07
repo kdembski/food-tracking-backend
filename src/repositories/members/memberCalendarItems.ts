@@ -1,6 +1,6 @@
 import { MemberCalendarItem } from "../../main/members/models/memberCalendarItem";
 import Database from "@/config/database";
-import { IMemberCalendarItemsRepository } from "@/interfaces/members/memberCalendarItem";
+import { IMemberCalendarItemsRepository } from "@/interfaces/members/memberCalendarItems";
 import { memberCalendarItemsQueries } from "@/queries/members/memberCalendarItems";
 import { OkPacket } from "mysql2";
 import { MemberCalendarItemDTO } from "@/dtos/members/memberCalendarItem";

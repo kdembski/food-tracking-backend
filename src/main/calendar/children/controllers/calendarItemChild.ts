@@ -2,20 +2,23 @@ import { IMapper } from "@/interfaces/base/mapper";
 import { CalendarMonthsCollection } from "../collections/calendarMonths";
 import { isEqual, startOfMonth, subMonths } from "date-fns";
 import { IDbEntityController } from "@/interfaces/base/dbEntity";
-import { ICalendarItemChild } from "@/interfaces/calendar/calendarItemChild";
+import { ICalendarItemChildAdapter } from "@/interfaces/calendar/calendarItemChild";
 
 export abstract class CalendarItemChildController<Model, ModelDTO> {
   protected childController: IDbEntityController<Model, ModelDTO>;
   private childMapper: IMapper<Model, ModelDTO>;
+  private childAdapter: ICalendarItemChildAdapter<Model>;
   protected childId: number;
 
   constructor(
     childController: IDbEntityController<Model, ModelDTO>,
     childMapper: IMapper<Model, ModelDTO>,
+    childAdapter: ICalendarItemChildAdapter<Model>,
     childId: number
   ) {
     this.childController = childController;
     this.childMapper = childMapper;
+    this.childAdapter = childAdapter;
     this.childId = childId;
   }
 
@@ -23,10 +26,6 @@ export abstract class CalendarItemChildController<Model, ModelDTO> {
     fromDate: Date,
     toDate: Date
   ): Promise<Date[]>;
-
-  protected abstract getAdaptedCalendarItemChild(): Promise<
-    ICalendarItemChild<Model>
-  >;
 
   getDates(fromDate = new Date(1970, 1, 1), toDate = new Date(2070, 1, 1)) {
     return this.getCalendarItemChildDates(fromDate, toDate);
@@ -39,17 +38,17 @@ export abstract class CalendarItemChildController<Model, ModelDTO> {
   }
 
   async updateLastDate() {
-    const child = await this.getAdaptedCalendarItemChild();
+    await this.childAdapter.loadItem();
     const lastDate = await this.getLastDate();
-    const currentDate = child.getDate();
+    const currentDate = this.childAdapter.getDate();
 
     if (currentDate && lastDate && isEqual(lastDate, currentDate)) {
       return;
     }
 
-    child.setDate(lastDate);
+    this.childAdapter.setDate(lastDate);
 
-    const childDto = this.childMapper.toDTO(child.item);
+    const childDto = this.childMapper.toDTO(this.childAdapter.item);
     await this.childController.update(childDto);
   }
 

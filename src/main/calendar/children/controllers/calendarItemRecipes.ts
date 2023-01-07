@@ -11,7 +11,12 @@ export class CalendarItemRecipesController extends CalendarItemChildController<
   RecipeDTO
 > {
   constructor(recipeId: number) {
-    super(new RecipesController(), new RecipeMapper(), recipeId);
+    super(
+      new RecipesController(),
+      new RecipeMapper(),
+      new CalendarItemRecipeAdapter(recipeId),
+      recipeId
+    );
   }
 
   getCalendarItemChildDates(fromDate: Date, toDate: Date) {
@@ -20,10 +25,5 @@ export class CalendarItemRecipesController extends CalendarItemChildController<
       fromDate,
       toDate
     );
-  }
-
-  async getAdaptedCalendarItemChild() {
-    const recipe = await this.childController.getById(this.childId);
-    return new CalendarItemRecipeAdapter(recipe);
   }
 }

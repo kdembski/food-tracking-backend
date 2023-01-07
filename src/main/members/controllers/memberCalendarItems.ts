@@ -1,6 +1,6 @@
 import { MemberCalendarItemsRepository } from "@/repositories/members/memberCalendarItems";
 import { MemberCalendarItem } from "@/main/members/models/memberCalendarItem";
-import { IMemberCalendarItemsController } from "@/interfaces/members/memberCalendarItem";
+import { IMemberCalendarItemsController } from "@/interfaces/members/memberCalendarItems";
 import { MemberCalendarItemDTO } from "@/dtos/members/memberCalendarItem";
 
 export class MemberCalendarItemsController
