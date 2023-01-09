@@ -29,14 +29,11 @@ const getChildController = jest
   .mockImplementation(() => ({ updateLastDate }));
 const updateLastDate = jest.fn();
 
-jest.mock(
-  "@/main/calendar/children/factories/calendarItemChildControllers",
-  () => ({
-    CalendarItemChildControllersFactory: jest
-      .fn()
-      .mockImplementation(() => ({ getChildController })),
-  })
-);
+jest.mock("@/main/calendar/factories/calendarItemChildControllers", () => ({
+  CalendarItemChildControllersFactory: jest
+    .fn()
+    .mockImplementation(() => ({ getChildController })),
+}));
 
 describe("Calendar Items Controller", () => {
   let controller: CalendarItemsController;

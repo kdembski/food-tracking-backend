@@ -1,4 +1,4 @@
-import { CalendarItemOrderedFoodController } from "@/main/calendar/children/controllers/calendarItemOrderedFood";
+import { CalendarItemOrderedFoodController } from "@/main/calendar/controllers/calendarItemOrderedFood";
 
 const selectDatesByOrderedFoodId = jest.fn();
 jest.mock("@/repositories/calendarItems", () => ({

@@ -1,4 +1,4 @@
-import { CalendarItemOrderedFoodAdapter } from "./../adapters/calendarItemOrderedFood";
+import { CalendarItemOrderedFoodAdapter } from "../adapters/calendarItemOrderedFood";
 import { OrderedFoodController } from "@/main/ordered-food/controllers/orderedFood";
 import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
 import { CalendarItemsRepository } from "@/repositories/calendarItems";

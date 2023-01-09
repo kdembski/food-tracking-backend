@@ -6,5 +6,25 @@ export type RecipeDTO = {
   kcal?: number;
   cookedDate?: Date;
   cookidooLink?: string;
-  getFromLastYear?: Date[][];
+  datesFromLastYear?: Date[][];
+};
+
+export type RecipeQueryResult = {
+  id?: number;
+  recipeName?: string;
+  preparationTime?: number;
+  tags?: string;
+  kcal?: number;
+  cookedDate?: Date;
+  cookidooLink?: string;
+};
+
+export type RecipePayload = {
+  id?: number;
+  recipeName?: string;
+  preparationTime?: number;
+  tags?: string;
+  kcal?: number;
+  cookedDate?: Date;
+  cookidooLink?: string;
 };
