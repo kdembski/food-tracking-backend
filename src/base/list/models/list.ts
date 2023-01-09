@@ -1,26 +1,28 @@
-import { IMapper } from "./../../../interfaces/base/mapper";
+import { IMapper } from "@/interfaces/base/mapper";
 import { IListRepository } from "@/interfaces/base/list";
 import { IList } from "@/interfaces/base/list";
 import { Pagination } from "@/base/list/models/pagination";
 import { ListConfig } from "@/types/base/list";
 
-export abstract class List<Item, ItemDTO> implements IList<Item, ItemDTO> {
+export abstract class List<Item, ItemDTO, ItemQueryResult>
+  implements IList<Item, ItemQueryResult>
+{
   private _data?: Item[];
   private _pagination?: Pagination;
   private _config?: ListConfig;
 
-  private repository: IListRepository<ItemDTO>;
+  private repository: IListRepository<ItemQueryResult>;
   private mapper: IMapper<Item, ItemDTO>;
 
   constructor(
-    repository: IListRepository<ItemDTO>,
+    repository: IListRepository<ItemQueryResult>,
     mapper: IMapper<Item, ItemDTO>
   ) {
     this.repository = repository;
     this.mapper = mapper;
   }
 
-  abstract createListItem(data: ItemDTO): Item;
+  abstract createListItem(data: ItemQueryResult): Promise<Item> | Item;
 
   getListData(config: ListConfig) {
     return this.repository.selectList(config);

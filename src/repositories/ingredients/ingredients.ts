@@ -3,6 +3,7 @@ import Database from "@/config/database";
 import {
   IngredientDTO,
   IngredientOptionDTO,
+  IngredientQueryResult,
 } from "@/dtos/ingredients/ingredient";
 import { DatabaseQueryHelper } from "@/helpers/databaseQuery";
 import { ListConfig } from "@/types/base/list";
@@ -15,11 +16,11 @@ export class IngredientsRepository {
     const results = await Database.sendQuery(ingredientsQueries.selectById, [
       id,
     ]);
-    const dto = results[0] as IngredientDTO;
+    const dto = results[0] as IngredientQueryResult;
 
     if (!dto) {
       throw new CustomError({
-        message: "Recipe with id: '" + id + "' not exists",
+        message: "Ingredient with id: '" + id + "' not exists",
       });
     }
 
@@ -33,7 +34,7 @@ export class IngredientsRepository {
     );
 
     const data = await Database.sendQuery(query, [config.searchPhrase]);
-    return data as IngredientDTO[];
+    return data as IngredientQueryResult[];
   }
 
   async selectOptions() {

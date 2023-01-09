@@ -38,7 +38,7 @@ class TestMapper {
   }
 }
 
-class TestList extends List<Item, ItemDTO> {
+class TestList extends List<Item, ItemDTO, ItemDTO> {
   constructor() {
     super(new TestRepository(), new TestMapper());
   }
@@ -50,7 +50,7 @@ class TestList extends List<Item, ItemDTO> {
 
 describe("List Model", () => {
   let list: TestList;
-  let builder: ListBuilder<Item, ItemDTO>;
+  let builder: ListBuilder<Item, ItemDTO, ItemDTO>;
 
   beforeEach(() => {
     list = new TestList();

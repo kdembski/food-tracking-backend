@@ -1,6 +1,8 @@
+import { IngredientUnitsCollectionMapper } from "./ingredientUnitsCollection";
 import { IngredientDTO } from "@/dtos/ingredients/ingredient";
 import { IMapper } from "@/interfaces/base/mapper";
 import { Ingredient } from "../models/ingredient";
+import { IngredientUnitMapper } from "./ingredientUnit";
 
 export class IngredientMapper implements IMapper<Ingredient, IngredientDTO> {
   toDTO(model: Ingredient) {
@@ -9,11 +11,16 @@ export class IngredientMapper implements IMapper<Ingredient, IngredientDTO> {
       name: model.name,
       categoryId: model.categoryId,
       categoryName: model.categoryName,
-      unitNames: model.unitNames,
+      units: new IngredientUnitsCollectionMapper().toDTO(model.units),
     };
   }
 
   toDomain(dto: IngredientDTO) {
-    return new Ingredient(dto);
+    return new Ingredient({
+      id: dto.id,
+      name: dto.name,
+      categoryId: dto.categoryId,
+      units: new IngredientUnitsCollectionMapper().toDomain(dto.units),
+    });
   }
 }

@@ -10,7 +10,4 @@ export interface IIngredientUnitsRepository
 }
 
 export interface IIngredientUnitsController
-  extends IDbEntityController<IngredientUnit, IngredientUnitDTO> {
-  getByIngredientId: (ingredientId: number) => Promise<IngredientUnit[]>;
-  getUnitNamesByIngredientId: (ingredientId: number) => Promise<string[]>;
-}
+  extends IDbEntityController<IngredientUnit, IngredientUnitDTO> {}

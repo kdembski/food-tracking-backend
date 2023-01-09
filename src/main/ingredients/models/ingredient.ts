@@ -1,13 +1,14 @@
-import { IngredientDTO } from "@/dtos/ingredients/ingredient";
+import { IngredientUnitsCollection } from "./../collections/ingredientUnits";
+import { IngredientPayload } from "@/dtos/ingredients/ingredient";
 import { IIngredient } from "@/interfaces/ingredients/ingredients";
-import { IngredientUnitsController } from "../controllers/ingredientUnits";
+import { IngredientUnit } from "./ingredientUnit";
 
 export class Ingredient implements IIngredient {
   private _id?: number;
   private _name?: string;
   private _categoryId?: number;
   private _categoryName?: string;
-  private _unitNames?: string[];
+  private _units?: IngredientUnitsCollection;
 
   get id() {
     return this._id;
@@ -25,24 +26,19 @@ export class Ingredient implements IIngredient {
     return this._categoryName;
   }
 
-  get unitNames() {
-    return this._unitNames;
+  get units() {
+    return this._units;
   }
 
-  constructor(dto: IngredientDTO) {
+  set units(value) {
+    this._units = value;
+  }
+
+  constructor(dto: IngredientPayload) {
     this._id = dto.id;
     this._name = dto.name;
     this._categoryId = dto.categoryId;
     this._categoryName = dto.categoryName;
-    this._unitNames = dto.unitNames;
-  }
-
-  async loadUnitNames() {
-    if (!this.id) {
-      return;
-    }
-
-    this._unitNames =
-      await new IngredientUnitsController().getUnitNamesByIngredientId(this.id);
+    this._units = dto.units;
   }
 }

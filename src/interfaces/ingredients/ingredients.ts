@@ -6,9 +6,7 @@ import {
   IngredientOptionDTO,
 } from "@/dtos/ingredients/ingredient";
 
-export interface IIngredient {
-  loadUnitNames: () => void;
-}
+export interface IIngredient {}
 
 export interface IIngredientsRepository
   extends IRepository<Ingredient, IngredientDTO>,

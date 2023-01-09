@@ -1,27 +1,25 @@
-import { IngredientMapper } from "./../mappers/ingredient";
 import { IngredientsRepository } from "@/repositories/ingredients/ingredients";
 import { List } from "@/base/list/models/list";
 import { Ingredient } from "./ingredient";
-import { IngredientDTO } from "@/dtos/ingredients/ingredient";
+import {
+  IngredientListItemDTO,
+  IngredientQueryResult,
+} from "@/dtos/ingredients/ingredient";
+import { IngredientListItemMapper } from "../mappers/ingredientListItem";
+import { IngredientBuilder } from "../builders/ingredient";
 
-export class IngredientsList extends List<Ingredient, IngredientDTO> {
+export class IngredientsList extends List<
+  Ingredient,
+  IngredientListItemDTO,
+  IngredientQueryResult
+> {
   constructor() {
-    super(new IngredientsRepository(), new IngredientMapper());
+    super(new IngredientsRepository(), new IngredientListItemMapper());
   }
 
-  createListItem(data: IngredientDTO) {
-    return new Ingredient(data);
-  }
-
-  async setUnitNames() {
-    const promises = this.data.map(async (item) => {
-      return item.loadUnitNames();
-    });
-
-    if (!promises) {
-      return;
-    }
-
-    await Promise.all(promises);
+  async createListItem(data: IngredientQueryResult) {
+    const builder = new IngredientBuilder(data);
+    await builder.buildUnits();
+    return builder.getIngredient();
   }
 }

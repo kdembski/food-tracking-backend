@@ -4,7 +4,7 @@ import { List } from "@/base/list/models/list";
 import { RecipeDTO } from "@/dtos/recipes/recipe";
 import { RecipesRepository } from "@/repositories/recipes/recipes";
 
-export class RecipesList extends List<Recipe, RecipeDTO> {
+export class RecipesList extends List<Recipe, RecipeDTO, RecipeDTO> {
   constructor() {
     super(new RecipesRepository(), new RecipeMapper());
   }

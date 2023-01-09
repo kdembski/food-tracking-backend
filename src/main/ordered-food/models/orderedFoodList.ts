@@ -4,7 +4,11 @@ import { OrderedFood } from "./orderedFood";
 import { OrderedFoodRepository } from "@/repositories/orderedFood";
 import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
 
-export class OrderedFoodList extends List<OrderedFood, OrderedFoodDTO> {
+export class OrderedFoodList extends List<
+  OrderedFood,
+  OrderedFoodDTO,
+  OrderedFoodDTO
+> {
   constructor() {
     super(new OrderedFoodRepository(), new OrderedFoodMapper());
   }
