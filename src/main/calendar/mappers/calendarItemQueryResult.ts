@@ -1,9 +1,9 @@
-import { ExtendedCalendarItemDTO } from "@/dtos/calendar/calendarItem";
+import { CalendarItemQueryResult } from "@/dtos/calendar/calendarItem";
 import { IMapper } from "@/interfaces/base/mapper";
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
 
-export class ExtendedCalendarItemMapper
-  implements IMapper<CalendarItem, ExtendedCalendarItemDTO>
+export class CalendarItemQueryResultMapper
+  implements IMapper<CalendarItem, CalendarItemQueryResult>
 {
   toDTO(item: CalendarItem) {
     return {
@@ -15,7 +15,7 @@ export class ExtendedCalendarItemMapper
     };
   }
 
-  toDomain(dto: ExtendedCalendarItemDTO) {
+  toDomain(dto: CalendarItemQueryResult) {
     const baseDto = {
       id: dto.id,
       date: dto.date,

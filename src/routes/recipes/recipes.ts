@@ -6,8 +6,8 @@ import { RecipeIngredientsController } from "@/main/recipes/controllers/recipeIn
 import { RecipesController } from "@/main/recipes/controllers/recipes";
 import { RecipeDTO } from "@/dtos/recipes/recipe";
 import { TagsMapper } from "@/base/tags/mappers/tags";
-import { RecipeIngredientMapper } from "@/main/recipes/mappers/recipeIngredient";
-import { RecipeMapper } from "@/main/recipes/mappers/recipe";
+import { ExtendedRecipeIngredientMapper } from "@/main/recipes/mappers/extendedRecipeIngredient";
+import { ExtendedRecipeMapper } from "@/main/recipes/mappers/extendedRecipe";
 
 const recipesRouter = Router();
 const recipesController = new RecipesController();
@@ -63,7 +63,7 @@ recipesRouter.get("/:id/ingredients", async (request, response) => {
     const ingredients = await recipeIngredientsController.getByRecipeId(id);
     response.json(
       ingredients.map((ingredient) =>
-        response.json(new RecipeIngredientMapper().toDTO(ingredient))
+        response.json(new ExtendedRecipeIngredientMapper().toDTO(ingredient))
       )
     );
   } catch (error) {
@@ -76,7 +76,7 @@ recipesRouter.get("/:id", async (request, response) => {
     const id = new RequestParamsHelper(request.params).id;
 
     const recipe = await recipesController.getById(id);
-    response.json(new RecipeMapper().toDTO(recipe));
+    response.json(new ExtendedRecipeMapper().toDTO(recipe));
   } catch (error) {
     ApiError.create(error, response).send();
   }

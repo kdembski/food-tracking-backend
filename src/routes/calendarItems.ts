@@ -4,7 +4,7 @@ import { Router } from "express";
 import { ApiError } from "@/base/errors/models/apiError";
 import { RequestParamsHelper } from "@/helpers/requestParams";
 import { CalendarItemsController } from "@/main/calendar/controllers/calendarItems";
-import { BaseCalendarItemDTO } from "@/dtos/calendar/calendarItem";
+import { CalendarItemDTO } from "@/dtos/calendar/calendarItem";
 import { CalendarDaysMapper } from "@/main/calendar/mappers/calendarDays";
 
 const calendarItemsRouter = Router();
@@ -30,7 +30,7 @@ calendarItemsRouter.get("/", async (request, response) => {
 
 calendarItemsRouter.post("/", async (request, response) => {
   try {
-    const data: BaseCalendarItemDTO = request.body;
+    const data: CalendarItemDTO = request.body;
 
     const results = await calendarItemsController.create(data);
     response.json(results);
@@ -42,7 +42,7 @@ calendarItemsRouter.post("/", async (request, response) => {
 calendarItemsRouter.put("/:id", async (request, response) => {
   try {
     const id = new RequestParamsHelper(request.params).id;
-    const data: BaseCalendarItemDTO = request.body;
+    const data: CalendarItemDTO = request.body;
     data.id = id;
 
     const results = await calendarItemsController.update(data);

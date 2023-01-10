@@ -1,6 +1,6 @@
 import { MemberCalendarItemsController } from "@/main/members/controllers/memberCalendarItems";
 import { ICalendarItem } from "@/interfaces/calendar/calendarItems";
-import { BaseCalendarItemDTO } from "@/dtos/calendar/calendarItem";
+import { CalendarItemDTO } from "@/dtos/calendar/calendarItem";
 
 export class CalendarItem implements ICalendarItem {
   private _id?: number;
@@ -12,7 +12,7 @@ export class CalendarItem implements ICalendarItem {
   private _members?: number[];
   private _sortOrder?: number;
 
-  constructor(data: BaseCalendarItemDTO) {
+  constructor(data: CalendarItemDTO) {
     this._id = data.id;
     this._date = data.date ? new Date(data.date) : undefined;
     this._recipeId = data.recipeId;

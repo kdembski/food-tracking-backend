@@ -1,15 +1,17 @@
-export type BaseCalendarItemDTO = {
+type CalendarItemBase = {
   id?: number;
   date?: Date;
   recipeId?: number;
   orderedFoodId?: number;
-  name?: string;
-  tags?: string;
   members?: number[];
   sortOrder?: number;
 };
+export type CalendarItemDTO = CalendarItemBase & {
+  name?: string;
+  tags?: string;
+};
 
-export type ExtendedCalendarItemDTO = {
+export type CalendarItemQueryResult = {
   id?: number;
   date?: Date;
   recipeId?: number;
@@ -23,5 +25,5 @@ export type ExtendedCalendarItemDTO = {
 
 export type CalendarDayDTO = {
   date: Date;
-  items: BaseCalendarItemDTO[];
+  items: CalendarItemDTO[];
 };

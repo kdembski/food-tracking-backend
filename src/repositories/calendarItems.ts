@@ -4,17 +4,14 @@ import Database from "@/config/database";
 import { ICalendarItemsRepository } from "@/interfaces/calendar/calendarItems";
 import { calendarItemsQueries } from "@/queries/calendarItems";
 import { CustomError } from "@/base/errors/models/customError";
-import {
-  BaseCalendarItemDTO,
-  ExtendedCalendarItemDTO,
-} from "@/dtos/calendar/calendarItem";
+import { CalendarItemQueryResult } from "@/dtos/calendar/calendarItem";
 
 export class CalendarItemsRepository implements ICalendarItemsRepository {
   async selectById(id: number) {
     const results = await Database.sendQuery(calendarItemsQueries.selectById, [
       id,
     ]);
-    return results[0] as BaseCalendarItemDTO;
+    return results[0] as CalendarItemQueryResult;
   }
 
   async selectDatesByRecipeId(recipeId: number, fromDate: Date, toDate: Date) {
@@ -44,7 +41,7 @@ export class CalendarItemsRepository implements ICalendarItemsRepository {
       fromDate,
       toDate,
     ]);
-    return results as ExtendedCalendarItemDTO[];
+    return results as CalendarItemQueryResult[];
   }
 
   async insert(item: CalendarItem) {

@@ -1,4 +1,4 @@
-import { RecipeMapper } from "./../mappers/recipe";
+import { ExtendedRecipeMapper } from "../mappers/extendedRecipe";
 import { Recipe } from "./recipe";
 import { List } from "@/base/list/models/list";
 import { RecipeDTO } from "@/dtos/recipes/recipe";
@@ -6,7 +6,7 @@ import { RecipesRepository } from "@/repositories/recipes/recipes";
 
 export class RecipesList extends List<Recipe, RecipeDTO, RecipeDTO> {
   constructor() {
-    super(new RecipesRepository(), new RecipeMapper());
+    super(new RecipesRepository(), new ExtendedRecipeMapper());
   }
 
   createListItem(data: RecipeDTO) {

@@ -1,6 +1,6 @@
 import {
-  BaseCalendarItemDTO,
-  ExtendedCalendarItemDTO,
+  CalendarItemDTO,
+  CalendarItemQueryResult,
 } from "@/dtos/calendar/calendarItem";
 import { CalendarDaysCollection } from "@/main/calendar/collections/calendarDays";
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
@@ -11,11 +11,11 @@ export interface ICalendarItem {
 }
 
 export interface ICalendarItemsRepository
-  extends IRepository<CalendarItem, BaseCalendarItemDTO> {
+  extends IRepository<CalendarItem, CalendarItemQueryResult> {
   selectAll: (
     fromDate: Date,
     toDate: Date
-  ) => Promise<ExtendedCalendarItemDTO[]>;
+  ) => Promise<CalendarItemQueryResult[]>;
   selectDatesByRecipeId: (
     recipeId: number,
     fromDate: Date,
@@ -29,7 +29,7 @@ export interface ICalendarItemsRepository
 }
 
 export interface ICalendarItemsController
-  extends IDbEntityController<CalendarItem, BaseCalendarItemDTO> {
+  extends IDbEntityController<CalendarItem, CalendarItemDTO> {
   getDays: (
     fromDate: Date,
     toDate: Date,

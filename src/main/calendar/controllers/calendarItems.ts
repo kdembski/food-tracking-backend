@@ -4,10 +4,10 @@ import { ICalendarItemsController } from "@/interfaces/calendar/calendarItems";
 import { CalendarItemsRepository } from "@/repositories/calendarItems";
 import { CalendarItemMembersController } from "./calendarItemMembers";
 import { CalendarItemChildControllersFactory } from "../factories/calendarItemChildControllers";
-import { ExtendedCalendarItemMapper } from "../mappers/extendedCalendarItem";
+import { CalendarItemQueryResultMapper } from "../mappers/calendarItemQueryResult";
 import { CalendarItemsCollection } from "../collections/calendarItems";
 import { CalendarDaysCollection } from "../collections/calendarDays";
-import { BaseCalendarItemDTO } from "@/dtos/calendar/calendarItem";
+import { CalendarItemDTO } from "@/dtos/calendar/calendarItem";
 
 export class CalendarItemsController implements ICalendarItemsController {
   async getDays(fromDate: Date, toDate: Date, members?: number[]) {
@@ -16,7 +16,7 @@ export class CalendarItemsController implements ICalendarItemsController {
       toDate
     );
     const calendarItems = new CalendarItemsCollection(
-      dtos.map((dto) => new ExtendedCalendarItemMapper().toDomain(dto))
+      dtos.map((dto) => new CalendarItemQueryResultMapper().toDomain(dto))
     );
     await calendarItems.filterByMembers(members);
     const calendarDays = new CalendarDaysCollection(calendarItems.items);
@@ -29,7 +29,7 @@ export class CalendarItemsController implements ICalendarItemsController {
     return new CalendarItem(dto);
   }
 
-  async create(data: BaseCalendarItemDTO) {
+  async create(data: CalendarItemDTO) {
     const calendarItem = new CalendarItem(data);
     const results = await new CalendarItemsRepository().insert(calendarItem);
     await new CalendarItemMembersController().addCalendarItemToMembers(
@@ -42,7 +42,7 @@ export class CalendarItemsController implements ICalendarItemsController {
     return results;
   }
 
-  async update(data: BaseCalendarItemDTO) {
+  async update(data: CalendarItemDTO) {
     const calendarItem = new CalendarItem(data);
     const results = await new CalendarItemsRepository().update(calendarItem);
 

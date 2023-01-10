@@ -1,9 +1,9 @@
-import { BaseCalendarItemDTO } from "@/dtos/calendar/calendarItem";
+import { CalendarItemDTO } from "@/dtos/calendar/calendarItem";
 import { IMapper } from "@/interfaces/base/mapper";
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
 
-export class BaseCalendarItemMapper
-  implements IMapper<CalendarItem, BaseCalendarItemDTO>
+export class CalendarItemMapper
+  implements IMapper<CalendarItem, CalendarItemDTO>
 {
   toDTO(item: CalendarItem) {
     return {
@@ -18,7 +18,7 @@ export class BaseCalendarItemMapper
     };
   }
 
-  toDomain(dto: BaseCalendarItemDTO) {
+  toDomain(dto: CalendarItemDTO) {
     return new CalendarItem(dto);
   }
 }

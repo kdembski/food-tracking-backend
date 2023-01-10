@@ -1,8 +1,10 @@
-import { RecipeDTO } from "@/dtos/recipes/recipe";
+import { ExtendedRecipeDTO } from "@/dtos/recipes/recipe";
 import { IMapper } from "@/interfaces/base/mapper";
 import { Recipe } from "../models/recipe";
 
-export class RecipeMapper implements IMapper<Recipe, RecipeDTO> {
+export class ExtendedRecipeMapper
+  implements IMapper<Recipe, ExtendedRecipeDTO>
+{
   toDTO(model: Recipe) {
     return {
       id: model.id,
@@ -10,10 +12,13 @@ export class RecipeMapper implements IMapper<Recipe, RecipeDTO> {
       preparationTime: model.preparationTime,
       tags: model.tags,
       cookidooLink: model.cookidooLink,
+      kcal: model.kcal,
+      cookedDate: model.cookedDate,
+      datesFromLastYear: model.datesFromLastYear,
     };
   }
 
-  toDomain(dto: RecipeDTO) {
+  toDomain(dto: ExtendedRecipeDTO) {
     return new Recipe(dto);
   }
 }
