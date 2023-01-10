@@ -1,17 +1,17 @@
 import { IngredientUnitsCollection } from "@/main/ingredients/collections/ingredientUnits";
 import { IngredientUnitDTO } from "./ingredientUnit";
 
-export type IngredientDTO = {
+type IngredientBase = {
   id?: number;
   name?: string;
   categoryId?: number;
+};
+
+export type IngredientDTO = IngredientBase & {
   units?: IngredientUnitDTO[];
 };
 
-export type IngredientListItemDTO = {
-  id?: number;
-  name?: string;
-  categoryId?: number;
+export type IngredientListItemDTO = Required<IngredientBase> & {
   categoryName?: string;
   unitNames?: string[];
 };
@@ -21,17 +21,11 @@ export type IngredientOptionDTO = {
   name: string;
 };
 
-export type IngredientPayload = {
-  id?: number;
-  name?: string;
-  categoryId?: number;
+export type IngredientPayload = IngredientBase & {
   categoryName?: string;
   units?: IngredientUnitsCollection;
 };
 
-export type IngredientQueryResult = {
-  id: number;
-  name: string;
-  categoryId: number;
+export type IngredientQueryResult = Required<IngredientBase> & {
   categoryName: string;
 };

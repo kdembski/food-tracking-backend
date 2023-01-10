@@ -1,30 +1,15 @@
-export type RecipeDTO = {
+export type RecipeBase = {
   id?: number;
   recipeName?: string;
   preparationTime?: number;
   tags?: string;
+  cookidooLink?: string;
+};
+
+export type RecipeDTO = RecipeBase;
+
+export type ExtendedRecipeDTO = RecipeBase & {
   kcal?: number;
   cookedDate?: Date;
-  cookidooLink?: string;
   datesFromLastYear?: Date[][];
-};
-
-export type RecipeQueryResult = {
-  id?: number;
-  recipeName?: string;
-  preparationTime?: number;
-  tags?: string;
-  kcal?: number;
-  cookedDate?: Date;
-  cookidooLink?: string;
-};
-
-export type RecipePayload = {
-  id?: number;
-  recipeName?: string;
-  preparationTime?: number;
-  tags?: string;
-  kcal?: number;
-  cookedDate?: Date;
-  cookidooLink?: string;
 };

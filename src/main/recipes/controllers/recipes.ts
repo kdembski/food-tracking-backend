@@ -7,7 +7,6 @@ import { RecipesList } from "../models/recipesList";
 import { RecipesTags } from "../models/recipesTags";
 import { TagsBuilder } from "@/base/tags/builders/tags";
 import { RecipeDTO } from "@/dtos/recipes/recipe";
-import { TagsMapper } from "@/base/tags/mappers/tags";
 
 export class RecipesController implements IRecipesController {
   async getList(query: RequestQueryData) {

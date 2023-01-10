@@ -1,4 +1,4 @@
-import { RecipeDTO } from "@/dtos/recipes/recipe";
+import { ExtendedRecipeDTO } from "@/dtos/recipes/recipe";
 import { IRecipe } from "@/interfaces/recipes/recipes";
 import { CalendarItemRecipesController } from "@/main/calendar/controllers/calendarItemRecipes";
 
@@ -12,7 +12,7 @@ export class Recipe implements IRecipe {
   private _cookidooLink?: string;
   private _datesFromLastYear?: Date[][];
 
-  constructor(data: RecipeDTO) {
+  constructor(data: ExtendedRecipeDTO) {
     this._id = data.id;
     this._recipeName = data.recipeName;
     this._preparationTime = data.preparationTime;

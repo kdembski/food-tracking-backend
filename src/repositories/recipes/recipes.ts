@@ -7,12 +7,12 @@ import { DatabaseQueryHelper } from "@/helpers/databaseQuery";
 import { ListConfig } from "@/types/base/list";
 import { CustomError } from "@/base/errors/models/customError";
 import { TagsConfig } from "@/types/base/tags";
-import { RecipeDTO } from "@/dtos/recipes/recipe";
+import { ExtendedRecipeDTO } from "@/dtos/recipes/recipe";
 
 export class RecipesRepository implements IRecipesRepository {
   async selectById(id: number) {
     const results = await Database.sendQuery(recipesQueries.selectById, [id]);
-    const dto = results[0] as RecipeDTO;
+    const dto = results[0] as ExtendedRecipeDTO;
 
     if (!dto) {
       throw new CustomError({
@@ -30,7 +30,7 @@ export class RecipesRepository implements IRecipesRepository {
     );
 
     const data = await Database.sendQuery(query, [config.searchPhrase]);
-    return data as RecipeDTO[];
+    return data as ExtendedRecipeDTO[];
   }
 
   async selectTags({ searchPhrase, tags }: TagsConfig) {

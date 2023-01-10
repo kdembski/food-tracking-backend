@@ -4,7 +4,7 @@ import { OkPacket } from "mysql2";
 import { recipeIngredientsQueries } from "@/queries/recipes/recipeIngredients";
 import { CustomError } from "@/base/errors/models/customError";
 import { RecipeIngredient } from "@/main/recipes/models/recipeIngredient";
-import { RecipeIngredientDTO } from "@/dtos/recipes/recipeIngredient";
+import { ExtendedRecipeIngredientDTO } from "@/dtos/recipes/recipeIngredient";
 
 export class RecipeIngredientsRepository
   implements IRecipeIngredientsRepository
@@ -14,7 +14,7 @@ export class RecipeIngredientsRepository
       recipeIngredientsQueries.selectById,
       [id]
     );
-    const dto = results[0] as RecipeIngredientDTO;
+    const dto = results[0] as ExtendedRecipeIngredientDTO;
 
     if (!dto) {
       throw new CustomError({
@@ -31,7 +31,7 @@ export class RecipeIngredientsRepository
       [recipeId]
     );
 
-    return results as RecipeIngredientDTO[];
+    return results as ExtendedRecipeIngredientDTO[];
   }
 
   async insert(data: RecipeIngredient) {

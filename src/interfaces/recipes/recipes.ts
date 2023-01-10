@@ -3,7 +3,7 @@ import { IListRepository } from "../base/list";
 import { Recipe } from "@/main/recipes/models/recipe";
 import { RequestQueryData } from "@/types/helpers/requestQuery";
 import { IDbEntityController, IRepository } from "../base/dbEntity";
-import { RecipeDTO } from "@/dtos/recipes/recipe";
+import { ExtendedRecipeDTO, RecipeDTO } from "@/dtos/recipes/recipe";
 import { Tags } from "@/base/tags/models/tags";
 
 export interface IRecipe {
@@ -11,8 +11,8 @@ export interface IRecipe {
 }
 
 export interface IRecipesRepository
-  extends IRepository<Recipe, RecipeDTO>,
-    IListRepository<RecipeDTO>,
+  extends IRepository<Recipe, ExtendedRecipeDTO>,
+    IListRepository<ExtendedRecipeDTO>,
     ITagsRepository {}
 
 export interface IRecipesController
