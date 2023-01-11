@@ -2,7 +2,6 @@ import { IngredientUnitsCollectionMapper } from "./ingredientUnitsCollection";
 import { IngredientDTO } from "@/dtos/ingredients/ingredient";
 import { IMapper } from "@/interfaces/base/mapper";
 import { Ingredient } from "../models/ingredient";
-import { IngredientUnitMapper } from "./ingredientUnit";
 
 export class IngredientMapper implements IMapper<Ingredient, IngredientDTO> {
   toDTO(model: Ingredient) {

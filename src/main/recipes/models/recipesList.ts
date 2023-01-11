@@ -1,27 +1,23 @@
+import { ExtendedRecipeDTO } from "@/dtos/recipes/recipe";
+import { RecipeBuilder } from "./../builders/recipe";
 import { ExtendedRecipeMapper } from "../mappers/extendedRecipe";
 import { Recipe } from "./recipe";
 import { List } from "@/base/list/models/list";
 import { RecipeDTO } from "@/dtos/recipes/recipe";
 import { RecipesRepository } from "@/repositories/recipes/recipes";
 
-export class RecipesList extends List<Recipe, RecipeDTO, RecipeDTO> {
+export class RecipesList extends List<
+  Recipe,
+  ExtendedRecipeDTO,
+  ExtendedRecipeDTO
+> {
   constructor() {
     super(new RecipesRepository(), new ExtendedRecipeMapper());
   }
 
-  createListItem(data: RecipeDTO) {
-    return new Recipe(data);
-  }
-
-  async setDatesFromLastYear() {
-    const promises = this.data.map(async (item) => {
-      return item.setDatesFromLastYear();
-    });
-
-    if (!promises) {
-      return;
-    }
-
-    await Promise.all(promises);
+  async createListItem(data: RecipeDTO) {
+    const builder = new RecipeBuilder(data);
+    await builder.produceDatesFromLastYear();
+    return builder.getRecipe();
   }
 }
