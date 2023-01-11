@@ -14,6 +14,6 @@ export interface IOrderedFoodRepository
     ITagsRepository {}
 
 export interface IOrderedFoodController
-  extends IDbEntityController<OrderedFood, OrderedFoodDTO> {
+  extends IDbEntityController<OrderedFood> {
   getTags: (query: RequestQueryData) => Promise<Tags>;
 }

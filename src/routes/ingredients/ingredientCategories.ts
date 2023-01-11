@@ -4,6 +4,7 @@ import { ApiError } from "@/base/errors/models/apiError";
 import { Router } from "express";
 import { IngredientCategoryDTO } from "@/dtos/ingredients/ingredientCategory";
 import { IngredientCategoryMapper } from "@/main/ingredients/mappers/ingredientCategory";
+import { IngredientCategory } from "@/main/ingredients/models/ingredientCategory";
 
 const ingredientCategoriesRouter = Router();
 const ingredientCategoriesController = new IngredientCategoriesController();
@@ -11,11 +12,10 @@ const ingredientCategoriesController = new IngredientCategoriesController();
 ingredientCategoriesRouter.get("/", async (request, response) => {
   try {
     const ingredientCategories = await ingredientCategoriesController.getAll();
-    response.json(
-      ingredientCategories.map((category) =>
-        new IngredientCategoryMapper().toDTO(category)
-      )
+    const dtos = ingredientCategories.map((category) =>
+      new IngredientCategoryMapper().toDTO(category)
     );
+    response.json(dtos);
   } catch (error) {
     ApiError.create(error, response).send();
   }
@@ -35,7 +35,8 @@ ingredientCategoriesRouter.get("/:id", async (request, response) => {
     const id = new RequestParamsHelper(request.params).id;
 
     const ingredientCategory = await ingredientCategoriesController.getById(id);
-    response.json(new IngredientCategoryMapper().toDTO(ingredientCategory));
+    const dto = new IngredientCategoryMapper().toDTO(ingredientCategory);
+    response.json(dto);
   } catch (error) {
     ApiError.create(error, response).send();
   }
@@ -44,8 +45,9 @@ ingredientCategoriesRouter.get("/:id", async (request, response) => {
 ingredientCategoriesRouter.post("/", async (request, response) => {
   try {
     const data: IngredientCategoryDTO = request.body;
+    const category = new IngredientCategory(data);
 
-    const results = await ingredientCategoriesController.create(data);
+    const results = await ingredientCategoriesController.create(category);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();
@@ -57,8 +59,9 @@ ingredientCategoriesRouter.put("/:id", async (request, response) => {
     const id = new RequestParamsHelper(request.params).id;
     const data: IngredientCategoryDTO = request.body;
     data.id = id;
+    const category = new IngredientCategory(data);
 
-    const results = await ingredientCategoriesController.update(data);
+    const results = await ingredientCategoriesController.update(category);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();

@@ -1,4 +1,3 @@
-import { IngredientCategoryDTO } from "@/dtos/ingredients/ingredientCategory";
 import { IIngredientCategoriesController } from "@/interfaces/ingredients/ingredientCategories";
 import { IngredientCategoriesRepository } from "@/repositories/ingredients/ingredientCategories";
 import { IngredientCategory } from "../models/ingredientCategory";
@@ -20,14 +19,12 @@ export class IngredientCategoriesController
     return new IngredientCategory(dto);
   }
 
-  create(data: IngredientCategoryDTO) {
-    const ingredient = new IngredientCategory(data);
-    return new IngredientCategoriesRepository().insert(ingredient);
+  create(category: IngredientCategory) {
+    return new IngredientCategoriesRepository().insert(category);
   }
 
-  update(data: IngredientCategoryDTO) {
-    const ingredient = new IngredientCategory(data);
-    return new IngredientCategoriesRepository().update(ingredient);
+  update(category: IngredientCategory) {
+    return new IngredientCategoriesRepository().update(category);
   }
 
   delete(id: number) {

@@ -19,7 +19,7 @@ export class IngredientsList extends List<
 
   async createListItem(data: IngredientQueryResult) {
     const builder = new IngredientBuilder(data);
-    await builder.buildUnits();
+    await builder.produceUnits();
     return builder.getIngredient();
   }
 }

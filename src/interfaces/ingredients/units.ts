@@ -9,7 +9,7 @@ export interface IUnitsRepository extends IRepository<Unit, UnitDTO> {
   selectOptions: () => Promise<UnitOptionDTO[]>;
 }
 
-export interface IUnitsController extends IDbEntityController<Unit, UnitDTO> {
+export interface IUnitsController extends IDbEntityController<Unit> {
   getAll: () => Promise<Unit[]>;
   getOptions: () => Promise<UnitOptionDTO[]>;
 }

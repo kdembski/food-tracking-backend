@@ -11,7 +11,7 @@ export type IngredientDTO = IngredientBase & {
   units?: IngredientUnitDTO[];
 };
 
-export type IngredientListItemDTO = Required<IngredientBase> & {
+export type IngredientListItemDTO = IngredientBase & {
   categoryName?: string;
   unitNames?: string[];
 };

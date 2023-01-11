@@ -15,6 +15,6 @@ export interface IIngredientsRepository
 }
 
 export interface IIngredientsController
-  extends IDbEntityController<Ingredient, IngredientDTO> {
+  extends IDbEntityController<Ingredient> {
   getOptions: () => Promise<IngredientOptionDTO[]>;
 }

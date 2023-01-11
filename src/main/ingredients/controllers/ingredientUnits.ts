@@ -1,7 +1,8 @@
+import { IIngredientUnitsController } from "@/interfaces/ingredients/ingredientUnits";
 import { IngredientUnitsRepository } from "@/repositories/ingredients/ingredientUnits";
 import { IngredientUnit } from "../models/ingredientUnit";
 
-export class IngredientUnitsController {
+export class IngredientUnitsController implements IIngredientUnitsController {
   async getById(id: number) {
     const dto = await new IngredientUnitsRepository().selectById(id);
     return new IngredientUnit(dto);

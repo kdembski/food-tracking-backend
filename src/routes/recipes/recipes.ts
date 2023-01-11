@@ -8,6 +8,7 @@ import { RecipeDTO } from "@/dtos/recipes/recipe";
 import { TagsMapper } from "@/base/tags/mappers/tags";
 import { ExtendedRecipeIngredientMapper } from "@/main/recipes/mappers/extendedRecipeIngredient";
 import { ExtendedRecipeMapper } from "@/main/recipes/mappers/extendedRecipe";
+import { Recipe } from "@/main/recipes/models/recipe";
 
 const recipesRouter = Router();
 const recipesController = new RecipesController();
@@ -61,11 +62,10 @@ recipesRouter.get("/:id/ingredients", async (request, response) => {
     const id = new RequestParamsHelper(request.params).id;
 
     const ingredients = await recipeIngredientsController.getByRecipeId(id);
-    response.json(
-      ingredients.map((ingredient) =>
-        response.json(new ExtendedRecipeIngredientMapper().toDTO(ingredient))
-      )
+    const dtos = ingredients.map((ingredient) =>
+      response.json(new ExtendedRecipeIngredientMapper().toDTO(ingredient))
     );
+    response.json(dtos);
   } catch (error) {
     ApiError.create(error, response).send();
   }
@@ -76,7 +76,8 @@ recipesRouter.get("/:id", async (request, response) => {
     const id = new RequestParamsHelper(request.params).id;
 
     const recipe = await recipesController.getById(id);
-    response.json(new ExtendedRecipeMapper().toDTO(recipe));
+    const dto = new ExtendedRecipeMapper().toDTO(recipe);
+    response.json(dto);
   } catch (error) {
     ApiError.create(error, response).send();
   }
@@ -85,8 +86,9 @@ recipesRouter.get("/:id", async (request, response) => {
 recipesRouter.post("/", async (request, response) => {
   try {
     const data: RecipeDTO = request.body;
+    const recipe = new Recipe(data);
 
-    const results = await recipesController.create(data);
+    const results = await recipesController.create(recipe);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();
@@ -98,8 +100,9 @@ recipesRouter.put("/:id", async (request, response) => {
     const id = new RequestParamsHelper(request.params).id;
     const data: RecipeDTO = request.body;
     data.id = id;
+    const recipe = new Recipe(data);
 
-    const results = await recipesController.update(data);
+    const results = await recipesController.update(recipe);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();

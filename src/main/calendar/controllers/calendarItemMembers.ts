@@ -1,3 +1,4 @@
+import { MemberCalendarItem } from "@/main/members/models/memberCalendarItem";
 import { ICalendarItemMembersController } from "@/interfaces/calendar/calendarItemMembers";
 import { MemberCalendarItemsController } from "@/main/members/controllers/memberCalendarItems";
 
@@ -6,10 +7,11 @@ export class CalendarItemMembersController
 {
   async addCalendarItemToMembers(itemId: number, memberIds: number[]) {
     const promises = memberIds.map((memberId) => {
-      return new MemberCalendarItemsController().create({
+      const memberCalendarItem = new MemberCalendarItem({
         itemId,
         memberId,
       });
+      return new MemberCalendarItemsController().create(memberCalendarItem);
     });
 
     const results = await Promise.all(promises);

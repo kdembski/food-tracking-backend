@@ -36,7 +36,7 @@ export class MemberCalendarItemsRepository
     return results as MemberCalendarItemDTO[];
   }
 
-  async insert(data: MemberCalendarItemDTO) {
+  async insert(data: MemberCalendarItem) {
     const results = await Database.sendQuery(
       memberCalendarItemsQueries.insert,
       [data.itemId, data.memberId]

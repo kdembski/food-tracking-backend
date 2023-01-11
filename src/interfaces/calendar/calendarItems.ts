@@ -1,7 +1,4 @@
-import {
-  CalendarItemDTO,
-  CalendarItemQueryResult,
-} from "@/dtos/calendar/calendarItem";
+import { CalendarItemQueryResult } from "@/dtos/calendar/calendarItem";
 import { CalendarDaysCollection } from "@/main/calendar/collections/calendarDays";
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
 import { IDbEntityController, IRepository } from "../base/dbEntity";
@@ -29,7 +26,7 @@ export interface ICalendarItemsRepository
 }
 
 export interface ICalendarItemsController
-  extends IDbEntityController<CalendarItem, CalendarItemDTO> {
+  extends IDbEntityController<CalendarItem> {
   getDays: (
     fromDate: Date,
     toDate: Date,

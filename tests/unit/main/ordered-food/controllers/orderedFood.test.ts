@@ -1,4 +1,5 @@
 import { OrderedFoodController } from "@/main/ordered-food/controllers/orderedFood";
+import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
 
 const selectCount = jest.fn();
 const selectById = jest.fn().mockImplementation(() => ({}));
@@ -58,12 +59,12 @@ describe("Ordered Food Controller", () => {
   });
 
   it("Should trigger repository insert on create call", async () => {
-    await controller.create({});
+    await controller.create(new OrderedFood({}));
     expect(insert).toHaveBeenCalledTimes(1);
   });
 
   it("Should trigger repository update on update call", async () => {
-    await controller.update({});
+    await controller.update(new OrderedFood({}));
     expect(update).toHaveBeenCalledTimes(1);
   });
 

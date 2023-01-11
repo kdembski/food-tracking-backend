@@ -10,4 +10,4 @@ export interface IIngredientUnitsRepository
 }
 
 export interface IIngredientUnitsController
-  extends IDbEntityController<IngredientUnit, IngredientUnitDTO> {}
+  extends IDbEntityController<IngredientUnit> {}

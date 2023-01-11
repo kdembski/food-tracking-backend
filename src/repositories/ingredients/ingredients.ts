@@ -1,7 +1,6 @@
 import { CustomError } from "@/base/errors/models/customError";
 import Database from "@/config/database";
 import {
-  IngredientDTO,
   IngredientOptionDTO,
   IngredientQueryResult,
 } from "@/dtos/ingredients/ingredient";

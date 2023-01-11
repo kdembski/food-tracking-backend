@@ -14,7 +14,8 @@ ingredientUnitsRouter.get("/:id", async (request, response) => {
     const id = new RequestParamsHelper(request.params).id;
 
     const ingredientUnit = await ingredientUnitsController.getById(id);
-    response.json(new IngredientUnitMapper().toDTO(ingredientUnit));
+    const dto = new IngredientUnitMapper().toDTO(ingredientUnit);
+    response.json(dto);
   } catch (error) {
     ApiError.create(error, response).send();
   }

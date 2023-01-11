@@ -1,6 +1,5 @@
 import { RecipeDTO } from "@/dtos/recipes/recipe";
 import { RecipesController } from "@/main/recipes/controllers/recipes";
-import { ExtendedRecipeMapper } from "@/main/recipes/mappers/extendedRecipe";
 import { Recipe } from "@/main/recipes/models/recipe";
 import { CalendarItemsRepository } from "@/repositories/calendarItems";
 import { CalendarItemRecipeAdapter } from "../adapters/calendarItemRecipe";
@@ -13,7 +12,6 @@ export class CalendarItemRecipesController extends CalendarItemChildController<
   constructor(recipeId: number) {
     super(
       new RecipesController(),
-      new ExtendedRecipeMapper(),
       new CalendarItemRecipeAdapter(recipeId),
       recipeId
     );

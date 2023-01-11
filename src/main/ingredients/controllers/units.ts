@@ -1,4 +1,3 @@
-import { UnitDTO } from "@/dtos/ingredients/unit";
 import { IUnitsController } from "@/interfaces/ingredients/units";
 import { UnitsRepository } from "@/repositories/ingredients/units";
 import { Unit } from "../models/unit";
@@ -18,14 +17,12 @@ export class UnitsController implements IUnitsController {
     return new Unit(dto);
   }
 
-  create(data: UnitDTO) {
-    const ingredient = new Unit(data);
-    return new UnitsRepository().insert(ingredient);
+  create(unit: Unit) {
+    return new UnitsRepository().insert(unit);
   }
 
-  update(data: UnitDTO) {
-    const ingredient = new Unit(data);
-    return new UnitsRepository().update(ingredient);
+  update(unit: Unit) {
+    return new UnitsRepository().update(unit);
   }
 
   delete(id: number) {

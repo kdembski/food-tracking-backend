@@ -31,7 +31,8 @@ ingredientsRouter.get("/:id", async (request, response) => {
     const id = new RequestParamsHelper(request.params).id;
 
     const ingredient = await ingredientsController.getById(id);
-    response.json(new IngredientMapper().toDTO(ingredient));
+    const dto = new IngredientMapper().toDTO(ingredient);
+    response.json(dto);
   } catch (error) {
     ApiError.create(error, response).send();
   }
@@ -40,8 +41,9 @@ ingredientsRouter.get("/:id", async (request, response) => {
 ingredientsRouter.post("/", async (request, response) => {
   try {
     const data: IngredientDTO = request.body;
+    const ingredient = new IngredientMapper().toDomain(data);
 
-    const results = await ingredientsController.create(data);
+    const results = await ingredientsController.create(ingredient);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();
@@ -53,8 +55,9 @@ ingredientsRouter.put("/:id", async (request, response) => {
     const id = new RequestParamsHelper(request.params).id;
     const data: IngredientDTO = request.body;
     data.id = id;
+    const ingredient = new IngredientMapper().toDomain(data);
 
-    const results = await ingredientsController.update(data);
+    const results = await ingredientsController.update(ingredient);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();

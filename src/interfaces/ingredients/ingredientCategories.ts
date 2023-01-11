@@ -10,6 +10,6 @@ export interface IIngredientCategoriesRepository
 }
 
 export interface IIngredientCategoriesController
-  extends IDbEntityController<IngredientCategory, IngredientCategoryDTO> {
+  extends IDbEntityController<IngredientCategory> {
   getAll: () => Promise<IngredientCategory[]>;
 }

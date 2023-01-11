@@ -6,6 +6,7 @@ import { RequestParamsHelper } from "@/helpers/requestParams";
 import { CalendarItemsController } from "@/main/calendar/controllers/calendarItems";
 import { CalendarItemDTO } from "@/dtos/calendar/calendarItem";
 import { CalendarDaysMapper } from "@/main/calendar/mappers/calendarDays";
+import { CalendarItem } from "@/main/calendar/models/calendarItem";
 
 const calendarItemsRouter = Router();
 const calendarItemsController = new CalendarItemsController();
@@ -22,7 +23,8 @@ calendarItemsRouter.get("/", async (request, response) => {
       toDate || new Date(2070, 0, 0),
       members
     );
-    response.json(new CalendarDaysMapper().toDTO(calendarDays.items));
+    const dtos = new CalendarDaysMapper().toDTO(calendarDays.items);
+    response.json(dtos);
   } catch (error) {
     ApiError.create(error, response).send();
   }
@@ -31,8 +33,9 @@ calendarItemsRouter.get("/", async (request, response) => {
 calendarItemsRouter.post("/", async (request, response) => {
   try {
     const data: CalendarItemDTO = request.body;
+    const calendarItem = new CalendarItem(data);
 
-    const results = await calendarItemsController.create(data);
+    const results = await calendarItemsController.create(calendarItem);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();
@@ -44,8 +47,9 @@ calendarItemsRouter.put("/:id", async (request, response) => {
     const id = new RequestParamsHelper(request.params).id;
     const data: CalendarItemDTO = request.body;
     data.id = id;
+    const calendarItem = new CalendarItem(data);
 
-    const results = await calendarItemsController.update(data);
+    const results = await calendarItemsController.update(calendarItem);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();

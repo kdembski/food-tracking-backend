@@ -9,7 +9,7 @@ export class IngredientBuilder {
     this._ingredient = new Ingredient(payload);
   }
 
-  async buildUnits() {
+  async produceUnits() {
     const units =
       await new IngredientUnitsCollectionController().getByIngredientId(
         this._ingredient.id as number

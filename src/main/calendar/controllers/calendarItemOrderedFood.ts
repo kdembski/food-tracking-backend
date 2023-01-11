@@ -4,7 +4,6 @@ import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
 import { CalendarItemsRepository } from "@/repositories/calendarItems";
 import { CalendarItemChildController } from "./calendarItemChild";
 import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
-import { OrderedFoodMapper } from "@/main/ordered-food/mappers/orderedFood";
 
 export class CalendarItemOrderedFoodController extends CalendarItemChildController<
   OrderedFood,
@@ -13,7 +12,6 @@ export class CalendarItemOrderedFoodController extends CalendarItemChildControll
   constructor(orderedFoodId: number) {
     super(
       new OrderedFoodController(),
-      new OrderedFoodMapper(),
       new CalendarItemOrderedFoodAdapter(orderedFoodId),
       orderedFoodId
     );

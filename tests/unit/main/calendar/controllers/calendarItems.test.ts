@@ -57,9 +57,10 @@ describe("Calendar Items Controller", () => {
       orderedFoodId: 1,
     };
 
-    await controller.create(dto);
+    const item = new CalendarItem(dto);
+    await controller.create(item);
 
-    expect(insert).toHaveBeenCalledWith(new CalendarItem(dto));
+    expect(insert).toHaveBeenCalledWith(item);
     expect(addCalendarItemToMembers).toHaveBeenCalledWith(1, [1, 2]);
 
     expect(updateLastDate).toHaveBeenCalledTimes(1);
@@ -67,9 +68,10 @@ describe("Calendar Items Controller", () => {
 
   it("Should trigger repository update on update method", async () => {
     const date = new Date(2000, 0, 0);
-    await controller.update({ date });
+    const item = new CalendarItem({ date });
+    await controller.update(item);
 
-    expect(update).toHaveBeenCalledWith(new CalendarItem({ date }));
+    expect(update).toHaveBeenCalledWith(new CalendarItem(item));
   });
 
   it("Should trigger repository delete on delete method", async () => {

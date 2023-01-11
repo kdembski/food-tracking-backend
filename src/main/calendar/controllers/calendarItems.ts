@@ -1,4 +1,3 @@
-import { CalendarDaysMapper } from "./../mappers/calendarDays";
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
 import { ICalendarItemsController } from "@/interfaces/calendar/calendarItems";
 import { CalendarItemsRepository } from "@/repositories/calendarItems";
@@ -7,7 +6,6 @@ import { CalendarItemChildControllersFactory } from "../factories/calendarItemCh
 import { CalendarItemQueryResultMapper } from "../mappers/calendarItemQueryResult";
 import { CalendarItemsCollection } from "../collections/calendarItems";
 import { CalendarDaysCollection } from "../collections/calendarDays";
-import { CalendarItemDTO } from "@/dtos/calendar/calendarItem";
 
 export class CalendarItemsController implements ICalendarItemsController {
   async getDays(fromDate: Date, toDate: Date, members?: number[]) {
@@ -29,8 +27,7 @@ export class CalendarItemsController implements ICalendarItemsController {
     return new CalendarItem(dto);
   }
 
-  async create(data: CalendarItemDTO) {
-    const calendarItem = new CalendarItem(data);
+  async create(calendarItem: CalendarItem) {
     const results = await new CalendarItemsRepository().insert(calendarItem);
     await new CalendarItemMembersController().addCalendarItemToMembers(
       results.insertId,
@@ -42,8 +39,7 @@ export class CalendarItemsController implements ICalendarItemsController {
     return results;
   }
 
-  async update(data: CalendarItemDTO) {
-    const calendarItem = new CalendarItem(data);
+  async update(calendarItem: CalendarItem) {
     const results = await new CalendarItemsRepository().update(calendarItem);
 
     this.updateChildLastDate(calendarItem);

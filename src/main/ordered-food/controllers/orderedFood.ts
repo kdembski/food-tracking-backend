@@ -6,7 +6,6 @@ import { OrderedFoodList } from "../models/orderedFoodList";
 import { OrderedFoodTags } from "../models/orderedFoodTags";
 import { ListBuilder } from "@/base/list/builders/list";
 import { TagsBuilder } from "@/base/tags/builders/tags";
-import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
 
 export class OrderedFoodController implements IOrderedFoodController {
   async getList(query: RequestQueryData) {
@@ -32,13 +31,11 @@ export class OrderedFoodController implements IOrderedFoodController {
     return new OrderedFood(dto);
   }
 
-  create(data: OrderedFoodDTO) {
-    const orderedFood = new OrderedFood(data);
+  create(orderedFood: OrderedFood) {
     return new OrderedFoodRepository().insert(orderedFood);
   }
 
-  update(data: OrderedFoodDTO) {
-    const orderedFood = new OrderedFood(data);
+  update(orderedFood: OrderedFood) {
     return new OrderedFoodRepository().update(orderedFood);
   }
 

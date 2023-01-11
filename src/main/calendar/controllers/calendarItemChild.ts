@@ -1,23 +1,19 @@
-import { IMapper } from "@/interfaces/base/mapper";
 import { CalendarMonthsCollection } from "../collections/calendarMonths";
 import { isEqual, startOfMonth, subMonths } from "date-fns";
 import { IDbEntityController } from "@/interfaces/base/dbEntity";
 import { ICalendarItemChildAdapter } from "@/interfaces/calendar/calendarItemChild";
 
 export abstract class CalendarItemChildController<Model, ModelDTO> {
-  protected childController: IDbEntityController<Model, ModelDTO>;
-  private childMapper: IMapper<Model, ModelDTO>;
+  private childController: IDbEntityController<Model>;
   private childAdapter: ICalendarItemChildAdapter<Model>;
   protected childId: number;
 
   constructor(
-    childController: IDbEntityController<Model, ModelDTO>,
-    childMapper: IMapper<Model, ModelDTO>,
+    childController: IDbEntityController<Model>,
     childAdapter: ICalendarItemChildAdapter<Model>,
     childId: number
   ) {
     this.childController = childController;
-    this.childMapper = childMapper;
     this.childAdapter = childAdapter;
     this.childId = childId;
   }
@@ -47,9 +43,7 @@ export abstract class CalendarItemChildController<Model, ModelDTO> {
     }
 
     this.childAdapter.setDate(lastDate);
-
-    const childDto = this.childMapper.toDTO(this.childAdapter.item);
-    await this.childController.update(childDto);
+    await this.childController.update(this.childAdapter.item);
   }
 
   async getDatesFromLastYear() {

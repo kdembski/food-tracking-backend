@@ -1,7 +1,6 @@
 import { MemberCalendarItemsRepository } from "@/repositories/members/memberCalendarItems";
 import { MemberCalendarItem } from "@/main/members/models/memberCalendarItem";
 import { IMemberCalendarItemsController } from "@/interfaces/members/memberCalendarItems";
-import { MemberCalendarItemDTO } from "@/dtos/members/memberCalendarItem";
 
 export class MemberCalendarItemsController
   implements IMemberCalendarItemsController
@@ -27,14 +26,12 @@ export class MemberCalendarItemsController
     return new MemberCalendarItem(dto);
   }
 
-  create(data: MemberCalendarItemDTO) {
-    const recipe = new MemberCalendarItem(data);
-    return new MemberCalendarItemsRepository().insert(recipe);
+  create(item: MemberCalendarItem) {
+    return new MemberCalendarItemsRepository().insert(item);
   }
 
-  update(data: MemberCalendarItemDTO) {
-    const recipe = new MemberCalendarItem(data);
-    return new MemberCalendarItemsRepository().update(recipe);
+  update(item: MemberCalendarItem) {
+    return new MemberCalendarItemsRepository().update(item);
   }
 
   delete(id: number) {

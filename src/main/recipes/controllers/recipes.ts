@@ -38,13 +38,11 @@ export class RecipesController implements IRecipesController {
     return new Recipe(dto);
   }
 
-  create(data: RecipeDTO) {
-    const recipe = new Recipe(data);
+  create(recipe: Recipe) {
     return new RecipesRepository().insert(recipe);
   }
 
-  update(data: RecipeDTO) {
-    const recipe = new Recipe(data);
+  update(recipe: Recipe) {
     return new RecipesRepository().update(recipe);
   }
 

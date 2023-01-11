@@ -1,9 +1,9 @@
 import { OkPacket } from "mysql2";
 
-export interface IDbEntityController<Model, ModelDto> {
+export interface IDbEntityController<Model> {
   getById: (id: number) => Promise<Model>;
-  create: (data: ModelDto) => Promise<OkPacket>;
-  update: (data: ModelDto) => Promise<OkPacket>;
+  create: (data: Model) => Promise<OkPacket>;
+  update: (data: Model) => Promise<OkPacket>;
   delete: (id: number) => Promise<OkPacket>;
 }
 

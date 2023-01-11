@@ -16,7 +16,7 @@ export interface IMemberCalendarItemsRepository
 }
 
 export interface IMemberCalendarItemsController
-  extends IDbEntityController<MemberCalendarItem, MemberCalendarItemDTO> {
+  extends IDbEntityController<MemberCalendarItem> {
   getByItemId: (itemId: number) => Promise<MemberCalendarItem[]>;
   getByMemberId: (memberId: number) => Promise<MemberCalendarItem[]>;
 }

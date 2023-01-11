@@ -1,4 +1,5 @@
 import { RecipesController } from "@/main/recipes/controllers/recipes";
+import { Recipe } from "@/main/recipes/models/recipe";
 
 const selectNames = jest.fn();
 const selectCount = jest.fn();
@@ -73,12 +74,12 @@ describe("Recipes Controller", () => {
   });
 
   it("Should trigger repository insert on create call", async () => {
-    await controller.create({});
+    await controller.create(new Recipe({}));
     expect(insert).toHaveBeenCalledTimes(1);
   });
 
   it("Should trigger repository update on update call", async () => {
-    await controller.update({});
+    await controller.update(new Recipe({}));
     expect(update).toHaveBeenCalledTimes(1);
   });
 

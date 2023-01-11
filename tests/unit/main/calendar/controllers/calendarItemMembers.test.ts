@@ -1,3 +1,4 @@
+import { MemberCalendarItem } from "@/main/members/models/memberCalendarItem";
 import { CalendarItemMembersController } from "@/main/calendar/controllers/calendarItemMembers";
 
 const create = jest.fn();
@@ -26,10 +27,12 @@ describe("Calendar Item Members Controller", () => {
   it("Should trigger create for each member id on addCalendarItemToMembers call", async () => {
     await controller.addCalendarItemToMembers(1, [1, 2]);
     expect(create).toHaveBeenCalledTimes(2);
-    expect(create).toHaveBeenLastCalledWith({
-      itemId: 1,
-      memberId: 2,
-    });
+    expect(create).toHaveBeenLastCalledWith(
+      new MemberCalendarItem({
+        itemId: 1,
+        memberId: 2,
+      })
+    );
   });
 
   it("Should trigger deleteByMemberIdAndItemId for each member id on removeCalendarItemFromMembers call", async () => {

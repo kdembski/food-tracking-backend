@@ -1,4 +1,5 @@
 import { MemberCalendarItemsController } from "@/main/members/controllers/memberCalendarItems";
+import { MemberCalendarItem } from "@/main/members/models/memberCalendarItem";
 
 const items = [{ test: "test" }];
 const selectByItemId = jest.fn().mockImplementation(() => items);
@@ -48,12 +49,12 @@ describe("Member Calendar Items Controller", () => {
   });
 
   it("Should trigger repository insert on create call", async () => {
-    await controller.create({});
+    await controller.create(new MemberCalendarItem({}));
     expect(insert).toHaveBeenCalledTimes(1);
   });
 
   it("Should trigger repository update on update call", async () => {
-    await controller.update({});
+    await controller.update(new MemberCalendarItem({}));
     expect(update).toHaveBeenCalledTimes(1);
   });
 
