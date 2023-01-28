@@ -34,9 +34,7 @@ recipesRouter.get("/tags", async (request, response) => {
 
 recipesRouter.get("/suggestions", async (request, response) => {
   try {
-    const requestQuery = new RequestQueryHelper(request.query);
-    const searchPhrase = requestQuery.searchPhrase;
-    const tags = requestQuery.tags;
+    const { searchPhrase, tags } = new RequestQueryHelper(request.query);
 
     const results = await recipesController.getNames(searchPhrase, tags);
     response.json(results);
@@ -47,10 +45,9 @@ recipesRouter.get("/suggestions", async (request, response) => {
 
 recipesRouter.get("/count", async (request, response) => {
   try {
-    const requestQuery = new RequestQueryHelper(request.query);
-    const searchPhrase = requestQuery.searchPhrase;
+    const { searchPhrase, tags } = new RequestQueryHelper(request.query);
 
-    const results = await recipesController.getCount(searchPhrase);
+    const results = await recipesController.getCount(searchPhrase, tags);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();

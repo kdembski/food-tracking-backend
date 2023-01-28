@@ -1,45 +1,54 @@
-export const recipesQueries = {
-  select: `
-    SELECT * FROM recipes
-    WHERE recipe_name
-    COLLATE utf8mb4_general_ci
-    LIKE ?`,
+import { Field } from "@/base/queries/models/field";
+import { Queries } from "@/base/queries/queries";
+import { TagsConfig } from "@/types/base/tags";
 
-  selectCount: `
-    SELECT COUNT(*) FROM recipes
-    WHERE recipe_name
-    COLLATE utf8mb4_general_ci
-    LIKE ?`,
+export class RecipesQueries extends Queries {
+  constructor() {
+    const fieldsToSelect = [
+      new Field({
+        name: "*",
+      }),
+    ];
 
-  selectTags: `
-    SELECT tags FROM recipes
-    WHERE recipe_name
-    COLLATE utf8mb4_general_ci
-    LIKE ?`,
+    const fieldsToInsert = [
+      "recipe_name",
+      "preparation_time",
+      "tags",
+      "cookidoo_link",
+    ];
 
-  selectNames: `
-    SELECT recipe_name FROM recipes
-    WHERE recipe_name
-    COLLATE utf8mb4_general_ci
-    LIKE ?`,
+    const fieldsToUpdate = [
+      "recipe_name",
+      "preparation_time",
+      "tags",
+      "cooked_date",
+      "cookidoo_link",
+    ];
 
-  selectById: `SELECT * FROM recipes WHERE id = ?`,
+    super({
+      tableName: "recipes",
+      searchPhraseFields: ["recipe_name"],
+      fieldsToSelect,
+      fieldsToInsert,
+      fieldsToUpdate,
+    });
+  }
 
-  insert: `
-    INSERT INTO recipes SET
-    recipe_name = ?,
-    preparation_time = ?,
-    tags = ?,
-    cookidoo_link = ?`,
+  getSelectTags({ searchPhrase, tags }: TagsConfig) {
+    const wheres = this.listHelper.buildListWheres(searchPhrase, tags);
 
-  update: `
-    UPDATE recipes SET
-    recipe_name = ?,
-    preparation_time = ?,
-    tags = ?,
-    cooked_date = ?,
-    cookidoo_link = ?
-    WHERE id = ?`,
+    return this.getSelect({
+      fields: [new Field({ name: "tags" })],
+      wheres,
+    });
+  }
 
-  delete: `DELETE FROM recipes WHERE id = ?`,
-};
+  getSelectNames(searchPhrase: string, tags: string) {
+    const wheres = this.listHelper.buildListWheres(searchPhrase, tags);
+
+    return this.getSelect({
+      fields: [new Field({ name: "recipe_name" })],
+      wheres,
+    });
+  }
+}

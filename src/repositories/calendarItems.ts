@@ -2,23 +2,23 @@ import { OkPacket } from "mysql2";
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
 import Database from "@/config/database";
 import { ICalendarItemsRepository } from "@/interfaces/calendar/calendarItems";
-import { calendarItemsQueries } from "@/queries/calendarItems";
 import { CustomError } from "@/base/errors/models/customError";
 import { CalendarItemQueryResult } from "@/dtos/calendar/calendarItem";
+import { CalendarItemsQueries } from "@/queries/calendarItems";
 
 export class CalendarItemsRepository implements ICalendarItemsRepository {
   async selectById(id: number) {
-    const results = await Database.sendQuery(calendarItemsQueries.selectById, [
-      id,
-    ]);
+    const query = new CalendarItemsQueries().getSelectById();
+    const results = await Database.sendQuery(query, [id]);
     return results[0] as CalendarItemQueryResult;
   }
 
   async selectDatesByRecipeId(recipeId: number, fromDate: Date, toDate: Date) {
-    const results = await Database.sendQuery(
-      calendarItemsQueries.selectDatesByRecipeId,
-      [recipeId, fromDate, toDate]
+    const query = new CalendarItemsQueries().getSelectDatesByRecipeId(
+      fromDate,
+      toDate
     );
+    const results = await Database.sendQuery(query, [recipeId]);
 
     return results.map((result: { date: Date }) => result.date) as Date[];
   }
@@ -28,19 +28,22 @@ export class CalendarItemsRepository implements ICalendarItemsRepository {
     fromDate: Date,
     toDate: Date
   ) {
-    const results = await Database.sendQuery(
-      calendarItemsQueries.selectDatesByOrderedFoodId,
-      [orderedFoodId, fromDate, toDate]
+    const query = new CalendarItemsQueries().getSelectDatesByOrderedFoodId(
+      fromDate,
+      toDate
     );
+    const results = await Database.sendQuery(query, [orderedFoodId]);
 
     return results.map((result: { date: Date }) => result.date) as Date[];
   }
 
   async selectAll(fromDate: Date, toDate: Date) {
-    const results = await Database.sendQuery(calendarItemsQueries.select, [
+    const query = new CalendarItemsQueries().getDateRangeSelect(
       fromDate,
-      toDate,
-    ]);
+      toDate
+    );
+    const results = await Database.sendQuery(query);
+
     return results as CalendarItemQueryResult[];
   }
 
@@ -51,28 +54,34 @@ export class CalendarItemsRepository implements ICalendarItemsRepository {
       });
     }
 
-    const results = await Database.sendQuery(calendarItemsQueries.insert, [
+    const query = new CalendarItemsQueries().getInsert();
+    const results = await Database.sendQuery(query, [
       item.date,
       item.recipeId,
       item.orderedFoodId,
       item.sortOrder,
     ]);
+
     return results as OkPacket;
   }
 
   async update(item: CalendarItem) {
-    const results = await Database.sendQuery(calendarItemsQueries.update, [
+    const query = new CalendarItemsQueries().getUpdate();
+    const results = await Database.sendQuery(query, [
       item.date,
       item.recipeId,
       item.orderedFoodId,
       item.sortOrder,
       item.id,
     ]);
+
     return results as OkPacket;
   }
 
   async delete(id: number) {
-    const results = await Database.sendQuery(calendarItemsQueries.delete, [id]);
+    const query = new CalendarItemsQueries().getDelete();
+    const results = await Database.sendQuery(query, [id]);
+
     return results as OkPacket;
   }
 }

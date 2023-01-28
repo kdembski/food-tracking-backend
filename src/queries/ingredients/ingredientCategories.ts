@@ -1,21 +1,13 @@
-export const ingredientCategoriesQueries = {
-  select: `SELECT * FROM ingredient_categories`,
+import { Field } from "@/base/queries/models/field";
+import { Queries } from "@/base/queries/queries";
 
-  selectOptions: `SELECT id, name FROM ingredient_categories`,
-
-  selectById: `
-    SELECT * 
-    FROM ingredient_categories
-    WHERE id = ?`,
-
-  insert: `
-    INSERT INTO ingredient_categories SET
-    name = ?`,
-
-  update: `
-    UPDATE ingredient_categories SET
-    name = ?
-    WHERE id = ?`,
-
-  delete: `DELETE FROM ingredient_categories WHERE id = ?`,
-};
+export class IngredientCategoriesQueries extends Queries {
+  constructor() {
+    super({
+      tableName: "ingredient_categories",
+      fieldsToSelect: [new Field({ name: "*" })],
+      fieldsToInsert: ["name"],
+      fieldsToUpdate: ["name"],
+    });
+  }
+}

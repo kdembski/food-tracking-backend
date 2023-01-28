@@ -22,7 +22,7 @@ export class OrderedFoodController implements IOrderedFoodController {
     return orderedFoodTags;
   }
 
-  getCount(searchPhrase: string, tags?: string) {
+  getCount(searchPhrase: string, tags: string) {
     return new OrderedFoodRepository().selectCount(searchPhrase, tags);
   }
 

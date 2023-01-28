@@ -1,17 +1,17 @@
 import { OkPacket } from "mysql2";
-import { recipesQueries } from "@/queries/recipes/recipes";
 import { IRecipesRepository } from "@/interfaces/recipes/recipes";
 import Database from "@/config/database";
 import { Recipe } from "@/main/recipes/models/recipe";
-import { DatabaseQueryHelper } from "@/helpers/databaseQuery";
 import { ListConfig } from "@/types/base/list";
 import { CustomError } from "@/base/errors/models/customError";
 import { TagsConfig } from "@/types/base/tags";
 import { ExtendedRecipeDTO } from "@/dtos/recipes/recipe";
+import { RecipesQueries } from "@/queries/recipes/recipes";
 
 export class RecipesRepository implements IRecipesRepository {
   async selectById(id: number) {
-    const results = await Database.sendQuery(recipesQueries.selectById, [id]);
+    const query = new RecipesQueries().getSelectById();
+    const results = await Database.sendQuery(query, [id]);
     const dto = results[0] as ExtendedRecipeDTO;
 
     if (!dto) {
@@ -24,48 +24,29 @@ export class RecipesRepository implements IRecipesRepository {
   }
 
   async selectList(config: ListConfig) {
-    const query = new DatabaseQueryHelper().extendQueryToSelectList(
-      recipesQueries.select,
-      config
-    );
+    const query = new RecipesQueries().getSelectList(config);
+    const data = await Database.sendQuery(query);
 
-    const data = await Database.sendQuery(query, [config.searchPhrase]);
     return data as ExtendedRecipeDTO[];
   }
 
-  async selectTags({ searchPhrase, tags }: TagsConfig) {
-    const queryToFilterByTags =
-      new DatabaseQueryHelper().getQueryToFiltersByTags(tags);
-    const queryToSelectTags =
-      recipesQueries.selectTags + "\n" + queryToFilterByTags;
-
-    const results = await Database.sendQuery(queryToSelectTags, [searchPhrase]);
+  async selectTags(config: TagsConfig) {
+    const query = new RecipesQueries().getSelectTags(config);
+    const results = await Database.sendQuery(query);
 
     return results.map((item: { tags: string }) => item.tags) as string[];
   }
 
-  async selectCount(searchPhrase: string, tags?: string) {
-    const queryToSelectListCount =
-      recipesQueries.selectCount +
-      "\n" +
-      new DatabaseQueryHelper().getQueryToFiltersByTags(tags);
-
-    const results = await Database.sendQuery(queryToSelectListCount, [
-      searchPhrase,
-    ]);
+  async selectCount(searchPhrase: string, tags: string) {
+    const query = new RecipesQueries().getSelectCount(searchPhrase, tags);
+    const results = await Database.sendQuery(query);
 
     return parseInt(results[0].count);
   }
 
-  async selectNames(searchPhrase: string, tags?: string) {
-    const queryToSelectRecipesNames =
-      recipesQueries.selectNames +
-      "\n" +
-      new DatabaseQueryHelper().getQueryToFiltersByTags(tags);
-
-    const results = await Database.sendQuery(queryToSelectRecipesNames, [
-      searchPhrase,
-    ]);
+  async selectNames(searchPhrase: string, tags: string) {
+    const query = new RecipesQueries().getSelectNames(searchPhrase, tags);
+    const results = await Database.sendQuery(query);
 
     return results.map(
       (item: { recipeName: string }) => item.recipeName
@@ -73,7 +54,8 @@ export class RecipesRepository implements IRecipesRepository {
   }
 
   async insert(data: Recipe) {
-    const results = await Database.sendQuery(recipesQueries.insert, [
+    const query = new RecipesQueries().getInsert();
+    const results = await Database.sendQuery(query, [
       data.recipeName,
       data.preparationTime,
       data.tags,
@@ -84,7 +66,8 @@ export class RecipesRepository implements IRecipesRepository {
   }
 
   async update(data: Recipe) {
-    const results = await Database.sendQuery(recipesQueries.update, [
+    const query = new RecipesQueries().getUpdate();
+    const results = await Database.sendQuery(query, [
       data.recipeName,
       data.preparationTime,
       data.tags,
@@ -97,7 +80,9 @@ export class RecipesRepository implements IRecipesRepository {
   }
 
   async delete(id: number) {
-    const results = await Database.sendQuery(recipesQueries.delete, [id]);
+    const query = new RecipesQueries().getDelete();
+    const results = await Database.sendQuery(query, [id]);
+
     return results as OkPacket;
   }
 }

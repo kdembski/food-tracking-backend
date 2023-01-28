@@ -1,24 +1,22 @@
-export const unitsQueries = {
-  select: `SELECT * FROM units`,
+import { Queries } from "@/base/queries/queries";
+import { Field } from "@/base/queries/models/field";
 
-  selectOptions: `SELECT id, name FROM units`,
+export class UnitsQueries extends Queries {
+  constructor() {
+    const fieldsToSelect = [
+      new Field({
+        name: "*",
+      }),
+    ];
 
-  selectById: `
-    SELECT * 
-    FROM units
-    WHERE id = ?`,
+    const fieldsToInsert = ["name", "shortcut"];
+    const fieldsToUpdate = ["name", "shortcut"];
 
-  insert: `
-    INSERT INTO units SET
-    name = ?,
-    shortcut = ?`,
-
-  update: `
-    UPDATE 
-    units SET
-    name = ?,
-    shortcut = ?
-    WHERE id = ?`,
-
-  delete: `DELETE FROM units WHERE id = ?`,
-};
+    super({
+      tableName: "units",
+      fieldsToSelect,
+      fieldsToInsert,
+      fieldsToUpdate,
+    });
+  }
+}

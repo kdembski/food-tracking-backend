@@ -42,7 +42,7 @@ export class RequestQueryHelper implements IRequestQueryHelper {
   }
 
   get searchPhrase() {
-    return this._searchPhrase ? "%" + this._searchPhrase + "%" : "%";
+    return this._searchPhrase || "";
   }
 
   get tags() {

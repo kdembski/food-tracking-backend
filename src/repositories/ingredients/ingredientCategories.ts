@@ -1,7 +1,7 @@
+import { IngredientCategoriesQueries } from "./../../queries/ingredients/ingredientCategories";
 import { IIngredientCategoriesRepository } from "@/interfaces/ingredients/ingredientCategories";
 import Database from "@/config/database";
 import { OkPacket } from "mysql2";
-import { ingredientCategoriesQueries } from "@/queries/ingredients/ingredientCategories";
 import { CustomError } from "@/base/errors/models/customError";
 import { IngredientCategory } from "@/main/ingredients/models/ingredientCategory";
 import {
@@ -13,10 +13,8 @@ export class IngredientCategoriesRepository
   implements IIngredientCategoriesRepository
 {
   async selectById(id: number) {
-    const results = await Database.sendQuery(
-      ingredientCategoriesQueries.selectById,
-      [id]
-    );
+    const query = new IngredientCategoriesQueries().getSelectById();
+    const results = await Database.sendQuery(query, [id]);
     const dto = results[0] as IngredientCategoryDTO;
 
     if (!dto) {
@@ -29,44 +27,37 @@ export class IngredientCategoriesRepository
   }
 
   async selectAll() {
-    const results = await Database.sendQuery(
-      ingredientCategoriesQueries.select
-    );
+    const query = new IngredientCategoriesQueries().getSelect();
+    const results = await Database.sendQuery(query);
 
     return results as IngredientCategoryDTO[];
   }
 
   async selectOptions() {
-    const results = await Database.sendQuery(
-      ingredientCategoriesQueries.selectOptions
-    );
+    const query = new IngredientCategoriesQueries().getSelectOptions("name");
+    const results = await Database.sendQuery(query);
 
     return results as IngredientCategoryOptionDTO[];
   }
 
   async insert(data: IngredientCategory) {
-    const results = await Database.sendQuery(
-      ingredientCategoriesQueries.insert,
-      [data.name]
-    );
+    const query = new IngredientCategoriesQueries().getInsert();
+    const results = await Database.sendQuery(query, [data.name]);
 
     return results as OkPacket;
   }
 
   async update(data: IngredientCategory) {
-    const results = await Database.sendQuery(
-      ingredientCategoriesQueries.update,
-      [data.name, data.id]
-    );
+    const query = new IngredientCategoriesQueries().getUpdate();
+    const results = await Database.sendQuery(query, [data.name, data.id]);
 
     return results as OkPacket;
   }
 
   async delete(id: number) {
-    const results = await Database.sendQuery(
-      ingredientCategoriesQueries.delete,
-      [id]
-    );
+    const query = new IngredientCategoriesQueries().getDelete();
+    const results = await Database.sendQuery(query, [id]);
+
     return results as OkPacket;
   }
 }

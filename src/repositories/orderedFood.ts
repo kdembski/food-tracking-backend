@@ -1,19 +1,17 @@
 import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
 import Database from "@/config/database";
-import { DatabaseQueryHelper } from "@/helpers/databaseQuery";
 import { IOrderedFoodRepository } from "@/interfaces/orderedFood";
-import { orderedFoodQueries } from "@/queries/orderedFood";
 import { OkPacket } from "mysql2";
 import { ListConfig } from "@/types/base/list";
 import { CustomError } from "@/base/errors/models/customError";
 import { TagsConfig } from "@/types/base/tags";
 import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
+import { OrderedFoodQueries } from "@/queries/orderedFood";
 
 export class OrderedFoodRepository implements IOrderedFoodRepository {
   async selectById(id: number) {
-    const results = await Database.sendQuery(orderedFoodQueries.selectById, [
-      id,
-    ]);
+    const query = new OrderedFoodQueries().getSelectById();
+    const results = await Database.sendQuery(query, [id]);
     const dto = results[0] as OrderedFoodDTO;
 
     if (!dto) {
@@ -21,66 +19,34 @@ export class OrderedFoodRepository implements IOrderedFoodRepository {
         message: "Ordered food with id: '" + id + "' not exists",
       });
     }
+
     return dto;
   }
 
   async selectList(config: ListConfig) {
-    const query = new DatabaseQueryHelper().extendQueryToSelectList(
-      orderedFoodQueries.select,
-      config,
-      ["food_name", "place_name"]
-    );
-
+    const query = new OrderedFoodQueries().getSelectList(config);
     const data = await Database.sendQuery(query);
+
     return data as OrderedFoodDTO[];
   }
 
-  async selectTags({ searchPhrase, tags }: TagsConfig) {
-    const databaseQueryHelper = new DatabaseQueryHelper();
-
-    const queryToFilterByTags =
-      databaseQueryHelper.getQueryToFiltersByTags(tags);
-
-    const queryToFilterBySearchPhrase =
-      databaseQueryHelper.getQueryToFilterBySearchPhrase(searchPhrase, [
-        "food_name",
-        "place_name",
-      ]);
-
-    const queryToSelectTags =
-      orderedFoodQueries.selectTags +
-      queryToFilterBySearchPhrase +
-      queryToFilterByTags;
-
-    const results = await Database.sendQuery(queryToSelectTags, [searchPhrase]);
+  async selectTags(config: TagsConfig) {
+    const query = new OrderedFoodQueries().getSelectTags(config);
+    const results = await Database.sendQuery(query);
 
     return results.map((item: { tags: string }) => item.tags) as string[];
   }
 
-  async selectCount(searchPhrase: string, tags?: string) {
-    const databaseQueryHelper = new DatabaseQueryHelper();
-
-    const queryToFilterByTags =
-      databaseQueryHelper.getQueryToFiltersByTags(tags);
-
-    const queryToFilterBySearchPhrase =
-      databaseQueryHelper.getQueryToFilterBySearchPhrase(searchPhrase, [
-        "food_name",
-        "place_name",
-      ]);
-
-    const queryToSelectListCount =
-      orderedFoodQueries.selectCount +
-      queryToFilterBySearchPhrase +
-      queryToFilterByTags;
-
-    const results = await Database.sendQuery(queryToSelectListCount);
+  async selectCount(searchPhrase: string, tags: string) {
+    const query = new OrderedFoodQueries().getSelectCount(searchPhrase, tags);
+    const results = await Database.sendQuery(query);
 
     return parseInt(results[0].count);
   }
 
   async insert(data: OrderedFood) {
-    const results = await Database.sendQuery(orderedFoodQueries.insert, [
+    const query = new OrderedFoodQueries().getInsert();
+    const results = await Database.sendQuery(query, [
       data.foodName,
       data.placeName,
       data.tags,
@@ -91,7 +57,8 @@ export class OrderedFoodRepository implements IOrderedFoodRepository {
   }
 
   async update(data: OrderedFood) {
-    const results = await Database.sendQuery(orderedFoodQueries.update, [
+    const query = new OrderedFoodQueries().getUpdate();
+    const results = await Database.sendQuery(query, [
       data.foodName,
       data.placeName,
       data.tags,
@@ -104,7 +71,9 @@ export class OrderedFoodRepository implements IOrderedFoodRepository {
   }
 
   async delete(id: number) {
-    const results = await Database.sendQuery(orderedFoodQueries.delete, [id]);
+    const query = new OrderedFoodQueries().getDelete();
+    const results = await Database.sendQuery(query, [id]);
+
     return results as OkPacket;
   }
 }

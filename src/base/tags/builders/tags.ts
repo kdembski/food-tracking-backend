@@ -12,7 +12,7 @@ export class TagsBuilder implements ITagsBuilder {
     this.tags = tags;
   }
 
-  buildConfig(query: RequestQueryData) {
+  produceConfig(query: RequestQueryData) {
     const { searchPhrase, tags } = new RequestQueryHelper(
       query
     ).getQueryValues();
@@ -24,7 +24,7 @@ export class TagsBuilder implements ITagsBuilder {
   }
 
   async build(query: RequestQueryData) {
-    this.buildConfig(query);
+    this.produceConfig(query);
 
     let tags = await this.tags.getTags(this.tags.config);
     tags = this.splitTags(tags);

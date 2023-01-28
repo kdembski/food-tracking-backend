@@ -1,8 +1,8 @@
 export type ListConfig = {
-  searchPhrase?: string;
+  searchPhrase: string;
+  tags: string;
   sortAttribute: string;
   sortDirection: string;
-  tags: string;
   size: number;
   page: number;
   offset: number;

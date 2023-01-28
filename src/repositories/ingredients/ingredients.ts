@@ -1,20 +1,18 @@
+import { IngredientsQueries } from "@/queries/ingredients/ingredients";
 import { CustomError } from "@/base/errors/models/customError";
 import Database from "@/config/database";
 import {
   IngredientOptionDTO,
   IngredientQueryResult,
 } from "@/dtos/ingredients/ingredient";
-import { DatabaseQueryHelper } from "@/helpers/databaseQuery";
 import { ListConfig } from "@/types/base/list";
 import { Ingredient } from "@/main/ingredients/models/ingredient";
-import { ingredientsQueries } from "@/queries/ingredients/ingredients";
 import { OkPacket } from "mysql2";
 
 export class IngredientsRepository {
   async selectById(id: number) {
-    const results = await Database.sendQuery(ingredientsQueries.selectById, [
-      id,
-    ]);
+    const query = new IngredientsQueries().getSelectById();
+    const results = await Database.sendQuery(query, [id]);
     const dto = results[0] as IngredientQueryResult;
 
     if (!dto) {
@@ -27,35 +25,29 @@ export class IngredientsRepository {
   }
 
   async selectList(config: ListConfig) {
-    const query = new DatabaseQueryHelper().extendQueryToSelectList(
-      ingredientsQueries.select,
-      config
-    );
+    const query = new IngredientsQueries().getSelectList(config);
+    const data = await Database.sendQuery(query);
 
-    const data = await Database.sendQuery(query, [config.searchPhrase]);
     return data as IngredientQueryResult[];
   }
 
   async selectOptions() {
-    const data = await Database.sendQuery(ingredientsQueries.selectOptions);
+    const query = new IngredientsQueries().getSelectOptions("name");
+    const data = await Database.sendQuery(query);
+
     return data as IngredientOptionDTO[];
   }
 
-  async selectCount(searchPhrase: string, tags?: string) {
-    const queryToSelectListCount =
-      ingredientsQueries.selectCount +
-      "\n" +
-      new DatabaseQueryHelper().getQueryToFiltersByTags(tags);
-
-    const results = await Database.sendQuery(queryToSelectListCount, [
-      searchPhrase,
-    ]);
+  async selectCount(searchPhrase: string, tags: string) {
+    const query = new IngredientsQueries().getSelectCount(searchPhrase, tags);
+    const results = await Database.sendQuery(query);
 
     return parseInt(results[0].count);
   }
 
   async insert(data: Ingredient) {
-    const results = await Database.sendQuery(ingredientsQueries.insert, [
+    const query = new IngredientsQueries().getInsert();
+    const results = await Database.sendQuery(query, [
       data.name,
       data.categoryId,
     ]);
@@ -64,7 +56,8 @@ export class IngredientsRepository {
   }
 
   async update(data: Ingredient) {
-    const results = await Database.sendQuery(ingredientsQueries.update, [
+    const query = new IngredientsQueries().getUpdate();
+    const results = await Database.sendQuery(query, [
       data.name,
       data.categoryId,
       data.id,
@@ -74,7 +67,8 @@ export class IngredientsRepository {
   }
 
   async delete(id: number) {
-    const results = await Database.sendQuery(ingredientsQueries.delete, [id]);
+    const query = new IngredientsQueries().getDelete();
+    const results = await Database.sendQuery(query, [id]);
     return results as OkPacket;
   }
 }

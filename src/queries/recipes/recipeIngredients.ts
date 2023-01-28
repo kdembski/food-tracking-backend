@@ -1,29 +1,62 @@
-const fields = `
-  recipe_id = ?,
-  ingredient_unit_id = ?,
-  amount = ?
-`;
-const select = `
-  SELECT 
-    recipe_ingredients.*, 
-    ingredients.name AS ingredient_name, 
-    units.shortcut AS unit_shortcut,
-    ingredient_units.kcal_per_unit,
-    ingredient_units.is_primary,
-    ingredient_units.converter_to_primary
-  FROM recipe_ingredients 
-  JOIN ingredient_units ON recipe_ingredients.ingredient_unit_id = ingredient_units.id
-  JOIN units ON ingredient_units.unit_id = units.id 
-  JOIN ingredients ON ingredient_units.ingredient_id = ingredients.id
-`;
-export const recipeIngredientsQueries = {
-  selectByRecipeId: select + " WHERE recipe_id = ?",
+import { Field } from "@/base/queries/models/field";
+import { Join } from "@/base/queries/models/join";
+import { Queries } from "@/base/queries/queries";
 
-  selectById: select + " WHERE id = ?",
+export class RecipeIngredientsQueries extends Queries {
+  constructor() {
+    const joins = [
+      new Join({
+        table: "ingredient_units",
+        on: "recipe_ingredients.ingredient_unit_id",
+        equals: "id",
+      }),
+      new Join({
+        table: "units",
+        on: "ingredient_units.unit_id",
+        equals: "id",
+      }),
+      new Join({
+        table: "ingredients",
+        on: "ingredient_units.ingredient_id",
+        equals: "id",
+      }),
+    ];
 
-  insert: "INSERT INTO recipe_ingredients SET " + fields,
+    const fieldsToSelect = [
+      new Field({
+        table: "recipe_ingredients",
+        name: "*",
+      }),
+      new Field({
+        table: "ingredients",
+        name: "name",
+        alias: "ingredient_name",
+      }),
+      new Field({
+        table: "units",
+        name: "shortcut",
+        alias: "unit_shortcut",
+      }),
+      new Field({
+        table: "units",
+        name: "shortcut",
+        alias: "unit_shortcut",
+      }),
+    ];
 
-  update: "UPDATE recipe_ingredients SET " + fields + " WHERE id = ?",
+    const fieldsToInsert = ["recipe_id", "ingredient_unit_id", "amount"];
+    const fieldsToUpdate = ["recipe_id", "ingredient_unit_id", "amount"];
 
-  delete: `DELETE FROM recipe_ingredients WHERE id = ?`,
-};
+    super({
+      tableName: "recipe_ingredients",
+      joins,
+      fieldsToSelect,
+      fieldsToInsert,
+      fieldsToUpdate,
+    });
+  }
+
+  getSelectByRecipeId() {
+    return this.getSelectById({ id: "recipe_id" });
+  }
+}

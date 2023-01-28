@@ -20,7 +20,7 @@ export class IngredientsController implements IIngredientsController {
     return new IngredientsRepository().selectOptions();
   }
 
-  getCount(searchPhrase: string, tags?: string) {
+  getCount(searchPhrase: string, tags: string) {
     return new IngredientsRepository().selectCount(searchPhrase, tags);
   }
 

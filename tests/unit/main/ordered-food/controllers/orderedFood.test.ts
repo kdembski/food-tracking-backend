@@ -49,7 +49,7 @@ describe("Ordered Food Controller", () => {
   });
 
   it("Should trigger repository selectCount on getCount call", async () => {
-    await controller.getCount("");
+    await controller.getCount("", "");
     expect(selectCount).toHaveBeenCalledTimes(1);
   });
 

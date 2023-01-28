@@ -1,31 +1,34 @@
-export const memberCalendarItemsQueries = {
-  selectById: `
-  SELECT * FROM member_calendar_items
-  WHERE id = ?`,
+import { Queries } from "@/base/queries/queries";
+import { Field } from "@/base/queries/models/field";
 
-  selectByItemId: `
-    SELECT * FROM member_calendar_items
-    WHERE item_id = ?`,
+export class MemberCalendarItemsQueries extends Queries {
+  constructor() {
+    const fieldsToSelect = [
+      new Field({
+        name: "*",
+      }),
+    ];
 
-  selectByMemberId: `
-    SELECT * FROM member_calendar_items
-    WHERE member_id = ?`,
+    const fieldsToInsert = ["item_id", "member_id"];
+    const fieldsToUpdate = ["item_id", "member_id"];
 
-  insert: `
-    INSERT INTO member_calendar_items SET
-    item_id = ?,
-    member_id = ?`,
+    super({
+      tableName: "member_calendar_items",
+      fieldsToSelect,
+      fieldsToInsert,
+      fieldsToUpdate,
+    });
+  }
 
-  update: `
-    UPDATE member_calendar_items SET
-    item_id = ?,
-    member_id = ?
-    WHERE id = ?`,
+  getSelectByItemId() {
+    return this.getSelectById({ id: "item_id" });
+  }
 
-  delete: `DELETE FROM member_calendar_items WHERE id = ?`,
+  getSelectByMemberId() {
+    return this.getSelectById({ id: "member_id" });
+  }
 
-  deleteByItemIdAndMemberId: `
-    DELETE FROM member_calendar_items 
-    WHERE item_id = ? 
-    AND member_id = ?`,
-};
+  getDeleteByMemberIdAndItemId() {
+    return "DELETE FROM member_calendar_items WHERE item_id = ? AND member_id = ?";
+  }
+}

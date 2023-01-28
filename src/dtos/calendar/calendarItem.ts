@@ -6,6 +6,7 @@ type CalendarItemBase = {
   members?: number[];
   sortOrder?: number;
 };
+
 export type CalendarItemDTO = CalendarItemBase & {
   name?: string;
   tags?: string;

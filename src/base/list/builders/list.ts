@@ -14,12 +14,12 @@ export class ListBuilder<Item, ItemDTO, ItemQueryResult>
   }
 
   async build(query: RequestQueryData) {
-    this.buildConfig(query);
-    await this.buildData();
-    await this.buildPagination();
+    this.produceConfig(query);
+    await this.produceData();
+    await this.producePagination();
   }
 
-  buildConfig(query: RequestQueryData) {
+  produceConfig(query: RequestQueryData) {
     const { size, page, sortAttribute, sortDirection, searchPhrase, tags } =
       new RequestQueryHelper(query).getQueryValues();
     const offset = (page - 1) * size;
@@ -35,7 +35,7 @@ export class ListBuilder<Item, ItemDTO, ItemQueryResult>
     };
   }
 
-  async buildData() {
+  async produceData() {
     const data = await this.list.getListData(this.list.config);
     const promises = data.map(
       async (item) => await this.list.createListItem(item)
@@ -43,10 +43,10 @@ export class ListBuilder<Item, ItemDTO, ItemQueryResult>
     this.list.data = await Promise.all(promises);
   }
 
-  async buildPagination() {
+  async producePagination() {
     const { searchPhrase, tags, page, size, offset } = this.list.config;
     const dataLength = this.list.getDataLength();
-    const count = await this.list.getListCount(searchPhrase || "", tags);
+    const count = await this.list.getListCount(searchPhrase || "", tags || "");
     this.list.pagination = new Pagination(
       count,
       page,

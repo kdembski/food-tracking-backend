@@ -35,10 +35,10 @@ describe("Request Query Helper", () => {
 
   it("Should return searchPhrase with % signs", () => {
     let helper = new RequestQueryHelper({});
-    expect(helper.searchPhrase).toEqual("%");
+    expect(helper.searchPhrase).toEqual("");
 
     helper = new RequestQueryHelper({ searchPhrase: "test" });
-    expect(helper.searchPhrase).toEqual("%test%");
+    expect(helper.searchPhrase).toEqual("test");
   });
 
   it("Should return tags", () => {

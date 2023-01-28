@@ -3,12 +3,13 @@ import Database from "@/config/database";
 import { UnitDTO, UnitOptionDTO } from "@/dtos/ingredients/unit";
 import { IUnitsRepository } from "@/interfaces/ingredients/units";
 import { Unit } from "@/main/ingredients/models/unit";
-import { unitsQueries } from "@/queries/ingredients/units";
+import { UnitsQueries } from "@/queries/ingredients/units";
 import { OkPacket } from "mysql2";
 
 export class UnitsRepository implements IUnitsRepository {
   async selectById(id: number) {
-    const results = await Database.sendQuery(unitsQueries.selectById, [id]);
+    const query = new UnitsQueries().getSelectById();
+    const results = await Database.sendQuery(query, [id]);
     const dto = results[0] as UnitDTO;
 
     if (!dto) {
@@ -21,34 +22,36 @@ export class UnitsRepository implements IUnitsRepository {
   }
 
   async selectAll() {
-    const results = await Database.sendQuery(unitsQueries.select);
+    const query = new UnitsQueries().getSelect();
+    const results = await Database.sendQuery(query);
 
     return results as UnitDTO[];
   }
 
   async selectOptions() {
-    const results = await Database.sendQuery(unitsQueries.selectOptions);
+    const query = new UnitsQueries().getSelectOptions("name");
+    const results = await Database.sendQuery(query);
 
     return results as UnitOptionDTO[];
   }
 
   async insert(data: Unit) {
-    const results = await Database.sendQuery(unitsQueries.insert, [data.name]);
+    const query = new UnitsQueries().getInsert();
+    const results = await Database.sendQuery(query, [data.name]);
 
     return results as OkPacket;
   }
 
   async update(data: Unit) {
-    const results = await Database.sendQuery(unitsQueries.update, [
-      data.name,
-      data.id,
-    ]);
+    const query = new UnitsQueries().getUpdate();
+    const results = await Database.sendQuery(query, [data.name, data.id]);
 
     return results as OkPacket;
   }
 
   async delete(id: number) {
-    const results = await Database.sendQuery(unitsQueries.delete, [id]);
+    const query = new UnitsQueries().getDelete();
+    const results = await Database.sendQuery(query, [id]);
     return results as OkPacket;
   }
 }

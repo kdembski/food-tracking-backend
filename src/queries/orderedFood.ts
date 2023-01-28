@@ -1,27 +1,39 @@
-export const orderedFoodQueries = {
-  select: `SELECT * FROM ordered_food`,
+import { Field } from "@/base/queries/models/field";
+import { Queries } from "@/base/queries/queries";
+import { TagsConfig } from "@/types/base/tags";
 
-  selectCount: `SELECT COUNT(*) FROM ordered_food`,
+export class OrderedFoodQueries extends Queries {
+  constructor() {
+    const fieldsToSelect = [
+      new Field({
+        name: "*",
+      }),
+    ];
 
-  selectTags: `SELECT tags FROM ordered_food`,
+    const fieldsToInsert = ["food_name", "place_name", "tags", "place_link"];
+    const fieldsToUpdate = [
+      "food_name",
+      "place_name",
+      "tags",
+      "place_link",
+      "order_date",
+    ];
 
-  selectById: `SELECT * FROM ordered_food WHERE id = ?`,
+    super({
+      tableName: "ordered_food",
+      searchPhraseFields: ["food_name", "place_name"],
+      fieldsToSelect,
+      fieldsToInsert,
+      fieldsToUpdate,
+    });
+  }
 
-  insert: `
-  INSERT INTO ordered_food SET
-  food_name = ?,
-  place_name = ?,
-  tags = ?,
-  place_link = ?`,
+  getSelectTags({ searchPhrase, tags }: TagsConfig) {
+    const wheres = this.listHelper.buildListWheres(searchPhrase, tags);
 
-  update: `
-  UPDATE ordered_food SET
-  food_name = ?,
-  place_name = ?,
-  tags = ?,
-  place_link = ?,
-  order_date = ?
-  WHERE id = ?`,
-
-  delete: `DELETE FROM ordered_food WHERE id = ?`,
-};
+    return this.getSelect({
+      fields: [new Field({ name: "tags" })],
+      wheres,
+    });
+  }
+}

@@ -25,11 +25,11 @@ export class RecipesController implements IRecipesController {
     return recipesTags;
   }
 
-  getNames(searchPhrase: string, tags?: string) {
+  getNames(searchPhrase: string, tags: string) {
     return new RecipesRepository().selectNames(searchPhrase, tags);
   }
 
-  getCount(searchPhrase: string, tags?: string) {
+  getCount(searchPhrase: string, tags: string) {
     return new RecipesRepository().selectCount(searchPhrase, tags);
   }
 

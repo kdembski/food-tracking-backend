@@ -1,18 +1,26 @@
-export const recipeStepsQueries = {
-  selectByRecipeId: `SELECT * FROM recipe_steps WHERE recipe_id = ?`,
+import { Queries } from "@/base/queries/queries";
+import { Field } from "@/base/queries/models/field";
 
-  insert: `
-    INSERT INTO recipe_steps SET
-    recipe_id = ?,
-    number = ?,
-    instructions = ?`,
+export class RecipeStepsQueries extends Queries {
+  constructor() {
+    const fieldsToSelect = [
+      new Field({
+        name: "*",
+      }),
+    ];
 
-  update: `
-    UPDATE recipe_steps SET
-    recipe_id = ?,
-    number = ?,
-    instructions = ?
-    WHERE id = ?`,
+    const fieldsToInsert = ["recipe_id", "number", "instructions"];
+    const fieldsToUpdate = ["recipe_id", "number", "instructions"];
 
-  delete: `DELETE FROM recipe_steps WHERE id = ?`,
-};
+    super({
+      tableName: "recipe_steps",
+      fieldsToSelect,
+      fieldsToInsert,
+      fieldsToUpdate,
+    });
+  }
+
+  getSelectByRecipeId() {
+    return this.getSelectById({ id: "recipe_id" });
+  }
+}

@@ -1,36 +1,40 @@
-export const ingredientsQueries = {
-  select: `
-    SELECT ingredients.*, ingredient_categories.name AS category_name 
-    FROM ingredients
-    JOIN ingredient_categories ON ingredients.category_id = ingredient_categories.id
-    WHERE ingredients.name
-    COLLATE utf8mb4_general_ci
-    LIKE ?`,
+import { Queries } from "@/base/queries/queries";
+import { Field } from "@/base/queries/models/field";
+import { Join } from "@/base/queries/models/join";
 
-  selectOptions: `SELECT id, name FROM ingredients`,
+export class IngredientsQueries extends Queries {
+  constructor() {
+    const joins = [
+      new Join({
+        table: "ingredient_categories",
+        on: "ingredients.category_id",
+        equals: "id",
+      }),
+    ];
 
-  selectCount: `
-    SELECT COUNT(*) FROM ingredients
-    WHERE name
-    COLLATE utf8mb4_general_ci
-    LIKE ?`,
+    const fieldsToSelect = [
+      new Field({
+        table: "ingredients",
+        name: "*",
+      }),
+      new Field({
+        table: "ingredient_categories",
+        name: "name",
+        alias: "category_name",
+      }),
+    ];
 
-  selectById: `
-    SELECT ingredients.*, ingredient_categories.name AS category_name 
-    FROM ingredients
-    JOIN ingredient_categories ON ingredients.category_id = ingredient_categories.id 
-    WHERE ingredients.id = ?`,
+    const fieldsToInsert = ["name", "category_id"];
+    const fieldsToUpdate = ["name", "category_id"];
+    const searchPhraseFields = ["ingredients.name"];
 
-  insert: `
-    INSERT INTO ingredients SET
-    name = ?,
-    category_id = ?`,
-
-  update: `
-    UPDATE ingredients SET
-    name = ?,
-    category_id = ?
-    WHERE id = ?`,
-
-  delete: `DELETE FROM ingredients WHERE id = ?`,
-};
+    super({
+      tableName: "ingredients",
+      joins,
+      fieldsToSelect,
+      fieldsToInsert,
+      fieldsToUpdate,
+      searchPhraseFields,
+    });
+  }
+}

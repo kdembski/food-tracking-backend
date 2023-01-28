@@ -1,17 +1,15 @@
 import { IIngredientUnitsRepository } from "@/interfaces/ingredients/ingredientUnits";
 import Database from "@/config/database";
-import { ingredientUnitsQueries } from "@/queries/ingredients/ingredientUnits";
 import { OkPacket } from "mysql2";
 import { CustomError } from "@/base/errors/models/customError";
 import { IngredientUnit } from "@/main/ingredients/models/ingredientUnit";
 import { IngredientUnitDTO } from "@/dtos/ingredients/ingredientUnit";
+import { IngredientUnitsQueries } from "@/queries/ingredients/ingredientUnits";
 
 export class IngredientUnitsRepository implements IIngredientUnitsRepository {
   async selectById(id: number) {
-    const results = await Database.sendQuery(
-      ingredientUnitsQueries.selectById,
-      [id]
-    );
+    const query = new IngredientUnitsQueries().getSelectById();
+    const results = await Database.sendQuery(query, [id]);
     const dto = results[0] as IngredientUnitDTO;
 
     if (!dto) {
@@ -24,16 +22,15 @@ export class IngredientUnitsRepository implements IIngredientUnitsRepository {
   }
 
   async selectByIngredientId(ingredientId: number) {
-    const results = await Database.sendQuery(
-      ingredientUnitsQueries.selectByIngredientId,
-      [ingredientId]
-    );
+    const query = new IngredientUnitsQueries().getSelectByIngredientId();
+    const results = await Database.sendQuery(query, [ingredientId]);
 
     return results as IngredientUnitDTO[];
   }
 
   async insert(data: IngredientUnit) {
-    const results = await Database.sendQuery(ingredientUnitsQueries.insert, [
+    const query = new IngredientUnitsQueries().getInsert();
+    const results = await Database.sendQuery(query, [
       data.ingredientId,
       data.unitId,
       data.kcalPerUnit,
@@ -45,7 +42,8 @@ export class IngredientUnitsRepository implements IIngredientUnitsRepository {
   }
 
   async update(data: IngredientUnit) {
-    const results = await Database.sendQuery(ingredientUnitsQueries.update, [
+    const query = new IngredientUnitsQueries().getUpdate();
+    const results = await Database.sendQuery(query, [
       data.ingredientId,
       data.unitId,
       data.kcalPerUnit,
@@ -58,9 +56,8 @@ export class IngredientUnitsRepository implements IIngredientUnitsRepository {
   }
 
   async delete(id: number) {
-    const results = await Database.sendQuery(ingredientUnitsQueries.delete, [
-      id,
-    ]);
+    const query = new IngredientUnitsQueries().getDelete();
+    const results = await Database.sendQuery(query, [id]);
     return results as OkPacket;
   }
 }
