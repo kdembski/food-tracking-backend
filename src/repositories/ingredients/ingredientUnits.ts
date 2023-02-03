@@ -3,14 +3,14 @@ import Database from "@/config/database";
 import { OkPacket } from "mysql2";
 import { CustomError } from "@/base/errors/models/customError";
 import { IngredientUnit } from "@/main/ingredients/models/ingredientUnit";
-import { IngredientUnitDTO } from "@/dtos/ingredients/ingredientUnit";
+import { IngredientUnitQueryResult } from "@/dtos/ingredients/ingredientUnit";
 import { IngredientUnitsQueries } from "@/queries/ingredients/ingredientUnits";
 
 export class IngredientUnitsRepository implements IIngredientUnitsRepository {
   async selectById(id: number) {
     const query = new IngredientUnitsQueries().getSelectById();
     const results = await Database.sendQuery(query, [id]);
-    const dto = results[0] as IngredientUnitDTO;
+    const dto = results[0];
 
     if (!dto) {
       throw new CustomError({
@@ -18,14 +18,14 @@ export class IngredientUnitsRepository implements IIngredientUnitsRepository {
       });
     }
 
-    return dto;
+    return dto as IngredientUnitQueryResult;
   }
 
   async selectByIngredientId(ingredientId: number) {
     const query = new IngredientUnitsQueries().getSelectByIngredientId();
     const results = await Database.sendQuery(query, [ingredientId]);
 
-    return results as IngredientUnitDTO[];
+    return results as IngredientUnitQueryResult[];
   }
 
   async insert(data: IngredientUnit) {

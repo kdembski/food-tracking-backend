@@ -1,3 +1,4 @@
+import { IngredientUnitQueryResultMapper } from "./../mappers/ingredientUnitQueryResult";
 import { IngredientUnitsController } from "@/main/ingredients/controllers/ingredientUnits";
 import { IngredientUnitsRepository } from "@/repositories/ingredients/ingredientUnits";
 import { IngredientUnitsCollection } from "../collections/ingredientUnits";
@@ -8,7 +9,9 @@ export class IngredientUnitsCollectionController {
     const dtos = await new IngredientUnitsRepository().selectByIngredientId(
       ingredientId
     );
-    const units = dtos.map((dto) => new IngredientUnit(dto));
+    const units = dtos.map((dto) =>
+      new IngredientUnitQueryResultMapper().toDomain(dto)
+    );
     return new IngredientUnitsCollection(units);
   }
 
@@ -28,9 +31,11 @@ export class IngredientUnitsCollectionController {
 
     const promises = newUnits.items.map((item) => {
       if (!item.id) {
+        item.ingredientId = ingredientId;
         controller.create(item);
         return;
       }
+
       controller.update(item);
     });
 
@@ -44,12 +49,16 @@ export class IngredientUnitsCollectionController {
     await Promise.all([...promises, ...deletePromises]);
   }
 
-  async create(units?: IngredientUnitsCollection) {
+  async create(
+    units: IngredientUnitsCollection | undefined,
+    ingredientId: number
+  ) {
     if (!units) {
       return;
     }
 
     const promises = units.items.map((item) => {
+      item.ingredientId = ingredientId;
       return new IngredientUnitsController().create(item);
     });
     await Promise.all(promises);

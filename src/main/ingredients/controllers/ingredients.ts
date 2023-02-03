@@ -31,9 +31,14 @@ export class IngredientsController implements IIngredientsController {
     return builder.getIngredient();
   }
 
-  create(ingredient: Ingredient) {
-    new IngredientUnitsCollectionController().create(ingredient.units);
-    return new IngredientsRepository().insert(ingredient);
+  async create(ingredient: Ingredient) {
+    const results = await new IngredientsRepository().insert(ingredient);
+    new IngredientUnitsCollectionController().create(
+      ingredient.units,
+      results.insertId
+    );
+
+    return results;
   }
 
   update(ingredient: Ingredient) {

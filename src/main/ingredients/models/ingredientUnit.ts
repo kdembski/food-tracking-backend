@@ -38,6 +38,10 @@ export class IngredientUnit implements IIngredientUnit {
     return this._converterToPrimary;
   }
 
+  set ingredientId(value) {
+    this._ingredientId = value;
+  }
+
   constructor(dto: IngredientUnitDTO) {
     this._id = dto.id;
     this._ingredientId = dto.ingredientId;
