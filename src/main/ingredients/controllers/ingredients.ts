@@ -6,6 +6,7 @@ import { ListBuilder } from "@/base/list/builders/list";
 import { IngredientBuilder } from "../builders/ingredient";
 import { IngredientUnitsCollectionController } from "./ingredientUnitsCollection";
 import { Ingredient } from "../models/ingredient";
+import { IngredientValidator } from "../validators/ingredient";
 
 export class IngredientsController implements IIngredientsController {
   async getList(query: RequestQueryData) {
@@ -32,6 +33,8 @@ export class IngredientsController implements IIngredientsController {
   }
 
   async create(ingredient: Ingredient) {
+    new IngredientValidator().validate(ingredient).throwErrors();
+
     const results = await new IngredientsRepository().insert(ingredient);
     new IngredientUnitsCollectionController().create(
       ingredient.units,
@@ -42,6 +45,8 @@ export class IngredientsController implements IIngredientsController {
   }
 
   update(ingredient: Ingredient) {
+    new IngredientValidator().validate(ingredient).throwErrors();
+
     new IngredientUnitsCollectionController().update(
       ingredient.id,
       ingredient.units

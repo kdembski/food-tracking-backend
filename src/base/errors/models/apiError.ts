@@ -1,3 +1,4 @@
+import { COMPLEX_ERROR } from "@/consts/errorCodes";
 import { Response } from "express";
 import { CustomError } from "./customError";
 
@@ -38,9 +39,13 @@ export class ApiError {
     return this._code;
   }
 
+  isComplexError() {
+    return this.code === COMPLEX_ERROR;
+  }
+
   send() {
     this._response.status(this.status).send({
-      message: this.message,
+      message: this.isComplexError() ? JSON.parse(this.message) : this.message,
       code: this.code,
     });
   }
