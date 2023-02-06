@@ -3,7 +3,7 @@ import { ApiError } from "@/base/errors/models/apiError";
 import { Router } from "express";
 import { IngredientsController } from "@/main/ingredients/controllers/ingredients";
 import { IngredientDTO } from "@/dtos/ingredients/ingredient";
-import { IngredientMapper } from "@/main/ingredients/mappers/ingredient";
+import { IngredientMapper } from "@/mappers/ingredients/ingredient";
 
 const ingredientsRouter = Router();
 const ingredientsController = new IngredientsController();

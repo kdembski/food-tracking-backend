@@ -3,7 +3,7 @@ import { ApiError } from "@/base/errors/models/apiError";
 import { Router } from "express";
 import { UnitsController } from "@/main/ingredients/controllers/units";
 import { UnitDTO } from "@/dtos/ingredients/unit";
-import { UnitMapper } from "@/main/ingredients/mappers/unit";
+import { UnitMapper } from "@/mappers/ingredients/unit";
 import { Unit } from "@/main/ingredients/models/unit";
 
 const unitsRouter = Router();

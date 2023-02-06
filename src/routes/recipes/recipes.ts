@@ -5,9 +5,9 @@ import { RequestParamsHelper } from "@/helpers/requestParams";
 import { RecipeIngredientsController } from "@/main/recipes/controllers/recipeIngredients";
 import { RecipesController } from "@/main/recipes/controllers/recipes";
 import { RecipeDTO } from "@/dtos/recipes/recipe";
-import { TagsMapper } from "@/base/tags/mappers/tags";
-import { ExtendedRecipeIngredientMapper } from "@/main/recipes/mappers/extendedRecipeIngredient";
-import { ExtendedRecipeMapper } from "@/main/recipes/mappers/extendedRecipe";
+import { TagsMapper } from "@/mappers/base/tags/tags";
+import { ExtendedRecipeIngredientMapper } from "@/mappers/recipes/extendedRecipeIngredient";
+import { ExtendedRecipeMapper } from "@/mappers/recipes/extendedRecipe";
 import { Recipe } from "@/main/recipes/models/recipe";
 
 const recipesRouter = Router();

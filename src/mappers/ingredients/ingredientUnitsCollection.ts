@@ -1,7 +1,7 @@
-import { IngredientUnitsCollection } from "./../collections/ingredientUnits";
 import { IMapper } from "@/interfaces/base/mapper";
 import { IngredientUnitMapper } from "./ingredientUnit";
 import { IngredientUnitDTO } from "@/dtos/ingredients/ingredientUnit";
+import { IngredientUnitsCollection } from "@/main/ingredients/collections/ingredientUnits";
 
 export class IngredientUnitsCollectionMapper
   implements IMapper<IngredientUnitsCollection, IngredientUnitDTO[]>

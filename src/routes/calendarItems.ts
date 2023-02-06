@@ -5,7 +5,7 @@ import { ApiError } from "@/base/errors/models/apiError";
 import { RequestParamsHelper } from "@/helpers/requestParams";
 import { CalendarItemsController } from "@/main/calendar/controllers/calendarItems";
 import { CalendarItemDTO } from "@/dtos/calendar/calendarItem";
-import { CalendarDaysMapper } from "@/main/calendar/mappers/calendarDays";
+import { CalendarDaysMapper } from "@/mappers/calendar/calendarDays";
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
 
 const calendarItemsRouter = Router();

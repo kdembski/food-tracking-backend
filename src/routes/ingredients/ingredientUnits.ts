@@ -3,7 +3,7 @@ import { ApiError } from "@/base/errors/models/apiError";
 import { Router } from "express";
 import { IngredientUnitsController } from "@/main/ingredients/controllers/ingredientUnits";
 import { IngredientUnitDTO } from "@/dtos/ingredients/ingredientUnit";
-import { IngredientUnitMapper } from "@/main/ingredients/mappers/ingredientUnit";
+import { IngredientUnitMapper } from "@/mappers/ingredients/ingredientUnit";
 import { IngredientUnit } from "@/main/ingredients/models/ingredientUnit";
 
 const ingredientUnitsRouter = Router();

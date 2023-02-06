@@ -1,6 +1,6 @@
 import { IIngredientUnitsController } from "@/interfaces/ingredients/ingredientUnits";
 import { IngredientUnitsRepository } from "@/repositories/ingredients/ingredientUnits";
-import { IngredientUnitQueryResultMapper } from "../mappers/ingredientUnitQueryResult";
+import { IngredientUnitQueryResultMapper } from "@/mappers/ingredients/ingredientUnitQueryResult";
 import { IngredientUnit } from "../models/ingredientUnit";
 
 export class IngredientUnitsController implements IIngredientUnitsController {

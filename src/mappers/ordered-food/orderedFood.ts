@@ -1,6 +1,6 @@
 import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
 import { IMapper } from "@/interfaces/base/mapper";
-import { OrderedFood } from "../models/orderedFood";
+import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
 
 export class OrderedFoodMapper implements IMapper<OrderedFood, OrderedFoodDTO> {
   toDTO(model: OrderedFood) {

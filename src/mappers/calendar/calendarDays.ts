@@ -1,4 +1,4 @@
-import { CalendarDay } from "../models/calendarDay";
+import { CalendarDay } from "@/main/calendar/models/calendarDay";
 import { CalendarItemMapper } from "./calendarItem";
 
 export class CalendarDaysMapper {

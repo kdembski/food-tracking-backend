@@ -1,4 +1,4 @@
-import { OrderedFoodMapper } from "./../mappers/orderedFood";
+import { OrderedFoodMapper } from "../../../mappers/ordered-food/orderedFood";
 import { List } from "@/base/list/models/list";
 import { OrderedFood } from "./orderedFood";
 import { OrderedFoodRepository } from "@/repositories/orderedFood";

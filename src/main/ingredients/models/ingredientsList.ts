@@ -5,7 +5,7 @@ import {
   IngredientListItemDTO,
   IngredientQueryResult,
 } from "@/dtos/ingredients/ingredient";
-import { IngredientListItemMapper } from "../mappers/ingredientListItem";
+import { IngredientListItemMapper } from "@/mappers/ingredients/ingredientListItem";
 import { IngredientBuilder } from "../builders/ingredient";
 
 export class IngredientsList extends List<

@@ -1,4 +1,4 @@
-import { IngredientUnitQueryResultMapper } from "./../mappers/ingredientUnitQueryResult";
+import { IngredientUnitQueryResultMapper } from "@/mappers/ingredients/ingredientUnitQueryResult";
 import { IngredientUnitsController } from "@/main/ingredients/controllers/ingredientUnits";
 import { IngredientUnitsRepository } from "@/repositories/ingredients/ingredientUnits";
 import { IngredientUnitsCollection } from "../collections/ingredientUnits";

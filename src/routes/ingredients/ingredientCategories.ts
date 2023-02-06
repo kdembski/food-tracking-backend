@@ -3,7 +3,7 @@ import { RequestParamsHelper } from "@/helpers/requestParams";
 import { ApiError } from "@/base/errors/models/apiError";
 import { Router } from "express";
 import { IngredientCategoryDTO } from "@/dtos/ingredients/ingredientCategory";
-import { IngredientCategoryMapper } from "@/main/ingredients/mappers/ingredientCategory";
+import { IngredientCategoryMapper } from "@/mappers/ingredients/ingredientCategory";
 import { IngredientCategory } from "@/main/ingredients/models/ingredientCategory";
 
 const ingredientCategoriesRouter = Router();

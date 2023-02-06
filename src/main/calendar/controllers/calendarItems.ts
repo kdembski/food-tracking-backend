@@ -3,7 +3,7 @@ import { ICalendarItemsController } from "@/interfaces/calendar/calendarItems";
 import { CalendarItemsRepository } from "@/repositories/calendarItems";
 import { CalendarItemMembersController } from "./calendarItemMembers";
 import { CalendarItemChildControllersFactory } from "../factories/calendarItemChildControllers";
-import { CalendarItemQueryResultMapper } from "../mappers/calendarItemQueryResult";
+import { CalendarItemQueryResultMapper } from "../../../mappers/calendar/calendarItemQueryResult";
 import { CalendarItemsCollection } from "../collections/calendarItems";
 import { CalendarDaysCollection } from "../collections/calendarDays";
 

@@ -1,6 +1,6 @@
 import { ExtendedRecipeDTO } from "@/dtos/recipes/recipe";
 import { IMapper } from "@/interfaces/base/mapper";
-import { Recipe } from "../models/recipe";
+import { Recipe } from "@/main/recipes/models/recipe";
 
 export class ExtendedRecipeMapper
   implements IMapper<Recipe, ExtendedRecipeDTO>

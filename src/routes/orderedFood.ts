@@ -3,8 +3,8 @@ import { OrderedFoodController } from "../main/ordered-food/controllers/orderedF
 import { ApiError } from "@/base/errors/models/apiError";
 import { RequestParamsHelper } from "@/helpers/requestParams";
 import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
-import { TagsMapper } from "@/base/tags/mappers/tags";
-import { OrderedFoodMapper } from "@/main/ordered-food/mappers/orderedFood";
+import { TagsMapper } from "@/mappers/base/tags/tags";
+import { OrderedFoodMapper } from "@/mappers/ordered-food/orderedFood";
 import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
 
 const orderedFoodRouter = Router();

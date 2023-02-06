@@ -3,7 +3,7 @@ import { Router } from "express";
 import { RequestParamsHelper } from "@/helpers/requestParams";
 import { RecipeIngredientsController } from "@/main/recipes/controllers/recipeIngredients";
 import { RecipeIngredientDTO } from "@/dtos/recipes/recipeIngredient";
-import { ExtendedRecipeIngredientMapper } from "@/main/recipes/mappers/extendedRecipeIngredient";
+import { ExtendedRecipeIngredientMapper } from "@/mappers/recipes/extendedRecipeIngredient";
 import { RecipeIngredient } from "@/main/recipes/models/recipeIngredient";
 
 const recipeIngredientsRouter = Router();
