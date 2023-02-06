@@ -1,47 +1,26 @@
+import { WheresCollectionItems } from "@/types/base/queries";
 import { Where } from "../models/where";
 
 export class WheresCollection {
-  private wheres: Where[];
+  private items?: WheresCollectionItems[];
 
-  constructor(wheres?: Where[]) {
-    this.wheres = wheres || [];
-  }
-
-  getAnds() {
-    return this.wheres.filter((where) => where.operator === "AND");
-  }
-
-  getOrs() {
-    return this.wheres.filter((where) => where.operator === "OR");
+  constructor(items?: WheresCollectionItems[]) {
+    this.items = items;
   }
 
   prepare() {
-    const ands = this.getAnds()
-      .reduce((accum, where) => {
-        accum += `${where.prepare()} AND `;
+    if (!this.items || this.items.length === 0) {
+      return "";
+    }
+
+    return this.items.reduce((accum, item) => {
+      if (item instanceof Where) {
+        accum += " " + item.prepare();
         return accum;
-      }, "")
-      .slice(0, -5);
+      }
 
-    const ors = this.getOrs()
-      .reduce((accum, where) => {
-        accum += `${where.prepare()} OR `;
-        return accum;
-      }, "")
-      .slice(0, -4);
-
-    if (ands && ors) {
-      return `WHERE (${ands}) OR ${ors}`;
-    }
-
-    if (ands) {
-      return `WHERE ${ands}`;
-    }
-
-    if (ors) {
-      return `WHERE ${ors}`;
-    }
-
-    return "";
+      accum += " " + item;
+      return accum;
+    }, "WHERE");
   }
 }

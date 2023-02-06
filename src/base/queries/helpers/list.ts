@@ -1,3 +1,4 @@
+import { WhereOperators, WhereParenthesis } from "@/types/base/queries";
 import { Where } from "../models/where";
 
 export class ListQueryHelper {
@@ -11,7 +12,11 @@ export class ListQueryHelper {
     const tagsWheres = this.buildTagsWheres(tags);
     const searchPhraseWheres = this.buildSearchPhraseWheres(searchPhrase);
 
-    return [...searchPhraseWheres, ...tagsWheres];
+    if (tagsWheres.length > 0 && searchPhraseWheres.length > 0) {
+      return [...tagsWheres, WhereOperators.AND, ...searchPhraseWheres];
+    }
+
+    return [...tagsWheres, ...searchPhraseWheres];
   }
 
   private buildTagsWheres(tags: string) {
@@ -19,29 +24,39 @@ export class ListQueryHelper {
       return [];
     }
 
-    return tags.split(",").map(
-      (tag) =>
-        new Where({
-          field: "tags",
-          like: "%" + tag + "%",
-          operator: "AND",
-        })
-    );
+    return tags.split(",").flatMap((tag, index, array) => {
+      const where = new Where({
+        field: "tags",
+        like: "%" + tag + "%",
+      });
+
+      if (array.length - 1 === index) {
+        return where;
+      }
+
+      return [where, WhereOperators.AND];
+    });
   }
 
   private buildSearchPhraseWheres(searchPhrase: string) {
-    if (!searchPhrase) {
+    if (!searchPhrase && this.searchPhraseFields.length > 0) {
       return [];
     }
 
-    return this.searchPhraseFields?.map(
-      (field) =>
-        new Where({
-          field: field,
-          like: "%" + searchPhrase + "%",
-          operator: "OR",
-        })
-    );
+    const wheres = this.searchPhraseFields.flatMap((field, index, array) => {
+      const where = new Where({
+        field: field,
+        like: "%" + searchPhrase + "%",
+      });
+
+      if (array.length - 1 === index) {
+        return where;
+      }
+
+      return [where, WhereOperators.OR];
+    });
+
+    return [WhereParenthesis.LEFT, ...wheres, WhereParenthesis.RIGHT];
   }
 
   buildOrderBy(attr?: string, dir?: string) {

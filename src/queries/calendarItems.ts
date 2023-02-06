@@ -83,7 +83,6 @@ export class CalendarItemsQueries extends Queries {
       new Where({
         field: "date",
         between: { from: formatISO9075(from), to: formatISO9075(to) },
-        operator: "AND",
       }),
     ];
 
@@ -95,7 +94,6 @@ export class CalendarItemsQueries extends Queries {
       new Where({
         field: "date",
         between: { from: formatISO9075(from), to: formatISO9075(to) },
-        operator: "AND",
       }),
     ];
 

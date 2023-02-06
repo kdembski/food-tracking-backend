@@ -1,27 +1,16 @@
 import { CustomError } from "@/base/errors/models/customError";
-import { WhereBetween, WhereOperator } from "@/types/base/queries";
+import { WhereBetween } from "@/types/base/queries";
 
 export class Where {
   private field: string;
   private like?: string;
   private between?: WhereBetween;
-  private _operator: WhereOperator;
   private collate = "utf8mb4_general_ci";
 
-  constructor(data: {
-    field: string;
-    like?: string;
-    between?: WhereBetween;
-    operator: WhereOperator;
-  }) {
+  constructor(data: { field: string; like?: string; between?: WhereBetween }) {
     this.field = data.field;
     this.like = data.like;
     this.between = data.between;
-    this._operator = data.operator;
-  }
-
-  get operator() {
-    return this._operator;
   }
 
   prepare() {

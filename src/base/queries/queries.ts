@@ -1,11 +1,11 @@
 import { ListConfig } from "@/types/base/list";
+import { WheresCollectionItems } from "@/types/base/queries";
 import { FieldsCollection } from "./collections/field";
 import { JoinsCollection } from "./collections/join";
 import { WheresCollection } from "./collections/where";
 import { ListQueryHelper } from "./helpers/list";
 import { Field } from "./models/field";
 import { Join } from "./models/join";
-import { Where } from "./models/where";
 
 export class Queries {
   private tableName: string;
@@ -77,7 +77,7 @@ export class Queries {
   }: {
     fields?: Field[];
     joins?: Join[];
-    wheres?: Where[];
+    wheres?: WheresCollectionItems[];
   } = {}) {
     fields = fields || this.fieldsToSelect;
     joins = joins || this.joins;
@@ -102,7 +102,7 @@ export class Queries {
   }: {
     fields?: Field[];
     joins?: Join[];
-    wheres?: Where[];
+    wheres?: WheresCollectionItems[];
     id?: string;
   } = {}) {
     fields = fields || this.fieldsToSelect;

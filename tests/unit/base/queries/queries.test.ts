@@ -1,3 +1,4 @@
+import { WhereOperators, WhereParenthesis } from "@/types/base/queries";
 import { Field } from "@/base/queries/models/field";
 import { Join } from "@/base/queries/models/join";
 import { Where } from "@/base/queries/models/where";
@@ -37,18 +38,19 @@ describe("Queries", () => {
     new Where({
       field: "field1",
       like: "like1",
-      operator: "AND",
     }),
+    WhereOperators.AND,
+    WhereParenthesis.LEFT,
     new Where({
       field: "field2",
       like: "like2",
-      operator: "AND",
     }),
+    WhereOperators.OR,
     new Where({
       field: "field3",
       like: "like3",
-      operator: "OR",
     }),
+    WhereParenthesis.RIGHT,
   ];
 
   const fieldsToInsert = ["field1", "field2"];
@@ -70,7 +72,7 @@ describe("Queries", () => {
 
   it("Should return select query", async () => {
     expect(queries.getSelect({ wheres })).toEqual(
-      "SELECT table1.name1 AS alias1, table2.name2, name3 FROM tableName JOIN joinTable1 ON joinOn1 = joinTable1.joinEquals1 LEFT JOIN joinTable2 ON joinOn2 = joinTable2.joinEquals2 WHERE (field1 COLLATE utf8mb4_general_ci LIKE 'like1' AND field2 COLLATE utf8mb4_general_ci LIKE 'like2') OR field3 COLLATE utf8mb4_general_ci LIKE 'like3'"
+      "SELECT table1.name1 AS alias1, table2.name2, name3 FROM tableName JOIN joinTable1 ON joinOn1 = joinTable1.joinEquals1 LEFT JOIN joinTable2 ON joinOn2 = joinTable2.joinEquals2 WHERE field1 COLLATE utf8mb4_general_ci LIKE 'like1' AND ( field2 COLLATE utf8mb4_general_ci LIKE 'like2' OR field3 COLLATE utf8mb4_general_ci LIKE 'like3' )"
     );
   });
 
@@ -86,7 +88,7 @@ describe("Queries", () => {
         searchPhrase: "phrase",
       })
     ).toEqual(
-      "SELECT table1.name1 AS alias1, table2.name2, name3 FROM tableName JOIN joinTable1 ON joinOn1 = joinTable1.joinEquals1 LEFT JOIN joinTable2 ON joinOn2 = joinTable2.joinEquals2 WHERE (tags COLLATE utf8mb4_general_ci LIKE '%tag1%' AND tags COLLATE utf8mb4_general_ci LIKE '%tag2%') OR field1 COLLATE utf8mb4_general_ci LIKE '%phrase%' OR field2 COLLATE utf8mb4_general_ci LIKE '%phrase%' ORDER BY attr ASC LIMIT 11 OFFSET 111"
+      "SELECT table1.name1 AS alias1, table2.name2, name3 FROM tableName JOIN joinTable1 ON joinOn1 = joinTable1.joinEquals1 LEFT JOIN joinTable2 ON joinOn2 = joinTable2.joinEquals2 WHERE tags COLLATE utf8mb4_general_ci LIKE '%tag1%' AND tags COLLATE utf8mb4_general_ci LIKE '%tag2%' AND ( field1 COLLATE utf8mb4_general_ci LIKE '%phrase%' OR field2 COLLATE utf8mb4_general_ci LIKE '%phrase%' ) ORDER BY attr ASC LIMIT 11 OFFSET 111"
     );
   });
 
@@ -103,6 +105,38 @@ describe("Queries", () => {
       })
     ).toEqual(
       "SELECT table1.name1 AS alias1, table2.name2, name3 FROM tableName JOIN joinTable1 ON joinOn1 = joinTable1.joinEquals1 LEFT JOIN joinTable2 ON joinOn2 = joinTable2.joinEquals2 LIMIT 11 OFFSET 111"
+    );
+  });
+
+  it("Should return only tags select list query", async () => {
+    expect(
+      queries.getSelectList({
+        sortAttribute: "",
+        sortDirection: "",
+        page: 1,
+        size: 11,
+        offset: 111,
+        tags: "tag1,tag2",
+        searchPhrase: "",
+      })
+    ).toEqual(
+      "SELECT table1.name1 AS alias1, table2.name2, name3 FROM tableName JOIN joinTable1 ON joinOn1 = joinTable1.joinEquals1 LEFT JOIN joinTable2 ON joinOn2 = joinTable2.joinEquals2 WHERE tags COLLATE utf8mb4_general_ci LIKE '%tag1%' AND tags COLLATE utf8mb4_general_ci LIKE '%tag2%' LIMIT 11 OFFSET 111"
+    );
+  });
+
+  it("Should return only search phrase select list query", async () => {
+    expect(
+      queries.getSelectList({
+        sortAttribute: "",
+        sortDirection: "",
+        page: 1,
+        size: 11,
+        offset: 111,
+        tags: "",
+        searchPhrase: "phrase",
+      })
+    ).toEqual(
+      "SELECT table1.name1 AS alias1, table2.name2, name3 FROM tableName JOIN joinTable1 ON joinOn1 = joinTable1.joinEquals1 LEFT JOIN joinTable2 ON joinOn2 = joinTable2.joinEquals2 WHERE ( field1 COLLATE utf8mb4_general_ci LIKE '%phrase%' OR field2 COLLATE utf8mb4_general_ci LIKE '%phrase%' ) LIMIT 11 OFFSET 111"
     );
   });
 
@@ -145,12 +179,11 @@ describe("Queries", () => {
       new Where({
         field: "field1",
         like: "like",
-        operator: "AND",
       }),
+      WhereOperators.AND,
       new Where({
         field: "field2",
         between: { from: "from", to: "to" },
-        operator: "AND",
       }),
     ];
     expect(queries.getSelectById({ joins: [], wheres })).toEqual(
