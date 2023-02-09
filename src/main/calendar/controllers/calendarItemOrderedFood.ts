@@ -1,20 +1,11 @@
 import { CalendarItemOrderedFoodAdapter } from "../adapters/calendarItemOrderedFood";
-import { OrderedFoodController } from "@/main/ordered-food/controllers/orderedFood";
 import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
 import { CalendarItemsRepository } from "@/repositories/calendarItems";
 import { CalendarItemChildController } from "./calendarItemChild";
-import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
 
-export class CalendarItemOrderedFoodController extends CalendarItemChildController<
-  OrderedFood,
-  OrderedFoodDTO
-> {
+export class CalendarItemOrderedFoodController extends CalendarItemChildController<OrderedFood> {
   constructor(orderedFoodId: number) {
-    super(
-      new OrderedFoodController(),
-      new CalendarItemOrderedFoodAdapter(orderedFoodId),
-      orderedFoodId
-    );
+    super(new CalendarItemOrderedFoodAdapter(orderedFoodId), orderedFoodId);
   }
 
   getCalendarItemChildDates(fromDate: Date, toDate: Date) {

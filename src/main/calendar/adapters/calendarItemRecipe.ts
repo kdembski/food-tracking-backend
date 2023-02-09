@@ -17,6 +17,10 @@ export class CalendarItemRecipeAdapter
     this.item = await new RecipesController().getById(this._itemId);
   }
 
+  async updateItem() {
+    await new RecipesController().update(this.item);
+  }
+
   get item() {
     if (!this._item) {
       throw new CustomError({

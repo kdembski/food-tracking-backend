@@ -1,6 +1,5 @@
 import { ExtendedRecipeDTO } from "@/dtos/recipes/recipe";
 import { IRecipe } from "@/interfaces/recipes/recipes";
-import { CalendarItemRecipesController } from "@/main/calendar/controllers/calendarItemRecipes";
 
 export class Recipe implements IRecipe {
   private _id?: number;
@@ -60,14 +59,5 @@ export class Recipe implements IRecipe {
 
   set cookedDate(value) {
     this._cookedDate = value ? new Date(value) : undefined;
-  }
-
-  async setDatesFromLastYear() {
-    if (!this.id) {
-      return;
-    }
-    this.datesFromLastYear = await new CalendarItemRecipesController(
-      this.id
-    ).getDatesFromLastYear();
   }
 }

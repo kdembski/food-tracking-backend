@@ -17,6 +17,10 @@ export class CalendarItemOrderedFoodAdapter
     this.item = await new OrderedFoodController().getById(this._itemId);
   }
 
+  async updateItem() {
+    await new OrderedFoodController().update(this.item);
+  }
+
   get item() {
     if (!this._item) {
       throw new CustomError({

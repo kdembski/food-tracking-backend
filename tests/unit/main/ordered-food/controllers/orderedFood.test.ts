@@ -6,6 +6,8 @@ const selectById = jest.fn().mockImplementation(() => ({}));
 const insert = jest.fn();
 const update = jest.fn();
 const _delete = jest.fn();
+const selectList = jest.fn().mockImplementation(() => [{ id: 1 }]);
+const selectTags = jest.fn().mockImplementation(() => ["tag1,tag2"]);
 
 jest.mock("@/repositories/orderedFood", () => ({
   OrderedFoodRepository: jest.fn().mockImplementation(() => ({
@@ -14,20 +16,8 @@ jest.mock("@/repositories/orderedFood", () => ({
     insert,
     update,
     delete: _delete,
-  })),
-}));
-
-const buildList = jest.fn();
-jest.mock("@/base/list/builders/list", () => ({
-  ListBuilder: jest.fn().mockImplementation(() => ({
-    build: buildList,
-  })),
-}));
-
-const buildTags = jest.fn();
-jest.mock("@/base/tags/builders/tags", () => ({
-  TagsBuilder: jest.fn().mockImplementation(() => ({
-    build: buildTags,
+    selectList,
+    selectTags,
   })),
 }));
 
@@ -38,14 +28,14 @@ describe("Ordered Food Controller", () => {
     controller = new OrderedFoodController();
   });
 
-  it("Should trigger loadList from recipesList on getList call", async () => {
+  it("Should trigger repository selectList on getList call", async () => {
     await controller.getList({});
-    expect(buildList).toHaveBeenCalledTimes(1);
+    expect(selectList).toHaveBeenCalledTimes(1);
   });
 
-  it("Should trigger loadTags from recipesTags on getTags call", async () => {
+  it("Should trigger repository selectTags on getTags call", async () => {
     await controller.getTags({});
-    expect(buildTags).toHaveBeenCalledTimes(1);
+    expect(selectTags).toHaveBeenCalledTimes(1);
   });
 
   it("Should trigger repository selectCount on getCount call", async () => {

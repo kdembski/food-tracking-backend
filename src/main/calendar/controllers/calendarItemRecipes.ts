@@ -1,20 +1,11 @@
-import { RecipeDTO } from "@/dtos/recipes/recipe";
-import { RecipesController } from "@/main/recipes/controllers/recipes";
 import { Recipe } from "@/main/recipes/models/recipe";
 import { CalendarItemsRepository } from "@/repositories/calendarItems";
 import { CalendarItemRecipeAdapter } from "../adapters/calendarItemRecipe";
 import { CalendarItemChildController } from "./calendarItemChild";
 
-export class CalendarItemRecipesController extends CalendarItemChildController<
-  Recipe,
-  RecipeDTO
-> {
+export class CalendarItemRecipesController extends CalendarItemChildController<Recipe> {
   constructor(recipeId: number) {
-    super(
-      new RecipesController(),
-      new CalendarItemRecipeAdapter(recipeId),
-      recipeId
-    );
+    super(new CalendarItemRecipeAdapter(recipeId), recipeId);
   }
 
   getCalendarItemChildDates(fromDate: Date, toDate: Date) {

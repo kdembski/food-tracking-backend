@@ -6,9 +6,7 @@ import { IDbEntityController, IRepository } from "../base/dbEntity";
 import { ExtendedRecipeDTO } from "@/dtos/recipes/recipe";
 import { Tags } from "@/base/tags/models/tags";
 
-export interface IRecipe {
-  setDatesFromLastYear: () => Promise<void>;
-}
+export interface IRecipe {}
 
 export interface IRecipesRepository
   extends IRepository<Recipe, ExtendedRecipeDTO>,

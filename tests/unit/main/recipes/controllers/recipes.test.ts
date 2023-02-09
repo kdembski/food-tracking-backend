@@ -2,11 +2,13 @@ import { RecipesController } from "@/main/recipes/controllers/recipes";
 import { Recipe } from "@/main/recipes/models/recipe";
 
 const selectNames = jest.fn();
-const selectCount = jest.fn();
+const selectCount = jest.fn().mockImplementation(() => 10);
 const selectById = jest.fn().mockImplementation(() => ({}));
 const insert = jest.fn();
 const update = jest.fn();
 const _delete = jest.fn();
+const selectList = jest.fn().mockImplementation(() => [{ id: 1 }]);
+const selectTags = jest.fn().mockImplementation(() => ["tag1,tag2"]);
 
 jest.mock("@/repositories/recipes/recipes", () => ({
   RecipesRepository: jest.fn().mockImplementation(() => ({
@@ -16,28 +18,15 @@ jest.mock("@/repositories/recipes/recipes", () => ({
     insert,
     update,
     delete: _delete,
+    selectList,
+    selectTags,
   })),
 }));
 
-const buildList = jest.fn();
-const setDatesFromLastYear = jest.fn();
-
-jest.mock("@/main/recipes/models/recipesList", () => ({
-  RecipesList: jest.fn().mockImplementation(() => ({
-    setDatesFromLastYear,
-  })),
-}));
-
-jest.mock("@/base/list/builders/list", () => ({
-  ListBuilder: jest.fn().mockImplementation(() => ({
-    build: buildList,
-  })),
-}));
-
-const buildTags = jest.fn();
-jest.mock("@/base/tags/builders/tags", () => ({
-  TagsBuilder: jest.fn().mockImplementation(() => ({
-    build: buildTags,
+const getDatesFromLastYear = jest.fn();
+jest.mock("@/main/calendar/controllers/calendarItemRecipes", () => ({
+  CalendarItemRecipesController: jest.fn().mockImplementation(() => ({
+    getDatesFromLastYear,
   })),
 }));
 
@@ -49,13 +38,33 @@ describe("Recipes Controller", () => {
   });
 
   it("Should trigger loadList from recipesList on getList call", async () => {
-    await controller.getList({});
-    expect(buildList).toHaveBeenCalledTimes(1);
+    expect((await controller.getList({})).toDTO()).toEqual({
+      data: [
+        {
+          cookedDate: undefined,
+          cookidooLink: undefined,
+          datesFromLastYear: undefined,
+          id: 1,
+          kcal: undefined,
+          preparationTime: undefined,
+          recipeName: undefined,
+          tags: undefined,
+        },
+      ],
+      pagination: {
+        currentPage: 1,
+        firstRecord: 1,
+        lastRecord: 1,
+        totalPages: 1,
+        totalRecords: 10,
+      },
+    });
+    expect(selectList).toHaveBeenCalledTimes(1);
   });
 
   it("Should trigger loadTags from recipesTags on getTags call", async () => {
     await controller.getTags({});
-    expect(buildTags).toHaveBeenCalledTimes(1);
+    expect(selectTags).toHaveBeenCalledTimes(1);
   });
 
   it("Should trigger repository selectNames on getNames call", async () => {
@@ -74,12 +83,12 @@ describe("Recipes Controller", () => {
   });
 
   it("Should trigger repository insert on create call", async () => {
-    await controller.create(new Recipe({}));
+    await controller.create(new Recipe({ id: 1 }));
     expect(insert).toHaveBeenCalledTimes(1);
   });
 
   it("Should trigger repository update on update call", async () => {
-    await controller.update(new Recipe({}));
+    await controller.update(new Recipe({ id: 1 }));
     expect(update).toHaveBeenCalledTimes(1);
   });
 
