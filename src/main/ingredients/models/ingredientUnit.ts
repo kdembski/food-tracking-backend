@@ -38,8 +38,32 @@ export class IngredientUnit implements IIngredientUnit {
     return this._converterToPrimary;
   }
 
+  set id(value) {
+    this._id = value;
+  }
+
+  set unitId(value) {
+    this._unitId = value;
+  }
+
+  set unitName(value) {
+    this._unitName = value;
+  }
+
+  set kcalPerUnit(value) {
+    this._kcalPerUnit = value;
+  }
+
+  set isPrimary(value) {
+    this._isPrimary = value;
+  }
+
+  set converterToPrimary(value) {
+    this._converterToPrimary = value;
+  }
+
   set ingredientId(value) {
-    this._ingredientId = value;
+    this._ingredientId = value = value;
   }
 
   constructor(dto: IngredientUnitDTO) {

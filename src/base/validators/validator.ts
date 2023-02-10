@@ -15,7 +15,7 @@ export abstract class Validator {
     });
   }
 
-  protected getRequiredFieldError() {
+  getRequiredFieldError() {
     return {
       code: FIELD_REQUIRED,
       message: "Pole wymagane",

@@ -2,7 +2,6 @@ import { IngredientUnitQueryResultMapper } from "@/mappers/ingredients/ingredien
 import { IngredientUnitsController } from "@/main/ingredients/controllers/ingredientUnits";
 import { IngredientUnitsRepository } from "@/repositories/ingredients/ingredientUnits";
 import { IngredientUnitsCollection } from "../collections/ingredientUnits";
-import { IngredientUnit } from "../models/ingredientUnit";
 
 export class IngredientUnitsCollectionController {
   async getByIngredientId(ingredientId: number) {

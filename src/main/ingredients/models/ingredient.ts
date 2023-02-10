@@ -29,6 +29,22 @@ export class Ingredient implements IIngredient {
     return this._units;
   }
 
+  set id(value) {
+    this._id = value;
+  }
+
+  set name(value) {
+    this._name = value;
+  }
+
+  set categoryId(value) {
+    this._categoryId = value;
+  }
+
+  set categoryName(value) {
+    this._categoryName = value;
+  }
+
   set units(value) {
     this._units = value;
   }

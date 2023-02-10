@@ -37,7 +37,7 @@ describe("Recipes Controller", () => {
     controller = new RecipesController();
   });
 
-  it("Should trigger loadList from recipesList on getList call", async () => {
+  it("Should trigger repository selectList on getList call", async () => {
     expect((await controller.getList({})).toDTO()).toEqual({
       data: [
         {
@@ -62,7 +62,7 @@ describe("Recipes Controller", () => {
     expect(selectList).toHaveBeenCalledTimes(1);
   });
 
-  it("Should trigger loadTags from recipesTags on getTags call", async () => {
+  it("Should trigger repository selectTags on getTags call", async () => {
     await controller.getTags({});
     expect(selectTags).toHaveBeenCalledTimes(1);
   });

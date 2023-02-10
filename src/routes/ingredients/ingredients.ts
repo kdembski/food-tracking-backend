@@ -4,6 +4,7 @@ import { Router } from "express";
 import { IngredientsController } from "@/main/ingredients/controllers/ingredients";
 import { IngredientDTO } from "@/dtos/ingredients/ingredient";
 import { IngredientMapper } from "@/mappers/ingredients/ingredient";
+import { IngredientValidator } from "@/main/ingredients/validators/ingredient";
 
 const ingredientsRouter = Router();
 const ingredientsController = new IngredientsController();
@@ -42,6 +43,7 @@ ingredientsRouter.post("/", async (request, response) => {
   try {
     const data: IngredientDTO = request.body;
     const ingredient = new IngredientMapper().toDomain(data);
+    new IngredientValidator().validate(ingredient).throwErrors();
 
     const results = await ingredientsController.create(ingredient);
     response.json(results);
@@ -55,7 +57,9 @@ ingredientsRouter.put("/:id", async (request, response) => {
     const id = new RequestParamsHelper(request.params).id;
     const data: IngredientDTO = request.body;
     data.id = id;
+
     const ingredient = new IngredientMapper().toDomain(data);
+    new IngredientValidator().validate(ingredient).throwErrors();
 
     const results = await ingredientsController.update(ingredient);
     response.json(results);
