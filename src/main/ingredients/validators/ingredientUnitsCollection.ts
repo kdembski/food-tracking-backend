@@ -15,7 +15,7 @@ export class IngredientUnitsCollectionValidator extends Validator {
       (accum: IngredientUnitErrors[], unit) => {
         const unitErrors = new IngredientUnitValidator().validate(unit).errors;
 
-        if (unitErrors && !unitErrors.isEmpty()) {
+        if (unitErrors) {
           accum.push(unitErrors);
           return accum;
         }
