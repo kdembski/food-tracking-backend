@@ -17,6 +17,7 @@ export class UnitsQueries extends Queries {
       fieldsToSelect,
       fieldsToInsert,
       fieldsToUpdate,
+      searchPhraseFields: ["name"],
     });
   }
 }

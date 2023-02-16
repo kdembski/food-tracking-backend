@@ -4,9 +4,24 @@ import { UnitDTO, UnitOptionDTO } from "@/dtos/ingredients/unit";
 import { IUnitsRepository } from "@/interfaces/ingredients/units";
 import { Unit } from "@/main/ingredients/models/unit";
 import { UnitsQueries } from "@/queries/ingredients/units";
+import { ListConfig } from "@/types/base/list";
 import { OkPacket } from "mysql2";
 
 export class UnitsRepository implements IUnitsRepository {
+  async selectList(config: ListConfig) {
+    const query = new UnitsQueries().getSelectList(config);
+    const data = await Database.sendQuery(query);
+
+    return data as UnitDTO[];
+  }
+
+  async selectCount(searchPhrase: string, tags: string) {
+    const query = new UnitsQueries().getSelectCount(searchPhrase, tags);
+    const results = await Database.sendQuery(query);
+
+    return parseInt(results[0].count);
+  }
+
   async selectById(id: number) {
     const query = new UnitsQueries().getSelectById();
     const results = await Database.sendQuery(query, [id]);

@@ -8,10 +8,28 @@ import {
   IngredientCategoryDTO,
   IngredientCategoryOptionDTO,
 } from "@/dtos/ingredients/ingredientCategory";
+import { ListConfig } from "@/types/base/list";
 
 export class IngredientCategoriesRepository
   implements IIngredientCategoriesRepository
 {
+  async selectList(config: ListConfig) {
+    const query = new IngredientCategoriesQueries().getSelectList(config);
+    const data = await Database.sendQuery(query);
+
+    return data as IngredientCategoryDTO[];
+  }
+
+  async selectCount(searchPhrase: string, tags: string) {
+    const query = new IngredientCategoriesQueries().getSelectCount(
+      searchPhrase,
+      tags
+    );
+    const results = await Database.sendQuery(query);
+
+    return parseInt(results[0].count);
+  }
+
   async selectById(id: number) {
     const query = new IngredientCategoriesQueries().getSelectById();
     const results = await Database.sendQuery(query, [id]);

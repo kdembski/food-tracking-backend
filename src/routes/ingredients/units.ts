@@ -11,8 +11,8 @@ const unitsController = new UnitsController();
 
 unitsRouter.get("/", async (request, response) => {
   try {
-    const units = await unitsController.getAll();
-    response.json(units.map((unit) => new UnitMapper().toDTO(unit)));
+    const list = await unitsController.getList(request.query);
+    response.json(list.toDTO());
   } catch (error) {
     ApiError.create(error, response).send();
   }

@@ -11,11 +11,8 @@ const ingredientCategoriesController = new IngredientCategoriesController();
 
 ingredientCategoriesRouter.get("/", async (request, response) => {
   try {
-    const ingredientCategories = await ingredientCategoriesController.getAll();
-    const dtos = ingredientCategories.map((category) =>
-      new IngredientCategoryMapper().toDTO(category)
-    );
-    response.json(dtos);
+    const list = await ingredientCategoriesController.getList(request.query);
+    response.json(list.toDTO());
   } catch (error) {
     ApiError.create(error, response).send();
   }
