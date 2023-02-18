@@ -21,6 +21,11 @@ describe("Ingredient Validator", () => {
   });
 
   it("Should validate each ingredient unit from collection", async () => {
-    expect(validator.validate(collection).errors?.length).toEqual(1);
+    await validator.validate(collection);
+    expect(validator.errors?.length).toEqual(2);
+    expect(validator.errors?.[0].unitId).toEqual(undefined);
+    expect(validator.errors?.[1].unitId).toEqual(
+      validator.getRequiredFieldError()
+    );
   });
 });
