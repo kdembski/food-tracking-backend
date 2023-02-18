@@ -5,6 +5,7 @@ import { UnitsController } from "@/main/ingredients/controllers/units";
 import { UnitDTO } from "@/dtos/ingredients/unit";
 import { UnitMapper } from "@/mappers/ingredients/unit";
 import { Unit } from "@/main/ingredients/models/unit";
+import { UnitValidator } from "@/main/ingredients/validators/unit";
 
 const unitsRouter = Router();
 const unitsController = new UnitsController();
@@ -43,6 +44,7 @@ unitsRouter.post("/", async (request, response) => {
   try {
     const data: UnitDTO = request.body;
     const unit = new Unit(data);
+    new UnitValidator().validate(unit).throwErrors();
 
     const results = await unitsController.create(unit);
     response.json(results);
@@ -57,6 +59,7 @@ unitsRouter.put("/:id", async (request, response) => {
     const data: UnitDTO = request.body;
     data.id = id;
     const unit = new Unit(data);
+    new UnitValidator().validate(unit).throwErrors();
 
     const results = await unitsController.update(unit);
     response.json(results);

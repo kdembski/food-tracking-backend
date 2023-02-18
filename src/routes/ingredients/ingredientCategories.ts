@@ -5,6 +5,7 @@ import { Router } from "express";
 import { IngredientCategoryDTO } from "@/dtos/ingredients/ingredientCategory";
 import { IngredientCategoryMapper } from "@/mappers/ingredients/ingredientCategory";
 import { IngredientCategory } from "@/main/ingredients/models/ingredientCategory";
+import { IngredientCategoryValidator } from "@/main/ingredients/validators/ingredientCategory";
 
 const ingredientCategoriesRouter = Router();
 const ingredientCategoriesController = new IngredientCategoriesController();
@@ -43,6 +44,7 @@ ingredientCategoriesRouter.post("/", async (request, response) => {
   try {
     const data: IngredientCategoryDTO = request.body;
     const category = new IngredientCategory(data);
+    new IngredientCategoryValidator().validate(category).throwErrors();
 
     const results = await ingredientCategoriesController.create(category);
     response.json(results);
@@ -57,6 +59,7 @@ ingredientCategoriesRouter.put("/:id", async (request, response) => {
     const data: IngredientCategoryDTO = request.body;
     data.id = id;
     const category = new IngredientCategory(data);
+    new IngredientCategoryValidator().validate(category).throwErrors();
 
     const results = await ingredientCategoriesController.update(category);
     response.json(results);

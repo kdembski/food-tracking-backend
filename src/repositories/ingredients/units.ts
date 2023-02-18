@@ -52,14 +52,18 @@ export class UnitsRepository implements IUnitsRepository {
 
   async insert(data: Unit) {
     const query = new UnitsQueries().getInsert();
-    const results = await Database.sendQuery(query, [data.name]);
+    const results = await Database.sendQuery(query, [data.name, data.shortcut]);
 
     return results as OkPacket;
   }
 
   async update(data: Unit) {
     const query = new UnitsQueries().getUpdate();
-    const results = await Database.sendQuery(query, [data.name, data.id]);
+    const results = await Database.sendQuery(query, [
+      data.name,
+      data.shortcut,
+      data.id,
+    ]);
 
     return results as OkPacket;
   }
