@@ -7,6 +7,8 @@ const insert = jest.fn().mockImplementation(() => ({ insertId: 1 }));
 const update = jest.fn();
 const _delete = jest.fn();
 const selectAll = jest.fn().mockImplementation(() => [{ id: 1 }]);
+const selectList = jest.fn().mockImplementation(() => [{ id: 1 }]);
+const selectCount = jest.fn().mockImplementation(() => 1);
 
 jest.mock("@/repositories/ingredients/units", () => ({
   UnitsRepository: jest.fn().mockImplementation(() => ({
@@ -16,6 +18,8 @@ jest.mock("@/repositories/ingredients/units", () => ({
     update,
     delete: _delete,
     selectAll,
+    selectList,
+    selectCount,
   })),
 }));
 
@@ -27,6 +31,11 @@ describe("Units Controller", () => {
   });
 
   it("Should trigger repository selectList on getList call", async () => {
+    await controller.getList({});
+    expect(selectList).toHaveBeenCalledTimes(1);
+  });
+
+  it("Should trigger repository selectAll on getAll call", async () => {
     await controller.getAll();
     expect(selectAll).toHaveBeenCalledTimes(1);
   });

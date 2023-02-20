@@ -16,6 +16,11 @@ describe("IngredientUnit Validator", () => {
     });
   });
 
+  it("Should determine if errors are empty", async () => {
+    validator.validate(ingredientUnit);
+    expect(validator.errors?.isEmpty()).toBe(true);
+  });
+
   it("Should require unitId", async () => {
     ingredientUnit.unitId = undefined;
     validator.validate(ingredientUnit);

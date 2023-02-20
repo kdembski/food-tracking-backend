@@ -13,6 +13,14 @@ export class IngredientCategory implements IIngredientCategory {
     return this._name;
   }
 
+  set id(value) {
+    this._id = value;
+  }
+
+  set name(value) {
+    this._name = value;
+  }
+
   constructor(dto: IngredientCategoryDTO) {
     this._id = dto.id;
     this._name = dto.name;

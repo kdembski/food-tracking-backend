@@ -17,6 +17,18 @@ export class Unit {
     return this._shortcut;
   }
 
+  set id(value) {
+    this._id = value;
+  }
+
+  set name(value) {
+    this._name = value;
+  }
+
+  set shortcut(value) {
+    this._shortcut = value;
+  }
+
   constructor(dto: UnitDTO) {
     this._id = dto.id;
     this._name = dto.name;

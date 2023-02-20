@@ -17,6 +17,11 @@ describe("Ingredient Validator", () => {
     });
   });
 
+  it("Should determine if errors are empty", async () => {
+    validator.validate(ingredient);
+    expect(validator.errors?.isEmpty()).toBe(true);
+  });
+
   it("Should require ingredient name", async () => {
     ingredient.name = "";
     validator.validate(ingredient);
