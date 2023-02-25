@@ -51,7 +51,7 @@ export abstract class DBEntityCollectionController<
     await Promise.all([...promises, ...deletePromises]);
   }
 
-  async create(collection: Collection, selectorId: number) {
+  async create(collection: Collection | undefined, selectorId: number) {
     if (!collection) {
       return;
     }

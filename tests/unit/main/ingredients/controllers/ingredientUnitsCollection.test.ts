@@ -95,13 +95,12 @@ describe("Ingredient Units Collection Controller", () => {
   });
 
   it("Should prepare units to create, update, and delete and trigger those unit controller methods on update call", async () => {
-    await controller.update();
+    await controller.update(undefined, 1);
     expect(update).toHaveBeenCalledTimes(0);
     expect(create).toHaveBeenCalledTimes(0);
     expect(_delete).toHaveBeenCalledTimes(0);
 
     await controller.update(
-      1,
       new IngredientUnitsCollection([
         {
           id: 2,
@@ -121,7 +120,8 @@ describe("Ingredient Units Collection Controller", () => {
           isPrimary: true,
           converterToPrimary: 3,
         },
-      ])
+      ]),
+      1
     );
     expect(update).toHaveBeenCalledTimes(1);
     expect(create).toHaveBeenCalledTimes(1);

@@ -43,8 +43,8 @@ export class IngredientsController implements IIngredientsController {
 
   update(ingredient: Ingredient) {
     new IngredientUnitsCollectionController().update(
-      ingredient.id,
-      ingredient.units
+      ingredient.units,
+      ingredient.id
     );
     return new IngredientsRepository().update(ingredient);
   }
