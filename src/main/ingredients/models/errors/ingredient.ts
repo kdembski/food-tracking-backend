@@ -18,8 +18,14 @@ export class IngredientErrors implements IErrors {
   }
 
   isEmpty() {
-    return (
-      !this.name && !this.categoryId && (!this.units || this.units.length === 0)
-    );
+    return !this.name && !this.categoryId && this.isUnitsEmpty();
+  }
+
+  isUnitsEmpty() {
+    if (!this.units) {
+      return true;
+    }
+
+    return this.units.every((item) => item.isEmpty());
   }
 }
