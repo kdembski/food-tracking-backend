@@ -1,18 +1,20 @@
+import { ExtendedRecipeIngredientDTO } from "@/dtos/recipes/recipeIngredient";
+import { RecipeIngredientCollectionMapper } from "@/mappers/recipes/recipeIngredientsCollection";
 import { ApiError } from "@/base/errors/models/apiError";
 import { RequestQueryHelper } from "@/helpers/requestQuery";
 import { Router } from "express";
 import { RequestParamsHelper } from "@/helpers/requestParams";
-import { RecipeIngredientsController } from "@/main/recipes/controllers/recipeIngredients";
 import { RecipesController } from "@/main/recipes/controllers/recipes";
 import { RecipeDTO } from "@/dtos/recipes/recipe";
 import { TagsMapper } from "@/mappers/base/tags/tags";
-import { ExtendedRecipeIngredientMapper } from "@/mappers/recipes/extendedRecipeIngredient";
 import { ExtendedRecipeMapper } from "@/mappers/recipes/extendedRecipe";
 import { Recipe } from "@/main/recipes/models/recipe";
+import { RecipeIngredientsCollectionController } from "@/main/recipes/controllers/recipeIngredientsCollection";
 
 const recipesRouter = Router();
 const recipesController = new RecipesController();
-const recipeIngredientsController = new RecipeIngredientsController();
+const recipeIngredientsCollectionController =
+  new RecipeIngredientsCollectionController();
 
 recipesRouter.get("/", async (request, response) => {
   try {
@@ -49,20 +51,6 @@ recipesRouter.get("/count", async (request, response) => {
 
     const results = await recipesController.getCount(searchPhrase, tags);
     response.json(results);
-  } catch (error) {
-    ApiError.create(error, response).send();
-  }
-});
-
-recipesRouter.get("/:id/ingredients", async (request, response) => {
-  try {
-    const id = new RequestParamsHelper(request.params).id;
-
-    const ingredients = await recipeIngredientsController.getByRecipeId(id);
-    const dtos = ingredients.map((ingredient) =>
-      response.json(new ExtendedRecipeIngredientMapper().toDTO(ingredient))
-    );
-    response.json(dtos);
   } catch (error) {
     ApiError.create(error, response).send();
   }
@@ -111,6 +99,50 @@ recipesRouter.delete("/:id", async (request, response) => {
     const id = new RequestParamsHelper(request.params).id;
 
     const results = await recipesController.delete(id);
+    response.json(results);
+  } catch (error) {
+    ApiError.create(error, response).send();
+  }
+});
+
+recipesRouter.get("/:id/ingredients", async (request, response) => {
+  try {
+    const id = new RequestParamsHelper(request.params).id;
+
+    const collection =
+      await recipeIngredientsCollectionController.getByRecipeId(id);
+    response.json(new RecipeIngredientCollectionMapper().toDTO(collection));
+  } catch (error) {
+    ApiError.create(error, response).send();
+  }
+});
+
+recipesRouter.post("/:id/ingredients", async (request, response) => {
+  try {
+    const recipeId = new RequestParamsHelper(request.params).id;
+    const data: ExtendedRecipeIngredientDTO[] = request.body;
+    const collection = new RecipeIngredientCollectionMapper().toDomain(data);
+
+    const results = await recipeIngredientsCollectionController.create(
+      collection,
+      recipeId
+    );
+    response.json(results);
+  } catch (error) {
+    ApiError.create(error, response).send();
+  }
+});
+
+recipesRouter.put("/:id/ingredients", async (request, response) => {
+  try {
+    const recipeId = new RequestParamsHelper(request.params).id;
+    const data: ExtendedRecipeIngredientDTO[] = request.body;
+    const collection = new RecipeIngredientCollectionMapper().toDomain(data);
+
+    const results = await recipeIngredientsCollectionController.update(
+      collection,
+      recipeId
+    );
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();

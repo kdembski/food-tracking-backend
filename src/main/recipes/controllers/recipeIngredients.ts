@@ -10,13 +10,6 @@ export class RecipeIngredientsController
     return new RecipeIngredient(dto);
   }
 
-  async getByRecipeId(recipeId: number) {
-    const dtos = await new RecipeIngredientsRepository().selectByRecipeId(
-      recipeId
-    );
-    return dtos.map((dto) => new RecipeIngredient(dto));
-  }
-
   create(ingredient: RecipeIngredient) {
     return new RecipeIngredientsRepository().insert(ingredient);
   }

@@ -8,7 +8,7 @@ export class ExtendedRecipeIngredientMapper
   toDTO(model: RecipeIngredient) {
     return {
       id: model.id,
-      ingredierecipeIdtId: model.recipeId,
+      recipeId: model.recipeId,
       ingredientUnitId: model.ingredientUnitId,
       amount: model.amount,
       ingredientName: model.ingredientName,

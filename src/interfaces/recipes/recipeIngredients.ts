@@ -12,6 +12,4 @@ export interface IRecipeIngredientsRepository
 }
 
 export interface IRecipeIngredientsController
-  extends IDbEntityController<RecipeIngredient> {
-  getByRecipeId: (recipeId: number) => Promise<RecipeIngredient[]>;
-}
+  extends IDbEntityController<RecipeIngredient> {}

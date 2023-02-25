@@ -48,6 +48,42 @@ export class RecipeIngredient implements IRecipeIngredient {
     return this._converterToPrimary;
   }
 
+  set id(value) {
+    this._id = value;
+  }
+
+  set recipeId(value) {
+    this._recipeId = value;
+  }
+
+  set ingredientUnitId(value) {
+    this._ingredientUnitId = value;
+  }
+
+  set amount(value) {
+    this._amount = value;
+  }
+
+  set ingredientName(value) {
+    this._ingredientName = value;
+  }
+
+  set unitShortcut(value) {
+    this._unitShortcut = value;
+  }
+
+  set kcalPerUnit(value) {
+    this._kcalPerUnit = value;
+  }
+
+  set isPrimary(value) {
+    this._isPrimary = value;
+  }
+
+  set converterToPrimary(value) {
+    this._converterToPrimary = value;
+  }
+
   constructor(data: ExtendedRecipeIngredientDTO) {
     this._id = data.id;
     this._recipeId = data.recipeId;

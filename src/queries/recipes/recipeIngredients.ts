@@ -38,9 +38,8 @@ export class RecipeIngredientsQueries extends Queries {
         alias: "unit_shortcut",
       }),
       new Field({
-        table: "units",
-        name: "shortcut",
-        alias: "unit_shortcut",
+        table: "ingredient_units",
+        name: "*",
       }),
     ];
 
