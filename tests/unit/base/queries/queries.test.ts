@@ -187,7 +187,24 @@ describe("Queries", () => {
       }),
     ];
     expect(queries.getSelectById({ joins: [], wheres })).toEqual(
-      "SELECT table1.name1 AS alias1, table2.name2, name3 FROM tableName WHERE field1 COLLATE utf8mb4_general_ci LIKE 'like' AND field2 COLLATE utf8mb4_general_ci BETWEEN 'from' AND 'to' AND tableName.id = ?"
+      "SELECT table1.name1 AS alias1, table2.name2, name3 FROM tableName WHERE field1 COLLATE utf8mb4_general_ci LIKE 'like' AND field2 BETWEEN 'from' AND 'to' AND tableName.id = ?"
+    );
+  });
+
+  it("Should return query with where equals clause", async () => {
+    const wheres = [
+      new Where({
+        field: "field1",
+        equals: "equals1",
+      }),
+      WhereOperators.AND,
+      new Where({
+        field: "field2",
+        equals: "equals2",
+      }),
+    ];
+    expect(queries.getSelect({ joins: [], wheres })).toEqual(
+      "SELECT table1.name1 AS alias1, table2.name2, name3 FROM tableName WHERE field1 = equals1 AND field2 = equals2"
     );
   });
 
