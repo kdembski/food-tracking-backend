@@ -51,4 +51,8 @@ export class RecipesQueries extends Queries {
       wheres,
     });
   }
+
+  getUpdateKcal() {
+    return this.getUpdate(["kcal"]);
+  }
 }

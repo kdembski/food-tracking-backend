@@ -48,6 +48,10 @@ export class RecipesController implements IRecipesController {
     return new RecipesRepository().update(recipe);
   }
 
+  updateKcal(kcal: number, id: number) {
+    return new RecipesRepository().updateKcal(kcal, id);
+  }
+
   delete(id: number) {
     return new RecipesRepository().delete(id);
   }

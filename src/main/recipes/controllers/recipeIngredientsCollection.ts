@@ -1,9 +1,11 @@
+import { RecipesController } from "@/main/recipes/controllers/recipes";
 import { RecipeIngredientsController } from "./recipeIngredients";
 import { DBEntityCollectionController } from "@/base/db-entity/controllers/collection";
 import { RecipeIngredientCollectionMapper } from "@/mappers/recipes/recipeIngredientsCollection";
 import { RecipeIngredientsRepository } from "@/repositories/recipes/recipeIngredients";
 import { RecipeIngredientsCollection } from "../collections/recipeIngredients";
 import { RecipeIngredient } from "../models/recipeIngredient";
+import { RecipeIngredientsCollectionBuilder } from "../builders/recipeIngredientsCollection";
 
 export class RecipeIngredientsCollectionController extends DBEntityCollectionController<
   RecipeIngredient,
@@ -26,5 +28,16 @@ export class RecipeIngredientsCollectionController extends DBEntityCollectionCon
 
   setSelectorId(item: RecipeIngredient, selectorId: number) {
     item.recipeId = selectorId;
+  }
+
+  override async callback(recipeId: number) {
+    const builder = new RecipeIngredientsCollectionBuilder(
+      await this.getByRecipeId(recipeId)
+    );
+    builder.calculateKcal();
+    new RecipesController().updateKcal(
+      builder.collection.kcal as number,
+      recipeId
+    );
   }
 }

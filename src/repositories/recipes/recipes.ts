@@ -79,6 +79,13 @@ export class RecipesRepository implements IRecipesRepository {
     return results as OkPacket;
   }
 
+  async updateKcal(kcal: number, id: number) {
+    const query = new RecipesQueries().getUpdateKcal();
+    const results = await Database.sendQuery(query, [kcal, id]);
+
+    return results as OkPacket;
+  }
+
   async delete(id: number) {
     const query = new RecipesQueries().getDelete();
     const results = await Database.sendQuery(query, [id]);

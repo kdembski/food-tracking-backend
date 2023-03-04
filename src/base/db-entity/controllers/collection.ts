@@ -16,6 +16,9 @@ export abstract class DBEntityCollectionController<
 
   abstract getCollection(selectorId: number): Promise<Collection>;
   abstract setSelectorId(item: CollectionItem, selectorId: number): void;
+  protected callback(selectorId: number) {
+    return;
+  }
 
   async update(
     newCollection: Collection | undefined,
@@ -34,11 +37,10 @@ export abstract class DBEntityCollectionController<
     const promises = newCollection.items.map((item) => {
       if (!item.id) {
         this.setSelectorId(item, selectorId);
-        this.collectionItemController.create(item);
-        return;
+        return this.collectionItemController.create(item);
       }
 
-      this.collectionItemController.update(item);
+      return this.collectionItemController.update(item);
     });
 
     const deletePromises = itemIdsToBeRemoved.map((id) => {
@@ -49,6 +51,7 @@ export abstract class DBEntityCollectionController<
     });
 
     await Promise.all([...promises, ...deletePromises]);
+    this.callback(selectorId);
   }
 
   async create(collection: Collection | undefined, selectorId: number) {
@@ -62,5 +65,6 @@ export abstract class DBEntityCollectionController<
     });
 
     await Promise.all(promises);
+    this.callback(selectorId);
   }
 }
