@@ -5,6 +5,8 @@ export class RecipeIngredient implements IRecipeIngredient {
   private _id?: number;
   private _recipeId?: number;
   private _ingredientUnitId?: number;
+  private _ingredientId?: number;
+  private _unitId?: number;
   private _amount?: number;
   private _ingredientName?: string;
   private _unitShortcut?: string;
@@ -22,6 +24,14 @@ export class RecipeIngredient implements IRecipeIngredient {
 
   get ingredientUnitId() {
     return this._ingredientUnitId;
+  }
+
+  get ingredientId() {
+    return this._ingredientId;
+  }
+
+  get unitId() {
+    return this._unitId;
   }
 
   get amount() {
@@ -60,6 +70,14 @@ export class RecipeIngredient implements IRecipeIngredient {
     this._ingredientUnitId = value;
   }
 
+  set ingredientId(value) {
+    this._ingredientId = value;
+  }
+
+  set unitId(value) {
+    this._unitId = value;
+  }
+
   set amount(value) {
     this._amount = value;
   }
@@ -88,6 +106,8 @@ export class RecipeIngredient implements IRecipeIngredient {
     this._id = data.id;
     this._recipeId = data.recipeId;
     this._ingredientUnitId = data.ingredientUnitId;
+    this._ingredientId = data.ingredientId;
+    this._unitId = data.unitId;
     this._amount = data.amount;
     this._ingredientName = data.ingredientName;
     this._unitShortcut = data.unitShortcut;

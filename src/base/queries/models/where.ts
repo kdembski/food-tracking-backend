@@ -5,18 +5,25 @@ export class Where {
   private field: string;
   private like?: string;
   private between?: WhereBetween;
+  private equals?: number | string;
   private collate = "utf8mb4_general_ci";
 
-  constructor(data: { field: string; like?: string; between?: WhereBetween }) {
+  constructor(data: {
+    field: string;
+    like?: string;
+    between?: WhereBetween;
+    equals?: number | string;
+  }) {
     this.field = data.field;
     this.like = data.like;
     this.between = data.between;
+    this.equals = data.equals;
   }
 
   prepare() {
     let condition = "";
 
-    if (!this.like && !this.between) {
+    if (!this.like && !this.between && !this.equals) {
       throw new CustomError({
         message: "Database query: where clause condition is required",
       });
@@ -30,6 +37,12 @@ export class Where {
       condition = `BETWEEN '${this.between.from}' AND '${this.between.to}'`;
     }
 
-    return `${this.field} COLLATE ${this.collate} ${condition}`;
+    if (this.equals) {
+      condition = `= ${this.equals}`;
+    }
+
+    return `${this.field}${
+      this.like ? " COLLATE " + this.collate : ""
+    } ${condition}`;
   }
 }

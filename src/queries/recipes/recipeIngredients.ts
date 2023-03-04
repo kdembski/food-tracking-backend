@@ -25,7 +25,23 @@ export class RecipeIngredientsQueries extends Queries {
     const fieldsToSelect = [
       new Field({
         table: "recipe_ingredients",
-        name: "*",
+        name: "id",
+      }),
+      new Field({
+        table: "recipe_ingredients",
+        name: "amount",
+      }),
+      new Field({
+        table: "recipe_ingredients",
+        name: "recipe_id",
+      }),
+      new Field({
+        table: "ingredient_units",
+        name: "ingredient_id",
+      }),
+      new Field({
+        table: "ingredient_units",
+        name: "unit_id",
       }),
       new Field({
         table: "ingredients",
@@ -39,7 +55,15 @@ export class RecipeIngredientsQueries extends Queries {
       }),
       new Field({
         table: "ingredient_units",
-        name: "*",
+        name: "kcal_per_unit",
+      }),
+      new Field({
+        table: "ingredient_units",
+        name: "is_primary",
+      }),
+      new Field({
+        table: "ingredient_units",
+        name: "converter_to_primary",
       }),
     ];
 

@@ -9,6 +9,15 @@ export class IngredientUnitsController implements IIngredientUnitsController {
     return new IngredientUnitQueryResultMapper().toDomain(dto);
   }
 
+  async getByIngredientIdAndUnitId(ingredientId: number, unitId: number) {
+    const dto =
+      await new IngredientUnitsRepository().selectByIngredientIdAndUnitId(
+        ingredientId,
+        unitId
+      );
+    return new IngredientUnitQueryResultMapper().toDomain(dto);
+  }
+
   create(unit: IngredientUnit) {
     return new IngredientUnitsRepository().insert(unit);
   }

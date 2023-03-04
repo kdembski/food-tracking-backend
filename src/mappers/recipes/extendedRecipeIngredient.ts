@@ -10,6 +10,8 @@ export class ExtendedRecipeIngredientMapper
       id: model.id,
       recipeId: model.recipeId,
       ingredientUnitId: model.ingredientUnitId,
+      ingredientId: model.ingredientId,
+      unitId: model.unitId,
       amount: model.amount,
       ingredientName: model.ingredientName,
       unitShortcut: model.unitShortcut,

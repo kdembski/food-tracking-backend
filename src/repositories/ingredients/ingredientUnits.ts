@@ -28,6 +28,16 @@ export class IngredientUnitsRepository implements IIngredientUnitsRepository {
     return results as IngredientUnitQueryResult[];
   }
 
+  async selectByIngredientIdAndUnitId(ingredientId: number, unitId: number) {
+    const query = new IngredientUnitsQueries().getSelectByIngredientIdAndUnitId(
+      ingredientId,
+      unitId
+    );
+
+    const results = await Database.sendQuery(query);
+    return results[0] as IngredientUnitQueryResult;
+  }
+
   async insert(data: IngredientUnit) {
     const query = new IngredientUnitsQueries().getInsert();
     const results = await Database.sendQuery(query, [

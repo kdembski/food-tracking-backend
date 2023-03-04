@@ -2,6 +2,8 @@ export type RecipeIngredientBase = {
   id?: number;
   recipeId?: number;
   ingredientUnitId?: number;
+  ingredientId?: number;
+  unitId?: number;
   amount?: number;
 };
 

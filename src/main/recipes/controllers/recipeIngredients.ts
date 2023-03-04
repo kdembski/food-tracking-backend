@@ -1,3 +1,4 @@
+import { IngredientUnitsController } from "./../../ingredients/controllers/ingredientUnits";
 import { IRecipeIngredientsController } from "@/interfaces/recipes/recipeIngredients";
 import { RecipeIngredientsRepository } from "@/repositories/recipes/recipeIngredients";
 import { RecipeIngredient } from "../models/recipeIngredient";
@@ -10,11 +11,25 @@ export class RecipeIngredientsController
     return new RecipeIngredient(dto);
   }
 
-  create(ingredient: RecipeIngredient) {
+  async create(ingredient: RecipeIngredient) {
+    const ingredientUnit =
+      await new IngredientUnitsController().getByIngredientIdAndUnitId(
+        ingredient.ingredientId as number,
+        ingredient.unitId as number
+      );
+    ingredient.ingredientUnitId = ingredientUnit.id;
+
     return new RecipeIngredientsRepository().insert(ingredient);
   }
 
-  update(ingredient: RecipeIngredient) {
+  async update(ingredient: RecipeIngredient) {
+    const ingredientUnit =
+      await new IngredientUnitsController().getByIngredientIdAndUnitId(
+        ingredient.ingredientId as number,
+        ingredient.unitId as number
+      );
+    ingredient.ingredientUnitId = ingredientUnit.id;
+
     return new RecipeIngredientsRepository().update(ingredient);
   }
 
