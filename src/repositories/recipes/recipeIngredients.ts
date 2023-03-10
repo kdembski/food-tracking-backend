@@ -4,7 +4,7 @@ import Database from "@/config/database";
 import { OkPacket } from "mysql2";
 import { CustomError } from "@/base/errors/models/customError";
 import { RecipeIngredient } from "@/main/recipes/models/recipeIngredient";
-import { ExtendedRecipeIngredientDTO } from "@/dtos/recipes/recipeIngredient";
+import { RecipeIngredientQueryResult } from "@/dtos/recipes/recipeIngredient";
 
 export class RecipeIngredientsRepository
   implements IRecipeIngredientsRepository
@@ -12,7 +12,7 @@ export class RecipeIngredientsRepository
   async selectById(id: number) {
     const query = new RecipeIngredientsQueries().getSelectById();
     const results = await Database.sendQuery(query, [id]);
-    const dto = results[0] as ExtendedRecipeIngredientDTO;
+    const dto = results[0] as RecipeIngredientQueryResult;
 
     if (!dto) {
       throw new CustomError({
@@ -27,7 +27,7 @@ export class RecipeIngredientsRepository
     const query = new RecipeIngredientsQueries().getSelectByRecipeId();
     const results = await Database.sendQuery(query, [recipeId]);
 
-    return results as ExtendedRecipeIngredientDTO[];
+    return results as RecipeIngredientQueryResult[];
   }
 
   async insert(data: RecipeIngredient) {

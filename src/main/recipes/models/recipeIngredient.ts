@@ -1,4 +1,4 @@
-import { ExtendedRecipeIngredientDTO } from "@/dtos/recipes/recipeIngredient";
+import { RecipeIngredientDTO } from "@/dtos/recipes/recipeIngredient";
 import { IRecipeIngredient } from "@/interfaces/recipes/recipeIngredients";
 
 export class RecipeIngredient implements IRecipeIngredient {
@@ -102,7 +102,7 @@ export class RecipeIngredient implements IRecipeIngredient {
     this._converterToPrimary = value;
   }
 
-  constructor(data: ExtendedRecipeIngredientDTO) {
+  constructor(data: RecipeIngredientDTO) {
     this._id = data.id;
     this._recipeId = data.recipeId;
     this._ingredientUnitId = data.ingredientUnitId;

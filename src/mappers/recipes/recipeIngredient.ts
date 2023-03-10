@@ -13,6 +13,11 @@ export class RecipeIngredientMapper
       ingredientId: model.ingredientId,
       unitId: model.unitId,
       amount: model.amount,
+      ingredientName: model.ingredientName,
+      unitShortcut: model.unitShortcut,
+      kcalPerUnit: model.kcalPerUnit,
+      isPrimary: model.isPrimary,
+      converterToPrimary: model.converterToPrimary,
     };
   }
 

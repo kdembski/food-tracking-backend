@@ -2,13 +2,14 @@ import { IngredientUnitsController } from "./../../ingredients/controllers/ingre
 import { IRecipeIngredientsController } from "@/interfaces/recipes/recipeIngredients";
 import { RecipeIngredientsRepository } from "@/repositories/recipes/recipeIngredients";
 import { RecipeIngredient } from "../models/recipeIngredient";
+import { RecipeIngredientQueryResultMapper } from "@/mappers/recipes/recipeIngredientQueryResult";
 
 export class RecipeIngredientsController
   implements IRecipeIngredientsController
 {
   async getById(id: number) {
     const dto = await new RecipeIngredientsRepository().selectById(id);
-    return new RecipeIngredient(dto);
+    return new RecipeIngredientQueryResultMapper().toDomain(dto);
   }
 
   async create(ingredient: RecipeIngredient) {

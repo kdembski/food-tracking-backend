@@ -1,4 +1,4 @@
-import { ExtendedRecipeIngredientDTO } from "@/dtos/recipes/recipeIngredient";
+import { RecipeIngredientDTO } from "@/dtos/recipes/recipeIngredient";
 import { RecipeIngredientCollectionMapper } from "@/mappers/recipes/recipeIngredientsCollection";
 import { ApiError } from "@/base/errors/models/apiError";
 import { RequestQueryHelper } from "@/helpers/requestQuery";
@@ -120,7 +120,7 @@ recipesRouter.get("/:id/ingredients", async (request, response) => {
 recipesRouter.post("/:id/ingredients", async (request, response) => {
   try {
     const recipeId = new RequestParamsHelper(request.params).id;
-    const data: ExtendedRecipeIngredientDTO[] = request.body;
+    const data: RecipeIngredientDTO[] = request.body;
     const collection = new RecipeIngredientCollectionMapper().toDomain(data);
 
     const results = await recipeIngredientsCollectionController.create(
@@ -136,7 +136,7 @@ recipesRouter.post("/:id/ingredients", async (request, response) => {
 recipesRouter.put("/:id/ingredients", async (request, response) => {
   try {
     const recipeId = new RequestParamsHelper(request.params).id;
-    const data: ExtendedRecipeIngredientDTO[] = request.body;
+    const data: RecipeIngredientDTO[] = request.body;
     const collection = new RecipeIngredientCollectionMapper().toDomain(data);
 
     const results = await recipeIngredientsCollectionController.update(

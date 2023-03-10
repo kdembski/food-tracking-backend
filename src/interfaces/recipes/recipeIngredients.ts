@@ -1,14 +1,14 @@
-import { ExtendedRecipeIngredientDTO } from "@/dtos/recipes/recipeIngredient";
+import { RecipeIngredientQueryResult } from "@/dtos/recipes/recipeIngredient";
 import { RecipeIngredient } from "@/main/recipes/models/recipeIngredient";
 import { IDbEntityController, IRepository } from "../base/dbEntity";
 
 export interface IRecipeIngredient {}
 
 export interface IRecipeIngredientsRepository
-  extends IRepository<RecipeIngredient, ExtendedRecipeIngredientDTO> {
+  extends IRepository<RecipeIngredient, RecipeIngredientQueryResult> {
   selectByRecipeId: (
     recipeId: number
-  ) => Promise<ExtendedRecipeIngredientDTO[]>;
+  ) => Promise<RecipeIngredientQueryResult[]>;
 }
 
 export interface IRecipeIngredientsController
