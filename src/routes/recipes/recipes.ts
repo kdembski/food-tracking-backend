@@ -10,6 +10,7 @@ import { TagsMapper } from "@/mappers/base/tags/tags";
 import { ExtendedRecipeMapper } from "@/mappers/recipes/extendedRecipe";
 import { Recipe } from "@/main/recipes/models/recipe";
 import { RecipeIngredientsCollectionController } from "@/main/recipes/controllers/recipeIngredientsCollection";
+import { RecipeValidator } from "@/main/recipes/validators/recipe";
 
 const recipesRouter = Router();
 const recipesController = new RecipesController();
@@ -72,6 +73,7 @@ recipesRouter.post("/", async (request, response) => {
   try {
     const data: RecipeDTO = request.body;
     const recipe = new Recipe(data);
+    new RecipeValidator().validate(recipe).throwErrors();
 
     const results = await recipesController.create(recipe);
     response.json(results);
@@ -86,6 +88,7 @@ recipesRouter.put("/:id", async (request, response) => {
     const data: RecipeDTO = request.body;
     data.id = id;
     const recipe = new Recipe(data);
+    new RecipeValidator().validate(recipe).throwErrors();
 
     const results = await recipesController.update(recipe);
     response.json(results);

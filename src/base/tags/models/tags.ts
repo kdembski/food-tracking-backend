@@ -30,7 +30,7 @@ export abstract class Tags {
     this._config = value;
   }
 
-  getTags(config: TagsConfig): Promise<string[]> {
+  getTags(config: TagsConfig): Promise<(string | null)[]> {
     return this.repository.selectTags(config);
   }
 }

@@ -26,9 +26,11 @@ export class TagsBuilder implements ITagsBuilder {
   async build(query: RequestQueryData) {
     this.produceConfig(query);
 
-    let tags = await this.tags.getTags(this.tags.config);
-    tags = this.splitTags(tags);
-    this.tags.items = this.countTags(tags).sort((a, b) => b.count - a.count);
+    const tags = await this.tags.getTags(this.tags.config);
+    const splittedTags = this.splitTags(tags);
+    this.tags.items = this.countTags(splittedTags).sort(
+      (a, b) => b.count - a.count
+    );
   }
 
   private countTags(tagNames: string[]) {
@@ -48,10 +50,13 @@ export class TagsBuilder implements ITagsBuilder {
     }, []);
   }
 
-  private splitTags(itemsTags: string[]) {
+  private splitTags(itemsTags: (string | null)[]) {
     let splittedTags: string[] = [];
 
     itemsTags.forEach((itemTags) => {
+      if (!itemTags) {
+        return;
+      }
       const splittedItemTags = itemTags.split(",");
       splittedTags = lodash.concat(splittedTags, splittedItemTags);
     });

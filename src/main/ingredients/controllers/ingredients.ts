@@ -41,8 +41,8 @@ export class IngredientsController implements IIngredientsController {
     return results;
   }
 
-  update(ingredient: Ingredient) {
-    new IngredientUnitsCollectionController().update(
+  async update(ingredient: Ingredient) {
+    await new IngredientUnitsCollectionController().update(
       ingredient.units,
       ingredient.id
     );
