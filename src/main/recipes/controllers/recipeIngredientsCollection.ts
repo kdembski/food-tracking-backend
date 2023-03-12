@@ -22,6 +22,14 @@ export class RecipeIngredientsCollectionController extends DBEntityCollectionCon
     return new RecipeIngredientCollectionMapper().fromQueryResultToDomain(dtos);
   }
 
+  async getByIngredientUnitId(recipeId: number) {
+    const dtos =
+      await new RecipeIngredientsRepository().selectByIngredientUnitId(
+        recipeId
+      );
+    return new RecipeIngredientCollectionMapper().fromQueryResultToDomain(dtos);
+  }
+
   getCollection(selectorId: number) {
     return this.getByRecipeId(selectorId);
   }

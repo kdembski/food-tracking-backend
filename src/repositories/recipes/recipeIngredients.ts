@@ -30,6 +30,13 @@ export class RecipeIngredientsRepository
     return results as RecipeIngredientQueryResult[];
   }
 
+  async selectByIngredientUnitId(recipeId: number) {
+    const query = new RecipeIngredientsQueries().getSelectByIngredientUnitId();
+    const results = await Database.sendQuery(query, [recipeId]);
+
+    return results as RecipeIngredientQueryResult[];
+  }
+
   async insert(data: RecipeIngredient) {
     const query = new RecipeIngredientsQueries().getInsert();
     const results = await Database.sendQuery(query, [

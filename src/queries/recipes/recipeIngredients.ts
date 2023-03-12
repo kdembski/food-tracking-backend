@@ -82,4 +82,8 @@ export class RecipeIngredientsQueries extends Queries {
   getSelectByRecipeId() {
     return this.getSelectById({ id: "recipe_id" });
   }
+
+  getSelectByIngredientUnitId() {
+    return this.getSelectById({ id: "ingredient_unit_id" });
+  }
 }

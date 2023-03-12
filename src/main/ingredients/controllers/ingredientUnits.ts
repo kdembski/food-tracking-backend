@@ -2,6 +2,9 @@ import { IIngredientUnitsController } from "@/interfaces/ingredients/ingredientU
 import { IngredientUnitsRepository } from "@/repositories/ingredients/ingredientUnits";
 import { IngredientUnitQueryResultMapper } from "@/mappers/ingredients/ingredientUnitQueryResult";
 import { IngredientUnit } from "../models/ingredientUnit";
+import { RecipeIngredientsCollectionController } from "@/main/recipes/controllers/recipeIngredientsCollection";
+import { RecipeIngredientsCollectionBuilder } from "@/main/recipes/builders/recipeIngredientsCollection";
+import { RecipesController } from "@/main/recipes/controllers/recipes";
 
 export class IngredientUnitsController implements IIngredientUnitsController {
   async getById(id: number) {
@@ -23,10 +26,42 @@ export class IngredientUnitsController implements IIngredientUnitsController {
   }
 
   update(unit: IngredientUnit) {
+    this.updateLinkedRecipesKcal(unit);
     return new IngredientUnitsRepository().update(unit);
   }
 
   delete(id: number) {
     return new IngredientUnitsRepository().delete(id);
+  }
+
+  async updateLinkedRecipesKcal(unit: IngredientUnit) {
+    if (!unit.id) {
+      return;
+    }
+
+    const recipeIngredients =
+      await new RecipeIngredientsCollectionController().getByIngredientUnitId(
+        unit.id
+      );
+    let recipeIds = recipeIngredients.items.map(
+      (ingredient) => ingredient.recipeId
+    );
+    recipeIds = [...new Set(recipeIds)];
+
+    recipeIds.forEach(async (recipeId) => {
+      if (!recipeId) {
+        return;
+      }
+
+      const recipeIngredients =
+        await new RecipeIngredientsCollectionController().getByRecipeId(
+          recipeId
+        );
+      new RecipeIngredientsCollectionBuilder(recipeIngredients).calculateKcal();
+      await new RecipesController().updateKcal(
+        recipeIngredients.kcal as number,
+        recipeId
+      );
+    });
   }
 }
