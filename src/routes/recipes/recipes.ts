@@ -11,6 +11,7 @@ import { ExtendedRecipeMapper } from "@/mappers/recipes/extendedRecipe";
 import { Recipe } from "@/main/recipes/models/recipe";
 import { RecipeIngredientsCollectionController } from "@/main/recipes/controllers/recipeIngredientsCollection";
 import { RecipeValidator } from "@/main/recipes/validators/recipe";
+import { RecipeIngredientsCollectionValidator } from "@/main/recipes/validators/recipeIngredientsCollection";
 
 const recipesRouter = Router();
 const recipesController = new RecipesController();
@@ -125,6 +126,9 @@ recipesRouter.post("/:id/ingredients", async (request, response) => {
     const recipeId = new RequestParamsHelper(request.params).id;
     const data: RecipeIngredientDTO[] = request.body;
     const collection = new RecipeIngredientCollectionMapper().toDomain(data);
+    new RecipeIngredientsCollectionValidator()
+      .validate(collection)
+      .throwErrors();
 
     const results = await recipeIngredientsCollectionController.create(
       collection,
@@ -141,6 +145,9 @@ recipesRouter.put("/:id/ingredients", async (request, response) => {
     const recipeId = new RequestParamsHelper(request.params).id;
     const data: RecipeIngredientDTO[] = request.body;
     const collection = new RecipeIngredientCollectionMapper().toDomain(data);
+    new RecipeIngredientsCollectionValidator()
+      .validate(collection)
+      .throwErrors();
 
     const results = await recipeIngredientsCollectionController.update(
       collection,
