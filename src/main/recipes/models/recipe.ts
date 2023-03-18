@@ -53,11 +53,35 @@ export class Recipe implements IRecipe {
     return this._datesFromLastYear;
   }
 
-  set datesFromLastYear(value) {
-    this._datesFromLastYear = value;
+  set id(value) {
+    this._id = value;
+  }
+
+  set preparationTime(value) {
+    this._preparationTime = value;
+  }
+
+  set tags(value) {
+    this._tags = value;
+  }
+
+  set kcal(value) {
+    this._kcal = value;
+  }
+
+  set recipeName(value) {
+    this._recipeName = value;
   }
 
   set cookedDate(value) {
     this._cookedDate = value ? new Date(value) : undefined;
+  }
+
+  set cookidooLink(value) {
+    this._cookidooLink = value;
+  }
+
+  set datesFromLastYear(value) {
+    this._datesFromLastYear = value;
   }
 }

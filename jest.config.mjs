@@ -23,5 +23,6 @@ export default {
     "src/config/**/*.ts",
     "src/helpers/**/*.ts",
     "src/middleware/**/*.ts",
+    "!src/main/**/models/*.ts",
   ],
 };

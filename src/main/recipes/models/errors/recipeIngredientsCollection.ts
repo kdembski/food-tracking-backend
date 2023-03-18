@@ -2,10 +2,13 @@ import { IErrors } from "@/interfaces/base/errors";
 import { RecipeIngredientErrors } from "./recipeIngredient";
 
 export class RecipeIngredientsCollectionErrors implements IErrors {
-  private items?: RecipeIngredientErrors[];
+  private _items?: RecipeIngredientErrors[];
 
   constructor(items?: RecipeIngredientErrors[]) {
-    this.items = items;
+    this._items = items;
+  }
+  get items() {
+    return this._items;
   }
 
   isEmpty() {
