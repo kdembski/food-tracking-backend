@@ -8,6 +8,8 @@ import membersRouter from "./members";
 import ingredientsRouter from "./ingredients/ingredients";
 import ingredientCategoriesRouter from "./ingredients/ingredientCategories";
 import unitsRouter from "./ingredients/units";
+import shoppingItemsRouter from "./shopping/shoppingItems";
+import shoppingListsRouter from "./shopping/shoppingLists";
 import { verifyToken } from "@/middlewares/authentication";
 
 const router = Router();
@@ -25,5 +27,8 @@ router.use("/ingredients", ingredientsRouter);
 router.use("/recipes/ingredients", recipeIngredientsRouter);
 //router.use("/recipes", recipeStepRouter);
 router.use("/recipes", recipesRouter);
+
+router.use("/shopping/list", shoppingListsRouter);
+router.use("/shopping/items", shoppingItemsRouter);
 
 export default router;

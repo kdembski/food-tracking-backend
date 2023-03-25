@@ -1,18 +1,19 @@
 import { CustomError } from "@/base/errors/models/customError";
 import { WhereBetween } from "@/types/base/queries";
+import lodash from "lodash";
 
 export class Where {
   private field: string;
   private like?: string;
   private between?: WhereBetween;
-  private equals?: number | string;
+  private equals?: number | string | boolean;
   private collate = "utf8mb4_general_ci";
 
   constructor(data: {
     field: string;
     like?: string;
     between?: WhereBetween;
-    equals?: number | string;
+    equals?: number | string | boolean;
   }) {
     this.field = data.field;
     this.like = data.like;
@@ -23,7 +24,7 @@ export class Where {
   prepare() {
     let condition = "";
 
-    if (!this.like && !this.between && !this.equals) {
+    if (!this.like && !this.between && lodash.isNil(this.equals)) {
       throw new CustomError({
         message: "Database query: where clause condition is required",
       });
@@ -37,7 +38,7 @@ export class Where {
       condition = `BETWEEN '${this.between.from}' AND '${this.between.to}'`;
     }
 
-    if (this.equals) {
+    if (!lodash.isNil(this.equals)) {
       condition = `= ${this.equals}`;
     }
 
