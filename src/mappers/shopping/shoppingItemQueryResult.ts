@@ -1,9 +1,9 @@
-import { ShoppingItemDTO } from "@/dtos/shopping/shoppingItems";
+import { ShoppingItemQueryResult } from "@/dtos/shopping/shoppingItems";
 import { IMapper } from "@/interfaces/base/mapper";
 import { ShoppingItem } from "@/main/shopping/models/shoppingItem";
 
-export class ShoppingItemMapper
-  implements IMapper<ShoppingItem, ShoppingItemDTO>
+export class ShoppingItemQueryResultMapper
+  implements IMapper<ShoppingItem, ShoppingItemQueryResult>
 {
   toDTO(model: ShoppingItem) {
     return {
@@ -12,30 +12,30 @@ export class ShoppingItemMapper
       ingredientUnitId: model.ingredientUnitId,
       shoppingListId: model.shoppingListId,
       customItemId: model.customItemId,
-      amount: model.amount,
+      amount: model.amount?.toString(),
       ingredientName: model.ingredientName,
       unitShortcut: model.unitShortcut,
       customItemName: model.customItemName,
-      isChecked: model.isChecked,
+      isChecked: model.isChecked ? 1 : 0,
       checkedAt: model.checkedAt,
-      isRemoved: model.isRemoved,
+      isRemoved: model.isRemoved ? 1 : 0,
     };
   }
 
-  toDomain(dto: ShoppingItemDTO) {
+  toDomain(dto: ShoppingItemQueryResult) {
     return new ShoppingItem({
       id: dto.id,
       recipeId: dto.recipeId,
       ingredientUnitId: dto.ingredientUnitId,
       shoppingListId: dto.shoppingListId,
       customItemId: dto.customItemId,
-      amount: dto.amount,
+      amount: dto.amount ? parseFloat(dto.amount) : undefined,
       ingredientName: dto.ingredientName,
       unitShortcut: dto.unitShortcut,
       customItemName: dto.customItemName,
-      isChecked: dto.isChecked,
+      isChecked: !!dto.isChecked,
       checkedAt: dto.checkedAt ? new Date(dto.checkedAt) : undefined,
-      isRemoved: dto.isRemoved,
+      isRemoved: !!dto.isRemoved,
     });
   }
 }

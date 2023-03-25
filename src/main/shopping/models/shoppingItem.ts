@@ -2,17 +2,18 @@ import { IShoppingItem } from "@/interfaces/shopping/shopping-items/shoppingItem
 import { ShoppingItemDTO } from "@/dtos/shopping/shoppingItems";
 
 export class ShoppingItem implements IShoppingItem {
-  private _id: number;
-  private _shoppingListId: number;
-  private _recipeId: number;
-  private _ingredientUnitId: number;
-  private _customItemId: number;
-  private _amount: number;
-  private _isChecked: boolean;
-  private _checkedAt: Date;
-  private _isRemoved: boolean;
-  private _ingredientName: string;
-  private _unitShortcut: string;
+  private _id?: number;
+  private _shoppingListId?: number;
+  private _recipeId?: number;
+  private _ingredientUnitId?: number;
+  private _customItemId?: number;
+  private _amount?: number;
+  private _isChecked?: boolean;
+  private _checkedAt?: Date;
+  private _isRemoved?: boolean;
+  private _ingredientName?: string;
+  private _unitShortcut?: string;
+  private _customItemName?: string;
 
   get id() {
     return this._id;
@@ -44,6 +45,10 @@ export class ShoppingItem implements IShoppingItem {
 
   get unitShortcut() {
     return this._unitShortcut;
+  }
+
+  get customItemName() {
+    return this._customItemName;
   }
 
   get isChecked() {
@@ -90,6 +95,10 @@ export class ShoppingItem implements IShoppingItem {
     this._unitShortcut = value;
   }
 
+  set customItemName(value) {
+    this._customItemName = value;
+  }
+
   set isChecked(value) {
     this._isChecked = value;
   }
@@ -111,8 +120,9 @@ export class ShoppingItem implements IShoppingItem {
     this._amount = data.amount;
     this._ingredientName = data.ingredientName;
     this._unitShortcut = data.unitShortcut;
+    this._customItemName = data.customItemName;
     this._isChecked = data.isChecked;
-    this._checkedAt = data.checkedAt;
+    this.checkedAt = data.checkedAt;
     this._isRemoved = data.isRemoved;
   }
 }

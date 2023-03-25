@@ -1,12 +1,12 @@
 import { IShoppingItemsController } from "@/interfaces/shopping/shopping-items/shoppingItemsController";
-import { ShoppingItemMapper } from "@/mappers/shopping/shoppingItem";
+import { ShoppingItemQueryResultMapper } from "@/mappers/shopping/shoppingItemQueryResult";
 import { ShoppingItemsRepository } from "@/repositories/shopping/shoppingItems";
 import { ShoppingItem } from "../models/shoppingItem";
 
 export class ShoppingItemsController implements IShoppingItemsController {
   async getById(id: number) {
     const dto = await new ShoppingItemsRepository().selectById(id);
-    return new ShoppingItemMapper().toDomain(dto);
+    return new ShoppingItemQueryResultMapper().toDomain(dto);
   }
 
   async getNotRemovedByShoppingListId(shoppingListId: number) {
@@ -14,7 +14,7 @@ export class ShoppingItemsController implements IShoppingItemsController {
       await new ShoppingItemsRepository().selectNotRemovedByShoppingListId(
         shoppingListId
       );
-    return dtos.map((dto) => new ShoppingItemMapper().toDomain(dto));
+    return dtos.map((dto) => new ShoppingItemQueryResultMapper().toDomain(dto));
   }
 
   create(item: ShoppingItem) {

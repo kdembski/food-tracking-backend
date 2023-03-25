@@ -3,7 +3,7 @@ import { OkPacket } from "mysql2";
 import { CustomError } from "@/base/errors/models/customError";
 import { ShoppingItemsQueries } from "@/queries/shopping/shoppingItems";
 import { IShoppingItemsRepository } from "@/interfaces/shopping/shopping-items/shoppingItemsRepository";
-import { ShoppingItemDTO } from "@/dtos/shopping/shoppingItems";
+import { ShoppingItemQueryResult } from "@/dtos/shopping/shoppingItems";
 import { ShoppingItem } from "@/main/shopping/models/shoppingItem";
 
 export class ShoppingItemsRepository implements IShoppingItemsRepository {
@@ -18,7 +18,7 @@ export class ShoppingItemsRepository implements IShoppingItemsRepository {
       });
     }
 
-    return dto as ShoppingItemDTO;
+    return dto as ShoppingItemQueryResult;
   }
 
   async selectNotRemovedByShoppingListId(shoppingListId: number) {
@@ -26,7 +26,7 @@ export class ShoppingItemsRepository implements IShoppingItemsRepository {
       new ShoppingItemsQueries().getSelectNotRemovedByShoppingListId();
     const results = await Database.sendQuery(query, [shoppingListId]);
 
-    return results as ShoppingItemDTO[];
+    return results as ShoppingItemQueryResult[];
   }
 
   async insert(data: ShoppingItem) {
