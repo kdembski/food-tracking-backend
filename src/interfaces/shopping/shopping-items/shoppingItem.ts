@@ -1,1 +1,1 @@
-export interface IShoppingItem {}
+export interface IShoppingList {}

@@ -28,7 +28,7 @@ router.use("/recipes/ingredients", recipeIngredientsRouter);
 //router.use("/recipes", recipeStepRouter);
 router.use("/recipes", recipesRouter);
 
-router.use("/shopping/list", shoppingListsRouter);
+router.use("/shopping/lists", shoppingListsRouter);
 router.use("/shopping/items", shoppingItemsRouter);
 
 export default router;
