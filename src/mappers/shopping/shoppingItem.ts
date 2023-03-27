@@ -19,6 +19,7 @@ export class ShoppingItemMapper
       isChecked: model.isChecked,
       checkedAt: model.checkedAt,
       isRemoved: model.isRemoved,
+      ingredientCategoryId: model.ingredientCategoryId,
     };
   }
 
@@ -36,6 +37,7 @@ export class ShoppingItemMapper
       isChecked: dto.isChecked,
       checkedAt: dto.checkedAt ? new Date(dto.checkedAt) : undefined,
       isRemoved: dto.isRemoved,
+      ingredientCategoryId: dto.ingredientCategoryId,
     });
   }
 }

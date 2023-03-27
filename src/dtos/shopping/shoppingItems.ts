@@ -11,6 +11,7 @@ export type ShoppingItemDTO = {
   ingredientName?: string;
   unitShortcut?: string;
   customItemName?: string;
+  ingredientCategoryId?: number;
 };
 
 export type ShoppingItemQueryResult = {
@@ -26,4 +27,5 @@ export type ShoppingItemQueryResult = {
   ingredientName?: string;
   unitShortcut?: string;
   customItemName?: string;
+  ingredientCategoryId?: number;
 };

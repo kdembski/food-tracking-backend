@@ -43,6 +43,11 @@ export class ShoppingItemsQueries extends Queries {
         alias: "ingredient_name",
       }),
       new Field({
+        table: "ingredients",
+        name: "category_id",
+        alias: "ingredient_category_id",
+      }),
+      new Field({
         table: "units",
         name: "shortcut",
         alias: "unit_shortcut",

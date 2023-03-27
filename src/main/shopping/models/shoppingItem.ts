@@ -1,5 +1,5 @@
-import { IShoppingItem } from "@/interfaces/shopping/shopping-items/shoppingItem";
 import { ShoppingItemDTO } from "@/dtos/shopping/shoppingItems";
+import { IShoppingItem } from "@/interfaces/shopping/shopping-lists/shoppingList";
 
 export class ShoppingItem implements IShoppingItem {
   private _id?: number;
@@ -14,6 +14,7 @@ export class ShoppingItem implements IShoppingItem {
   private _ingredientName?: string;
   private _unitShortcut?: string;
   private _customItemName?: string;
+  private _ingredientCategoryId?: number;
 
   get id() {
     return this._id;
@@ -61,6 +62,10 @@ export class ShoppingItem implements IShoppingItem {
 
   get isRemoved() {
     return this._isRemoved;
+  }
+
+  get ingredientCategoryId() {
+    return this._ingredientCategoryId;
   }
 
   set id(value) {
@@ -111,6 +116,10 @@ export class ShoppingItem implements IShoppingItem {
     this._isRemoved = value;
   }
 
+  set ingredientCategoryId(value) {
+    this._ingredientCategoryId = value;
+  }
+
   constructor(data: ShoppingItemDTO) {
     this._id = data.id;
     this._recipeId = data.recipeId;
@@ -124,5 +133,6 @@ export class ShoppingItem implements IShoppingItem {
     this._isChecked = data.isChecked;
     this.checkedAt = data.checkedAt;
     this._isRemoved = data.isRemoved;
+    this._ingredientCategoryId = data.ingredientCategoryId;
   }
 }
