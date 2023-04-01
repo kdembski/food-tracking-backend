@@ -38,6 +38,19 @@ export class ShoppingItemsQueries extends Queries {
         name: "*",
       }),
       new Field({
+        table: "ingredient_units",
+        name: "is_primary",
+      }),
+      new Field({
+        table: "ingredient_units",
+        name: "converter_to_primary",
+      }),
+      new Field({
+        table: "ingredients",
+        name: "id",
+        alias: "ingredient_id",
+      }),
+      new Field({
         table: "ingredients",
         name: "name",
         alias: "ingredient_name",

@@ -6,6 +6,7 @@ export class ShoppingItem implements IShoppingItem {
   private _shoppingListId?: number;
   private _recipeId?: number;
   private _ingredientUnitId?: number;
+  private _ingredientId?: number;
   private _customItemId?: number;
   private _amount?: number;
   private _isChecked?: boolean;
@@ -15,6 +16,8 @@ export class ShoppingItem implements IShoppingItem {
   private _unitShortcut?: string;
   private _customItemName?: string;
   private _ingredientCategoryId?: number;
+  private _isPrimary?: boolean;
+  private _converterToPrimary?: number;
 
   get id() {
     return this._id;
@@ -30,6 +33,10 @@ export class ShoppingItem implements IShoppingItem {
 
   get ingredientUnitId() {
     return this._ingredientUnitId;
+  }
+
+  get ingredientId() {
+    return this._ingredientId;
   }
 
   get customItemId() {
@@ -68,6 +75,14 @@ export class ShoppingItem implements IShoppingItem {
     return this._ingredientCategoryId;
   }
 
+  get isPrimary() {
+    return this._isPrimary;
+  }
+
+  get converterToPrimary() {
+    return this._converterToPrimary;
+  }
+
   set id(value) {
     this._id = value;
   }
@@ -78,6 +93,10 @@ export class ShoppingItem implements IShoppingItem {
 
   set ingredientUnitId(value) {
     this._ingredientUnitId = value;
+  }
+
+  set ingredientId(value) {
+    this._ingredientId = value;
   }
 
   set shoppingListId(value) {
@@ -120,10 +139,19 @@ export class ShoppingItem implements IShoppingItem {
     this._ingredientCategoryId = value;
   }
 
+  set isPrimary(value) {
+    this._isPrimary = value;
+  }
+
+  set converterToPrimary(value) {
+    this._converterToPrimary = value;
+  }
+
   constructor(data: ShoppingItemDTO) {
     this._id = data.id;
     this._recipeId = data.recipeId;
     this._ingredientUnitId = data.ingredientUnitId;
+    this._ingredientId = data.ingredientId;
     this._shoppingListId = data.shoppingListId;
     this._customItemId = data.customItemId;
     this._amount = data.amount;
@@ -134,5 +162,7 @@ export class ShoppingItem implements IShoppingItem {
     this.checkedAt = data.checkedAt;
     this._isRemoved = data.isRemoved;
     this._ingredientCategoryId = data.ingredientCategoryId;
+    this._isPrimary = data.isPrimary;
+    this._converterToPrimary = data.converterToPrimary;
   }
 }

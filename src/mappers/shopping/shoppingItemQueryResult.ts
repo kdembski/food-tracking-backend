@@ -10,6 +10,7 @@ export class ShoppingItemQueryResultMapper
       id: model.id,
       recipeId: model.recipeId,
       ingredientUnitId: model.ingredientUnitId,
+      ingredientId: model.ingredientId,
       shoppingListId: model.shoppingListId,
       customItemId: model.customItemId,
       amount: model.amount?.toString(),
@@ -20,6 +21,8 @@ export class ShoppingItemQueryResultMapper
       checkedAt: model.checkedAt,
       isRemoved: model.isRemoved ? 1 : 0,
       ingredientCategoryId: model.ingredientCategoryId,
+      isPrimary: model.isPrimary ? 1 : 0,
+      converterToPrimary: model.converterToPrimary?.toString(),
     };
   }
 
@@ -28,6 +31,7 @@ export class ShoppingItemQueryResultMapper
       id: dto.id,
       recipeId: dto.recipeId,
       ingredientUnitId: dto.ingredientUnitId,
+      ingredientId: dto.ingredientId,
       shoppingListId: dto.shoppingListId,
       customItemId: dto.customItemId,
       amount: dto.amount ? parseFloat(dto.amount) : undefined,
@@ -38,6 +42,10 @@ export class ShoppingItemQueryResultMapper
       checkedAt: dto.checkedAt ? new Date(dto.checkedAt) : undefined,
       isRemoved: !!dto.isRemoved,
       ingredientCategoryId: dto.ingredientCategoryId,
+      isPrimary: !!dto.isPrimary,
+      converterToPrimary: dto.converterToPrimary
+        ? parseFloat(dto.converterToPrimary)
+        : undefined,
     });
   }
 }

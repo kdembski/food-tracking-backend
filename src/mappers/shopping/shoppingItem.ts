@@ -10,6 +10,7 @@ export class ShoppingItemMapper
       id: model.id,
       recipeId: model.recipeId,
       ingredientUnitId: model.ingredientUnitId,
+      ingredientId: model.ingredientId,
       shoppingListId: model.shoppingListId,
       customItemId: model.customItemId,
       amount: model.amount,
@@ -20,6 +21,8 @@ export class ShoppingItemMapper
       checkedAt: model.checkedAt,
       isRemoved: model.isRemoved,
       ingredientCategoryId: model.ingredientCategoryId,
+      isPrimary: model.isPrimary,
+      converterToPrimary: model.converterToPrimary,
     };
   }
 
@@ -28,6 +31,7 @@ export class ShoppingItemMapper
       id: dto.id,
       recipeId: dto.recipeId,
       ingredientUnitId: dto.ingredientUnitId,
+      ingredientId: dto.ingredientId,
       shoppingListId: dto.shoppingListId,
       customItemId: dto.customItemId,
       amount: dto.amount,
@@ -38,6 +42,8 @@ export class ShoppingItemMapper
       checkedAt: dto.checkedAt ? new Date(dto.checkedAt) : undefined,
       isRemoved: dto.isRemoved,
       ingredientCategoryId: dto.ingredientCategoryId,
+      isPrimary: dto.isPrimary,
+      converterToPrimary: dto.converterToPrimary,
     });
   }
 }

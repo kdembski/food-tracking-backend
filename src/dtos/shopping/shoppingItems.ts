@@ -3,6 +3,7 @@ export type ShoppingItemDTO = {
   shoppingListId?: number;
   recipeId?: number;
   ingredientUnitId?: number;
+  ingredientId?: number;
   customItemId?: number;
   amount?: number;
   isChecked?: boolean;
@@ -12,6 +13,8 @@ export type ShoppingItemDTO = {
   unitShortcut?: string;
   customItemName?: string;
   ingredientCategoryId?: number;
+  isPrimary?: boolean;
+  converterToPrimary?: number;
 };
 
 export type ShoppingItemQueryResult = {
@@ -19,6 +22,7 @@ export type ShoppingItemQueryResult = {
   shoppingListId?: number;
   recipeId?: number;
   ingredientUnitId?: number;
+  ingredientId?: number;
   customItemId?: number;
   amount?: string;
   isChecked?: number;
@@ -28,4 +32,6 @@ export type ShoppingItemQueryResult = {
   unitShortcut?: string;
   customItemName?: string;
   ingredientCategoryId?: number;
+  isPrimary?: number;
+  converterToPrimary?: string;
 };
