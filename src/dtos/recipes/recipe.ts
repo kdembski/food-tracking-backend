@@ -13,3 +13,8 @@ export type ExtendedRecipeDTO = RecipeBase & {
   cookedDate?: Date;
   datesFromLastYear?: Date[][];
 };
+
+export type RecipeOptionDTO = {
+  id: number;
+  recipeName: string;
+};

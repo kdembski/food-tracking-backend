@@ -33,6 +33,10 @@ export class RecipesController implements IRecipesController {
     return new RecipesRepository().selectCount(searchPhrase, tags);
   }
 
+  getOptions() {
+    return new RecipesRepository().selectOptions();
+  }
+
   async getById(id: number) {
     const dto = await new RecipesRepository().selectById(id);
     const builder = new RecipeBuilder(dto);

@@ -47,6 +47,15 @@ recipesRouter.get("/suggestions", async (request, response) => {
   }
 });
 
+recipesRouter.get("/options", async (request, response) => {
+  try {
+    const recipeOptions = await recipesController.getOptions();
+    response.json(recipeOptions);
+  } catch (error) {
+    ApiError.create(error, response).send();
+  }
+});
+
 recipesRouter.get("/count", async (request, response) => {
   try {
     const { searchPhrase, tags } = new RequestQueryHelper(request.query);

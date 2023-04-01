@@ -5,7 +5,7 @@ import { Recipe } from "@/main/recipes/models/recipe";
 import { ListConfig } from "@/types/base/list";
 import { CustomError } from "@/base/errors/models/customError";
 import { TagsConfig } from "@/types/base/tags";
-import { ExtendedRecipeDTO } from "@/dtos/recipes/recipe";
+import { ExtendedRecipeDTO, RecipeOptionDTO } from "@/dtos/recipes/recipe";
 import { RecipesQueries } from "@/queries/recipes/recipes";
 
 export class RecipesRepository implements IRecipesRepository {
@@ -51,6 +51,13 @@ export class RecipesRepository implements IRecipesRepository {
     return results.map(
       (item: { recipeName: string }) => item.recipeName
     ) as string[];
+  }
+
+  async selectOptions() {
+    const query = new RecipesQueries().getSelectOptions("recipe_name");
+    const results = await Database.sendQuery(query);
+
+    return results as RecipeOptionDTO[];
   }
 
   async insert(data: Recipe) {
