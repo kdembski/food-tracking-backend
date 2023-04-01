@@ -32,6 +32,7 @@ shoppingListsRouter.get("/", async (request, response) => {
     const dtos = shoppingLists.map((list) =>
       new ShoppingListMapper().toDTO(list)
     );
+    console.log(dtos);
     response.json(dtos);
   } catch (error) {
     ApiError.create(error, response).send();

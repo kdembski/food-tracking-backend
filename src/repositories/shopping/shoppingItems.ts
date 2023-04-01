@@ -29,6 +29,14 @@ export class ShoppingItemsRepository implements IShoppingItemsRepository {
     return results as ShoppingItemQueryResult[];
   }
 
+  async selectNotRemovedCountByShoppingListId(shoppingListId: number) {
+    const query =
+      new ShoppingItemsQueries().getSelectNotRemovedCountByShoppingListId();
+    const results = await Database.sendQuery(query, [shoppingListId]);
+
+    return parseInt(results[0].count);
+  }
+
   async insert(data: ShoppingItem) {
     const query = new ShoppingItemsQueries().getInsert();
     const results = await Database.sendQuery(query, [

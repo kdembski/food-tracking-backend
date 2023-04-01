@@ -110,4 +110,12 @@ export class ShoppingItemsQueries extends Queries {
       wheres: [new Where({ field: "is_removed", equals: 0 })],
     });
   }
+
+  getSelectNotRemovedCountByShoppingListId() {
+    return this.getSelectById({
+      id: "shopping_list_id",
+      fields: [new Field({ name: "COUNT(*)" })],
+      wheres: [new Where({ field: "is_removed", equals: 0 })],
+    });
+  }
 }

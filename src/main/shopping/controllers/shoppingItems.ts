@@ -17,6 +17,12 @@ export class ShoppingItemsController implements IShoppingItemsController {
     return dtos.map((dto) => new ShoppingItemQueryResultMapper().toDomain(dto));
   }
 
+  getNotRemovedCountByShoppingListId(shoppingListId: number) {
+    return new ShoppingItemsRepository().selectNotRemovedCountByShoppingListId(
+      shoppingListId
+    );
+  }
+
   create(item: ShoppingItem) {
     return new ShoppingItemsRepository().insert(item);
   }

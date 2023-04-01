@@ -9,6 +9,7 @@ export class ShoppingListMapper
     return {
       id: model.id,
       name: model.name,
+      count: model.count,
     };
   }
 
