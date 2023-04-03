@@ -10,6 +10,7 @@ import ingredientCategoriesRouter from "./ingredients/ingredientCategories";
 import unitsRouter from "./ingredients/units";
 import shoppingItemsRouter from "./shopping/shoppingItems";
 import shoppingListsRouter from "./shopping/shoppingLists";
+import shoppingCustomItemsRouter from "./shopping/shoppingCustomItem";
 import { verifyToken } from "@/middlewares/authentication";
 
 const router = Router();
@@ -30,5 +31,6 @@ router.use("/recipes", recipesRouter);
 
 router.use("/shopping/lists", shoppingListsRouter);
 router.use("/shopping/items", shoppingItemsRouter);
+router.use("/shopping/custom-items", shoppingCustomItemsRouter);
 
 export default router;
