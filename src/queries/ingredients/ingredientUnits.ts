@@ -24,6 +24,11 @@ export class IngredientUnitsQueries extends Queries {
         name: "name",
         alias: "unit_name",
       }),
+      new Field({
+        table: "units",
+        name: "shortcut",
+        alias: "unit_shortcut",
+      }),
     ];
 
     const fieldsToInsert = [

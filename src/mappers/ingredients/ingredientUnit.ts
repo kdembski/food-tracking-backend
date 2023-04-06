@@ -11,6 +11,7 @@ export class IngredientUnitMapper
       ingredientId: model.ingredientId,
       unitId: model.unitId,
       unitName: model.unitName,
+      unitShortcut: model.unitShortcut,
       kcalPerUnit: model.kcalPerUnit,
       isPrimary: model.isPrimary,
       converterToPrimary: model.converterToPrimary,

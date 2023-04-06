@@ -6,6 +6,7 @@ export class IngredientUnit implements IIngredientUnit {
   private _ingredientId?: number;
   private _unitId?: number;
   private _unitName?: string;
+  private _unitShortcut?: string;
   private _kcalPerUnit?: number;
   private _isPrimary?: boolean;
   private _converterToPrimary?: number;
@@ -24,6 +25,10 @@ export class IngredientUnit implements IIngredientUnit {
 
   get unitName() {
     return this._unitName;
+  }
+
+  get unitShortcut() {
+    return this._unitShortcut;
   }
 
   get kcalPerUnit() {
@@ -50,6 +55,10 @@ export class IngredientUnit implements IIngredientUnit {
     this._unitName = value;
   }
 
+  set unitShortcut(value) {
+    this._unitShortcut = value;
+  }
+
   set kcalPerUnit(value) {
     this._kcalPerUnit = value;
   }
@@ -71,6 +80,7 @@ export class IngredientUnit implements IIngredientUnit {
     this._ingredientId = dto.ingredientId;
     this._unitId = dto.unitId;
     this._unitName = dto.unitName;
+    this._unitShortcut = dto.unitShortcut;
     this._kcalPerUnit = dto.kcalPerUnit;
     this._isPrimary = dto.isPrimary;
     this._converterToPrimary = dto.converterToPrimary;

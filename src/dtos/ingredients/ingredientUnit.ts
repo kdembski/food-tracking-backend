@@ -3,6 +3,7 @@ type IngredientUnitBase = {
   ingredientId?: number;
   unitId?: number;
   unitName?: string;
+  unitShortcut?: string;
 };
 
 export type IngredientUnitDTO = IngredientUnitBase & {
