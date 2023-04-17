@@ -40,7 +40,27 @@ export class ShoppingListsController implements IShoppingListsController {
     return new ShoppingListsRepository().update(list);
   }
 
-  delete(id: number) {
+  async delete(id: number) {
+    await this.deleteItems(id);
     return new ShoppingListsRepository().delete(id);
+  }
+
+  async deleteItems(id: number) {
+    const items =
+      await new ShoppingItemsController().getNotRemovedByShoppingListId(id);
+
+    const promises = items.map((item) => {
+      if (!item.id) {
+        return;
+      }
+
+      if (item.isChecked) {
+        return new ShoppingItemsController().updateIsRemoved(item.id, true);
+      }
+
+      return new ShoppingItemsController().delete(item.id);
+    });
+
+    await Promise.all(promises);
   }
 }

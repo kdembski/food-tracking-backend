@@ -5,6 +5,8 @@ import { ShoppingItemsController } from "@/main/shopping/controllers/shoppingIte
 import { ShoppingItemMapper } from "@/mappers/shopping/shoppingItem";
 
 export class ShoppingItemsWebSocketService extends WebSocketService {
+  private messageTimeout?: ReturnType<typeof setTimeout>;
+
   constructor(server: Server) {
     super(server, "/shopping/items");
   }
@@ -14,12 +16,16 @@ export class ShoppingItemsWebSocketService extends WebSocketService {
       ws.on("error", console.error);
 
       ws.on("message", (data) => {
-        this.webSocketServer.clients.forEach((client) => {
-          if (client.readyState !== WebSocket.OPEN) {
-            return;
-          }
-          this.onMessage(data, client);
-        });
+        clearTimeout(this.messageTimeout);
+
+        this.messageTimeout = setTimeout(() => {
+          this.webSocketServer.clients.forEach((client) => {
+            if (client.readyState !== WebSocket.OPEN) {
+              return;
+            }
+            this.onMessage(data, client);
+          });
+        }, 500);
       });
     });
   }
@@ -31,7 +37,6 @@ export class ShoppingItemsWebSocketService extends WebSocketService {
         shoppingListId
       );
     const dtos = items.map((item) => new ShoppingItemMapper().toDTO(item));
-
     ws.send(JSON.stringify({ listId: shoppingListId, items: dtos }));
   }
 }

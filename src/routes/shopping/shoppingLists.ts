@@ -39,6 +39,18 @@ shoppingListsRouter.get("/", async (request, response) => {
   }
 });
 
+shoppingListsRouter.get("/:id", async (request, response) => {
+  try {
+    const id = new RequestParamsHelper(request.params).id;
+    const list = await shoppingListsController.getById(id);
+    const dto = new ShoppingListMapper().toDTO(list);
+
+    response.json(dto);
+  } catch (error) {
+    ApiError.create(error, response).send();
+  }
+});
+
 shoppingListsRouter.post("/", async (request, response) => {
   try {
     const data: ShoppingListDTO = request.body;
@@ -71,6 +83,17 @@ shoppingListsRouter.delete("/:id", async (request, response) => {
     const id = new RequestParamsHelper(request.params).id;
 
     const results = await shoppingListsController.delete(id);
+    response.json(results);
+  } catch (error) {
+    ApiError.create(error, response).send();
+  }
+});
+
+shoppingListsRouter.delete("/:id/items", async (request, response) => {
+  try {
+    const id = new RequestParamsHelper(request.params).id;
+
+    const results = await shoppingListsController.deleteItems(id);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();
