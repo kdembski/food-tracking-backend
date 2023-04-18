@@ -5,38 +5,37 @@ import { ShoppingItemsController } from "@/main/shopping/controllers/shoppingIte
 import { ShoppingItemMapper } from "@/mappers/shopping/shoppingItem";
 
 export class ShoppingItemsWebSocketService extends WebSocketService {
-  private messageTimeout?: ReturnType<typeof setTimeout>;
-
   constructor(server: Server) {
     super(server, "/shopping/items");
   }
 
   init() {
+    super.init();
+
     this.webSocketServer.on("connection", (ws) => {
-      ws.on("error", console.error);
-
       ws.on("message", (data) => {
-        clearTimeout(this.messageTimeout);
+        const { listId, returnToSameClient } = JSON.parse(data.toString());
 
-        this.messageTimeout = setTimeout(() => {
-          this.webSocketServer.clients.forEach((client) => {
-            if (client.readyState !== WebSocket.OPEN) {
-              return;
-            }
-            this.onMessage(data, client);
-          });
-        }, 500);
+        this.webSocketServer.clients.forEach((client) => {
+          if (client === ws && !returnToSameClient) {
+            return;
+          }
+
+          if (client.readyState !== WebSocket.OPEN) {
+            return;
+          }
+
+          this.onMessage(listId, client);
+        });
       });
     });
   }
 
-  async onMessage(data: RawData, ws: WebSocket) {
-    const shoppingListId = parseInt(data.toString());
+  private async onMessage(listId: number, ws: WebSocket) {
     const items =
-      await new ShoppingItemsController().getNotRemovedByShoppingListId(
-        shoppingListId
-      );
+      await new ShoppingItemsController().getNotRemovedByShoppingListId(listId);
     const dtos = items.map((item) => new ShoppingItemMapper().toDTO(item));
-    ws.send(JSON.stringify({ listId: shoppingListId, items: dtos }));
+
+    ws.send(JSON.stringify({ listId, items: dtos }));
   }
 }
