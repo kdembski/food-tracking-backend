@@ -2,6 +2,7 @@ import { IShoppingItemsController } from "@/interfaces/shopping/shopping-items/s
 import { ShoppingItemQueryResultMapper } from "@/mappers/shopping/shoppingItemQueryResult";
 import { ShoppingItemsRepository } from "@/repositories/shopping/shoppingItems";
 import { ShoppingItem } from "../models/shoppingItem";
+import { RecipeIngredientsCollectionController } from "@/main/recipes/controllers/recipeIngredientsCollection";
 
 export class ShoppingItemsController implements IShoppingItemsController {
   async getById(id: number) {
@@ -27,6 +28,32 @@ export class ShoppingItemsController implements IShoppingItemsController {
     return new ShoppingItemsRepository().insert(item);
   }
 
+  async createAllFromRecipeIngredients(
+    shoppingListId: number,
+    recipeId: number,
+    portions: number
+  ) {
+    const collection =
+      await new RecipeIngredientsCollectionController().getByRecipeId(recipeId);
+    const promises = collection.items.map((ingredient) => {
+      console.log(ingredient);
+      const amount = ingredient.amount
+        ? ingredient.amount * portions
+        : undefined;
+
+      const item = new ShoppingItem({
+        recipeId,
+        shoppingListId,
+        ingredientUnitId: ingredient.ingredientUnitId,
+        amount,
+      });
+
+      return this.create(item);
+    });
+
+    await Promise.all(promises);
+  }
+
   update(item: ShoppingItem) {
     return new ShoppingItemsRepository().update(item);
   }
@@ -41,5 +68,9 @@ export class ShoppingItemsController implements IShoppingItemsController {
 
   delete(id: number) {
     return new ShoppingItemsRepository().delete(id);
+  }
+
+  deleteByRecipeId(recipeId: number) {
+    return new ShoppingItemsRepository().deleteByRecipeId(recipeId);
   }
 }

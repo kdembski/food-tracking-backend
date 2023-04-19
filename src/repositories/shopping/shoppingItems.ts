@@ -84,4 +84,10 @@ export class ShoppingItemsRepository implements IShoppingItemsRepository {
     const results = await Database.sendQuery(query, [id]);
     return results as OkPacket;
   }
+
+  async deleteByRecipeId(recipeId: number) {
+    const query = new ShoppingItemsQueries().getDeleteByRecipeId();
+    const results = await Database.sendQuery(query, [recipeId]);
+    return results as OkPacket;
+  }
 }

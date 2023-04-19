@@ -9,6 +9,7 @@ export class RecipeIngredientQueryResultMapper
     return {
       id: model.id,
       recipeId: model.recipeId,
+      ingredientUnitId: model.ingredientUnitId,
       ingredientId: model.ingredientId,
       unitId: model.unitId,
       amount: model.amount?.toString(),
@@ -24,6 +25,7 @@ export class RecipeIngredientQueryResultMapper
     return new RecipeIngredient({
       id: dto.id,
       recipeId: dto.recipeId,
+      ingredientUnitId: dto.ingredientUnitId,
       ingredientId: dto.ingredientId,
       unitId: dto.unitId,
       amount: parseFloat(dto.amount || ""),

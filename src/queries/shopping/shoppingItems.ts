@@ -118,4 +118,8 @@ export class ShoppingItemsQueries extends Queries {
       wheres: [new Where({ field: "is_removed", equals: 0 })],
     });
   }
+
+  getDeleteByRecipeId() {
+    return `DELETE FROM ${this.tableName} WHERE recipe_id = ?`;
+  }
 }

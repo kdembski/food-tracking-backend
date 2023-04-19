@@ -8,7 +8,7 @@ import { Field } from "./models/field";
 import { Join } from "./models/join";
 
 export class Queries {
-  private tableName: string;
+  protected tableName: string;
   protected joins: Join[];
   protected fieldsToSelect: Field[];
   private fieldsToInsert: string[];

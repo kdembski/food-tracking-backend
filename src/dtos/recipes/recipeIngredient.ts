@@ -18,6 +18,7 @@ export type RecipeIngredientDTO = RecipeIngredientBase & {
 export type RecipeIngredientQueryResult = {
   id?: number;
   recipeId?: number;
+  ingredientUnitId?: number;
   ingredientId?: number;
   unitId?: number;
   amount?: string;
