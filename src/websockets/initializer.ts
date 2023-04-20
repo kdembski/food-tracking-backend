@@ -1,5 +1,5 @@
 import { Server } from "http";
-import { ShoppingItemsWebSocketService } from "./shopping/items";
+import { ShoppingItemsWebSocketService } from "./shopping/shoppingItems";
 
 export class WebSocketsInitializer {
   execute(server: Server) {

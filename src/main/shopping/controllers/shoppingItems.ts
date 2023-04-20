@@ -36,7 +36,6 @@ export class ShoppingItemsController implements IShoppingItemsController {
     const collection =
       await new RecipeIngredientsCollectionController().getByRecipeId(recipeId);
     const promises = collection.items.map((ingredient) => {
-      console.log(ingredient);
       const amount = ingredient.amount
         ? ingredient.amount * portions
         : undefined;

@@ -30,6 +30,18 @@ export class ShoppingItemsQueries extends Queries {
         on: "shopping_items.custom_item_id",
         equals: "id",
       }),
+      new Join({
+        type: "LEFT JOIN",
+        table: "ingredient_units AS primary_ingredient_units",
+        on: "ingredient_units.ingredient_id",
+        equals: "ingredient_id AND primary_ingredient_units.is_primary = 1",
+      }),
+      new Join({
+        type: "LEFT JOIN",
+        table: "units AS primary_units",
+        on: "primary_ingredient_units.unit_id",
+        equals: "id",
+      }),
     ];
 
     const fieldsToSelect = [
@@ -64,6 +76,11 @@ export class ShoppingItemsQueries extends Queries {
         table: "units",
         name: "shortcut",
         alias: "unit_shortcut",
+      }),
+      new Field({
+        table: "primary_units",
+        name: "shortcut",
+        alias: "primary_unit_shortcut",
       }),
       new Field({
         table: "shopping_custom_items",

@@ -19,6 +19,16 @@ export class Join {
   }
 
   prepare() {
-    return `${this.type} ${this.table} ON ${this.on} = ${this.table}.${this.equals}`;
+    return `${this.type} ${this.table} ON ${
+      this.on
+    } = ${this.getTableNameOrAliasIfHaveOne()}.${this.equals}`;
+  }
+
+  getTableNameOrAliasIfHaveOne() {
+    if (this.table.includes("AS")) {
+      return this.table.split(" AS ")[1];
+    }
+
+    return this.table;
   }
 }

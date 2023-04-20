@@ -11,6 +11,7 @@ export type ShoppingItemDTO = {
   isRemoved?: boolean;
   ingredientName?: string;
   unitShortcut?: string;
+  primaryUnitShortcut?: string;
   customItemName?: string;
   ingredientCategoryId?: number;
   isPrimary?: boolean;
@@ -30,6 +31,7 @@ export type ShoppingItemQueryResult = {
   isRemoved?: number;
   ingredientName?: string;
   unitShortcut?: string;
+  primaryUnitShortcut?: string;
   customItemName?: string;
   ingredientCategoryId?: number;
   isPrimary?: number;

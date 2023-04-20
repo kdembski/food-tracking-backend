@@ -1,7 +1,6 @@
 import { ShoppingItemDTO } from "@/dtos/shopping/shoppingItems";
-import { IShoppingItem } from "@/interfaces/shopping/shopping-lists/shoppingList";
 
-export class ShoppingItem implements IShoppingItem {
+export class ShoppingItem {
   private _id?: number;
   private _shoppingListId?: number;
   private _recipeId?: number;
@@ -14,6 +13,7 @@ export class ShoppingItem implements IShoppingItem {
   private _isRemoved?: boolean;
   private _ingredientName?: string;
   private _unitShortcut?: string;
+  private _primaryUnitShortcut?: string;
   private _customItemName?: string;
   private _ingredientCategoryId?: number;
   private _isPrimary?: boolean;
@@ -53,6 +53,10 @@ export class ShoppingItem implements IShoppingItem {
 
   get unitShortcut() {
     return this._unitShortcut;
+  }
+
+  get primaryUnitShortcut() {
+    return this._primaryUnitShortcut;
   }
 
   get customItemName() {
@@ -119,6 +123,10 @@ export class ShoppingItem implements IShoppingItem {
     this._unitShortcut = value;
   }
 
+  set primaryUnitShortcut(value) {
+    this._primaryUnitShortcut = value;
+  }
+
   set customItemName(value) {
     this._customItemName = value;
   }
@@ -157,6 +165,7 @@ export class ShoppingItem implements IShoppingItem {
     this._amount = data.amount;
     this._ingredientName = data.ingredientName;
     this._unitShortcut = data.unitShortcut;
+    this._primaryUnitShortcut = data.primaryUnitShortcut;
     this._customItemName = data.customItemName;
     this._isChecked = data.isChecked;
     this.checkedAt = data.checkedAt;
