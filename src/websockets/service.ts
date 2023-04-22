@@ -24,7 +24,7 @@ export class WebSocketService {
 
   init() {
     this.webSocketServer.on("connection", (ws) => {
-      ws.on("error", console.error);
+      ws.on("error", (data) => console.error(data));
 
       this.keepAliveInterval = setInterval(() => {
         ws.send("");

@@ -5,6 +5,7 @@ export class ShoppingList implements IShoppingList {
   private _id?: number;
   private _name?: string;
   private _count?: number;
+  private _recipeIds?: number[];
 
   get id() {
     return this._id;
@@ -18,6 +19,10 @@ export class ShoppingList implements IShoppingList {
     return this._count;
   }
 
+  get recipeIds() {
+    return this._recipeIds;
+  }
+
   set id(value) {
     this._id = value;
   }
@@ -28,6 +33,10 @@ export class ShoppingList implements IShoppingList {
 
   set count(value) {
     this._count = value;
+  }
+
+  set recipeIds(value) {
+    this._recipeIds = value;
   }
 
   constructor(dto: ShoppingListDTO) {

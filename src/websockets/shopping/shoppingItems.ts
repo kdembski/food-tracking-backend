@@ -14,10 +14,10 @@ export class ShoppingItemsWebSocketService extends WebSocketService {
 
     this.webSocketServer.on("connection", (ws) => {
       ws.on("message", (data) => {
-        const { listId, returnToSameClient } = JSON.parse(data.toString());
+        const { listId, returnToSender } = JSON.parse(data.toString());
 
         this.webSocketServer.clients.forEach((client) => {
-          if (client === ws && !returnToSameClient) {
+          if (client === ws && !returnToSender) {
             return;
           }
 

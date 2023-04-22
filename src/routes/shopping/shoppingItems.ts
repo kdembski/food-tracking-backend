@@ -41,12 +41,11 @@ shoppingItemsRouter.post("/recipes", async (request, response) => {
     }: { shoppingListId: number; recipeId: number; portions: number } =
       request.body;
 
-    const results =
-      await shoppingItemsController.createAllFromRecipeIngredients(
-        shoppingListId,
-        recipeId,
-        portions
-      );
+    const results = await shoppingItemsController.createFromRecipeIngredients(
+      shoppingListId,
+      recipeId,
+      portions
+    );
 
     response.json(results);
   } catch (error) {
@@ -110,7 +109,7 @@ shoppingItemsRouter.delete("/:id", async (request, response) => {
   }
 });
 
-shoppingItemsRouter.delete("recipes/:id", async (request, response) => {
+shoppingItemsRouter.delete("/recipes/:id", async (request, response) => {
   try {
     const recipeId = new RequestParamsHelper(request.params).id;
 

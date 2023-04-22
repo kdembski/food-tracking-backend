@@ -24,11 +24,19 @@ export class ShoppingItemsController implements IShoppingItemsController {
     );
   }
 
+  async getUniqueNotRemovedRecipeIdsByShoppingListId(shoppingListId: number) {
+    const items = await this.getNotRemovedByShoppingListId(shoppingListId);
+    const recipeIds = items
+      .map((item) => item.recipeId)
+      .filter((item): item is number => !!item);
+    return [...new Set(recipeIds)];
+  }
+
   create(item: ShoppingItem) {
     return new ShoppingItemsRepository().insert(item);
   }
 
-  async createAllFromRecipeIngredients(
+  async createFromRecipeIngredients(
     shoppingListId: number,
     recipeId: number,
     portions: number

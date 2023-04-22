@@ -10,6 +10,7 @@ export class ShoppingListMapper
       id: model.id,
       name: model.name,
       count: model.count,
+      recipeIds: model.recipeIds || [],
     };
   }
 
