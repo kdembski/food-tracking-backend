@@ -3,6 +3,7 @@ import { ShoppingItemsRepository } from "@/repositories/shopping/shoppingItems";
 import { ShoppingItem } from "../models/shoppingItem";
 import { ShoppingItemsController } from "./shoppingItems";
 import { ShoppingItemsCollectionMapper } from "@/mappers/shopping/shoppingItemsCollection";
+import { ShoppingItemsCollection } from "../models/shoppingItemsCollection";
 
 export class ShoppingItemsCollectionController {
   async getNotRemovedByShoppingListId(shoppingListId: number) {
@@ -25,6 +26,14 @@ export class ShoppingItemsCollectionController {
       ?.map((item) => item.recipeId)
       .filter((item): item is number => !!item);
     return [...new Set(recipeIds)];
+  }
+
+  async create(collection: ShoppingItemsCollection) {
+    const promises =
+      collection.items?.map((item) => {
+        return new ShoppingItemsController().create(item);
+      }) || [];
+    await Promise.all(promises);
   }
 
   async createFromRecipeIngredients(

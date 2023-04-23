@@ -4,6 +4,7 @@ import { RequestParamsHelper } from "@/helpers/requestParams";
 import { ShoppingItemsController } from "@/main/shopping/controllers/shoppingItems";
 import { ShoppingItemsCollectionController } from "@/main/shopping/controllers/shoppingItemsCollection";
 import { ShoppingItemMapper } from "@/mappers/shopping/shoppingItem";
+import { ShoppingItemsCollectionMapper } from "@/mappers/shopping/shoppingItemsCollection";
 import { Router } from "express";
 
 const shoppingItemsRouter = Router();
@@ -29,6 +30,18 @@ shoppingItemsRouter.post("/", async (request, response) => {
     const shoppingItem = new ShoppingItemMapper().toDomain(data);
 
     const results = await shoppingItemsController.create(shoppingItem);
+    response.json(results);
+  } catch (error) {
+    ApiError.create(error, response).send();
+  }
+});
+
+shoppingItemsRouter.post("/collection", async (request, response) => {
+  try {
+    const data: ShoppingItemDTO[] = request.body;
+    const collection = new ShoppingItemsCollectionMapper().toDomain(data);
+
+    const results = await shoppingItemsCollectionController.create(collection);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();
