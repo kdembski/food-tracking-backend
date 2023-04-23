@@ -3,6 +3,7 @@ import { ShoppingListsRepository } from "@/repositories/shopping/shoppingLists";
 import { ShoppingList } from "../models/shoppingList";
 import { ShoppingItemsController } from "./shoppingItems";
 import { ShoppingListCollectionBuilder } from "../builders/shoppingListCollection";
+import { ShoppingItemsCollectionController } from "./shoppingItemsCollection";
 
 export class ShoppingListsController implements IShoppingListsController {
   async getAll() {
@@ -26,26 +27,7 @@ export class ShoppingListsController implements IShoppingListsController {
   }
 
   async delete(id: number) {
-    await this.deleteItems(id);
+    await new ShoppingItemsCollectionController().deleteByShoppingListId(id);
     return new ShoppingListsRepository().delete(id);
-  }
-
-  async deleteItems(id: number) {
-    const items =
-      await new ShoppingItemsController().getNotRemovedByShoppingListId(id);
-
-    const promises = items.map((item) => {
-      if (!item.id) {
-        return;
-      }
-
-      if (item.isChecked) {
-        return new ShoppingItemsController().updateIsRemoved(item.id, true);
-      }
-
-      return new ShoppingItemsController().delete(item.id);
-    });
-
-    await Promise.all(promises);
   }
 }

@@ -2,11 +2,14 @@ import { ApiError } from "@/base/errors/models/apiError";
 import { ShoppingItemDTO } from "@/dtos/shopping/shoppingItems";
 import { RequestParamsHelper } from "@/helpers/requestParams";
 import { ShoppingItemsController } from "@/main/shopping/controllers/shoppingItems";
+import { ShoppingItemsCollectionController } from "@/main/shopping/controllers/shoppingItemsCollection";
 import { ShoppingItemMapper } from "@/mappers/shopping/shoppingItem";
 import { Router } from "express";
 
 const shoppingItemsRouter = Router();
 const shoppingItemsController = new ShoppingItemsController();
+const shoppingItemsCollectionController =
+  new ShoppingItemsCollectionController();
 
 shoppingItemsRouter.get("/:id", async (request, response) => {
   try {
@@ -41,11 +44,12 @@ shoppingItemsRouter.post("/recipes", async (request, response) => {
     }: { shoppingListId: number; recipeId: number; portions: number } =
       request.body;
 
-    const results = await shoppingItemsController.createFromRecipeIngredients(
-      shoppingListId,
-      recipeId,
-      portions
-    );
+    const results =
+      await shoppingItemsCollectionController.createFromRecipeIngredients(
+        shoppingListId,
+        recipeId,
+        portions
+      );
 
     response.json(results);
   } catch (error) {

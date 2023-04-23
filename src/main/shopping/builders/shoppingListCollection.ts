@@ -1,7 +1,7 @@
 import { ShoppingListCollectionMapper } from "@/mappers/shopping/shoppingListCollection";
-import { ShoppingItemsController } from "../controllers/shoppingItems";
 import { ShoppingListCollection } from "../models/shoppingListCollection";
 import { ShoppingListDTO } from "@/dtos/shopping/shoppingLists";
+import { ShoppingItemsCollectionController } from "../controllers/shoppingItemsCollection";
 
 export class ShoppingListCollectionBuilder {
   _collection: ShoppingListCollection;
@@ -24,7 +24,7 @@ export class ShoppingListCollectionBuilder {
       if (!list.id) {
         return;
       }
-      return new ShoppingItemsController().getNotRemovedCountByShoppingListId(
+      return new ShoppingItemsCollectionController().getNotRemovedCountByShoppingListId(
         list.id
       );
     });
@@ -46,7 +46,7 @@ export class ShoppingListCollectionBuilder {
       if (!list.id) {
         return;
       }
-      return new ShoppingItemsController().getUniqueNotRemovedRecipeIdsByShoppingListId(
+      return new ShoppingItemsCollectionController().getUniqueNotRemovedRecipeIdsByShoppingListId(
         list.id
       );
     });

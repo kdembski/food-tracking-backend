@@ -1,8 +1,8 @@
 import { Server } from "http";
 import { WebSocketService } from "../service";
-import { RawData, WebSocket } from "ws";
-import { ShoppingItemsController } from "@/main/shopping/controllers/shoppingItems";
-import { ShoppingItemMapper } from "@/mappers/shopping/shoppingItem";
+import { WebSocket } from "ws";
+import { ShoppingItemsCollectionController } from "@/main/shopping/controllers/shoppingItemsCollection";
+import { ShoppingItemsCollectionMapper } from "@/mappers/shopping/shoppingItemsCollection";
 
 export class ShoppingItemsWebSocketService extends WebSocketService {
   constructor(server: Server) {
@@ -33,8 +33,10 @@ export class ShoppingItemsWebSocketService extends WebSocketService {
 
   private async onMessage(listId: number, ws: WebSocket) {
     const items =
-      await new ShoppingItemsController().getNotRemovedByShoppingListId(listId);
-    const dtos = items.map((item) => new ShoppingItemMapper().toDTO(item));
+      await new ShoppingItemsCollectionController().getNotRemovedByShoppingListId(
+        listId
+      );
+    const dtos = new ShoppingItemsCollectionMapper().toDTO(items);
 
     ws.send(JSON.stringify({ listId, items: dtos }));
   }

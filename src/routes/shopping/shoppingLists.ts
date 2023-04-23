@@ -1,27 +1,26 @@
 import { ApiError } from "@/base/errors/models/apiError";
 import { ShoppingListDTO } from "@/dtos/shopping/shoppingLists";
 import { RequestParamsHelper } from "@/helpers/requestParams";
-import { ShoppingItemsController } from "@/main/shopping/controllers/shoppingItems";
+import { ShoppingItemsCollectionController } from "@/main/shopping/controllers/shoppingItemsCollection";
 import { ShoppingListsController } from "@/main/shopping/controllers/shoppingLists";
-import { ShoppingItemMapper } from "@/mappers/shopping/shoppingItem";
+import { ShoppingItemsCollectionMapper } from "@/mappers/shopping/shoppingItemsCollection";
 import { ShoppingListMapper } from "@/mappers/shopping/shoppingList";
 import { ShoppingListCollectionMapper } from "@/mappers/shopping/shoppingListCollection";
 import { Router } from "express";
 
 const shoppingListsRouter = Router();
 const shoppingListsController = new ShoppingListsController();
-const shoppingItemsController = new ShoppingItemsController();
+const shoppingItemsCollectionController =
+  new ShoppingItemsCollectionController();
 
 shoppingListsRouter.get("/:id/items", async (request, response) => {
   try {
     const id = new RequestParamsHelper(request.params).id;
     const shoppingItems =
-      await shoppingItemsController.getNotRemovedByShoppingListId(id);
-    const dto = shoppingItems.map((shoppingItem) =>
-      new ShoppingItemMapper().toDTO(shoppingItem)
-    );
+      await shoppingItemsCollectionController.getNotRemovedByShoppingListId(id);
+    const dtos = new ShoppingItemsCollectionMapper().toDTO(shoppingItems);
 
-    response.json(dto);
+    response.json(dtos);
   } catch (error) {
     ApiError.create(error, response).send();
   }
@@ -31,6 +30,7 @@ shoppingListsRouter.get("/", async (request, response) => {
   try {
     const collection = await shoppingListsController.getAll();
     const dtos = new ShoppingListCollectionMapper().toDTO(collection);
+
     response.json(dtos);
   } catch (error) {
     ApiError.create(error, response).send();
@@ -91,7 +91,8 @@ shoppingListsRouter.delete("/:id/items", async (request, response) => {
   try {
     const id = new RequestParamsHelper(request.params).id;
 
-    const results = await shoppingListsController.deleteItems(id);
+    const results =
+      await shoppingItemsCollectionController.deleteByShoppingListId(id);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();
