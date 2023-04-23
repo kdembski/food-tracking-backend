@@ -5,7 +5,7 @@ import { ShoppingItemsCollectionController } from "@/main/shopping/controllers/s
 import { ShoppingListsController } from "@/main/shopping/controllers/shoppingLists";
 import { ShoppingItemsCollectionMapper } from "@/mappers/shopping/shoppingItemsCollection";
 import { ShoppingListMapper } from "@/mappers/shopping/shoppingList";
-import { ShoppingListCollectionMapper } from "@/mappers/shopping/shoppingListCollection";
+import { ShoppingListsCollectionMapper } from "@/mappers/shopping/shoppingListsCollection";
 import { Router } from "express";
 
 const shoppingListsRouter = Router();
@@ -29,7 +29,7 @@ shoppingListsRouter.get("/:id/items", async (request, response) => {
 shoppingListsRouter.get("/", async (request, response) => {
   try {
     const collection = await shoppingListsController.getAll();
-    const dtos = new ShoppingListCollectionMapper().toDTO(collection);
+    const dtos = new ShoppingListsCollectionMapper().toDTO(collection);
 
     response.json(dtos);
   } catch (error) {

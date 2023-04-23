@@ -1,13 +1,13 @@
-import { ShoppingListCollectionMapper } from "@/mappers/shopping/shoppingListCollection";
-import { ShoppingListCollection } from "../models/shoppingListCollection";
+import { ShoppingListsCollection } from "../models/shoppingListsCollection";
 import { ShoppingListDTO } from "@/dtos/shopping/shoppingLists";
 import { ShoppingItemsCollectionController } from "../controllers/shoppingItemsCollection";
+import { ShoppingListsCollectionMapper } from "@/mappers/shopping/shoppingListsCollection";
 
-export class ShoppingListCollectionBuilder {
-  _collection: ShoppingListCollection;
+export class ShoppingListsCollectionBuilder {
+  _collection: ShoppingListsCollection;
 
   constructor(items: ShoppingListDTO[]) {
-    this._collection = new ShoppingListCollectionMapper().toDomain(items);
+    this._collection = new ShoppingListsCollectionMapper().toDomain(items);
   }
 
   async build() {

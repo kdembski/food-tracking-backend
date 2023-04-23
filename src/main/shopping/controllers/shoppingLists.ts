@@ -1,14 +1,13 @@
 import { IShoppingListsController } from "@/interfaces/shopping/shopping-lists/shoppingListsController";
 import { ShoppingListsRepository } from "@/repositories/shopping/shoppingLists";
 import { ShoppingList } from "../models/shoppingList";
-import { ShoppingItemsController } from "./shoppingItems";
-import { ShoppingListCollectionBuilder } from "../builders/shoppingListCollection";
 import { ShoppingItemsCollectionController } from "./shoppingItemsCollection";
+import { ShoppingListsCollectionBuilder } from "../builders/shoppingListsCollection";
 
 export class ShoppingListsController implements IShoppingListsController {
   async getAll() {
     const dtos = await new ShoppingListsRepository().selectAll();
-    const builder = new ShoppingListCollectionBuilder(dtos);
+    const builder = new ShoppingListsCollectionBuilder(dtos);
     await builder.build();
     return builder.collection;
   }

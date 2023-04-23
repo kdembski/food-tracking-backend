@@ -1,6 +1,6 @@
 import { ShoppingList } from "./shoppingList";
 
-export class ShoppingListCollection {
+export class ShoppingListsCollection {
   private _items?: ShoppingList[];
 
   constructor(items: ShoppingList[]) {
