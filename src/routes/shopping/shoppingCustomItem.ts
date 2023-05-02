@@ -5,6 +5,7 @@ import { ShoppingCustomItemMapper } from "@/mappers/shopping/shoppingCustomItem"
 import { ShoppingCustomItemDTO } from "@/dtos/shopping/shoppingCustomItems";
 import { ShoppingCustomItem } from "@/main/shopping/models/shoppingCustomItem";
 import { ShoppingCustomItemsController } from "@/main/shopping/controllers/shoppingCustomItems";
+import { ShoppingCustomItemValidator } from "@/main/shopping/validators/shoppingCustomItem";
 
 const shoppingCustomItemsRouter = Router();
 const shoppingCustomItemsController = new ShoppingCustomItemsController();
@@ -34,6 +35,7 @@ shoppingCustomItemsRouter.post("/", async (request, response) => {
   try {
     const data: ShoppingCustomItemDTO = request.body;
     const item = new ShoppingCustomItem(data);
+    new ShoppingCustomItemValidator().validate(item).throwErrors();
 
     const results = await shoppingCustomItemsController.create(item);
     response.json(results);
@@ -48,6 +50,7 @@ shoppingCustomItemsRouter.put("/:id", async (request, response) => {
     const data: ShoppingCustomItemDTO = request.body;
     data.id = id;
     const item = new ShoppingCustomItem(data);
+    new ShoppingCustomItemValidator().validate(item).throwErrors();
 
     const results = await shoppingCustomItemsController.update(item);
     response.json(results);

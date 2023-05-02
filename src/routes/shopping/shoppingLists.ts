@@ -3,6 +3,7 @@ import { ShoppingListDTO } from "@/dtos/shopping/shoppingLists";
 import { RequestParamsHelper } from "@/helpers/requestParams";
 import { ShoppingItemsCollectionController } from "@/main/shopping/controllers/shoppingItemsCollection";
 import { ShoppingListsController } from "@/main/shopping/controllers/shoppingLists";
+import { ShoppingListValidator } from "@/main/shopping/validators/shoppingList";
 import { ShoppingItemsCollectionMapper } from "@/mappers/shopping/shoppingItemsCollection";
 import { ShoppingListMapper } from "@/mappers/shopping/shoppingList";
 import { ShoppingListsCollectionMapper } from "@/mappers/shopping/shoppingListsCollection";
@@ -53,6 +54,7 @@ shoppingListsRouter.post("/", async (request, response) => {
   try {
     const data: ShoppingListDTO = request.body;
     const shoppingList = new ShoppingListMapper().toDomain(data);
+    new ShoppingListValidator().validate(shoppingList).throwErrors();
 
     const results = await shoppingListsController.create(shoppingList);
     response.json(results);
@@ -68,6 +70,7 @@ shoppingListsRouter.put("/:id", async (request, response) => {
     data.id = id;
 
     const shoppingList = new ShoppingListMapper().toDomain(data);
+    new ShoppingListValidator().validate(shoppingList).throwErrors();
 
     const results = await shoppingListsController.update(shoppingList);
     response.json(results);
