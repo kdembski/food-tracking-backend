@@ -1,7 +1,7 @@
-import { Tags } from "@/base/tags/models/tags";
+import { Tag } from "@/base/tags/models/tag";
 
 export class TagsMapper {
-  toDTO(tags: Tags) {
-    return tags.items.map((item) => ({ name: item.name, count: item.count }));
+  toDTO(tags: Tag[]) {
+    return tags.map((item) => ({ name: item.name, count: item.count }));
   }
 }

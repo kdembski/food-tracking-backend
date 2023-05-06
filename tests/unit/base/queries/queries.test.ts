@@ -3,6 +3,7 @@ import { Field } from "@/base/queries/models/field";
 import { Join } from "@/base/queries/models/join";
 import { Where } from "@/base/queries/models/where";
 import { Queries } from "@/base/queries/queries";
+import { ListQueryBuilder } from "@/base/queries/builders/list";
 
 describe("Queries", () => {
   const joins = [
@@ -66,7 +67,6 @@ describe("Queries", () => {
       fieldsToSelect,
       fieldsToInsert,
       fieldsToUpdate,
-      searchPhraseFields,
     });
   });
 
@@ -77,72 +77,94 @@ describe("Queries", () => {
   });
 
   it("Should return full select list query", async () => {
-    expect(
-      queries.getSelectList({
-        sortAttribute: "attr",
-        sortDirection: "ASC",
-        page: 1,
-        size: 11,
-        offset: 111,
-        tags: "tag1,tag2",
-        searchPhrase: "phrase",
-      })
-    ).toEqual(
+    const listConfig = {
+      sortAttribute: "attr",
+      sortDirection: "ASC",
+      page: 1,
+      size: 11,
+      offset: 111,
+      filters: {},
+    };
+
+    const queryBuilder = new ListQueryBuilder(queries.getSelect());
+    queryBuilder.produceMultipleValuesFilterWheres(
+      "tags",
+      ["tag1", "tag2"],
+      WhereOperators.AND
+    );
+    queryBuilder.produceMultipleFieldsFilterWheres(
+      searchPhraseFields,
+      "phrase",
+      WhereOperators.OR
+    );
+    queryBuilder.build(listConfig);
+
+    expect(queryBuilder.query).toEqual(
       "SELECT table1.name1 AS alias1, table2.name2, name3 FROM tableName JOIN joinTable1 ON joinOn1 = joinTable1.joinEquals1 LEFT JOIN joinTable2 ON joinOn2 = joinTable2.joinEquals2 WHERE tags COLLATE utf8mb4_general_ci LIKE '%tag1%' AND tags COLLATE utf8mb4_general_ci LIKE '%tag2%' AND ( field1 COLLATE utf8mb4_general_ci LIKE '%phrase%' OR field2 COLLATE utf8mb4_general_ci LIKE '%phrase%' ) ORDER BY attr ASC LIMIT 11 OFFSET 111"
     );
   });
 
   it("Should return simple select list query", async () => {
-    expect(
-      queries.getSelectList({
-        sortAttribute: "",
-        sortDirection: "",
-        page: 1,
-        size: 11,
-        offset: 111,
-        tags: "",
-        searchPhrase: "",
-      })
-    ).toEqual(
+    const listConfig = {
+      sortAttribute: "",
+      sortDirection: "",
+      page: 1,
+      size: 11,
+      offset: 111,
+      filters: {},
+    };
+
+    const queryBuilder = new ListQueryBuilder(queries.getSelect());
+    queryBuilder.build(listConfig);
+
+    expect(queryBuilder.query).toEqual(
       "SELECT table1.name1 AS alias1, table2.name2, name3 FROM tableName JOIN joinTable1 ON joinOn1 = joinTable1.joinEquals1 LEFT JOIN joinTable2 ON joinOn2 = joinTable2.joinEquals2 LIMIT 11 OFFSET 111"
     );
   });
 
   it("Should return only tags select list query", async () => {
-    expect(
-      queries.getSelectList({
-        sortAttribute: "",
-        sortDirection: "",
-        page: 1,
-        size: 11,
-        offset: 111,
-        tags: "tag1,tag2",
-        searchPhrase: "",
-      })
-    ).toEqual(
+    const listConfig = {
+      sortAttribute: "",
+      sortDirection: "",
+      page: 1,
+      size: 11,
+      offset: 111,
+      filters: {},
+    };
+
+    const queryBuilder = new ListQueryBuilder(queries.getSelect());
+    queryBuilder.produceMultipleValuesFilterWheres(
+      "tags",
+      ["tag1", "tag2"],
+      WhereOperators.AND
+    );
+    queryBuilder.build(listConfig);
+
+    expect(queryBuilder.query).toEqual(
       "SELECT table1.name1 AS alias1, table2.name2, name3 FROM tableName JOIN joinTable1 ON joinOn1 = joinTable1.joinEquals1 LEFT JOIN joinTable2 ON joinOn2 = joinTable2.joinEquals2 WHERE tags COLLATE utf8mb4_general_ci LIKE '%tag1%' AND tags COLLATE utf8mb4_general_ci LIKE '%tag2%' LIMIT 11 OFFSET 111"
     );
   });
 
   it("Should return only search phrase select list query", async () => {
-    expect(
-      queries.getSelectList({
-        sortAttribute: "",
-        sortDirection: "",
-        page: 1,
-        size: 11,
-        offset: 111,
-        tags: "",
-        searchPhrase: "phrase",
-      })
-    ).toEqual(
-      "SELECT table1.name1 AS alias1, table2.name2, name3 FROM tableName JOIN joinTable1 ON joinOn1 = joinTable1.joinEquals1 LEFT JOIN joinTable2 ON joinOn2 = joinTable2.joinEquals2 WHERE ( field1 COLLATE utf8mb4_general_ci LIKE '%phrase%' OR field2 COLLATE utf8mb4_general_ci LIKE '%phrase%' ) LIMIT 11 OFFSET 111"
-    );
-  });
+    const listConfig = {
+      sortAttribute: "",
+      sortDirection: "",
+      page: 1,
+      size: 11,
+      offset: 111,
+      filters: {},
+    };
 
-  it("Should return select count query", async () => {
-    expect(queries.getSelectCount("", "")).toEqual(
-      "SELECT COUNT(*) FROM tableName"
+    const queryBuilder = new ListQueryBuilder(queries.getSelect());
+    queryBuilder.produceMultipleFieldsFilterWheres(
+      searchPhraseFields,
+      "phrase",
+      WhereOperators.OR
+    );
+    queryBuilder.build(listConfig);
+
+    expect(queryBuilder.query).toEqual(
+      "SELECT table1.name1 AS alias1, table2.name2, name3 FROM tableName JOIN joinTable1 ON joinOn1 = joinTable1.joinEquals1 LEFT JOIN joinTable2 ON joinOn2 = joinTable2.joinEquals2 WHERE ( field1 COLLATE utf8mb4_general_ci LIKE '%phrase%' OR field2 COLLATE utf8mb4_general_ci LIKE '%phrase%' ) LIMIT 11 OFFSET 111"
     );
   });
 

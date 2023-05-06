@@ -7,11 +7,13 @@ import {
 } from "@/dtos/ingredients/ingredient";
 import { IngredientListItemMapper } from "@/mappers/ingredients/ingredientListItem";
 import { IngredientBuilder } from "../builders/ingredient";
+import { IngredientsListFilters } from "@/types/ingredients/ingredients";
 
 export class IngredientsList extends List<
   Ingredient,
   IngredientListItemDTO,
-  IngredientQueryResult
+  IngredientQueryResult,
+  IngredientsListFilters
 > {
   constructor() {
     super(new IngredientsRepository(), new IngredientListItemMapper());

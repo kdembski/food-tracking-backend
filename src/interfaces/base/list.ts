@@ -1,21 +1,21 @@
 import { RequestQueryData } from "@/types/helpers/requestQuery";
 import { ListConfig } from "@/types/base/list";
 
-export interface IListBuilder {
-  build(query: RequestQueryData): void;
-  produceConfig(query: RequestQueryData): void;
+export interface IListBuilder<Filters> {
+  build(query: RequestQueryData, filters: Filters): void;
+  produceConfig(query: RequestQueryData, filters: Filters): void;
   produceData(): void;
   producePagination(): void;
 }
 
-export interface IList<Item, ItemQueryResult> {
+export interface IList<Item, ItemQueryResult, Filters> {
   createListItem(data: ItemQueryResult): Promise<Item> | Item;
-  getListData(config: ListConfig): Promise<ItemQueryResult[]>;
-  getListCount(searchPhrase: string, tags: string): Promise<number>;
+  getListData(config: ListConfig<Filters>): Promise<ItemQueryResult[]>;
+  getListCount(filters: Filters): Promise<number>;
   getDataLength: () => number;
 }
 
-export interface IListRepository<ItemQueryResult> {
-  selectList: (config: ListConfig) => Promise<ItemQueryResult[]>;
-  selectCount: (searchPhrase: string, tags: string) => Promise<number>;
+export interface IListRepository<ItemQueryResult, Filters> {
+  selectList: (config: ListConfig<Filters>) => Promise<ItemQueryResult[]>;
+  selectCount: (filters: Filters) => Promise<number>;
 }

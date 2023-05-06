@@ -8,4 +8,5 @@ export type RequestQueryData = {
   members?: string;
   fromDate?: string;
   toDate?: string;
+  ingredientIds?: string;
 };

@@ -4,18 +4,18 @@ import { IList } from "@/interfaces/base/list";
 import { Pagination } from "@/base/list/models/pagination";
 import { ListConfig } from "@/types/base/list";
 
-export abstract class List<Item, ItemDTO, ItemQueryResult>
-  implements IList<Item, ItemQueryResult>
+export abstract class List<Item, ItemDTO, ItemQueryResult, Filters>
+  implements IList<Item, ItemQueryResult, Filters>
 {
   private _data?: Item[];
   private _pagination?: Pagination;
-  private _config?: ListConfig;
+  private _config?: ListConfig<Filters>;
 
-  private repository: IListRepository<ItemQueryResult>;
+  private repository: IListRepository<ItemQueryResult, Filters>;
   private mapper: IMapper<Item, ItemDTO>;
 
   constructor(
-    repository: IListRepository<ItemQueryResult>,
+    repository: IListRepository<ItemQueryResult, Filters>,
     mapper: IMapper<Item, ItemDTO>
   ) {
     this.repository = repository;
@@ -24,12 +24,12 @@ export abstract class List<Item, ItemDTO, ItemQueryResult>
 
   abstract createListItem(data: ItemQueryResult): Promise<Item> | Item;
 
-  getListData(config: ListConfig) {
+  getListData(config: ListConfig<Filters>) {
     return this.repository.selectList(config);
   }
 
-  getListCount(searchPhrase: string, tags: string) {
-    return this.repository.selectCount(searchPhrase, tags);
+  getListCount(filters: Filters) {
+    return this.repository.selectCount(filters);
   }
 
   get data() {
@@ -61,7 +61,7 @@ export abstract class List<Item, ItemDTO, ItemQueryResult>
     this._pagination = pagination;
   }
 
-  set config(config: ListConfig) {
+  set config(config: ListConfig<Filters>) {
     this._config = config;
   }
 

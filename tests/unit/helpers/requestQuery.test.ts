@@ -43,15 +43,15 @@ describe("Request Query Helper", () => {
 
   it("Should return tags", () => {
     let helper = new RequestQueryHelper({});
-    expect(helper.tags).toEqual("");
+    expect(helper.tags).toEqual([]);
 
     helper = new RequestQueryHelper({ tags: "tag" });
-    expect(helper.tags).toEqual("tag");
+    expect(helper.tags).toEqual(["tag"]);
   });
 
   it("Should return members as number arrays", () => {
     let helper = new RequestQueryHelper({});
-    expect(helper.members).toEqual(undefined);
+    expect(helper.members).toEqual([]);
 
     helper = new RequestQueryHelper({ members: "1,2,3" });
     expect(helper.members).toEqual([1, 2, 3]);

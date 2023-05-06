@@ -4,21 +4,18 @@ import { IngredientCategoriesRepository } from "@/repositories/ingredients/ingre
 import { RequestQueryData } from "@/types/helpers/requestQuery";
 import { IngredientCategoriesList } from "../models/ingredientCategoriesList";
 import { IngredientCategory } from "../models/ingredientCategory";
+import { RequestQueryHelper } from "@/helpers/requestQuery";
 
 export class IngredientCategoriesController
   implements IIngredientCategoriesController
 {
   async getList(query: RequestQueryData) {
+    const { searchPhrase } = new RequestQueryHelper(query);
     const ingredientsList = new IngredientCategoriesList();
     const listBuilder = new ListBuilder(ingredientsList);
-    await listBuilder.build(query);
+    await listBuilder.build(query, { searchPhrase });
 
     return ingredientsList;
-  }
-
-  async getAll() {
-    const dtos = await new IngredientCategoriesRepository().selectAll();
-    return dtos.map((dto) => new IngredientCategory(dto));
   }
 
   getOptions() {

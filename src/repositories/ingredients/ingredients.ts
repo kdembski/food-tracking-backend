@@ -1,13 +1,14 @@
+import Database from "@/config/database";
+import { OkPacket } from "mysql2";
 import { IngredientsQueries } from "@/queries/ingredients/ingredients";
 import { CustomError } from "@/base/errors/models/customError";
-import Database from "@/config/database";
 import {
   IngredientOptionDTO,
   IngredientQueryResult,
 } from "@/dtos/ingredients/ingredient";
 import { ListConfig } from "@/types/base/list";
 import { Ingredient } from "@/main/ingredients/models/ingredient";
-import { OkPacket } from "mysql2";
+import { IngredientsListFilters } from "@/types/ingredients/ingredients";
 
 export class IngredientsRepository {
   async selectById(id: number) {
@@ -24,7 +25,7 @@ export class IngredientsRepository {
     return dto;
   }
 
-  async selectList(config: ListConfig) {
+  async selectList(config: ListConfig<IngredientsListFilters>) {
     const query = new IngredientsQueries().getSelectList(config);
     const data = await Database.sendQuery(query);
 
@@ -38,8 +39,8 @@ export class IngredientsRepository {
     return data as IngredientOptionDTO[];
   }
 
-  async selectCount(searchPhrase: string, tags: string) {
-    const query = new IngredientsQueries().getSelectCount(searchPhrase, tags);
+  async selectCount(filters: IngredientsListFilters) {
+    const query = new IngredientsQueries().getSelectCount(filters);
     const results = await Database.sendQuery(query);
 
     return parseInt(results[0].count);

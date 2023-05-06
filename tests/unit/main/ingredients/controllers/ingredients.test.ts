@@ -69,11 +69,6 @@ describe("Ingredients Controller", () => {
     expect(selectList).toHaveBeenCalledTimes(1);
   });
 
-  it("Should trigger repository selectCount on getCount call", async () => {
-    await controller.getCount("", "");
-    expect(selectCount).toHaveBeenCalledTimes(1);
-  });
-
   it("Should trigger repository selectOptions on getOptions call", async () => {
     await controller.getOptions();
     expect(selectOptions).toHaveBeenCalledTimes(1);

@@ -1,12 +1,12 @@
 export class Field {
-  private table: string;
+  private table?: string;
   private name: string;
-  private alias: string;
+  private alias?: string;
 
   constructor(data: { table?: string; name: string; alias?: string }) {
-    this.table = data.table || "";
+    this.table = data.table;
     this.name = data.name;
-    this.alias = data.alias || "";
+    this.alias = data.alias;
   }
 
   prepare() {
@@ -16,6 +16,10 @@ export class Field {
 
     if (this.table) {
       return `${this.table}.${this.name}`;
+    }
+
+    if (this.alias) {
+      return `${this.name} AS ${this.alias}`;
     }
 
     return `${this.name}`;

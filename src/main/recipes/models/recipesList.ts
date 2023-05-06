@@ -5,11 +5,13 @@ import { Recipe } from "./recipe";
 import { List } from "@/base/list/models/list";
 import { RecipeDTO } from "@/dtos/recipes/recipe";
 import { RecipesRepository } from "@/repositories/recipes/recipes";
+import { RecipesListFilters } from "@/types/recipes/recipes";
 
 export class RecipesList extends List<
   Recipe,
   ExtendedRecipeDTO,
-  ExtendedRecipeDTO
+  ExtendedRecipeDTO,
+  RecipesListFilters
 > {
   constructor() {
     super(new RecipesRepository(), new ExtendedRecipeMapper());

@@ -23,3 +23,8 @@ export type WhereBetween = {
   from: string;
   to: string;
 };
+
+export type WhereFindInSet = {
+  value: string | number;
+  set: string;
+};

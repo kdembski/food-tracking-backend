@@ -6,22 +6,20 @@ import { ListBuilder } from "@/base/list/builders/list";
 import { IngredientBuilder } from "../builders/ingredient";
 import { IngredientUnitsCollectionController } from "./ingredientUnitsCollection";
 import { Ingredient } from "../models/ingredient";
+import { RequestQueryHelper } from "@/helpers/requestQuery";
 
 export class IngredientsController implements IIngredientsController {
   async getList(query: RequestQueryData) {
+    const { searchPhrase } = new RequestQueryHelper(query);
     const ingredientsList = new IngredientsList();
     const listBuilder = new ListBuilder(ingredientsList);
-    await listBuilder.build(query);
+    await listBuilder.build(query, { searchPhrase });
 
     return ingredientsList;
   }
 
   getOptions() {
     return new IngredientsRepository().selectOptions();
-  }
-
-  getCount(searchPhrase: string, tags: string) {
-    return new IngredientsRepository().selectCount(searchPhrase, tags);
   }
 
   async getById(id: number) {

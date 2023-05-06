@@ -6,6 +6,7 @@ import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
 import { TagsMapper } from "@/mappers/base/tags/tags";
 import { OrderedFoodMapper } from "@/mappers/ordered-food/orderedFood";
 import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
+import { RequestQueryHelper } from "@/helpers/requestQuery";
 
 const orderedFoodRouter = Router();
 const orderedFoodController = new OrderedFoodController();
@@ -21,8 +22,10 @@ orderedFoodRouter.get("/", async (request, response) => {
 
 orderedFoodRouter.get("/tags", async (request, response) => {
   try {
-    const tags = await orderedFoodController.getTags(request.query);
-    response.json(new TagsMapper().toDTO(tags));
+    const { searchPhrase, tags } = new RequestQueryHelper(request.query);
+
+    const results = await orderedFoodController.getTags({ searchPhrase, tags });
+    response.json(new TagsMapper().toDTO(results));
   } catch (error) {
     ApiError.create(error, response).send();
   }

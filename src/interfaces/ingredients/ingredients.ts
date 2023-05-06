@@ -5,12 +5,13 @@ import {
   IngredientDTO,
   IngredientOptionDTO,
 } from "@/dtos/ingredients/ingredient";
+import { IngredientsListFilters } from "@/types/ingredients/ingredients";
 
 export interface IIngredient {}
 
 export interface IIngredientsRepository
   extends IRepository<Ingredient, IngredientDTO>,
-    IListRepository<IngredientDTO> {
+    IListRepository<IngredientDTO, IngredientsListFilters> {
   selectOptions: () => Promise<IngredientOptionDTO[]>;
 }
 

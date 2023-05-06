@@ -1,35 +1,28 @@
-import { TagsConfig } from "@/types/base/tags";
 import { TagsBuilder } from "@/base/tags/builders/tags";
-import { Tags } from "@/base/tags/models/tags";
 
 const tagsData = ["tag1,tag2", "tag2,tag3"];
+type Filters = {
+  serachPhrase: string;
+};
 
 class TestRepository {
-  selectTags(config: TagsConfig) {
+  selectTags(filters: Filters) {
     return Promise.resolve(tagsData);
   }
 }
 
-class TestTags extends Tags {
-  constructor() {
-    super(new TestRepository());
-  }
-}
-
 describe("Tags Model", () => {
-  let tags: TestTags;
-  let builder: TagsBuilder;
+  let builder: TagsBuilder<Filters>;
 
   beforeEach(() => {
-    tags = new TestTags();
-    builder = new TagsBuilder(tags);
+    builder = new TagsBuilder(new TestRepository());
   });
 
   it("Should set sorted tags with count on loadTags method call", async () => {
-    expect(tags.items).toEqual([]);
+    expect(builder.tags).toEqual([]);
 
-    await builder.build({});
-    expect(tags.items).toEqual([
+    await builder.build({ serachPhrase: "test" });
+    expect(builder.tags).toEqual([
       {
         _name: "tag2",
         _count: 2,

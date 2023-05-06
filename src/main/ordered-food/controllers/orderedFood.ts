@@ -3,27 +3,30 @@ import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
 import { RequestQueryData } from "@/types/helpers/requestQuery";
 import { OrderedFoodRepository } from "@/repositories/orderedFood";
 import { OrderedFoodList } from "../models/orderedFoodList";
-import { OrderedFoodTags } from "../models/orderedFoodTags";
 import { ListBuilder } from "@/base/list/builders/list";
 import { TagsBuilder } from "@/base/tags/builders/tags";
+import { RequestQueryHelper } from "@/helpers/requestQuery";
+import { OrderedFoodListFilters } from "@/types/ordered-food/orderedFood";
 
 export class OrderedFoodController implements IOrderedFoodController {
   async getList(query: RequestQueryData) {
+    const { searchPhrase, tags } = new RequestQueryHelper(query);
     const orderedFoodList = new OrderedFoodList();
     const listBuilder = new ListBuilder(orderedFoodList);
-    await listBuilder.build(query);
+    await listBuilder.build(query, { searchPhrase, tags });
+
     return orderedFoodList;
   }
 
-  async getTags(query: RequestQueryData) {
-    const orderedFoodTags = new OrderedFoodTags();
-    const tagsBuilder = new TagsBuilder(orderedFoodTags);
-    await tagsBuilder.build(query);
-    return orderedFoodTags;
+  async getTags(filters: OrderedFoodListFilters) {
+    const tagsBuilder = new TagsBuilder(new OrderedFoodRepository());
+    await tagsBuilder.build(filters);
+
+    return tagsBuilder.tags;
   }
 
-  getCount(searchPhrase: string, tags: string) {
-    return new OrderedFoodRepository().selectCount(searchPhrase, tags);
+  getCount(filters: OrderedFoodListFilters) {
+    return new OrderedFoodRepository().selectCount(filters);
   }
 
   async getById(id: number) {

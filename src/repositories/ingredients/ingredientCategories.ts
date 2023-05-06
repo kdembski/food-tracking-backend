@@ -1,7 +1,7 @@
-import { IngredientCategoriesQueries } from "./../../queries/ingredients/ingredientCategories";
-import { IIngredientCategoriesRepository } from "@/interfaces/ingredients/ingredientCategories";
 import Database from "@/config/database";
 import { OkPacket } from "mysql2";
+import { IngredientCategoriesQueries } from "@/queries/ingredients/ingredientCategories";
+import { IIngredientCategoriesRepository } from "@/interfaces/ingredients/ingredientCategories";
 import { CustomError } from "@/base/errors/models/customError";
 import { IngredientCategory } from "@/main/ingredients/models/ingredientCategory";
 import {
@@ -9,22 +9,20 @@ import {
   IngredientCategoryOptionDTO,
 } from "@/dtos/ingredients/ingredientCategory";
 import { ListConfig } from "@/types/base/list";
+import { IngredientCategoriesListFilters } from "@/types/ingredients/ingredientCategories";
 
 export class IngredientCategoriesRepository
   implements IIngredientCategoriesRepository
 {
-  async selectList(config: ListConfig) {
+  async selectList(config: ListConfig<IngredientCategoriesListFilters>) {
     const query = new IngredientCategoriesQueries().getSelectList(config);
     const data = await Database.sendQuery(query);
 
     return data as IngredientCategoryDTO[];
   }
 
-  async selectCount(searchPhrase: string, tags: string) {
-    const query = new IngredientCategoriesQueries().getSelectCount(
-      searchPhrase,
-      tags
-    );
+  async selectCount(filters: IngredientCategoriesListFilters) {
+    const query = new IngredientCategoriesQueries().getSelectCount(filters);
     const results = await Database.sendQuery(query);
 
     return parseInt(results[0].count);
@@ -42,13 +40,6 @@ export class IngredientCategoriesRepository
     }
 
     return dto;
-  }
-
-  async selectAll() {
-    const query = new IngredientCategoriesQueries().getSelect();
-    const results = await Database.sendQuery(query);
-
-    return results as IngredientCategoryDTO[];
   }
 
   async selectOptions() {

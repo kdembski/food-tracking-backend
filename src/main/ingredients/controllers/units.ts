@@ -4,19 +4,16 @@ import { UnitsRepository } from "@/repositories/ingredients/units";
 import { RequestQueryData } from "@/types/helpers/requestQuery";
 import { Unit } from "../models/unit";
 import { UnitsList } from "../models/unitsList";
+import { RequestQueryHelper } from "@/helpers/requestQuery";
 
 export class UnitsController implements IUnitsController {
   async getList(query: RequestQueryData) {
+    const { searchPhrase } = new RequestQueryHelper(query);
     const ingredientsList = new UnitsList();
     const listBuilder = new ListBuilder(ingredientsList);
-    await listBuilder.build(query);
+    await listBuilder.build(query, { searchPhrase });
 
     return ingredientsList;
-  }
-
-  async getAll() {
-    const dtos = await new UnitsRepository().selectAll();
-    return dtos.map((dto) => new Unit(dto));
   }
 
   getOptions() {

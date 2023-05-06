@@ -63,17 +63,29 @@ describe("Recipes Controller", () => {
   });
 
   it("Should trigger repository selectTags on getTags call", async () => {
-    await controller.getTags({});
+    await controller.getTags({
+      searchPhrase: "test",
+      tags: ["test"],
+      ingredientIds: [1],
+    });
     expect(selectTags).toHaveBeenCalledTimes(1);
   });
 
   it("Should trigger repository selectNames on getNames call", async () => {
-    await controller.getNames("", "");
+    await controller.getNames({
+      searchPhrase: "test",
+      tags: ["test"],
+      ingredientIds: [1],
+    });
     expect(selectNames).toHaveBeenCalledTimes(1);
   });
 
   it("Should trigger repository selectCount on getCount call", async () => {
-    await controller.getCount("", "");
+    await controller.getCount({
+      searchPhrase: "test",
+      tags: ["test"],
+      ingredientIds: [1],
+    });
     expect(selectCount).toHaveBeenCalledTimes(1);
   });
 

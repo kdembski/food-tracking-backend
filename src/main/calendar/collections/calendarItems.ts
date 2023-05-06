@@ -19,7 +19,7 @@ export class CalendarItemsCollection {
     const promises = this.items.map((item) => item.loadMembers());
     await Promise.all(promises);
 
-    if (!members) {
+    if (!members || members.length === 0) {
       return;
     }
 

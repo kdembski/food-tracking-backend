@@ -1,9 +1,7 @@
-import { ListConfig } from "@/types/base/list";
 import { WheresCollectionItems } from "@/types/base/queries";
 import { FieldsCollection } from "./collections/field";
 import { JoinsCollection } from "./collections/join";
 import { WheresCollection } from "./collections/where";
-import { ListQueryHelper } from "./helpers/list";
 import { Field } from "./models/field";
 import { Join } from "./models/join";
 
@@ -13,8 +11,6 @@ export class Queries {
   protected fieldsToSelect: Field[];
   private fieldsToInsert: string[];
   private fieldsToUpdate: string[];
-  private searchPhraseFields: string[];
-  protected listHelper: ListQueryHelper;
 
   constructor({
     tableName,
@@ -22,52 +18,18 @@ export class Queries {
     fieldsToSelect,
     fieldsToInsert,
     fieldsToUpdate,
-    searchPhraseFields,
   }: {
     tableName: string;
     joins?: Join[];
     fieldsToSelect?: Field[];
     fieldsToInsert: string[];
     fieldsToUpdate: string[];
-    searchPhraseFields?: string[];
   }) {
     this.tableName = tableName;
     this.joins = joins || [];
     this.fieldsToSelect = fieldsToSelect || [];
     this.fieldsToInsert = fieldsToInsert;
     this.fieldsToUpdate = fieldsToUpdate;
-    this.searchPhraseFields = searchPhraseFields || [];
-    this.listHelper = new ListQueryHelper(this.searchPhraseFields);
-  }
-
-  getSelectList(config: ListConfig) {
-    const { sortAttribute, sortDirection, tags, size, offset, searchPhrase } =
-      config;
-
-    const wheres = this.listHelper.buildListWheres(searchPhrase, tags);
-    const select = this.getSelect({ wheres });
-
-    let orderBy = this.listHelper.buildOrderBy(sortAttribute, sortDirection);
-    orderBy = orderBy ? " " + orderBy : "";
-
-    return `${select}${orderBy} LIMIT ${size} OFFSET ${offset}`;
-  }
-
-  getSelectCount(searchPhrase: string, tags: string) {
-    const wheres = this.listHelper.buildListWheres(searchPhrase, tags);
-
-    return this.getSelect({
-      fields: [new Field({ name: "COUNT(*)" })],
-      joins: [],
-      wheres,
-    });
-  }
-
-  getSelectOptions(labelField: string) {
-    return this.getSelect({
-      fields: [new Field({ name: "id" }), new Field({ name: labelField })],
-      joins: [],
-    });
   }
 
   getSelect({
@@ -92,6 +54,13 @@ export class Queries {
     return `SELECT ${preparedFields} FROM ${
       this.tableName + preparedJoins + preparedWheres
     }`;
+  }
+
+  getSelectOptions(labelField: string) {
+    return this.getSelect({
+      fields: [new Field({ name: "id" }), new Field({ name: labelField })],
+      joins: [],
+    });
   }
 
   getSelectById({

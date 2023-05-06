@@ -8,7 +8,6 @@ export class ShoppingCustomItemsQueries extends Queries {
       fieldsToSelect: [new Field({ name: "*" })],
       fieldsToInsert: ["name"],
       fieldsToUpdate: ["name"],
-      searchPhraseFields: ["name"],
     });
   }
 }

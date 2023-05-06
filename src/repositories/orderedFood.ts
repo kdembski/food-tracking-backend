@@ -1,12 +1,12 @@
-import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
 import Database from "@/config/database";
-import { IOrderedFoodRepository } from "@/interfaces/orderedFood";
 import { OkPacket } from "mysql2";
+import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
+import { IOrderedFoodRepository } from "@/interfaces/orderedFood";
 import { ListConfig } from "@/types/base/list";
 import { CustomError } from "@/base/errors/models/customError";
-import { TagsConfig } from "@/types/base/tags";
 import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
 import { OrderedFoodQueries } from "@/queries/orderedFood";
+import { OrderedFoodListFilters } from "@/types/ordered-food/orderedFood";
 
 export class OrderedFoodRepository implements IOrderedFoodRepository {
   async selectById(id: number) {
@@ -23,22 +23,30 @@ export class OrderedFoodRepository implements IOrderedFoodRepository {
     return dto;
   }
 
-  async selectList(config: ListConfig) {
+  async selectList(config: ListConfig<OrderedFoodListFilters>) {
     const query = new OrderedFoodQueries().getSelectList(config);
     const data = await Database.sendQuery(query);
 
     return data as OrderedFoodDTO[];
   }
 
-  async selectTags(config: TagsConfig) {
-    const query = new OrderedFoodQueries().getSelectTags(config);
+  async selectAll(filters: OrderedFoodListFilters) {
+    const query = new OrderedFoodQueries().getSelectAll(filters);
     const results = await Database.sendQuery(query);
 
-    return results.map((item: { tags: string }) => item.tags) as string[];
+    return results as OrderedFoodDTO[];
   }
 
-  async selectCount(searchPhrase: string, tags: string) {
-    const query = new OrderedFoodQueries().getSelectCount(searchPhrase, tags);
+  async selectTags(filters: OrderedFoodListFilters) {
+    const results = await this.selectAll(filters);
+
+    return results
+      .map((result) => result.tags)
+      .filter((tags): tags is string => !!tags);
+  }
+
+  async selectCount(filters: OrderedFoodListFilters) {
+    const query = new OrderedFoodQueries().getSelectCount(filters);
     const results = await Database.sendQuery(query);
 
     return parseInt(results[0].count);

@@ -14,14 +14,18 @@ type ItemDTO = {
   prop: string;
 };
 
+type ListFilters = {
+  searchPhrase?: string;
+};
+
 const listData = [{ prop: "test" }];
 
 class TestRepository {
-  selectCount(searchPhrase: string, tags?: string) {
+  selectCount(filters: ListFilters) {
     return Promise.resolve(1);
   }
 
-  selectList(config: ListConfig) {
+  selectList(config: ListConfig<ListFilters>) {
     return Promise.resolve(listData);
   }
 }
@@ -38,7 +42,7 @@ class TestMapper {
   }
 }
 
-class TestList extends List<Item, ItemDTO, ItemDTO> {
+class TestList extends List<Item, ItemDTO, ItemDTO, ListFilters> {
   constructor() {
     super(new TestRepository(), new TestMapper());
   }
@@ -50,7 +54,7 @@ class TestList extends List<Item, ItemDTO, ItemDTO> {
 
 describe("List Model", () => {
   let list: TestList;
-  let builder: ListBuilder<Item, ItemDTO, ItemDTO>;
+  let builder: ListBuilder<Item, ItemDTO, ItemDTO, ListFilters>;
 
   beforeEach(() => {
     list = new TestList();
@@ -66,7 +70,7 @@ describe("List Model", () => {
   });
 
   it("Should return list items dtos", async () => {
-    await builder.build({ size: "10", page: "1" });
+    await builder.build({ size: "10", page: "1" }, {});
     expect(list.toDTO()).toEqual({
       data: [{ prop: "test" }],
       pagination: {
@@ -80,7 +84,7 @@ describe("List Model", () => {
   });
 
   it("Should return list data length", async () => {
-    await builder.build({ size: "10", page: "1" });
+    await builder.build({ size: "10", page: "1" }, {});
     expect(list.getDataLength()).toEqual(1);
   });
 });

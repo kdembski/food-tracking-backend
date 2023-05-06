@@ -1,36 +1,37 @@
 import { RecipeBuilder } from "./../builders/recipe";
-import { ListBuilder } from "@/base/list/builders/list";
 import { IRecipesController } from "@/interfaces/recipes/recipes";
 import { RecipesRepository } from "@/repositories/recipes/recipes";
 import { Recipe } from "@/main/recipes/models/recipe";
 import { RequestQueryData } from "@/types/helpers/requestQuery";
 import { RecipesList } from "../models/recipesList";
-import { RecipesTags } from "../models/recipesTags";
 import { TagsBuilder } from "@/base/tags/builders/tags";
+import { RecipesListFilters } from "@/types/recipes/recipes";
+import { ListBuilder } from "@/base/list/builders/list";
+import { RequestQueryHelper } from "@/helpers/requestQuery";
 
 export class RecipesController implements IRecipesController {
   async getList(query: RequestQueryData) {
+    const { searchPhrase, tags, ingredientIds } = new RequestQueryHelper(query);
     const recipesList = new RecipesList();
     const listBuilder = new ListBuilder(recipesList);
-    await listBuilder.build(query);
+    await listBuilder.build(query, { searchPhrase, tags, ingredientIds });
 
     return recipesList;
   }
 
-  async getTags(query: RequestQueryData) {
-    const recipesTags = new RecipesTags();
-    const tagsBuilder = new TagsBuilder(recipesTags);
-    await tagsBuilder.build(query);
+  async getTags(filters: RecipesListFilters) {
+    const tagsBuilder = new TagsBuilder(new RecipesRepository());
+    await tagsBuilder.build(filters);
 
-    return recipesTags;
+    return tagsBuilder.tags;
   }
 
-  getNames(searchPhrase: string, tags: string) {
-    return new RecipesRepository().selectNames(searchPhrase, tags);
+  getNames(filters: RecipesListFilters) {
+    return new RecipesRepository().selectNames(filters);
   }
 
-  getCount(searchPhrase: string, tags: string) {
-    return new RecipesRepository().selectCount(searchPhrase, tags);
+  getCount(filters: RecipesListFilters) {
+    return new RecipesRepository().selectCount(filters);
   }
 
   getOptions() {

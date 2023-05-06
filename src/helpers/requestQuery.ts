@@ -1,8 +1,7 @@
-import { IRequestQueryHelper } from "@/interfaces/helpers/requestQuery";
 import { RequestQueryData } from "@/types/helpers/requestQuery";
 import loadsh from "lodash";
 
-export class RequestQueryHelper implements IRequestQueryHelper {
+export class RequestQueryHelper {
   private _size?: string;
   private _page?: string;
   private _sortAttribute?: string;
@@ -12,6 +11,7 @@ export class RequestQueryHelper implements IRequestQueryHelper {
   private _members?: string;
   private _fromDate?: string;
   private _toDate?: string;
+  private _ingredientIds?: string;
 
   constructor(query: RequestQueryData) {
     this._size = query.size;
@@ -23,6 +23,7 @@ export class RequestQueryHelper implements IRequestQueryHelper {
     this._members = query.members;
     this._fromDate = query.fromDate;
     this._toDate = query.toDate;
+    this._ingredientIds = query.ingredientIds;
   }
 
   get size() {
@@ -46,11 +47,11 @@ export class RequestQueryHelper implements IRequestQueryHelper {
   }
 
   get tags() {
-    return this._tags || "";
+    return this._tags?.split(",") || [];
   }
 
   get members() {
-    return this._members?.split(",").map((id) => parseInt(id));
+    return this._members?.split(",").map((id) => parseInt(id)) || [];
   }
 
   get fromDate() {
@@ -61,17 +62,7 @@ export class RequestQueryHelper implements IRequestQueryHelper {
     return this._toDate ? new Date(parseInt(this._toDate)) : undefined;
   }
 
-  getQueryValues() {
-    return {
-      size: this.size,
-      page: this.page,
-      sortAttribute: this.sortAttribute,
-      sortDirection: this.sortDirection,
-      searchPhrase: this.searchPhrase,
-      tags: this.tags,
-      members: this.members,
-      fromDate: this.fromDate,
-      toDate: this.toDate,
-    };
+  get ingredientIds() {
+    return this._ingredientIds?.split(",").map((id) => parseInt(id)) || [];
   }
 }

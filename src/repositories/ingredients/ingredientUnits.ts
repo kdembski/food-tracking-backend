@@ -1,6 +1,6 @@
-import { IIngredientUnitsRepository } from "@/interfaces/ingredients/ingredientUnits";
 import Database from "@/config/database";
 import { OkPacket } from "mysql2";
+import { IIngredientUnitsRepository } from "@/interfaces/ingredients/ingredientUnits";
 import { CustomError } from "@/base/errors/models/customError";
 import { IngredientUnit } from "@/main/ingredients/models/ingredientUnit";
 import { IngredientUnitQueryResult } from "@/dtos/ingredients/ingredientUnit";

@@ -4,9 +4,9 @@ import Database from "@/config/database";
 import { Recipe } from "@/main/recipes/models/recipe";
 import { ListConfig } from "@/types/base/list";
 import { CustomError } from "@/base/errors/models/customError";
-import { TagsConfig } from "@/types/base/tags";
 import { ExtendedRecipeDTO, RecipeOptionDTO } from "@/dtos/recipes/recipe";
 import { RecipesQueries } from "@/queries/recipes/recipes";
+import { RecipesListFilters } from "@/types/recipes/recipes";
 
 export class RecipesRepository implements IRecipesRepository {
   async selectById(id: number) {
@@ -23,34 +23,41 @@ export class RecipesRepository implements IRecipesRepository {
     return dto;
   }
 
-  async selectList(config: ListConfig) {
+  async selectList(config: ListConfig<RecipesListFilters>) {
     const query = new RecipesQueries().getSelectList(config);
     const data = await Database.sendQuery(query);
 
     return data as ExtendedRecipeDTO[];
   }
 
-  async selectTags(config: TagsConfig) {
-    const query = new RecipesQueries().getSelectTags(config);
+  async selectAll(filters: RecipesListFilters) {
+    const query = new RecipesQueries().getSelectAll(filters);
     const results = await Database.sendQuery(query);
 
-    return results.map((item: { tags: string }) => item.tags) as string[];
+    return results as ExtendedRecipeDTO[];
   }
 
-  async selectCount(searchPhrase: string, tags: string) {
-    const query = new RecipesQueries().getSelectCount(searchPhrase, tags);
+  async selectTags(filters: RecipesListFilters) {
+    const results = await this.selectAll(filters);
+
+    return results
+      .map((result) => result.tags)
+      .filter((tags): tags is string => !!tags);
+  }
+
+  async selectNames(filters: RecipesListFilters) {
+    const results = await this.selectAll(filters);
+
+    return results
+      .map((result) => result.recipeName)
+      .filter((name): name is string => !!name);
+  }
+
+  async selectCount(filters: RecipesListFilters) {
+    const query = new RecipesQueries().getSelectCount(filters);
     const results = await Database.sendQuery(query);
 
     return parseInt(results[0].count);
-  }
-
-  async selectNames(searchPhrase: string, tags: string) {
-    const query = new RecipesQueries().getSelectNames(searchPhrase, tags);
-    const results = await Database.sendQuery(query);
-
-    return results.map(
-      (item: { recipeName: string }) => item.recipeName
-    ) as string[];
   }
 
   async selectOptions() {

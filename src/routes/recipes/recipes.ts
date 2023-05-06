@@ -29,8 +29,16 @@ recipesRouter.get("/", async (request, response) => {
 
 recipesRouter.get("/tags", async (request, response) => {
   try {
-    const tags = await recipesController.getTags(request.query);
-    response.json(new TagsMapper().toDTO(tags));
+    const { searchPhrase, tags, ingredientIds } = new RequestQueryHelper(
+      request.query
+    );
+
+    const results = await recipesController.getTags({
+      searchPhrase,
+      tags,
+      ingredientIds,
+    });
+    response.json(new TagsMapper().toDTO(results));
   } catch (error) {
     ApiError.create(error, response).send();
   }
@@ -38,9 +46,15 @@ recipesRouter.get("/tags", async (request, response) => {
 
 recipesRouter.get("/suggestions", async (request, response) => {
   try {
-    const { searchPhrase, tags } = new RequestQueryHelper(request.query);
+    const { searchPhrase, tags, ingredientIds } = new RequestQueryHelper(
+      request.query
+    );
 
-    const results = await recipesController.getNames(searchPhrase, tags);
+    const results = await recipesController.getNames({
+      searchPhrase,
+      tags,
+      ingredientIds,
+    });
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();
@@ -58,9 +72,15 @@ recipesRouter.get("/options", async (request, response) => {
 
 recipesRouter.get("/count", async (request, response) => {
   try {
-    const { searchPhrase, tags } = new RequestQueryHelper(request.query);
+    const { searchPhrase, tags, ingredientIds } = new RequestQueryHelper(
+      request.query
+    );
 
-    const results = await recipesController.getCount(searchPhrase, tags);
+    const results = await recipesController.getCount({
+      searchPhrase,
+      tags,
+      ingredientIds,
+    });
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();

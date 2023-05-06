@@ -14,9 +14,7 @@ const calendarItemMembersController = new CalendarItemMembersController();
 
 calendarItemsRouter.get("/", async (request, response) => {
   try {
-    const { fromDate, toDate, members } = new RequestQueryHelper(
-      request.query
-    ).getQueryValues();
+    const { fromDate, toDate, members } = new RequestQueryHelper(request.query);
 
     const calendarDays = await calendarItemsController.getDays(
       fromDate || new Date(1970, 0, 0),

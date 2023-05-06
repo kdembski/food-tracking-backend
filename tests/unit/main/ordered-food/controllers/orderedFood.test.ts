@@ -34,12 +34,12 @@ describe("Ordered Food Controller", () => {
   });
 
   it("Should trigger repository selectTags on getTags call", async () => {
-    await controller.getTags({});
+    await controller.getTags({ searchPhrase: "test", tags: ["test"] });
     expect(selectTags).toHaveBeenCalledTimes(1);
   });
 
   it("Should trigger repository selectCount on getCount call", async () => {
-    await controller.getCount("", "");
+    await controller.getCount({ searchPhrase: "test", tags: ["test"] });
     expect(selectCount).toHaveBeenCalledTimes(1);
   });
 

@@ -35,11 +35,6 @@ describe("Units Controller", () => {
     expect(selectList).toHaveBeenCalledTimes(1);
   });
 
-  it("Should trigger repository selectAll on getAll call", async () => {
-    await controller.getAll();
-    expect(selectAll).toHaveBeenCalledTimes(1);
-  });
-
   it("Should trigger repository selectOptions on getOptions call", async () => {
     await controller.getOptions();
     expect(selectOptions).toHaveBeenCalledTimes(1);

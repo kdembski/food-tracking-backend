@@ -4,34 +4,34 @@ import { IListBuilder } from "@/interfaces/base/list";
 import { RequestQueryData } from "@/types/helpers/requestQuery";
 import { Pagination } from "../models/pagination";
 
-export class ListBuilder<Item, ItemDTO, ItemQueryResult>
-  implements IListBuilder
+export class ListBuilder<Item, ItemDTO, ItemQueryResult, Filters>
+  implements IListBuilder<Filters>
 {
-  private list: List<Item, ItemDTO, ItemQueryResult>;
+  protected list: List<Item, ItemDTO, ItemQueryResult, Filters>;
 
-  constructor(list: List<Item, ItemDTO, ItemQueryResult>) {
+  constructor(list: List<Item, ItemDTO, ItemQueryResult, Filters>) {
     this.list = list;
   }
 
-  async build(query: RequestQueryData) {
-    this.produceConfig(query);
+  async build(query: RequestQueryData, filters: Filters) {
+    this.produceConfig(query, filters);
     await this.produceData();
     await this.producePagination();
   }
 
-  produceConfig(query: RequestQueryData) {
-    const { size, page, sortAttribute, sortDirection, searchPhrase, tags } =
-      new RequestQueryHelper(query).getQueryValues();
+  produceConfig(query: RequestQueryData, filters: Filters) {
+    const { size, page, sortAttribute, sortDirection } = new RequestQueryHelper(
+      query
+    );
     const offset = (page - 1) * size;
 
     this.list.config = {
-      searchPhrase,
       sortAttribute,
       sortDirection,
-      tags,
       size,
       page,
       offset,
+      filters,
     };
   }
 
@@ -44,9 +44,9 @@ export class ListBuilder<Item, ItemDTO, ItemQueryResult>
   }
 
   async producePagination() {
-    const { searchPhrase, tags, page, size, offset } = this.list.config;
+    const { filters, page, size, offset } = this.list.config;
     const dataLength = this.list.getDataLength();
-    const count = await this.list.getListCount(searchPhrase || "", tags || "");
+    const count = await this.list.getListCount(filters);
     this.list.pagination = new Pagination(
       count,
       page,

@@ -1,36 +1,23 @@
-import { RequestQueryHelper } from "@/helpers/requestQuery";
-import { ITagsBuilder } from "@/interfaces/base/tags";
-import { RequestQueryData } from "@/types/helpers/requestQuery";
 import lodash from "lodash";
+import { ITagsBuilder, ITagsRepository } from "@/interfaces/base/tags";
 import { Tag } from "../models/tag";
-import { Tags } from "../models/tags";
 
-export class TagsBuilder implements ITagsBuilder {
-  private tags: Tags;
+export class TagsBuilder<Filters> implements ITagsBuilder<Filters> {
+  private _tags?: Tag[];
+  private repository: ITagsRepository<Filters>;
 
-  constructor(tags: Tags) {
-    this.tags = tags;
+  constructor(repository: ITagsRepository<Filters>) {
+    this.repository = repository;
   }
 
-  produceConfig(query: RequestQueryData) {
-    const { searchPhrase, tags } = new RequestQueryHelper(
-      query
-    ).getQueryValues();
-
-    this.tags.config = {
-      searchPhrase,
-      tags,
-    };
+  get tags() {
+    return this._tags || [];
   }
 
-  async build(query: RequestQueryData) {
-    this.produceConfig(query);
-
-    const tags = await this.tags.getTags(this.tags.config);
+  async build(filters: Filters) {
+    const tags = await this.repository.selectTags(filters);
     const splittedTags = this.splitTags(tags);
-    this.tags.items = this.countTags(splittedTags).sort(
-      (a, b) => b.count - a.count
-    );
+    this._tags = this.countTags(splittedTags).sort((a, b) => b.count - a.count);
   }
 
   private countTags(tagNames: string[]) {
@@ -50,13 +37,10 @@ export class TagsBuilder implements ITagsBuilder {
     }, []);
   }
 
-  private splitTags(itemsTags: (string | null)[]) {
+  private splitTags(itemsTags: string[]) {
     let splittedTags: string[] = [];
 
     itemsTags.forEach((itemTags) => {
-      if (!itemTags) {
-        return;
-      }
       const splittedItemTags = itemTags.split(",");
       splittedTags = lodash.concat(splittedTags, splittedItemTags);
     });
