@@ -18,3 +18,9 @@ export type RecipeOptionDTO = {
   id: number;
   recipeName: string;
 };
+
+export type RecipeQueryResult = RecipeBase & {
+  kcal?: number;
+  cookedDate?: Date;
+  ingredientIds: string;
+};

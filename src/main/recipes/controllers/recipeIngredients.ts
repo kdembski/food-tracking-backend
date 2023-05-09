@@ -3,6 +3,9 @@ import { IRecipeIngredientsController } from "@/interfaces/recipes/recipeIngredi
 import { RecipeIngredientsRepository } from "@/repositories/recipes/recipeIngredients";
 import { RecipeIngredient } from "../models/recipeIngredient";
 import { RecipeIngredientQueryResultMapper } from "@/mappers/recipes/recipeIngredientQueryResult";
+import { RecipesListFilters } from "@/types/recipes/recipes";
+import { RecipesRepository } from "@/repositories/recipes/recipes";
+import { recipeIngredientsFilterOptionBuilder } from "../builders/recipeIngredientsFilterOptions";
 
 export class RecipeIngredientsController
   implements IRecipeIngredientsController
@@ -10,6 +13,11 @@ export class RecipeIngredientsController
   async getById(id: number) {
     const dto = await new RecipeIngredientsRepository().selectById(id);
     return new RecipeIngredientQueryResultMapper().toDomain(dto);
+  }
+
+  async getFilterOptions(filters: RecipesListFilters) {
+    const ids = await new RecipesRepository().selectIngredientIds(filters);
+    return new recipeIngredientsFilterOptionBuilder().build(ids).options;
   }
 
   async create(ingredient: RecipeIngredient) {

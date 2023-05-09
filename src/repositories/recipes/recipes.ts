@@ -4,7 +4,7 @@ import Database from "@/config/database";
 import { Recipe } from "@/main/recipes/models/recipe";
 import { ListConfig } from "@/types/base/list";
 import { CustomError } from "@/base/errors/models/customError";
-import { ExtendedRecipeDTO, RecipeOptionDTO } from "@/dtos/recipes/recipe";
+import { RecipeQueryResult, RecipeOptionDTO } from "@/dtos/recipes/recipe";
 import { RecipesQueries } from "@/queries/recipes/recipes";
 import { RecipesListFilters } from "@/types/recipes/recipes";
 
@@ -12,7 +12,7 @@ export class RecipesRepository implements IRecipesRepository {
   async selectById(id: number) {
     const query = new RecipesQueries().getSelectById();
     const results = await Database.sendQuery(query, [id]);
-    const dto = results[0] as ExtendedRecipeDTO;
+    const dto = results[0] as RecipeQueryResult;
 
     if (!dto) {
       throw new CustomError({
@@ -27,14 +27,14 @@ export class RecipesRepository implements IRecipesRepository {
     const query = new RecipesQueries().getSelectList(config);
     const data = await Database.sendQuery(query);
 
-    return data as ExtendedRecipeDTO[];
+    return data as RecipeQueryResult[];
   }
 
   async selectAll(filters: RecipesListFilters) {
     const query = new RecipesQueries().getSelectAll(filters);
     const results = await Database.sendQuery(query);
 
-    return results as ExtendedRecipeDTO[];
+    return results as RecipeQueryResult[];
   }
 
   async selectTags(filters: RecipesListFilters) {
@@ -51,6 +51,14 @@ export class RecipesRepository implements IRecipesRepository {
     return results
       .map((result) => result.recipeName)
       .filter((name): name is string => !!name);
+  }
+
+  async selectIngredientIds(filters: RecipesListFilters) {
+    const results = await this.selectAll(filters);
+
+    return results
+      .map((result) => result.ingredientIds)
+      .filter((ids): ids is string => !!ids);
   }
 
   async selectCount(filters: RecipesListFilters) {

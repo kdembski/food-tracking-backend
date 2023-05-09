@@ -5,9 +5,27 @@ import { RecipeIngredientsController } from "@/main/recipes/controllers/recipeIn
 import { RecipeIngredientDTO } from "@/dtos/recipes/recipeIngredient";
 import { RecipeIngredient } from "@/main/recipes/models/recipeIngredient";
 import { RecipeIngredientMapper } from "@/mappers/recipes/recipeIngredient";
+import { RequestQueryHelper } from "@/helpers/requestQuery";
 
 const recipeIngredientsRouter = Router();
 const recipeIngredientsController = new RecipeIngredientsController();
+
+recipeIngredientsRouter.get("/options", async (request, response) => {
+  try {
+    const { searchPhrase, tags, ingredientIds } = new RequestQueryHelper(
+      request.query
+    );
+
+    const options = await recipeIngredientsController.getFilterOptions({
+      searchPhrase,
+      tags,
+      ingredientIds,
+    });
+    response.json(options);
+  } catch (error) {
+    ApiError.create(error, response).send();
+  }
+});
 
 recipeIngredientsRouter.get("/:id", async (request, response) => {
   try {
