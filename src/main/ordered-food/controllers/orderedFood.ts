@@ -1,4 +1,3 @@
-import { IOrderedFoodController } from "@/interfaces/orderedFood";
 import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
 import { RequestQueryData } from "@/types/helpers/requestQuery";
 import { OrderedFoodRepository } from "@/repositories/orderedFood";
@@ -7,8 +6,9 @@ import { ListBuilder } from "@/base/list/builders/list";
 import { TagsBuilder } from "@/base/tags/builders/tags";
 import { RequestQueryHelper } from "@/helpers/requestQuery";
 import { OrderedFoodListFilters } from "@/types/ordered-food/orderedFood";
+import { IDbEntityController } from "@/interfaces/base/db-entity/dbEntityController";
 
-export class OrderedFoodController implements IOrderedFoodController {
+export class OrderedFoodController implements IDbEntityController<OrderedFood> {
   async getList(query: RequestQueryData) {
     const { searchPhrase, tags } = new RequestQueryHelper(query);
     const orderedFoodList = new OrderedFoodList();

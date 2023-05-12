@@ -1,7 +1,6 @@
 import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
-import { IOrderedFood } from "@/interfaces/orderedFood";
 
-export class OrderedFood implements IOrderedFood {
+export class OrderedFood {
   private _id?: number;
   private _foodName?: string;
   private _placeName?: string;

@@ -1,13 +1,15 @@
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
-import { ICalendarItemsController } from "@/interfaces/calendar/calendarItems";
 import { CalendarItemsRepository } from "@/repositories/calendarItems";
 import { CalendarItemMembersController } from "./calendarItemMembers";
 import { CalendarItemChildControllersFactory } from "../factories/calendarItemChildControllers";
-import { CalendarItemQueryResultMapper } from "../../../mappers/calendar/calendarItemQueryResult";
+import { CalendarItemQueryResultMapper } from "@/mappers/calendar/calendarItemQueryResult";
 import { CalendarItemsCollection } from "../collections/calendarItems";
 import { CalendarDaysCollection } from "../collections/calendarDays";
+import { IDbEntityController } from "@/interfaces/base/db-entity/dbEntityController";
 
-export class CalendarItemsController implements ICalendarItemsController {
+export class CalendarItemsController
+  implements IDbEntityController<CalendarItem>
+{
   async getDays(fromDate: Date, toDate: Date, members?: number[]) {
     const dtos = await new CalendarItemsRepository().selectAll(
       fromDate,

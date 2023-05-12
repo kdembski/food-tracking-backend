@@ -1,11 +1,10 @@
-import { IUsersController } from "@/interfaces/users";
 import bcrypt from "bcryptjs";
 import lodash from "lodash";
 import { FIELD_REQUIRED, FIELD_INVALID } from "@/consts/errorCodes";
 import { UsersRepository } from "@/repositories/users";
 import { CustomError } from "@/base/errors/models/customError";
 
-export class UsersController implements IUsersController {
+export class UsersController {
   async login(password: string) {
     if (!password || !lodash.isString(password)) {
       throw new CustomError({

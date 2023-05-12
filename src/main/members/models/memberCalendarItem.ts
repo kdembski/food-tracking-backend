@@ -1,7 +1,6 @@
 import { MemberCalendarItemDTO } from "@/dtos/members/memberCalendarItem";
-import { IMemberCalendarItem } from "@/interfaces/members/memberCalendarItems";
 
-export class MemberCalendarItem implements IMemberCalendarItem {
+export class MemberCalendarItem {
   private _id?: number;
   private _itemId?: number;
   private _memberId?: number;

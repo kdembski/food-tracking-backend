@@ -1,12 +1,14 @@
 import Database from "@/config/database";
 import { OkPacket } from "mysql2";
-import { IIngredientUnitsRepository } from "@/interfaces/ingredients/ingredientUnits";
 import { CustomError } from "@/base/errors/models/customError";
 import { IngredientUnit } from "@/main/ingredients/models/ingredientUnit";
 import { IngredientUnitQueryResult } from "@/dtos/ingredients/ingredientUnit";
 import { IngredientUnitsQueries } from "@/queries/ingredients/ingredientUnits";
+import { IRepository } from "@/interfaces/base/db-entity/repository";
 
-export class IngredientUnitsRepository implements IIngredientUnitsRepository {
+export class IngredientUnitsRepository
+  implements IRepository<IngredientUnit, IngredientUnitQueryResult>
+{
   async selectById(id: number) {
     const query = new IngredientUnitsQueries().getSelectById();
     const results = await Database.sendQuery(query, [id]);

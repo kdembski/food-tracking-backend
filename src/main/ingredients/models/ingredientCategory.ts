@@ -1,7 +1,6 @@
 import { IngredientCategoryDTO } from "@/dtos/ingredients/ingredientCategory";
-import { IIngredientCategory } from "@/interfaces/ingredients/ingredientCategories";
 
-export class IngredientCategory implements IIngredientCategory {
+export class IngredientCategory {
   private _id?: number;
   private _name?: string;
 

@@ -1,7 +1,6 @@
 import Database from "@/config/database";
 import { OkPacket } from "mysql2";
 import { IngredientCategoriesQueries } from "@/queries/ingredients/ingredientCategories";
-import { IIngredientCategoriesRepository } from "@/interfaces/ingredients/ingredientCategories";
 import { CustomError } from "@/base/errors/models/customError";
 import { IngredientCategory } from "@/main/ingredients/models/ingredientCategory";
 import {
@@ -10,9 +9,13 @@ import {
 } from "@/dtos/ingredients/ingredientCategory";
 import { ListConfig } from "@/types/base/list";
 import { IngredientCategoriesListFilters } from "@/types/ingredients/ingredientCategories";
+import { IListRepository } from "@/interfaces/base/list/listRepository";
+import { IRepository } from "@/interfaces/base/db-entity/repository";
 
 export class IngredientCategoriesRepository
-  implements IIngredientCategoriesRepository
+  implements
+    IRepository<IngredientCategory, IngredientCategoryDTO>,
+    IListRepository<IngredientCategoryDTO, IngredientCategoriesListFilters>
 {
   async selectList(config: ListConfig<IngredientCategoriesListFilters>) {
     const query = new IngredientCategoriesQueries().getSelectList(config);

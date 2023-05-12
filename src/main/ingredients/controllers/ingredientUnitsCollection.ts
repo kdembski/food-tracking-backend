@@ -2,10 +2,10 @@ import { IngredientUnitQueryResultMapper } from "@/mappers/ingredients/ingredien
 import { IngredientUnitsRepository } from "@/repositories/ingredients/ingredientUnits";
 import { IngredientUnitsCollection } from "../collections/ingredientUnits";
 import { IngredientUnit } from "../models/ingredientUnit";
-import { DBEntityCollectionController } from "@/base/db-entity/controllers/collection";
+import { DbEntityCollectionController } from "@/base/db-entity/controllers/collection";
 import { IngredientUnitsController } from "./ingredientUnits";
 
-export class IngredientUnitsCollectionController extends DBEntityCollectionController<
+export class IngredientUnitsCollectionController extends DbEntityCollectionController<
   IngredientUnit,
   IngredientUnitsCollection
 > {

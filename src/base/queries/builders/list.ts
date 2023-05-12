@@ -1,4 +1,3 @@
-import lodash from "lodash";
 import { ListConfig } from "@/types/base/list";
 import { WheresCollection } from "../collections/where";
 import { Where } from "../models/where";

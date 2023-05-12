@@ -1,6 +1,6 @@
 import { CalendarMonthsCollection } from "../collections/calendarMonths";
 import { isEqual, startOfMonth, subMonths } from "date-fns";
-import { ICalendarItemChildAdapter } from "@/interfaces/calendar/calendarItemChild";
+import { ICalendarItemChildAdapter } from "@/interfaces/calendar/calendarItemChildAdapter";
 
 export abstract class CalendarItemChildController<Model> {
   private childAdapter: ICalendarItemChildAdapter<Model>;

@@ -1,14 +1,14 @@
 import { IngredientUnitsController } from "./../../ingredients/controllers/ingredientUnits";
-import { IRecipeIngredientsController } from "@/interfaces/recipes/recipeIngredients";
 import { RecipeIngredientsRepository } from "@/repositories/recipes/recipeIngredients";
 import { RecipeIngredient } from "../models/recipeIngredient";
 import { RecipeIngredientQueryResultMapper } from "@/mappers/recipes/recipeIngredientQueryResult";
 import { RecipesListFilters } from "@/types/recipes/recipes";
 import { RecipesRepository } from "@/repositories/recipes/recipes";
 import { recipeIngredientsFilterOptionBuilder } from "../builders/recipeIngredientsFilterOptions";
+import { IDbEntityController } from "@/interfaces/base/db-entity/dbEntityController";
 
 export class RecipeIngredientsController
-  implements IRecipeIngredientsController
+  implements IDbEntityController<RecipeIngredient>
 {
   async getById(id: number) {
     const dto = await new RecipeIngredientsRepository().selectById(id);

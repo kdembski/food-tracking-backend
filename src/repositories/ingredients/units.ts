@@ -2,13 +2,18 @@ import Database from "@/config/database";
 import { OkPacket } from "mysql2";
 import { CustomError } from "@/base/errors/models/customError";
 import { UnitDTO, UnitOptionDTO } from "@/dtos/ingredients/unit";
-import { IUnitsRepository } from "@/interfaces/ingredients/units";
 import { Unit } from "@/main/ingredients/models/unit";
 import { UnitsQueries } from "@/queries/ingredients/units";
 import { ListConfig } from "@/types/base/list";
 import { UnitsListFilters } from "@/types/ingredients/units";
+import { IRepository } from "@/interfaces/base/db-entity/repository";
+import { IListRepository } from "@/interfaces/base/list/listRepository";
 
-export class UnitsRepository implements IUnitsRepository {
+export class UnitsRepository
+  implements
+    IRepository<Unit, UnitOptionDTO>,
+    IListRepository<UnitOptionDTO, UnitsListFilters>
+{
   async selectList(config: ListConfig<UnitsListFilters>) {
     const query = new UnitsQueries().getSelectList(config);
     const data = await Database.sendQuery(query);

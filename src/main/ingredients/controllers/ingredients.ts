@@ -1,5 +1,4 @@
 import { IngredientsRepository } from "@/repositories/ingredients/ingredients";
-import { IIngredientsController } from "@/interfaces/ingredients/ingredients";
 import { RequestQueryData } from "@/types/helpers/requestQuery";
 import { IngredientsList } from "../models/ingredientsList";
 import { ListBuilder } from "@/base/list/builders/list";
@@ -7,8 +6,9 @@ import { IngredientBuilder } from "../builders/ingredient";
 import { IngredientUnitsCollectionController } from "./ingredientUnitsCollection";
 import { Ingredient } from "../models/ingredient";
 import { RequestQueryHelper } from "@/helpers/requestQuery";
+import { IDbEntityController } from "@/interfaces/base/db-entity/dbEntityController";
 
-export class IngredientsController implements IIngredientsController {
+export class IngredientsController implements IDbEntityController<Ingredient> {
   async getList(query: RequestQueryData) {
     const { searchPhrase } = new RequestQueryHelper(query);
     const ingredientsList = new IngredientsList();

@@ -1,7 +1,6 @@
 import { ShoppingListDTO } from "@/dtos/shopping/shoppingLists";
-import { IShoppingList } from "@/interfaces/shopping/shopping-items/shoppingItem";
 
-export class ShoppingList implements IShoppingList {
+export class ShoppingList {
   private _id?: number;
   private _name?: string;
   private _count?: number;

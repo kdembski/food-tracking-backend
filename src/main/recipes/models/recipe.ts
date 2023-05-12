@@ -1,7 +1,6 @@
 import { ExtendedRecipeDTO } from "@/dtos/recipes/recipe";
-import { IRecipe } from "@/interfaces/recipes/recipes";
 
-export class Recipe implements IRecipe {
+export class Recipe {
   private _id?: number;
   private _recipeName?: string;
   private _preparationTime?: number;

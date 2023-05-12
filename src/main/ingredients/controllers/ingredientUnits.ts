@@ -1,12 +1,14 @@
-import { IIngredientUnitsController } from "@/interfaces/ingredients/ingredientUnits";
 import { IngredientUnitsRepository } from "@/repositories/ingredients/ingredientUnits";
 import { IngredientUnitQueryResultMapper } from "@/mappers/ingredients/ingredientUnitQueryResult";
 import { IngredientUnit } from "../models/ingredientUnit";
 import { RecipeIngredientsCollectionController } from "@/main/recipes/controllers/recipeIngredientsCollection";
 import { RecipeIngredientsCollectionBuilder } from "@/main/recipes/builders/recipeIngredientsCollection";
 import { RecipesController } from "@/main/recipes/controllers/recipes";
+import { IDbEntityController } from "@/interfaces/base/db-entity/dbEntityController";
 
-export class IngredientUnitsController implements IIngredientUnitsController {
+export class IngredientUnitsController
+  implements IDbEntityController<IngredientUnit>
+{
   async getById(id: number) {
     const dto = await new IngredientUnitsRepository().selectById(id);
     return new IngredientUnitQueryResultMapper().toDomain(dto);

@@ -1,13 +1,13 @@
-import { RecipeIngredientsQueries } from "@/queries/recipes/recipeIngredients";
-import { IRecipeIngredientsRepository } from "@/interfaces/recipes/recipeIngredients";
 import Database from "@/config/database";
 import { OkPacket } from "mysql2";
+import { RecipeIngredientsQueries } from "@/queries/recipes/recipeIngredients";
 import { CustomError } from "@/base/errors/models/customError";
 import { RecipeIngredient } from "@/main/recipes/models/recipeIngredient";
 import { RecipeIngredientQueryResult } from "@/dtos/recipes/recipeIngredient";
+import { IRepository } from "@/interfaces/base/db-entity/repository";
 
 export class RecipeIngredientsRepository
-  implements IRecipeIngredientsRepository
+  implements IRepository<RecipeIngredient, RecipeIngredientQueryResult>
 {
   async selectById(id: number) {
     const query = new RecipeIngredientsQueries().getSelectById();

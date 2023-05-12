@@ -1,12 +1,12 @@
 import { ListBuilder } from "@/base/list/builders/list";
-import { IUnitsController } from "@/interfaces/ingredients/units";
 import { UnitsRepository } from "@/repositories/ingredients/units";
 import { RequestQueryData } from "@/types/helpers/requestQuery";
 import { Unit } from "../models/unit";
 import { UnitsList } from "../models/unitsList";
 import { RequestQueryHelper } from "@/helpers/requestQuery";
+import { IDbEntityController } from "@/interfaces/base/db-entity/dbEntityController";
 
-export class UnitsController implements IUnitsController {
+export class UnitsController implements IDbEntityController<Unit> {
   async getList(query: RequestQueryData) {
     const { searchPhrase } = new RequestQueryHelper(query);
     const ingredientsList = new UnitsList();

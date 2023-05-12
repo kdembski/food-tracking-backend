@@ -1,7 +1,6 @@
 import { ShoppingCustomItemDTO } from "@/dtos/shopping/shoppingCustomItems";
-import { IShoppingCustomItem } from "@/interfaces/shopping/shopping-custom-items/shoppingCustomItem";
 
-export class ShoppingCustomItem implements IShoppingCustomItem {
+export class ShoppingCustomItem {
   private _id?: number;
   private _name?: string;
 

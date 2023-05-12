@@ -1,12 +1,10 @@
-import {
-  IDBEntityCollection,
-  IDbEntityController,
-  IDBEntityModel,
-} from "@/interfaces/base/dbEntity";
+import { IDbEntityCollection } from "@/interfaces/base/db-entity/dbEntityCollection";
+import { IDbEntityController } from "@/interfaces/base/db-entity/dbEntityController";
+import { IDbEntityModel } from "@/interfaces/base/db-entity/dbEntityModel";
 
-export abstract class DBEntityCollectionController<
-  CollectionItem extends IDBEntityModel,
-  Collection extends IDBEntityCollection<CollectionItem>
+export abstract class DbEntityCollectionController<
+  CollectionItem extends IDbEntityModel,
+  Collection extends IDbEntityCollection<CollectionItem>
 > {
   private collectionItemController: IDbEntityController<CollectionItem>;
 

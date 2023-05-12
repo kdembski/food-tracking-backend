@@ -1,10 +1,7 @@
 import { MemberCalendarItem } from "@/main/members/models/memberCalendarItem";
-import { ICalendarItemMembersController } from "@/interfaces/calendar/calendarItemMembers";
 import { MemberCalendarItemsController } from "@/main/members/controllers/memberCalendarItems";
 
-export class CalendarItemMembersController
-  implements ICalendarItemMembersController
-{
+export class CalendarItemMembersController {
   async addCalendarItemToMembers(itemId: number, memberIds: number[]) {
     const promises = memberIds.map((memberId) => {
       const memberCalendarItem = new MemberCalendarItem({

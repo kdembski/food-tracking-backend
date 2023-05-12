@@ -9,8 +9,14 @@ import {
 import { ListConfig } from "@/types/base/list";
 import { Ingredient } from "@/main/ingredients/models/ingredient";
 import { IngredientsListFilters } from "@/types/ingredients/ingredients";
+import { IRepository } from "@/interfaces/base/db-entity/repository";
+import { IListRepository } from "@/interfaces/base/list/listRepository";
 
-export class IngredientsRepository {
+export class IngredientsRepository
+  implements
+    IRepository<Ingredient, IngredientQueryResult>,
+    IListRepository<IngredientQueryResult, IngredientsListFilters>
+{
   async selectById(id: number) {
     const query = new IngredientsQueries().getSelectById();
     const results = await Database.sendQuery(query, [id]);

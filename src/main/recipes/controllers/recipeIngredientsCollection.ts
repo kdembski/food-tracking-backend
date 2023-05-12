@@ -1,13 +1,13 @@
 import { RecipesController } from "@/main/recipes/controllers/recipes";
 import { RecipeIngredientsController } from "./recipeIngredients";
-import { DBEntityCollectionController } from "@/base/db-entity/controllers/collection";
+import { DbEntityCollectionController } from "@/base/db-entity/controllers/collection";
 import { RecipeIngredientCollectionMapper } from "@/mappers/recipes/recipeIngredientsCollection";
 import { RecipeIngredientsRepository } from "@/repositories/recipes/recipeIngredients";
 import { RecipeIngredientsCollection } from "../collections/recipeIngredients";
 import { RecipeIngredient } from "../models/recipeIngredient";
 import { RecipeIngredientsCollectionBuilder } from "../builders/recipeIngredientsCollection";
 
-export class RecipeIngredientsCollectionController extends DBEntityCollectionController<
+export class RecipeIngredientsCollectionController extends DbEntityCollectionController<
   RecipeIngredient,
   RecipeIngredientsCollection
 > {

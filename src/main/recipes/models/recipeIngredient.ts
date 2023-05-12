@@ -1,7 +1,6 @@
 import { RecipeIngredientDTO } from "@/dtos/recipes/recipeIngredient";
-import { IRecipeIngredient } from "@/interfaces/recipes/recipeIngredients";
 
-export class RecipeIngredient implements IRecipeIngredient {
+export class RecipeIngredient {
   private _id?: number;
   private _recipeId?: number;
   private _ingredientUnitId?: number;

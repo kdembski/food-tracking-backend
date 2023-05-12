@@ -1,6 +1,7 @@
 import lodash from "lodash";
-import { ITagsBuilder, ITagsRepository } from "@/interfaces/base/tags";
+import { ITagsBuilder } from "@/interfaces/base/tags/tagsBuilder";
 import { Tag } from "../models/tag";
+import { ITagsRepository } from "@/interfaces/base/tags/tagsRepository";
 
 export class TagsBuilder<Filters> implements ITagsBuilder<Filters> {
   private _tags?: Tag[];

@@ -1,9 +1,9 @@
-import { IShoppingCustomItemsController } from "@/interfaces/shopping/shopping-custom-items/shoppingCustomItemsController";
 import { ShoppingCustomItemsRepository } from "@/repositories/shopping/shoppingCustomItems";
 import { ShoppingCustomItem } from "../models/shoppingCustomItem";
+import { IDbEntityController } from "@/interfaces/base/db-entity/dbEntityController";
 
 export class ShoppingCustomItemsController
-  implements IShoppingCustomItemsController
+  implements IDbEntityController<ShoppingCustomItem>
 {
   getOptions() {
     return new ShoppingCustomItemsRepository().selectOptions();

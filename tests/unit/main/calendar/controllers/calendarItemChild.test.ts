@@ -1,5 +1,4 @@
-import { TagsBuilder } from "@/base/tags/builders/tags";
-import { ICalendarItemChildAdapter } from "@/interfaces/calendar/calendarItemChild";
+import { ICalendarItemChildAdapter } from "@/interfaces/calendar/calendarItemChildAdapter";
 import { CalendarItemChildController } from "@/main/calendar/controllers/calendarItemChild";
 import { clone } from "lodash";
 

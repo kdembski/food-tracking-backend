@@ -1,16 +1,16 @@
-import { CustomError } from "@/base/errors/models/customError";
 import Database from "@/config/database";
+import { OkPacket } from "mysql2";
+import { CustomError } from "@/base/errors/models/customError";
 import {
   ShoppingCustomItemDTO,
   ShoppingCustomItemOptionDTO,
 } from "@/dtos/shopping/shoppingCustomItems";
-import { IShoppingCustomItemsRepository } from "@/interfaces/shopping/shopping-custom-items/shoppingCustomItemsRepository";
+import { IRepository } from "@/interfaces/base/db-entity/repository";
 import { ShoppingCustomItem } from "@/main/shopping/models/shoppingCustomItem";
 import { ShoppingCustomItemsQueries } from "@/queries/shopping/shoppingCustomItems";
-import { OkPacket } from "mysql2";
 
 export class ShoppingCustomItemsRepository
-  implements IShoppingCustomItemsRepository
+  implements IRepository<ShoppingCustomItem, ShoppingCustomItemDTO>
 {
   async selectOptions() {
     const query = new ShoppingCustomItemsQueries().getSelectOptions("name");

@@ -1,9 +1,11 @@
-import { IShoppingItemsController } from "@/interfaces/shopping/shopping-items/shoppingItemsController";
 import { ShoppingItemQueryResultMapper } from "@/mappers/shopping/shoppingItemQueryResult";
 import { ShoppingItemsRepository } from "@/repositories/shopping/shoppingItems";
 import { ShoppingItem } from "../models/shoppingItem";
+import { IDbEntityController } from "@/interfaces/base/db-entity/dbEntityController";
 
-export class ShoppingItemsController implements IShoppingItemsController {
+export class ShoppingItemsController
+  implements IDbEntityController<ShoppingItem>
+{
   async getById(id: number) {
     const dto = await new ShoppingItemsRepository().selectById(id);
     return new ShoppingItemQueryResultMapper().toDomain(dto);

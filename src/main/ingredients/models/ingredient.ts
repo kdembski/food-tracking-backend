@@ -1,8 +1,7 @@
 import { IngredientUnitsCollection } from "./../collections/ingredientUnits";
 import { IngredientPayload } from "@/dtos/ingredients/ingredient";
-import { IIngredient } from "@/interfaces/ingredients/ingredients";
 
-export class Ingredient implements IIngredient {
+export class Ingredient {
   private _id?: number;
   private _name?: string;
   private _categoryId?: number;

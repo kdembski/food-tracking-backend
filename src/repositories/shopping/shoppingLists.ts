@@ -1,12 +1,14 @@
-import { CustomError } from "@/base/errors/models/customError";
 import Database from "@/config/database";
+import { CustomError } from "@/base/errors/models/customError";
 import { ShoppingListDTO } from "@/dtos/shopping/shoppingLists";
-import { IShoppingListsRepository } from "@/interfaces/shopping/shopping-lists/shoppingListsRepository";
+import { IRepository } from "@/interfaces/base/db-entity/repository";
 import { ShoppingList } from "@/main/shopping/models/shoppingList";
 import { ShoppingListsQueries } from "@/queries/shopping/shoppingLists";
 import { OkPacket } from "mysql2";
 
-export class ShoppingListsRepository implements IShoppingListsRepository {
+export class ShoppingListsRepository
+  implements IRepository<ShoppingList, ShoppingListDTO>
+{
   async selectById(id: number) {
     const query = new ShoppingListsQueries().getSelectById();
     const results = await Database.sendQuery(query, [id]);

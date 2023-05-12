@@ -1,14 +1,21 @@
-import { OkPacket } from "mysql2";
-import { IRecipesRepository } from "@/interfaces/recipes/recipes";
 import Database from "@/config/database";
+import { OkPacket } from "mysql2";
 import { Recipe } from "@/main/recipes/models/recipe";
 import { ListConfig } from "@/types/base/list";
 import { CustomError } from "@/base/errors/models/customError";
 import { RecipeQueryResult, RecipeOptionDTO } from "@/dtos/recipes/recipe";
 import { RecipesQueries } from "@/queries/recipes/recipes";
 import { RecipesListFilters } from "@/types/recipes/recipes";
+import { IRepository } from "@/interfaces/base/db-entity/repository";
+import { IListRepository } from "@/interfaces/base/list/listRepository";
+import { ITagsRepository } from "@/interfaces/base/tags/tagsRepository";
 
-export class RecipesRepository implements IRecipesRepository {
+export class RecipesRepository
+  implements
+    IRepository<Recipe, RecipeQueryResult>,
+    IListRepository<RecipeQueryResult, RecipesListFilters>,
+    ITagsRepository<RecipesListFilters>
+{
   async selectById(id: number) {
     const query = new RecipesQueries().getSelectById();
     const results = await Database.sendQuery(query, [id]);

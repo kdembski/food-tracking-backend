@@ -1,5 +1,5 @@
 import { Recipe } from "@/main/recipes/models/recipe";
-import { ICalendarItemChildAdapter } from "@/interfaces/calendar/calendarItemChild";
+import { ICalendarItemChildAdapter } from "@/interfaces/calendar/calendarItemChildAdapter";
 import { CustomError } from "@/base/errors/models/customError";
 import { RecipesController } from "@/main/recipes/controllers/recipes";
 

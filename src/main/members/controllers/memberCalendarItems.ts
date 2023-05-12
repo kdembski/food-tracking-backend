@@ -1,9 +1,9 @@
 import { MemberCalendarItemsRepository } from "@/repositories/members/memberCalendarItems";
 import { MemberCalendarItem } from "@/main/members/models/memberCalendarItem";
-import { IMemberCalendarItemsController } from "@/interfaces/members/memberCalendarItems";
+import { IDbEntityController } from "@/interfaces/base/db-entity/dbEntityController";
 
 export class MemberCalendarItemsController
-  implements IMemberCalendarItemsController
+  implements IDbEntityController<MemberCalendarItem>
 {
   async getByItemId(itemId: number) {
     const results = await new MemberCalendarItemsRepository().selectByItemId(

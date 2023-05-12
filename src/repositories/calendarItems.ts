@@ -1,12 +1,14 @@
+import Database from "@/config/database";
 import { OkPacket } from "mysql2";
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
-import Database from "@/config/database";
-import { ICalendarItemsRepository } from "@/interfaces/calendar/calendarItems";
 import { CustomError } from "@/base/errors/models/customError";
 import { CalendarItemQueryResult } from "@/dtos/calendar/calendarItem";
 import { CalendarItemsQueries } from "@/queries/calendarItems";
+import { IRepository } from "@/interfaces/base/db-entity/repository";
 
-export class CalendarItemsRepository implements ICalendarItemsRepository {
+export class CalendarItemsRepository
+  implements IRepository<CalendarItem, CalendarItemQueryResult>
+{
   async selectById(id: number) {
     const query = new CalendarItemsQueries().getSelectById();
     const results = await Database.sendQuery(query, [id]);

@@ -1,5 +1,4 @@
 import { RecipeBuilder } from "./../builders/recipe";
-import { IRecipesController } from "@/interfaces/recipes/recipes";
 import { RecipesRepository } from "@/repositories/recipes/recipes";
 import { Recipe } from "@/main/recipes/models/recipe";
 import { RequestQueryData } from "@/types/helpers/requestQuery";
@@ -8,8 +7,9 @@ import { TagsBuilder } from "@/base/tags/builders/tags";
 import { RecipesListFilters } from "@/types/recipes/recipes";
 import { ListBuilder } from "@/base/list/builders/list";
 import { RequestQueryHelper } from "@/helpers/requestQuery";
+import { IDbEntityController } from "@/interfaces/base/db-entity/dbEntityController";
 
-export class RecipesController implements IRecipesController {
+export class RecipesController implements IDbEntityController<Recipe> {
   async getList(query: RequestQueryData) {
     const { searchPhrase, tags, ingredientIds } = new RequestQueryHelper(query);
     const recipesList = new RecipesList();

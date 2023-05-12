@@ -1,13 +1,13 @@
 import { ListBuilder } from "@/base/list/builders/list";
-import { IIngredientCategoriesController } from "@/interfaces/ingredients/ingredientCategories";
 import { IngredientCategoriesRepository } from "@/repositories/ingredients/ingredientCategories";
 import { RequestQueryData } from "@/types/helpers/requestQuery";
 import { IngredientCategoriesList } from "../models/ingredientCategoriesList";
 import { IngredientCategory } from "../models/ingredientCategory";
 import { RequestQueryHelper } from "@/helpers/requestQuery";
+import { IDbEntityController } from "@/interfaces/base/db-entity/dbEntityController";
 
 export class IngredientCategoriesController
-  implements IIngredientCategoriesController
+  implements IDbEntityController<IngredientCategory>
 {
   async getList(query: RequestQueryData) {
     const { searchPhrase } = new RequestQueryHelper(query);

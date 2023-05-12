@@ -1,14 +1,21 @@
 import Database from "@/config/database";
 import { OkPacket } from "mysql2";
 import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
-import { IOrderedFoodRepository } from "@/interfaces/orderedFood";
 import { ListConfig } from "@/types/base/list";
 import { CustomError } from "@/base/errors/models/customError";
 import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
 import { OrderedFoodQueries } from "@/queries/orderedFood";
 import { OrderedFoodListFilters } from "@/types/ordered-food/orderedFood";
+import { IRepository } from "@/interfaces/base/db-entity/repository";
+import { IListRepository } from "@/interfaces/base/list/listRepository";
+import { ITagsRepository } from "@/interfaces/base/tags/tagsRepository";
 
-export class OrderedFoodRepository implements IOrderedFoodRepository {
+export class OrderedFoodRepository
+  implements
+    IRepository<OrderedFood, OrderedFoodDTO>,
+    IListRepository<OrderedFoodDTO, OrderedFoodListFilters>,
+    ITagsRepository<OrderedFoodListFilters>
+{
   async selectById(id: number) {
     const query = new OrderedFoodQueries().getSelectById();
     const results = await Database.sendQuery(query, [id]);

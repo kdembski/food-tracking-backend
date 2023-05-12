@@ -1,10 +1,12 @@
-import { IShoppingListsController } from "@/interfaces/shopping/shopping-lists/shoppingListsController";
 import { ShoppingListsRepository } from "@/repositories/shopping/shoppingLists";
 import { ShoppingList } from "../models/shoppingList";
 import { ShoppingItemsCollectionController } from "./shoppingItemsCollection";
 import { ShoppingListsCollectionBuilder } from "../builders/shoppingListsCollection";
+import { IDbEntityController } from "@/interfaces/base/db-entity/dbEntityController";
 
-export class ShoppingListsController implements IShoppingListsController {
+export class ShoppingListsController
+  implements IDbEntityController<ShoppingList>
+{
   async getAll() {
     const dtos = await new ShoppingListsRepository().selectAll();
     const builder = new ShoppingListsCollectionBuilder(dtos);

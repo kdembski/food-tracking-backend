@@ -1,8 +1,9 @@
 import { IMapper } from "@/interfaces/base/mapper";
-import { IListRepository } from "@/interfaces/base/list";
-import { IList } from "@/interfaces/base/list";
 import { Pagination } from "@/base/list/models/pagination";
 import { ListConfig } from "@/types/base/list";
+import { CustomError } from "@/base/errors/models/customError";
+import { IList } from "@/interfaces/base/list/list";
+import { IListRepository } from "@/interfaces/base/list/listRepository";
 
 export abstract class List<Item, ItemDTO, ItemQueryResult, Filters>
   implements IList<Item, ItemQueryResult, Filters>
@@ -34,21 +35,21 @@ export abstract class List<Item, ItemDTO, ItemQueryResult, Filters>
 
   get data() {
     if (!this._data) {
-      throw Error("List data is missing");
+      throw new CustomError({ message: "List data is missing" });
     }
     return this._data;
   }
 
   get pagination() {
     if (!this._pagination) {
-      throw Error("List pagination is missing");
+      throw new CustomError({ message: "List pagination is missing" });
     }
     return this._pagination;
   }
 
   get config() {
     if (!this._config) {
-      throw Error("List config is missing");
+      throw new CustomError({ message: "List config is missing" });
     }
     return this._config;
   }

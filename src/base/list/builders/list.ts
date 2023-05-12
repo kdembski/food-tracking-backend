@@ -1,8 +1,8 @@
 import { List } from "@/base/list/models/list";
 import { RequestQueryHelper } from "@/helpers/requestQuery";
-import { IListBuilder } from "@/interfaces/base/list";
 import { RequestQueryData } from "@/types/helpers/requestQuery";
 import { Pagination } from "../models/pagination";
+import { IListBuilder } from "@/interfaces/base/list/listBuilder";
 
 export class ListBuilder<Item, ItemDTO, ItemQueryResult, Filters>
   implements IListBuilder<Filters>

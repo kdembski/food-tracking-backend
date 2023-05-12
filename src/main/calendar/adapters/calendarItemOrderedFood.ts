@@ -1,6 +1,6 @@
 import { OrderedFoodController } from "@/main/ordered-food/controllers/orderedFood";
 import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
-import { ICalendarItemChildAdapter } from "@/interfaces/calendar/calendarItemChild";
+import { ICalendarItemChildAdapter } from "@/interfaces/calendar/calendarItemChildAdapter";
 import { CustomError } from "@/base/errors/models/customError";
 
 export class CalendarItemOrderedFoodAdapter

@@ -1,6 +1,6 @@
 import { ExtendedRecipeDTO } from "@/dtos/recipes/recipe";
 import { RecipeBuilder } from "./../builders/recipe";
-import { ExtendedRecipeMapper } from "../../../mappers/recipes/extendedRecipe";
+import { ExtendedRecipeMapper } from "@/mappers/recipes/extendedRecipe";
 import { Recipe } from "./recipe";
 import { List } from "@/base/list/models/list";
 import { RecipeDTO } from "@/dtos/recipes/recipe";

@@ -1,12 +1,12 @@
-import { MemberCalendarItem } from "../../main/members/models/memberCalendarItem";
 import Database from "@/config/database";
-import { IMemberCalendarItemsRepository } from "@/interfaces/members/memberCalendarItems";
 import { OkPacket } from "mysql2";
+import { MemberCalendarItem } from "@/main/members/models/memberCalendarItem";
 import { MemberCalendarItemDTO } from "@/dtos/members/memberCalendarItem";
 import { MemberCalendarItemsQueries } from "@/queries/members/memberCalendarItems";
+import { IRepository } from "@/interfaces/base/db-entity/repository";
 
 export class MemberCalendarItemsRepository
-  implements IMemberCalendarItemsRepository
+  implements IRepository<MemberCalendarItem, MemberCalendarItemDTO>
 {
   async selectById(id: number) {
     const query = new MemberCalendarItemsQueries().getSelectById();
