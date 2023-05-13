@@ -24,6 +24,7 @@ export class CalendarItemQueryResultMapper
       name: dto.recipeName || dto.orderedFoodName,
       tags: dto.recipeTags || dto.orderedFoodTags,
       sortOrder: dto.sortOrder,
+      members: dto.memberIds?.split(",").map((id) => parseInt(id)) || [],
     };
     return new CalendarItem(baseDto);
   }

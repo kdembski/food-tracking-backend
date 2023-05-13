@@ -61,16 +61,4 @@ export class CalendarItem {
   set members(value) {
     this._members = value || [];
   }
-
-  async loadMembers() {
-    const id = this.id;
-    if (!id) {
-      return;
-    }
-
-    const results = await new MemberCalendarItemsController().getByItemId(id);
-    this.members = results
-      .map((result) => result.memberId)
-      .filter((id): id is number => !!id);
-  }
 }

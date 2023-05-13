@@ -19,6 +19,12 @@ export class CalendarItemsQueries extends Queries {
         on: "calendar_items.ordered_food_id",
         equals: "id",
       }),
+      new Join({
+        type: "LEFT JOIN",
+        table: "member_calendar_items",
+        on: "calendar_items.id",
+        equals: "item_id",
+      }),
     ];
 
     const fieldsToSelect = [
@@ -44,6 +50,10 @@ export class CalendarItemsQueries extends Queries {
         table: "ordered_food",
         name: "tags",
         alias: "ordered_food_tags",
+      }),
+      new Field({
+        name: "GROUP_CONCAT(member_calendar_items.member_id)",
+        alias: "member_ids",
       }),
     ];
 
@@ -97,6 +107,6 @@ export class CalendarItemsQueries extends Queries {
       }),
     ];
 
-    return this.getSelect({ wheres });
+    return this.getSelect({ wheres }) + " GROUP BY calendar_items.id";
   }
 }

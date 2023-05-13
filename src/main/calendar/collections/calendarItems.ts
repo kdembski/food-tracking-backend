@@ -16,9 +16,6 @@ export class CalendarItemsCollection {
   }
 
   filterByMembers = async (members?: number[]) => {
-    const promises = this.items.map((item) => item.loadMembers());
-    await Promise.all(promises);
-
     if (!members || members.length === 0) {
       return;
     }

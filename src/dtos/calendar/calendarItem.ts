@@ -22,6 +22,7 @@ export type CalendarItemQueryResult = {
   orderedFoodName?: string;
   orderedFoodTags?: string;
   sortOrder?: number;
+  memberIds?: string;
 };
 
 export type CalendarDayDTO = {

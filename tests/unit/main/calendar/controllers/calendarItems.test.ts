@@ -11,30 +11,34 @@ const selectAllResult = [
     recipeName: "name1",
     recipeTags: "tag1",
     sortOrder: 1,
+    memberIds: "1",
   },
   {
-    id: 1,
+    id: 2,
     date: new Date(2000, 1, 1),
     recipeId: 2,
     recipeName: "name2",
     recipeTags: "tag2",
     sortOrder: 2,
+    memberIds: "1",
   },
   {
-    id: 1,
+    id: 3,
     date: new Date(2000, 1, 2),
     recipeId: 3,
     recipeName: "name3",
     recipeTags: "tag3",
     sortOrder: 3,
+    memberIds: "1,2",
   },
   {
-    id: 2,
+    id: 4,
     date: new Date(2000, 1, 2),
     recipeId: 4,
     recipeName: "name4",
     recipeTags: "tag4",
     sortOrder: 4,
+    memberIds: "2",
   },
 ];
 
@@ -53,14 +57,6 @@ jest.mock("@/repositories/calendarItems", () => ({
     selectById,
     delete: _delete,
     selectAll,
-  })),
-}));
-
-jest.mock("@/main/members/controllers/memberCalendarItems", () => ({
-  MemberCalendarItemsController: jest.fn().mockImplementation(() => ({
-    getByItemId: jest
-      .fn()
-      .mockImplementation((id: number) => [{ memberId: id }]),
   })),
 }));
 
@@ -113,7 +109,7 @@ describe("Calendar Items Controller", () => {
             members: [1],
           },
           {
-            id: 1,
+            id: 2,
             date: new Date(2000, 1, 1),
             recipeId: 2,
             orderedFoodId: undefined,
@@ -128,14 +124,14 @@ describe("Calendar Items Controller", () => {
         date: new Date(2000, 1, 2),
         items: [
           {
-            id: 1,
+            id: 3,
             date: new Date(2000, 1, 2),
             recipeId: 3,
             orderedFoodId: undefined,
             name: "name3",
             tags: "tag3",
             sortOrder: 3,
-            members: [1],
+            members: [1, 2],
           },
         ],
       },
