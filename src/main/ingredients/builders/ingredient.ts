@@ -1,6 +1,6 @@
 import { IngredientPayload } from "@/dtos/ingredients/ingredient";
 import { Ingredient } from "@/main/ingredients/models/ingredient";
-import { IngredientUnitsCollectionController } from "../controllers/ingredientUnitsCollection";
+import { IngredientUnitsCollectionService } from "../services/ingredientUnitsCollection";
 
 export class IngredientBuilder {
   private _ingredient: Ingredient;
@@ -11,7 +11,7 @@ export class IngredientBuilder {
 
   async produceUnits() {
     const units =
-      await new IngredientUnitsCollectionController().getByIngredientId(
+      await new IngredientUnitsCollectionService().getByIngredientId(
         this._ingredient.id as number
       );
 

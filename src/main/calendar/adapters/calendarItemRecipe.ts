@@ -1,7 +1,7 @@
 import { Recipe } from "@/main/recipes/models/recipe";
 import { ICalendarItemChildAdapter } from "@/interfaces/calendar/calendarItemChildAdapter";
 import { CustomError } from "@/base/errors/models/customError";
-import { RecipesController } from "@/main/recipes/controllers/recipes";
+import { RecipesService } from "@/main/recipes/services/recipes";
 
 export class CalendarItemRecipeAdapter
   implements ICalendarItemChildAdapter<Recipe>
@@ -14,11 +14,11 @@ export class CalendarItemRecipeAdapter
   }
 
   async loadItem() {
-    this.item = await new RecipesController().getById(this._itemId);
+    this.item = await new RecipesService().getById(this._itemId);
   }
 
   async updateItem() {
-    await new RecipesController().update(this.item);
+    await new RecipesService().update(this.item);
   }
 
   get item() {

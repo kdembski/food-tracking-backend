@@ -1,4 +1,4 @@
-import { OrderedFoodController } from "@/main/ordered-food/controllers/orderedFood";
+import { OrderedFoodService } from "@/main/ordered-food/services/orderedFood";
 import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
 import { ICalendarItemChildAdapter } from "@/interfaces/calendar/calendarItemChildAdapter";
 import { CustomError } from "@/base/errors/models/customError";
@@ -14,11 +14,11 @@ export class CalendarItemOrderedFoodAdapter
   }
 
   async loadItem() {
-    this.item = await new OrderedFoodController().getById(this._itemId);
+    this.item = await new OrderedFoodService().getById(this._itemId);
   }
 
   async updateItem() {
-    await new OrderedFoodController().update(this.item);
+    await new OrderedFoodService().update(this.item);
   }
 
   get item() {

@@ -1,4 +1,4 @@
-import { MemberCalendarItemsController } from "@/main/members/controllers/memberCalendarItems";
+import { MemberCalendarItemsService } from "@/main/members/services/memberCalendarItems";
 import { CalendarItemDTO } from "@/dtos/calendar/calendarItem";
 
 export class CalendarItem {

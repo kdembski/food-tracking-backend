@@ -1,6 +1,6 @@
 import { Response, Request, NextFunction } from "express";
 import { TOKEN_INVALID, TOKEN_REQUIRED } from "@/consts/errorCodes";
-import { UsersController } from "@/main/users/controllers/users";
+import { UsersService } from "@/main/users/services/users";
 
 export const verifyToken = async (
   request: Request,
@@ -19,7 +19,7 @@ export const verifyToken = async (
     });
   }
 
-  const user = await new UsersController().getDefaultUser();
+  const user = await new UsersService().getDefaultUser();
   if (token !== user.accessToken) {
     return response.status(401).json({ code: TOKEN_INVALID });
   }

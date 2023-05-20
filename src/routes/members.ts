@@ -1,13 +1,13 @@
 import { Router } from "express";
 import { ApiError } from "@/base/errors/models/apiError";
-import { MembersController } from "@/main/members/controllers/members";
+import { MembersService } from "@/main/members/services/members";
 
 const membersRouter = Router();
-const membersController = new MembersController();
+const membersService = new MembersService();
 
 membersRouter.get("/", async (request, response) => {
   try {
-    const results = await membersController.getMembers();
+    const results = await membersService.getMembers();
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();

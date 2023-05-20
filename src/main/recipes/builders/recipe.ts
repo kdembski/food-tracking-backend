@@ -1,5 +1,5 @@
 import { ExtendedRecipeDTO } from "@/dtos/recipes/recipe";
-import { CalendarItemRecipesController } from "@/main/calendar/controllers/calendarItemRecipes";
+import { CalendarItemRecipesService } from "@/main/calendar/services/calendarItemRecipes";
 import { Recipe } from "@/main/recipes/models/recipe";
 
 export class RecipeBuilder {
@@ -14,7 +14,7 @@ export class RecipeBuilder {
       return;
     }
 
-    this.recipe.datesFromLastYear = await new CalendarItemRecipesController(
+    this.recipe.datesFromLastYear = await new CalendarItemRecipesService(
       this.recipe.id
     ).getDatesFromLastYear();
   }

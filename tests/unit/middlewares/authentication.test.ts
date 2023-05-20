@@ -5,8 +5,8 @@ import { NextFunction, Request, Response } from "express";
 const getDefaultUser = jest.fn().mockImplementation(() => ({
   accessToken: "testToken",
 }));
-jest.mock("@/main/users/controllers/users", () => ({
-  UsersController: jest.fn().mockImplementation(() => ({
+jest.mock("@/main/users/services/users", () => ({
+  UsersService: jest.fn().mockImplementation(() => ({
     getDefaultUser,
   })),
 }));

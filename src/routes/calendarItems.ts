@@ -1,22 +1,22 @@
-import { CalendarItemMembersController } from "@/main/calendar/controllers/calendarItemMembers";
+import { CalendarItemMembersService } from "@/main/calendar/services/calendarItemMembers";
 import { RequestQueryHelper } from "@/helpers/requestQuery";
 import { Router } from "express";
 import { ApiError } from "@/base/errors/models/apiError";
 import { RequestParamsHelper } from "@/helpers/requestParams";
-import { CalendarItemsController } from "@/main/calendar/controllers/calendarItems";
+import { CalendarItemsService } from "@/main/calendar/services/calendarItems";
 import { CalendarItemDTO } from "@/dtos/calendar/calendarItem";
 import { CalendarDaysMapper } from "@/mappers/calendar/calendarDays";
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
 
 const calendarItemsRouter = Router();
-const calendarItemsController = new CalendarItemsController();
-const calendarItemMembersController = new CalendarItemMembersController();
+const calendarItemsService = new CalendarItemsService();
+const calendarItemMembersService = new CalendarItemMembersService();
 
 calendarItemsRouter.get("/", async (request, response) => {
   try {
     const { fromDate, toDate, members } = new RequestQueryHelper(request.query);
 
-    const calendarDays = await calendarItemsController.getDays(
+    const calendarDays = await calendarItemsService.getDays(
       fromDate || new Date(1970, 0, 0),
       toDate || new Date(2070, 0, 0),
       members
@@ -33,7 +33,7 @@ calendarItemsRouter.post("/", async (request, response) => {
     const data: CalendarItemDTO = request.body;
     const calendarItem = new CalendarItem(data);
 
-    const results = await calendarItemsController.create(calendarItem);
+    const results = await calendarItemsService.create(calendarItem);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();
@@ -47,7 +47,7 @@ calendarItemsRouter.put("/:id", async (request, response) => {
     data.id = id;
     const calendarItem = new CalendarItem(data);
 
-    const results = await calendarItemsController.update(calendarItem);
+    const results = await calendarItemsService.update(calendarItem);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();
@@ -58,7 +58,7 @@ calendarItemsRouter.delete("/:id", async (request, response) => {
   try {
     const id = new RequestParamsHelper(request.params).id;
 
-    const results = await calendarItemsController.delete(id);
+    const results = await calendarItemsService.delete(id);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();
@@ -71,7 +71,7 @@ calendarItemsRouter.patch("/:id/members", async (request, response) => {
     const memberIds: number[] = request.body;
 
     const results =
-      await calendarItemMembersController.updateCalendarItemForMembers(
+      await calendarItemMembersService.updateCalendarItemForMembers(
         id,
         memberIds
       );

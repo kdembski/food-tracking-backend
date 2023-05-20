@@ -4,15 +4,15 @@ import { Router } from "express";
 import { ShoppingCustomItemMapper } from "@/mappers/shopping/shoppingCustomItem";
 import { ShoppingCustomItemDTO } from "@/dtos/shopping/shoppingCustomItems";
 import { ShoppingCustomItem } from "@/main/shopping/models/shoppingCustomItem";
-import { ShoppingCustomItemsController } from "@/main/shopping/controllers/shoppingCustomItems";
+import { ShoppingCustomItemsService } from "@/main/shopping/services/shoppingCustomItems";
 import { ShoppingCustomItemValidator } from "@/main/shopping/validators/shoppingCustomItem";
 
 const shoppingCustomItemsRouter = Router();
-const shoppingCustomItemsController = new ShoppingCustomItemsController();
+const shoppingCustomItemsService = new ShoppingCustomItemsService();
 
 shoppingCustomItemsRouter.get("/options", async (request, response) => {
   try {
-    const options = await shoppingCustomItemsController.getOptions();
+    const options = await shoppingCustomItemsService.getOptions();
     response.json(options);
   } catch (error) {
     ApiError.create(error, response).send();
@@ -23,7 +23,7 @@ shoppingCustomItemsRouter.get("/:id", async (request, response) => {
   try {
     const id = new RequestParamsHelper(request.params).id;
 
-    const item = await shoppingCustomItemsController.getById(id);
+    const item = await shoppingCustomItemsService.getById(id);
     const dto = new ShoppingCustomItemMapper().toDTO(item);
     response.json(dto);
   } catch (error) {
@@ -37,7 +37,7 @@ shoppingCustomItemsRouter.post("/", async (request, response) => {
     const item = new ShoppingCustomItem(data);
     new ShoppingCustomItemValidator().validate(item).throwErrors();
 
-    const results = await shoppingCustomItemsController.create(item);
+    const results = await shoppingCustomItemsService.create(item);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();
@@ -52,7 +52,7 @@ shoppingCustomItemsRouter.put("/:id", async (request, response) => {
     const item = new ShoppingCustomItem(data);
     new ShoppingCustomItemValidator().validate(item).throwErrors();
 
-    const results = await shoppingCustomItemsController.update(item);
+    const results = await shoppingCustomItemsService.update(item);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();
@@ -63,7 +63,7 @@ shoppingCustomItemsRouter.delete("/:id", async (request, response) => {
   try {
     const id = new RequestParamsHelper(request.params).id;
 
-    const results = await shoppingCustomItemsController.delete(id);
+    const results = await shoppingCustomItemsService.delete(id);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();

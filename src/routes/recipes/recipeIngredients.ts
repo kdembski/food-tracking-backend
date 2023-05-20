@@ -1,14 +1,14 @@
 import { ApiError } from "@/base/errors/models/apiError";
 import { Router } from "express";
 import { RequestParamsHelper } from "@/helpers/requestParams";
-import { RecipeIngredientsController } from "@/main/recipes/controllers/recipeIngredients";
+import { RecipeIngredientsService } from "@/main/recipes/services/recipeIngredients";
 import { RecipeIngredientDTO } from "@/dtos/recipes/recipeIngredient";
 import { RecipeIngredient } from "@/main/recipes/models/recipeIngredient";
 import { RecipeIngredientMapper } from "@/mappers/recipes/recipeIngredient";
 import { RequestQueryHelper } from "@/helpers/requestQuery";
 
 const recipeIngredientsRouter = Router();
-const recipeIngredientsController = new RecipeIngredientsController();
+const recipeIngredientsService = new RecipeIngredientsService();
 
 recipeIngredientsRouter.get("/options", async (request, response) => {
   try {
@@ -16,7 +16,7 @@ recipeIngredientsRouter.get("/options", async (request, response) => {
       request.query
     );
 
-    const options = await recipeIngredientsController.getFilterOptions({
+    const options = await recipeIngredientsService.getFilterOptions({
       searchPhrase,
       tags,
       ingredientIds,
@@ -31,7 +31,7 @@ recipeIngredientsRouter.get("/:id", async (request, response) => {
   try {
     const id = new RequestParamsHelper(request.params).id;
 
-    const recipeIngredient = await recipeIngredientsController.getById(id);
+    const recipeIngredient = await recipeIngredientsService.getById(id);
     const dto = new RecipeIngredientMapper().toDTO(recipeIngredient);
     response.json(dto);
   } catch (error) {
@@ -44,7 +44,7 @@ recipeIngredientsRouter.post("/", async (request, response) => {
     const data: RecipeIngredientDTO = request.body;
     const ingredient = new RecipeIngredient(data);
 
-    const results = await recipeIngredientsController.create(ingredient);
+    const results = await recipeIngredientsService.create(ingredient);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();
@@ -58,7 +58,7 @@ recipeIngredientsRouter.put("/:id", async (request, response) => {
     data.id = id;
     const ingredient = new RecipeIngredient(data);
 
-    const results = await recipeIngredientsController.update(ingredient);
+    const results = await recipeIngredientsService.update(ingredient);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();
@@ -69,7 +69,7 @@ recipeIngredientsRouter.delete("/:id", async (request, response) => {
   try {
     const id = new RequestParamsHelper(request.params).id;
 
-    const results = await recipeIngredientsController.delete(id);
+    const results = await recipeIngredientsService.delete(id);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();

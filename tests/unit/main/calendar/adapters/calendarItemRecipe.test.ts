@@ -3,8 +3,8 @@ import { CalendarItemRecipeAdapter } from "@/main/calendar/adapters/calendarItem
 const getById = jest.fn().mockImplementation(() => ({
   cookedDate: new Date(2000, 1, 1),
 }));
-jest.mock("@/main/recipes/controllers/recipes", () => ({
-  RecipesController: jest.fn().mockImplementation(() => ({
+jest.mock("@/main/recipes/services/recipes", () => ({
+  RecipesService: jest.fn().mockImplementation(() => ({
     getById,
   })),
 }));

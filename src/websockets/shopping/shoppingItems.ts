@@ -1,7 +1,7 @@
 import { Server } from "http";
 import { WebSocketService } from "../service";
 import { WebSocket } from "ws";
-import { ShoppingItemsCollectionController } from "@/main/shopping/controllers/shoppingItemsCollection";
+import { ShoppingItemsCollectionService } from "@/main/shopping/services/shoppingItemsCollection";
 import { ShoppingItemsCollectionMapper } from "@/mappers/shopping/shoppingItemsCollection";
 
 export class ShoppingItemsWebSocketService extends WebSocketService {
@@ -33,7 +33,7 @@ export class ShoppingItemsWebSocketService extends WebSocketService {
 
   private async onMessage(listId: number, ws: WebSocket) {
     const items =
-      await new ShoppingItemsCollectionController().getNotRemovedByShoppingListId(
+      await new ShoppingItemsCollectionService().getNotRemovedByShoppingListId(
         listId
       );
     const dtos = new ShoppingItemsCollectionMapper().toDTO(items);

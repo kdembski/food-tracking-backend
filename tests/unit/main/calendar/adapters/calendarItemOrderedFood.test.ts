@@ -3,8 +3,8 @@ import { CalendarItemOrderedFoodAdapter } from "@/main/calendar/adapters/calenda
 const getById = jest.fn().mockImplementation(() => ({
   orderedDate: new Date(2000, 1, 1),
 }));
-jest.mock("@/main/ordered-food/controllers/orderedFood", () => ({
-  OrderedFoodController: jest.fn().mockImplementation(() => ({
+jest.mock("@/main/ordered-food/services/orderedFood", () => ({
+  OrderedFoodService: jest.fn().mockImplementation(() => ({
     getById,
   })),
 }));

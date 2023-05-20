@@ -1,4 +1,4 @@
-import { IngredientCategoriesController } from "@/main/ingredients/controllers/ingredientCategories";
+import { IngredientCategoriesService } from "@/main/ingredients/services/ingredientCategories";
 import { RequestParamsHelper } from "@/helpers/requestParams";
 import { ApiError } from "@/base/errors/models/apiError";
 import { Router } from "express";
@@ -8,11 +8,11 @@ import { IngredientCategory } from "@/main/ingredients/models/ingredientCategory
 import { IngredientCategoryValidator } from "@/main/ingredients/validators/ingredientCategory";
 
 const ingredientCategoriesRouter = Router();
-const ingredientCategoriesController = new IngredientCategoriesController();
+const ingredientCategoriesService = new IngredientCategoriesService();
 
 ingredientCategoriesRouter.get("/", async (request, response) => {
   try {
-    const list = await ingredientCategoriesController.getList(request.query);
+    const list = await ingredientCategoriesService.getList(request.query);
     response.json(list.toDTO());
   } catch (error) {
     ApiError.create(error, response).send();
@@ -21,7 +21,7 @@ ingredientCategoriesRouter.get("/", async (request, response) => {
 
 ingredientCategoriesRouter.get("/options", async (request, response) => {
   try {
-    const ingredientOptions = await ingredientCategoriesController.getOptions();
+    const ingredientOptions = await ingredientCategoriesService.getOptions();
     response.json(ingredientOptions);
   } catch (error) {
     ApiError.create(error, response).send();
@@ -32,7 +32,7 @@ ingredientCategoriesRouter.get("/:id", async (request, response) => {
   try {
     const id = new RequestParamsHelper(request.params).id;
 
-    const ingredientCategory = await ingredientCategoriesController.getById(id);
+    const ingredientCategory = await ingredientCategoriesService.getById(id);
     const dto = new IngredientCategoryMapper().toDTO(ingredientCategory);
     response.json(dto);
   } catch (error) {
@@ -46,7 +46,7 @@ ingredientCategoriesRouter.post("/", async (request, response) => {
     const category = new IngredientCategory(data);
     new IngredientCategoryValidator().validate(category).throwErrors();
 
-    const results = await ingredientCategoriesController.create(category);
+    const results = await ingredientCategoriesService.create(category);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();
@@ -61,7 +61,7 @@ ingredientCategoriesRouter.put("/:id", async (request, response) => {
     const category = new IngredientCategory(data);
     new IngredientCategoryValidator().validate(category).throwErrors();
 
-    const results = await ingredientCategoriesController.update(category);
+    const results = await ingredientCategoriesService.update(category);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();
@@ -72,7 +72,7 @@ ingredientCategoriesRouter.delete("/:id", async (request, response) => {
   try {
     const id = new RequestParamsHelper(request.params).id;
 
-    const results = await ingredientCategoriesController.delete(id);
+    const results = await ingredientCategoriesService.delete(id);
     response.json(results);
   } catch (error) {
     ApiError.create(error, response).send();

@@ -1,7 +1,7 @@
 import { WebSocket } from "ws";
 import { Server } from "http";
 import { WebSocketService } from "../service";
-import { ShoppingListsController } from "@/main/shopping/controllers/shoppingLists";
+import { ShoppingListsService } from "@/main/shopping/services/shoppingLists";
 import { ShoppingListsCollectionMapper } from "@/mappers/shopping/shoppingListsCollection";
 
 export class ShoppingListsWebSocketService extends WebSocketService {
@@ -26,7 +26,7 @@ export class ShoppingListsWebSocketService extends WebSocketService {
   }
 
   private async onMessage(ws: WebSocket) {
-    const collection = await new ShoppingListsController().getAll();
+    const collection = await new ShoppingListsService().getAll();
     const dtos = new ShoppingListsCollectionMapper().toDTO(collection);
 
     ws.send(JSON.stringify({ lists: dtos }));
