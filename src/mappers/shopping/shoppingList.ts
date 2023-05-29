@@ -1,5 +1,5 @@
 import { ShoppingListDTO } from "@/dtos/shopping/shoppingLists";
-import { IMapper } from "@/interfaces/base/mapper";
+import { IMapper } from "@/interfaces/_shared/mapper";
 import { ShoppingList } from "@/main/shopping/models/shoppingList";
 
 export class ShoppingListMapper

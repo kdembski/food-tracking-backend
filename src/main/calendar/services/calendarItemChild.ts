@@ -1,54 +1,38 @@
-import { CalendarMonthsCollection } from "../collections/calendarMonths";
-import { isEqual, startOfMonth, subMonths } from "date-fns";
+import { isEqual } from "date-fns";
 import { ICalendarItemChildAdapter } from "@/interfaces/calendar/calendarItemChildAdapter";
+import { DbEntityService } from "@/main/_shared/db-entity/services/dbEntity";
+import { ICalendarItemChildService } from "@/interfaces/calendar/calendarItemChildService";
+import { ICalendarItemChildDatesManager } from "@/interfaces/calendar/calendarItemChildDatesManager";
 
-export abstract class CalendarItemChildService<Model> {
-  private childAdapter: ICalendarItemChildAdapter<Model>;
-  protected childId: number;
+export class CalendarItemChildService<Model, QueryResult>
+  implements ICalendarItemChildService
+{
+  childAdapter: ICalendarItemChildAdapter<Model>;
+  childService: DbEntityService<Model, QueryResult>;
+  datesManager: ICalendarItemChildDatesManager;
 
-  constructor(childAdapter: ICalendarItemChildAdapter<Model>, childId: number) {
+  constructor(
+    childAdapter: ICalendarItemChildAdapter<Model>,
+    childService: DbEntityService<Model, QueryResult>,
+    datesManager: ICalendarItemChildDatesManager
+  ) {
     this.childAdapter = childAdapter;
-    this.childId = childId;
+    this.childService = childService;
+    this.datesManager = datesManager;
   }
 
-  protected abstract getCalendarItemChildDates(
-    fromDate: Date,
-    toDate: Date
-  ): Promise<Date[]>;
+  async updateLastDate(id: number) {
+    const childItem = await this.childService.getById(id);
+    this.childAdapter.item = childItem;
 
-  getDates(fromDate = new Date(1970, 1, 1), toDate = new Date(2070, 1, 1)) {
-    return this.getCalendarItemChildDates(fromDate, toDate);
-  }
-
-  async getLastDate() {
-    const dates = await this.getDates();
-    const sortedDates = dates.sort((a, b) => b.getTime() - a.getTime());
-    return sortedDates[0];
-  }
-
-  async updateLastDate() {
-    await this.childAdapter.loadItem();
-    const lastDate = await this.getLastDate();
-    const currentDate = this.childAdapter.getDate();
+    const lastDate = await this.datesManager.getLastDate(id);
+    const currentDate = this.childAdapter.date;
 
     if (currentDate && lastDate && isEqual(lastDate, currentDate)) {
       return;
     }
 
-    this.childAdapter.setDate(lastDate);
-    await this.childAdapter.updateItem();
-  }
-
-  async getDatesFromLastYear() {
-    const today = new Date();
-
-    const dates = await this.getDates(
-      startOfMonth(subMonths(today, 11)),
-      today
-    );
-
-    const months = new CalendarMonthsCollection(12);
-    months.fill(dates);
-    return months.getDates();
+    this.childAdapter.date = lastDate;
+    await this.childService.update(this.childAdapter.item);
   }
 }

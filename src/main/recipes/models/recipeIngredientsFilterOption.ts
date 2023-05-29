@@ -1,4 +1,4 @@
-export class recipeIngredientsFilterOption {
+export class RecipeIngredientsFilterOption {
   id: number;
   count = 1;
 

@@ -1,5 +1,5 @@
 import { UnitDTO } from "@/dtos/ingredients/unit";
-import { IMapper } from "@/interfaces/base/mapper";
+import { IMapper } from "@/interfaces/_shared/mapper";
 import { Unit } from "@/main/ingredients/models/unit";
 
 export class UnitMapper implements IMapper<Unit, UnitDTO> {

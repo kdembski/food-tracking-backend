@@ -1,7 +1,7 @@
-import { Where } from "@/base/queries/models/where";
-import { Field } from "@/base/queries/models/field";
-import { Join } from "@/base/queries/models/join";
-import { Queries } from "@/base/queries/queries";
+import { Field } from "../_shared/models/field";
+import { Join } from "../_shared/models/join";
+import { Queries } from "../_shared/models/queries";
+import { Where } from "../_shared/models/where";
 
 export class ShoppingItemsQueries extends Queries {
   constructor() {

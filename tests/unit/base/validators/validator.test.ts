@@ -1,5 +1,5 @@
 import { IErrors } from "@/interfaces/base/errors";
-import { Validator } from "@/base/validators/validator";
+import { Validator } from "@/_shared/errors/validator";
 
 class TestValidator extends Validator {
   override throwErrors(errors: IErrors) {

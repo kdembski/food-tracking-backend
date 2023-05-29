@@ -1,5 +1,5 @@
 import { RecipeIngredientsCollection } from "@/main/recipes/collections/recipeIngredients";
-import { RecipeIngredientsCollectionService } from "@/main/recipes/services/recipeIngredientsCollection";
+import { RecipeIngredientsCollectionService } from "@/main/recipes/services/recipe-ingredients-collection/recipeIngredientsCollection";
 import { RecipeIngredient } from "@/main/recipes/models/recipeIngredient";
 
 const selectByRecipeId = jest.fn().mockImplementation(() => [

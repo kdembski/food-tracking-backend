@@ -2,31 +2,46 @@ import { ShoppingListsRepository } from "@/repositories/shopping/shoppingLists";
 import { ShoppingList } from "../models/shoppingList";
 import { ShoppingItemsCollectionService } from "./shoppingItemsCollection";
 import { ShoppingListsCollectionBuilder } from "../builders/shoppingListsCollection";
-import { IDbEntityService } from "@/interfaces/base/db-entity/dbEntityService";
+import { ShoppingListMapper } from "@/mappers/shopping/shoppingList";
+import { DbEntityService } from "@/main/_shared/db-entity/services/dbEntity";
+import { ShoppingListDTO } from "@/dtos/shopping/shoppingLists";
+import { ShoppingListsCollectionMapper } from "@/mappers/shopping/shoppingListsCollection";
 
-export class ShoppingListsService implements IDbEntityService<ShoppingList> {
+export class ShoppingListsService extends DbEntityService<
+  ShoppingList,
+  ShoppingListDTO
+> {
+  protected repository: ShoppingListsRepository;
+  protected mapper: ShoppingListMapper;
+  private itemsCollectionService: ShoppingItemsCollectionService;
+  private collectionBuilder: ShoppingListsCollectionBuilder;
+  private collectionMapper: ShoppingListsCollectionMapper;
+
+  constructor(
+    repository = new ShoppingListsRepository(),
+    mapper = new ShoppingListMapper(),
+    itemsCollectionService = new ShoppingItemsCollectionService(),
+    collectionBuilder = new ShoppingListsCollectionBuilder(),
+    collectionMapper = new ShoppingListsCollectionMapper()
+  ) {
+    super(repository, mapper);
+    this.repository = repository;
+    this.mapper = mapper;
+    this.itemsCollectionService = itemsCollectionService;
+    this.collectionBuilder = collectionBuilder;
+    this.collectionMapper = collectionMapper;
+  }
+
   async getAll() {
-    const dtos = await new ShoppingListsRepository().selectAll();
-    const builder = new ShoppingListsCollectionBuilder(dtos);
-    await builder.build();
-    return builder.collection;
-  }
+    const dtos = await this.repository.selectAll();
+    this.collectionBuilder.collection = this.collectionMapper.toDomain(dtos);
+    await this.collectionBuilder.build();
 
-  async getById(id: number) {
-    const dto = await new ShoppingListsRepository().selectById(id);
-    return new ShoppingList(dto);
-  }
-
-  create(list: ShoppingList) {
-    return new ShoppingListsRepository().insert(list);
-  }
-
-  update(list: ShoppingList) {
-    return new ShoppingListsRepository().update(list);
+    return this.collectionBuilder.collection;
   }
 
   async delete(id: number) {
-    await new ShoppingItemsCollectionService().deleteByShoppingListId(id);
-    return new ShoppingListsRepository().delete(id);
+    await this.itemsCollectionService.deleteByShoppingListId(id);
+    return this.repository.delete(id);
   }
 }

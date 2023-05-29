@@ -1,5 +1,5 @@
 import { CalendarItemQueryResult } from "@/dtos/calendar/calendarItem";
-import { IMapper } from "@/interfaces/base/mapper";
+import { IMapper } from "@/interfaces/_shared/mapper";
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
 
 export class CalendarItemQueryResultMapper

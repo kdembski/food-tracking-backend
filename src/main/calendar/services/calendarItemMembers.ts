@@ -2,13 +2,19 @@ import { MemberCalendarItem } from "@/main/members/models/memberCalendarItem";
 import { MemberCalendarItemsService } from "@/main/members/services/memberCalendarItems";
 
 export class CalendarItemMembersService {
+  private memberCalendarItemsService: MemberCalendarItemsService;
+
+  constructor(memberCalendarItemsService = new MemberCalendarItemsService()) {
+    this.memberCalendarItemsService = memberCalendarItemsService;
+  }
+
   async addCalendarItemToMembers(itemId: number, memberIds: number[]) {
     const promises = memberIds.map((memberId) => {
       const memberCalendarItem = new MemberCalendarItem({
         itemId,
         memberId,
       });
-      return new MemberCalendarItemsService().create(memberCalendarItem);
+      return this.memberCalendarItemsService.create(memberCalendarItem);
     });
 
     const results = await Promise.all(promises);
@@ -17,7 +23,7 @@ export class CalendarItemMembersService {
 
   async removeCalendarItemFromMembers(itemId: number, memberIds: number[]) {
     const promises = memberIds.map((memberId) => {
-      return new MemberCalendarItemsService().deleteByMemberIdAndItemId(
+      return this.memberCalendarItemsService.deleteByMemberIdAndItemId(
         itemId,
         memberId
       );
@@ -29,7 +35,7 @@ export class CalendarItemMembersService {
 
   async updateCalendarItemForMembers(itemId: number, memberIds: number[]) {
     const calendarItemMembers =
-      await new MemberCalendarItemsService().getByItemId(itemId);
+      await this.memberCalendarItemsService.getByItemId(itemId);
 
     const calendarItemMemberIds = calendarItemMembers
       .map((item) => item.memberId)

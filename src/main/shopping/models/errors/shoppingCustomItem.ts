@@ -1,13 +1,11 @@
-import { IErrors } from "@/interfaces/base/errors";
-import { FieldError } from "@/types/base/errors";
+import { IErrors } from "@/interfaces/_shared/errors/errors";
+import { FieldError } from "@/types/_shared/errors";
 
 export class ShoppingCustomItemErrors implements IErrors {
   name?: FieldError;
 
-
   constructor(data: { name?: FieldError }) {
     this.name = data.name;
-   
   }
 
   isEmpty() {

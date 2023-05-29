@@ -1,8 +1,8 @@
-import { Validator } from "@/base/validators/validator";
+import { Validator } from "@/_shared/errors/validator";
 import { UnitErrors } from "../models/errors/unit";
 import { Unit } from "../models/unit";
 
-export class UnitValidator extends Validator {
+export class UnitValidator extends Validator<Unit> {
   private _errors?: UnitErrors;
 
   get errors() {

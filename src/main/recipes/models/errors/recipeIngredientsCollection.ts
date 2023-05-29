@@ -1,4 +1,4 @@
-import { IErrors } from "@/interfaces/base/errors";
+import { IErrors } from "@/interfaces/_shared/errors/errors";
 import { RecipeIngredientErrors } from "./recipeIngredient";
 
 export class RecipeIngredientsCollectionErrors implements IErrors {

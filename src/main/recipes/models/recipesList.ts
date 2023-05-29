@@ -1,25 +1,39 @@
-import { ExtendedRecipeDTO } from "@/dtos/recipes/recipe";
+import { ExtendedRecipeDTO, RecipeQueryResult } from "@/dtos/recipes/recipe";
 import { RecipeBuilder } from "./../builders/recipe";
-import { ExtendedRecipeMapper } from "@/mappers/recipes/extendedRecipe";
 import { Recipe } from "./recipe";
-import { List } from "@/base/list/models/list";
-import { RecipeDTO } from "@/dtos/recipes/recipe";
 import { RecipesRepository } from "@/repositories/recipes/recipes";
 import { RecipesListFilters } from "@/types/recipes/recipes";
+import { RequestQueryHelper } from "@/helpers/requestQuery";
+import { List } from "@/main/_shared/list/models/list";
+import lodash from "lodash";
+import { ExtendedRecipeMapper } from "@/mappers/recipes/extendedRecipe";
 
 export class RecipesList extends List<
   Recipe,
   ExtendedRecipeDTO,
-  ExtendedRecipeDTO,
+  RecipeQueryResult,
   RecipesListFilters
 > {
-  constructor() {
-    super(new RecipesRepository(), new ExtendedRecipeMapper());
+  private builder: RecipeBuilder;
+
+  constructor(
+    repository = new RecipesRepository(),
+    mapper = new ExtendedRecipeMapper(),
+    builder = new RecipeBuilder()
+  ) {
+    super(repository.list, mapper);
+    this.builder = builder;
   }
 
-  async createListItem(data: RecipeDTO) {
-    const builder = new RecipeBuilder(data);
+  async createListItem(data: ExtendedRecipeDTO) {
+    const builder = lodash.clone(this.builder);
+    builder.recipe = new Recipe(data);
     await builder.produceDatesFromLastYear();
-    return builder.getRecipe();
+    return builder.recipe;
+  }
+
+  createFilters(query: RequestQueryHelper) {
+    const { searchPhrase, tags, ingredientIds } = query;
+    return { searchPhrase, tags, ingredientIds };
   }
 }

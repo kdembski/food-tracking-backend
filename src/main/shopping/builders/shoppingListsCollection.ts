@@ -1,13 +1,13 @@
 import { ShoppingListsCollection } from "../models/shoppingListsCollection";
-import { ShoppingListDTO } from "@/dtos/shopping/shoppingLists";
 import { ShoppingItemsCollectionService } from "../services/shoppingItemsCollection";
-import { ShoppingListsCollectionMapper } from "@/mappers/shopping/shoppingListsCollection";
 
 export class ShoppingListsCollectionBuilder {
-  _collection: ShoppingListsCollection;
+  private _collection: ShoppingListsCollection;
+  private itemsService: ShoppingItemsCollectionService;
 
-  constructor(items: ShoppingListDTO[]) {
-    this._collection = new ShoppingListsCollectionMapper().toDomain(items);
+  constructor(itemsService = new ShoppingItemsCollectionService()) {
+    this._collection = new ShoppingListsCollection([]);
+    this.itemsService = itemsService;
   }
 
   async build() {
@@ -24,9 +24,7 @@ export class ShoppingListsCollectionBuilder {
       if (!list.id) {
         return;
       }
-      return new ShoppingItemsCollectionService().getNotRemovedCountByShoppingListId(
-        list.id
-      );
+      return this.itemsService.getNotRemovedCountByShoppingListId(list.id);
     });
 
     await Promise.all(counts).then((counts) => {
@@ -46,7 +44,7 @@ export class ShoppingListsCollectionBuilder {
       if (!list.id) {
         return;
       }
-      return new ShoppingItemsCollectionService().getUniqueNotRemovedRecipeIdsByShoppingListId(
+      return this.itemsService.getUniqueNotRemovedRecipeIdsByShoppingListId(
         list.id
       );
     });
@@ -60,5 +58,9 @@ export class ShoppingListsCollectionBuilder {
 
   get collection() {
     return this._collection;
+  }
+
+  set collection(value) {
+    this._collection = value;
   }
 }

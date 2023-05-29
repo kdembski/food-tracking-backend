@@ -2,9 +2,15 @@ import bcrypt from "bcryptjs";
 import lodash from "lodash";
 import { FIELD_REQUIRED, FIELD_INVALID } from "@/consts/errorCodes";
 import { UsersRepository } from "@/repositories/users";
-import { CustomError } from "@/base/errors/models/customError";
+import { CustomError } from "@/_shared/errors/models/customError";
 
 export class UsersService {
+  private repository: UsersRepository;
+
+  constructor(repository = new UsersRepository()) {
+    this.repository = repository;
+  }
+
   async login(password: string) {
     if (!password || !lodash.isString(password)) {
       throw new CustomError({
@@ -26,6 +32,6 @@ export class UsersService {
   }
 
   getDefaultUser() {
-    return new UsersRepository().selectById(1);
+    return this.repository.selectById(1);
   }
 }

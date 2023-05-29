@@ -1,5 +1,5 @@
-import { Field } from "@/base/queries/models/field";
-import { Queries } from "@/base/queries/queries";
+import { Field } from "../_shared/models/field";
+import { Queries } from "../_shared/models/queries";
 
 export class ShoppingListsQueries extends Queries {
   constructor() {

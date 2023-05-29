@@ -1,8 +1,8 @@
-import { Queries } from "@/base/queries/queries";
-import { Field } from "@/base/queries/models/field";
-import { Join } from "@/base/queries/models/join";
-import { Where } from "@/base/queries/models/where";
-import { WhereOperators } from "@/types/base/queries";
+import { WhereOperators } from "@/types/_shared/queries";
+import { Field } from "../_shared/models/field";
+import { Join } from "../_shared/models/join";
+import { Queries } from "../_shared/models/queries";
+import { Where } from "../_shared/models/where";
 
 export class IngredientUnitsQueries extends Queries {
   constructor() {

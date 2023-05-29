@@ -1,12 +1,12 @@
-import { ListQueryBuilder } from "@/base/queries/builders/list";
-import { HavingCollection } from "@/base/queries/collections/having";
-import { Field } from "@/base/queries/models/field";
-import { Join } from "@/base/queries/models/join";
-import { Where } from "@/base/queries/models/where";
-import { Queries } from "@/base/queries/queries";
-import { ListConfig } from "@/types/base/list";
-import { WhereOperators } from "@/types/base/queries";
 import { RecipesListFilters } from "@/types/recipes/recipes";
+import { Field } from "../_shared/models/field";
+import { Queries } from "../_shared/models/queries";
+import { ListConfig } from "@/types/_shared/list";
+import { Join } from "../_shared/models/join";
+import { ListQueryBuilder } from "../_shared/builders/list";
+import { WhereOperators } from "@/types/_shared/queries";
+import { Where } from "../_shared/models/where";
+import { HavingCollection } from "../_shared/collections/having";
 
 export class RecipesQueries extends Queries {
   constructor() {

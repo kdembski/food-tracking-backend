@@ -1,10 +1,10 @@
-import { Queries } from "@/base/queries/queries";
-import { Field } from "@/base/queries/models/field";
-import { Join } from "@/base/queries/models/join";
 import { IngredientsListFilters } from "@/types/ingredients/ingredients";
-import { ListConfig } from "@/types/base/list";
-import { WhereOperators } from "@/types/base/queries";
-import { ListQueryBuilder } from "@/base/queries/builders/list";
+import { Field } from "../_shared/models/field";
+import { Join } from "../_shared/models/join";
+import { Queries } from "../_shared/models/queries";
+import { ListConfig } from "@/types/_shared/list";
+import { ListQueryBuilder } from "../_shared/builders/list";
+import { WhereOperators } from "@/types/_shared/queries";
 
 export class IngredientsQueries extends Queries {
   constructor() {

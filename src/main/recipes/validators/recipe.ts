@@ -1,8 +1,8 @@
-import { Validator } from "@/base/validators/validator";
+import { Validator } from "@/_shared/errors/validator";
 import { RecipeErrors } from "../models/errors/recipe";
 import { Recipe } from "../models/recipe";
 
-export class RecipeValidator extends Validator {
+export class RecipeValidator extends Validator<Recipe> {
   private _errors?: RecipeErrors;
 
   get errors() {

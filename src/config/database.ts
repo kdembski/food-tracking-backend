@@ -1,14 +1,11 @@
 import lodash from "lodash";
 import { createPool, Pool } from "mysql2";
 
-class Database {
-  static pool: Pool;
+export class Database {
+  private static instance: Database;
+  private pool: Pool;
 
-  static initializeConnectionPool() {
-    if (this.pool) {
-      throw new Error("Database pool should only be initialized once.");
-    }
-
+  private constructor() {
     const poolConfig = {
       connectionLimit: 20,
       host: process.env.DATABASE_HOST,
@@ -20,7 +17,15 @@ class Database {
     this.pool = createPool(poolConfig);
   }
 
-  static sendQuery(query: string, params?: Array<any>) {
+  public static getInstance(): Database {
+    if (!Database.instance) {
+      Database.instance = new Database();
+    }
+
+    return Database.instance;
+  }
+
+  sendQuery(query: string, params?: Array<any>) {
     return new Promise<any>((resolve, reject) =>
       this.pool.getConnection((connectionError, connection) => {
         if (connectionError) {
@@ -39,7 +44,7 @@ class Database {
     );
   }
 
-  static convertKeysToCamelCase = (data: any) => {
+  private convertKeysToCamelCase = (data: any) => {
     if (lodash.isArray(data)) {
       for (let i = 0; i < data?.length; i++) {
         data[i] = this.convertKeysToCamelCase(data[i]);
@@ -55,5 +60,3 @@ class Database {
     return camelCasedObject;
   };
 }
-
-export default Database;

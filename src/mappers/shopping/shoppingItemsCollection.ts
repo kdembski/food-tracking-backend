@@ -1,4 +1,4 @@
-import { IMapper } from "@/interfaces/base/mapper";
+import { IMapper } from "@/interfaces/_shared/mapper";
 import { ShoppingItemQueryResultMapper } from "./shoppingItemQueryResult";
 import { ShoppingItemsCollection } from "@/main/shopping/models/shoppingItemsCollection";
 import {

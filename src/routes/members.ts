@@ -1,17 +1,22 @@
+import { MembersController } from "@/controllers/members";
+import { IRoutesBuilder } from "@/interfaces/_shared/routesBuilder";
 import { Router } from "express";
-import { ApiError } from "@/base/errors/models/apiError";
-import { MembersService } from "@/main/members/services/members";
 
-const membersRouter = Router();
-const membersService = new MembersService();
+export class MembersRoutesBuilder implements IRoutesBuilder {
+  private controller: MembersController;
+  private _router: Router;
+  readonly path = "/members";
 
-membersRouter.get("/", async (request, response) => {
-  try {
-    const results = await membersService.getMembers();
-    response.json(results);
-  } catch (error) {
-    ApiError.create(error, response).send();
+  constructor(controller = new MembersController()) {
+    this.controller = controller;
+    this._router = Router();
   }
-});
 
-export default membersRouter;
+  build() {
+    this.router.get("/", (req, res) => this.controller.getAll(req, res));
+  }
+
+  get router() {
+    return this._router;
+  }
+}

@@ -48,7 +48,11 @@ export class Ingredient {
     this._units = value;
   }
 
-  constructor(dto: IngredientPayload) {
+  constructor(dto?: IngredientPayload) {
+    if (!dto) {
+      return;
+    }
+
     this._id = dto.id;
     this._name = dto.name;
     this._categoryId = dto.categoryId;

@@ -4,8 +4,8 @@ import { RecipeIngredient } from "../models/recipeIngredient";
 export class RecipeIngredientsCollectionBuilder {
   _collection: RecipeIngredientsCollection;
 
-  constructor(collection: RecipeIngredientsCollection) {
-    this._collection = collection;
+  constructor() {
+    this._collection = new RecipeIngredientsCollection([]);
   }
 
   calculateKcal() {
@@ -24,5 +24,9 @@ export class RecipeIngredientsCollectionBuilder {
 
   get collection() {
     return this._collection;
+  }
+
+  set collection(value) {
+    this._collection = value;
   }
 }

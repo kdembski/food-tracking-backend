@@ -1,8 +1,8 @@
-import { Validator } from "@/base/validators/validator";
+import { Validator } from "@/_shared/errors/validator";
 import { ShoppingItemErrors } from "../models/errors/shoppingItem";
 import { ShoppingItem } from "../models/shoppingItem";
 
-export class ShoppingItemValidator extends Validator {
+export class ShoppingItemValidator extends Validator<ShoppingItem> {
   private _errors?: ShoppingItemErrors;
 
   get errors() {

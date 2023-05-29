@@ -1,4 +1,4 @@
-import { CalendarItemOrderedFoodService } from "@/main/calendar/services/calendarItemOrderedFood";
+import { CalendarItemOrderedFoodService } from "@/main/calendar/managers/calendarItemOrderedFood";
 
 const selectDatesByOrderedFoodId = jest.fn();
 jest.mock("@/repositories/calendarItems", () => ({

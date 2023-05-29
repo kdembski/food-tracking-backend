@@ -13,7 +13,7 @@ export class RecipeIngredientsCollection {
   }
 
   get kcal() {
-    return this._kcal;
+    return this._kcal || 0;
   }
 
   set items(value) {

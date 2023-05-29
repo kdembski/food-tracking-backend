@@ -1,45 +1,31 @@
 import { Recipe } from "@/main/recipes/models/recipe";
 import { ICalendarItemChildAdapter } from "@/interfaces/calendar/calendarItemChildAdapter";
-import { CustomError } from "@/base/errors/models/customError";
-import { RecipesService } from "@/main/recipes/services/recipes";
+import { CustomError } from "@/_shared/errors/models/customError";
 
 export class CalendarItemRecipeAdapter
   implements ICalendarItemChildAdapter<Recipe>
 {
-  private _item?: Recipe;
-  private _itemId: number;
-
-  constructor(itemId: number) {
-    this._itemId = itemId;
-  }
-
-  async loadItem() {
-    this.item = await new RecipesService().getById(this._itemId);
-  }
-
-  async updateItem() {
-    await new RecipesService().update(this.item);
-  }
+  private recipe?: Recipe;
 
   get item() {
-    if (!this._item) {
+    if (!this.recipe) {
       throw new CustomError({
         message: "Calendar child adapter item not loaded",
       });
     }
 
-    return this._item;
+    return this.recipe;
   }
 
   set item(value) {
-    this._item = value;
+    this.recipe = value;
   }
 
-  getDate() {
+  get date() {
     return this.item.cookedDate;
   }
 
-  setDate(date: Date): void {
+  set date(date: Date | undefined) {
     this.item.cookedDate = date;
   }
 }

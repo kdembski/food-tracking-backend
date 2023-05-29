@@ -16,7 +16,6 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": true,
-    "suppressImplicitAnyIndexErrors": true,
     "sourceMap": true,
     "rootDir": ".",
     "types": ["node", "jest"],

@@ -1,35 +1,34 @@
-import { ShoppingItemQueryResultMapper } from "@/mappers/shopping/shoppingItemQueryResult";
 import { ShoppingItemsRepository } from "@/repositories/shopping/shoppingItems";
 import { ShoppingItem } from "../models/shoppingItem";
-import { IDbEntityService } from "@/interfaces/base/db-entity/dbEntityService";
+import { ShoppingItemQueryResult } from "@/dtos/shopping/shoppingItems";
+import { DbEntityService } from "@/main/_shared/db-entity/services/dbEntity";
+import { ShoppingItemQueryResultMapper } from "@/mappers/shopping/shoppingItemQueryResult";
 
-export class ShoppingItemsService implements IDbEntityService<ShoppingItem> {
-  async getById(id: number) {
-    const dto = await new ShoppingItemsRepository().selectById(id);
-    return new ShoppingItemQueryResultMapper().toDomain(dto);
-  }
+export class ShoppingItemsService extends DbEntityService<
+  ShoppingItem,
+  ShoppingItemQueryResult
+> {
+  protected repository: ShoppingItemsRepository;
+  protected mapper: ShoppingItemQueryResultMapper;
 
-  create(item: ShoppingItem) {
-    return new ShoppingItemsRepository().insert(item);
-  }
-
-  update(item: ShoppingItem) {
-    return new ShoppingItemsRepository().update(item);
+  constructor(
+    repository = new ShoppingItemsRepository(),
+    mapper = new ShoppingItemQueryResultMapper()
+  ) {
+    super(repository, mapper);
+    this.repository = repository;
+    this.mapper = mapper;
   }
 
   updateIsChecked(id: number, isChecked: boolean) {
-    return new ShoppingItemsRepository().updateIsChecked(id, isChecked);
+    return this.repository.updateIsChecked(id, isChecked);
   }
 
   updateIsRemoved(id: number, isRemoved: boolean) {
-    return new ShoppingItemsRepository().updateIsRemoved(id, isRemoved);
-  }
-
-  delete(id: number) {
-    return new ShoppingItemsRepository().delete(id);
+    return this.repository.updateIsRemoved(id, isRemoved);
   }
 
   deleteByRecipeId(recipeId: number) {
-    return new ShoppingItemsRepository().deleteByRecipeId(recipeId);
+    return this.repository.deleteByRecipeId(recipeId);
   }
 }

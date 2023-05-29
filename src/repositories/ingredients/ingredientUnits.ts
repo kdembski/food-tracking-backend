@@ -1,75 +1,58 @@
-import Database from "@/config/database";
-import { OkPacket } from "mysql2";
-import { CustomError } from "@/base/errors/models/customError";
 import { IngredientUnit } from "@/main/ingredients/models/ingredientUnit";
+import { BaseRepository } from "../_shared/base";
 import { IngredientUnitQueryResult } from "@/dtos/ingredients/ingredientUnit";
+import { Database } from "@/config/database";
 import { IngredientUnitsQueries } from "@/queries/ingredients/ingredientUnits";
-import { IRepository } from "@/interfaces/base/db-entity/repository";
 
-export class IngredientUnitsRepository
-  implements IRepository<IngredientUnit, IngredientUnitQueryResult>
-{
-  async selectById(id: number) {
-    const query = new IngredientUnitsQueries().getSelectById();
-    const results = await Database.sendQuery(query, [id]);
-    const dto = results[0];
+export class IngredientUnitsRepository extends BaseRepository<
+  IngredientUnit,
+  IngredientUnitQueryResult
+> {
+  protected queries: IngredientUnitsQueries;
 
-    if (!dto) {
-      throw new CustomError({
-        message: "Ingredient unit with id: '" + id + "' not exists",
-      });
-    }
-
-    return dto as IngredientUnitQueryResult;
+  constructor(
+    database = Database.getInstance(),
+    queries = new IngredientUnitsQueries()
+  ) {
+    super(database, queries);
+    this.queries = queries;
   }
 
   async selectByIngredientId(ingredientId: number) {
-    const query = new IngredientUnitsQueries().getSelectByIngredientId();
-    const results = await Database.sendQuery(query, [ingredientId]);
+    const query = this.queries.getSelectByIngredientId();
+    const results = await this.database.sendQuery(query, [ingredientId]);
 
     return results as IngredientUnitQueryResult[];
   }
 
   async selectByIngredientIdAndUnitId(ingredientId: number, unitId: number) {
-    const query = new IngredientUnitsQueries().getSelectByIngredientIdAndUnitId(
+    const query = this.queries.getSelectByIngredientIdAndUnitId(
       ingredientId,
       unitId
     );
 
-    const results = await Database.sendQuery(query);
+    const results = await this.database.sendQuery(query);
     return results[0] as IngredientUnitQueryResult;
   }
 
-  async insert(data: IngredientUnit) {
-    const query = new IngredientUnitsQueries().getInsert();
-    const results = await Database.sendQuery(query, [
-      data.ingredientId,
-      data.unitId,
-      data.kcalPerUnit,
-      data.isPrimary,
-      data.converterToPrimary,
-    ]);
-
-    return results as OkPacket;
+  getFieldsToInsert(model: IngredientUnit) {
+    return [
+      model.ingredientId,
+      model.unitId,
+      model.kcalPerUnit,
+      model.isPrimary,
+      model.converterToPrimary,
+    ];
   }
 
-  async update(data: IngredientUnit) {
-    const query = new IngredientUnitsQueries().getUpdate();
-    const results = await Database.sendQuery(query, [
-      data.ingredientId,
-      data.unitId,
-      data.kcalPerUnit,
-      data.isPrimary,
-      data.converterToPrimary,
-      data.id,
-    ]);
-
-    return results as OkPacket;
-  }
-
-  async delete(id: number) {
-    const query = new IngredientUnitsQueries().getDelete();
-    const results = await Database.sendQuery(query, [id]);
-    return results as OkPacket;
+  getFieldsToUpdate(model: IngredientUnit) {
+    return [
+      model.ingredientId,
+      model.unitId,
+      model.kcalPerUnit,
+      model.isPrimary,
+      model.converterToPrimary,
+      model.id,
+    ];
   }
 }

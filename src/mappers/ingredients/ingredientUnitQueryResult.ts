@@ -1,5 +1,5 @@
 import { IngredientUnitQueryResult } from "@/dtos/ingredients/ingredientUnit";
-import { IMapper } from "@/interfaces/base/mapper";
+import { IMapper } from "@/interfaces/_shared/mapper";
 import { IngredientUnit } from "@/main/ingredients/models/ingredientUnit";
 
 export class IngredientUnitQueryResultMapper

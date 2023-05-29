@@ -1,75 +1,46 @@
-import Database from "@/config/database";
-import { OkPacket } from "mysql2";
-import { IngredientCategoriesQueries } from "@/queries/ingredients/ingredientCategories";
-import { CustomError } from "@/base/errors/models/customError";
+import { Database } from "@/config/database";
 import { IngredientCategory } from "@/main/ingredients/models/ingredientCategory";
 import {
   IngredientCategoryDTO,
   IngredientCategoryOptionDTO,
 } from "@/dtos/ingredients/ingredientCategory";
-import { ListConfig } from "@/types/base/list";
+import { IngredientCategoriesQueries } from "@/queries/ingredients/ingredientCategories";
+import { ListRepository } from "../_shared/list";
 import { IngredientCategoriesListFilters } from "@/types/ingredients/ingredientCategories";
-import { IListRepository } from "@/interfaces/base/list/listRepository";
-import { IRepository } from "@/interfaces/base/db-entity/repository";
+import { BaseRepository } from "../_shared/base";
 
-export class IngredientCategoriesRepository
-  implements
-    IRepository<IngredientCategory, IngredientCategoryDTO>,
-    IListRepository<IngredientCategoryDTO, IngredientCategoriesListFilters>
-{
-  async selectList(config: ListConfig<IngredientCategoriesListFilters>) {
-    const query = new IngredientCategoriesQueries().getSelectList(config);
-    const data = await Database.sendQuery(query);
+export class IngredientCategoriesRepository extends BaseRepository<
+  IngredientCategory,
+  IngredientCategoryDTO
+> {
+  protected queries: IngredientCategoriesQueries;
+  list: ListRepository<IngredientCategoryDTO, IngredientCategoriesListFilters>;
 
-    return data as IngredientCategoryDTO[];
-  }
-
-  async selectCount(filters: IngredientCategoriesListFilters) {
-    const query = new IngredientCategoriesQueries().getSelectCount(filters);
-    const results = await Database.sendQuery(query);
-
-    return parseInt(results[0].count);
-  }
-
-  async selectById(id: number) {
-    const query = new IngredientCategoriesQueries().getSelectById();
-    const results = await Database.sendQuery(query, [id]);
-    const dto = results[0] as IngredientCategoryDTO;
-
-    if (!dto) {
-      throw new CustomError({
-        message: "Ingredient category with id: '" + id + "' not exists",
-      });
-    }
-
-    return dto;
+  constructor(
+    database = Database.getInstance(),
+    queries = new IngredientCategoriesQueries(),
+    list = new ListRepository<
+      IngredientCategoryDTO,
+      IngredientCategoriesListFilters
+    >(database, queries)
+  ) {
+    super(database, queries);
+    this.list = list;
+    this.queries = queries;
   }
 
   async selectOptions() {
-    const query = new IngredientCategoriesQueries().getSelectOptions("name");
-    const results = await Database.sendQuery(query);
+    const query = this.queries.getSelectOptions("name");
+    const results = await this.database.sendQuery(query);
 
     return results as IngredientCategoryOptionDTO[];
   }
 
-  async insert(data: IngredientCategory) {
-    const query = new IngredientCategoriesQueries().getInsert();
-    const results = await Database.sendQuery(query, [data.name]);
-
-    return results as OkPacket;
+  getFieldsToInsert(model: IngredientCategory) {
+    return [model.name];
   }
 
-  async update(data: IngredientCategory) {
-    const query = new IngredientCategoriesQueries().getUpdate();
-    const results = await Database.sendQuery(query, [data.name, data.id]);
-
-    return results as OkPacket;
-  }
-
-  async delete(id: number) {
-    const query = new IngredientCategoriesQueries().getDelete();
-    const results = await Database.sendQuery(query, [id]);
-
-    return results as OkPacket;
+  getFieldsToUpdate(model: IngredientCategory) {
+    return [model.name, model.id];
   }
 }

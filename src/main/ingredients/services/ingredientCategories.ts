@@ -1,41 +1,37 @@
-import { ListBuilder } from "@/base/list/builders/list";
 import { IngredientCategoriesRepository } from "@/repositories/ingredients/ingredientCategories";
-import { RequestQueryData } from "@/types/helpers/requestQuery";
-import { IngredientCategoriesList } from "../models/ingredientCategoriesList";
 import { IngredientCategory } from "../models/ingredientCategory";
-import { RequestQueryHelper } from "@/helpers/requestQuery";
-import { IDbEntityService } from "@/interfaces/base/db-entity/dbEntityService";
+import { IngredientCategoryDTO } from "@/dtos/ingredients/ingredientCategory";
+import { IngredientCategoriesListFilters } from "@/types/ingredients/ingredientCategories";
+import { IngredientCategoryMapper } from "@/mappers/ingredients/ingredientCategory";
+import { IngredientCategoriesList } from "../models/ingredientCategoriesList";
+import { DbEntityService } from "@/main/_shared/db-entity/services/dbEntity";
+import { ListService } from "@/main/_shared/list/listService";
 
-export class IngredientCategoriesService
-  implements IDbEntityService<IngredientCategory>
-{
-  async getList(query: RequestQueryData) {
-    const { searchPhrase } = new RequestQueryHelper(query);
-    const ingredientsList = new IngredientCategoriesList();
-    const listBuilder = new ListBuilder(ingredientsList);
-    await listBuilder.build(query, { searchPhrase });
+export class IngredientCategoriesService extends DbEntityService<
+  IngredientCategory,
+  IngredientCategoryDTO
+> {
+  protected repository: IngredientCategoriesRepository;
+  protected mapper: IngredientCategoryMapper;
+  list: ListService<
+    IngredientCategory,
+    IngredientCategoryDTO,
+    IngredientCategoryDTO,
+    IngredientCategoriesListFilters
+  >;
 
-    return ingredientsList;
+  constructor(
+    repository = new IngredientCategoriesRepository(),
+    mapper = new IngredientCategoryMapper(),
+    list = new ListService(new IngredientCategoriesList())
+  ) {
+    super(repository, mapper);
+    this.repository = repository;
+    this.mapper = mapper;
+    this.list = list;
   }
 
   getOptions() {
-    return new IngredientCategoriesRepository().selectOptions();
-  }
-
-  async getById(id: number) {
-    const dto = await new IngredientCategoriesRepository().selectById(id);
-    return new IngredientCategory(dto);
-  }
-
-  create(category: IngredientCategory) {
-    return new IngredientCategoriesRepository().insert(category);
-  }
-
-  update(category: IngredientCategory) {
-    return new IngredientCategoriesRepository().update(category);
-  }
-
-  delete(id: number) {
-    return new IngredientCategoriesRepository().delete(id);
+    return this.repository.selectOptions();
   }
 }

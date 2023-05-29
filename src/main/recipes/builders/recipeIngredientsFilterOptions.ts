@@ -1,7 +1,7 @@
-import { recipeIngredientsFilterOption } from "../models/recipeIngredientsFilterOption";
+import { RecipeIngredientsFilterOption } from "../models/recipeIngredientsFilterOption";
 
-export class recipeIngredientsFilterOptionBuilder {
-  options: recipeIngredientsFilterOption[] = [];
+export class RecipeIngredientsFilterOptionBuilder {
+  options: RecipeIngredientsFilterOption[] = [];
 
   build(stringifiedIds: string[]) {
     const splittedIds = this.splitIds(stringifiedIds);
@@ -11,9 +11,9 @@ export class recipeIngredientsFilterOptionBuilder {
   }
 
   private countIds(ids: string[]) {
-    return ids.reduce((accum: recipeIngredientsFilterOption[], id) => {
+    return ids.reduce((accum: RecipeIngredientsFilterOption[], id) => {
       const duplicateIndex = accum.findIndex(
-        (option: recipeIngredientsFilterOption) => option.id === parseInt(id)
+        (option: RecipeIngredientsFilterOption) => option.id === parseInt(id)
       );
       const isDuplicate = duplicateIndex !== -1;
 
@@ -22,7 +22,7 @@ export class recipeIngredientsFilterOptionBuilder {
         return accum;
       }
 
-      accum.push(new recipeIngredientsFilterOption(parseInt(id)));
+      accum.push(new RecipeIngredientsFilterOption(parseInt(id)));
       return accum;
     }, []);
   }

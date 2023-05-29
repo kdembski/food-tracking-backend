@@ -1,45 +1,36 @@
-import Database from "@/config/database";
-import { OkPacket } from "mysql2";
 import { Recipe } from "@/main/recipes/models/recipe";
-import { ListConfig } from "@/types/base/list";
-import { CustomError } from "@/base/errors/models/customError";
-import { RecipeQueryResult, RecipeOptionDTO } from "@/dtos/recipes/recipe";
-import { RecipesQueries } from "@/queries/recipes/recipes";
+import { BaseRepository } from "../_shared/base";
+import { RecipeOptionDTO, RecipeQueryResult } from "@/dtos/recipes/recipe";
 import { RecipesListFilters } from "@/types/recipes/recipes";
-import { IRepository } from "@/interfaces/base/db-entity/repository";
-import { IListRepository } from "@/interfaces/base/list/listRepository";
-import { ITagsRepository } from "@/interfaces/base/tags/tagsRepository";
+import { ITagsRepository } from "@/interfaces/_shared/tags/tagsRepository";
+import { RecipesQueries } from "@/queries/recipes/recipes";
+import { ListRepository } from "../_shared/list";
+import { Database } from "@/config/database";
+import { OkPacket } from "mysql2";
 
 export class RecipesRepository
-  implements
-    IRepository<Recipe, RecipeQueryResult>,
-    IListRepository<RecipeQueryResult, RecipesListFilters>,
-    ITagsRepository<RecipesListFilters>
+  extends BaseRepository<Recipe, RecipeQueryResult>
+  implements ITagsRepository<RecipesListFilters>
 {
-  async selectById(id: number) {
-    const query = new RecipesQueries().getSelectById();
-    const results = await Database.sendQuery(query, [id]);
-    const dto = results[0] as RecipeQueryResult;
+  protected queries: RecipesQueries;
+  list: ListRepository<RecipeQueryResult, RecipesListFilters>;
 
-    if (!dto) {
-      throw new CustomError({
-        message: "Recipe with id: '" + id + "' not exists",
-      });
-    }
-
-    return dto;
-  }
-
-  async selectList(config: ListConfig<RecipesListFilters>) {
-    const query = new RecipesQueries().getSelectList(config);
-    const data = await Database.sendQuery(query);
-
-    return data as RecipeQueryResult[];
+  constructor(
+    database = Database.getInstance(),
+    queries = new RecipesQueries(),
+    list = new ListRepository<RecipeQueryResult, RecipesListFilters>(
+      database,
+      queries
+    )
+  ) {
+    super(database, queries);
+    this.list = list;
+    this.queries = queries;
   }
 
   async selectAll(filters: RecipesListFilters) {
-    const query = new RecipesQueries().getSelectAll(filters);
-    const results = await Database.sendQuery(query);
+    const query = this.queries.getSelectAll(filters);
+    const results = await this.database.sendQuery(query);
 
     return results as RecipeQueryResult[];
   }
@@ -68,57 +59,37 @@ export class RecipesRepository
       .filter((ids): ids is string => !!ids);
   }
 
-  async selectCount(filters: RecipesListFilters) {
-    const query = new RecipesQueries().getSelectCount(filters);
-    const results = await Database.sendQuery(query);
-
-    return parseInt(results[0].count);
-  }
-
   async selectOptions() {
-    const query = new RecipesQueries().getSelectOptions("recipe_name");
-    const results = await Database.sendQuery(query);
+    const query = this.queries.getSelectOptions("recipe_name");
+    const results = await this.database.sendQuery(query);
 
     return results as RecipeOptionDTO[];
   }
 
-  async insert(data: Recipe) {
-    const query = new RecipesQueries().getInsert();
-    const results = await Database.sendQuery(query, [
-      data.recipeName,
-      data.preparationTime,
-      data.tags,
-      data.cookidooLink,
-    ]);
-
-    return results as OkPacket;
-  }
-
-  async update(data: Recipe) {
-    const query = new RecipesQueries().getUpdate();
-    const results = await Database.sendQuery(query, [
-      data.recipeName,
-      data.preparationTime,
-      data.tags,
-      data.cookedDate,
-      data.cookidooLink,
-      data.id,
-    ]);
-
-    return results as OkPacket;
-  }
-
   async updateKcal(kcal: number, id: number) {
-    const query = new RecipesQueries().getUpdateKcal();
-    const results = await Database.sendQuery(query, [kcal, id]);
+    const query = this.queries.getUpdateKcal();
+    const results = await this.database.sendQuery(query, [kcal, id]);
 
     return results as OkPacket;
   }
 
-  async delete(id: number) {
-    const query = new RecipesQueries().getDelete();
-    const results = await Database.sendQuery(query, [id]);
+  getFieldsToInsert(model: Recipe) {
+    return [
+      model.recipeName,
+      model.preparationTime,
+      model.tags,
+      model.cookidooLink,
+    ];
+  }
 
-    return results as OkPacket;
+  getFieldsToUpdate(model: Recipe) {
+    return [
+      model.recipeName,
+      model.preparationTime,
+      model.tags,
+      model.cookedDate,
+      model.cookidooLink,
+      model.id,
+    ];
   }
 }

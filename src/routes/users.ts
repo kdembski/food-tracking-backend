@@ -1,19 +1,22 @@
+import { UsersController } from "@/controllers/users";
+import { IRoutesBuilder } from "@/interfaces/_shared/routesBuilder";
 import { Router } from "express";
-import { UsersService } from "@/main/users/services/users";
-import { ApiError } from "@/base/errors/models/apiError";
 
-const usersRouter = Router();
-const usersService = new UsersService();
+export class UsersRoutesBuilder implements IRoutesBuilder {
+  private controller: UsersController;
+  private _router: Router;
+  readonly path = "/users";
 
-usersRouter.post("/login", async (request, response) => {
-  try {
-    const password = request.body.password;
-
-    const accessToken = await usersService.login(password);
-    response.json({ accessToken });
-  } catch (error) {
-    ApiError.create(error, response).send();
+  constructor(controller = new UsersController()) {
+    this.controller = controller;
+    this._router = Router();
   }
-});
 
-export default usersRouter;
+  build() {
+    this.router.post("/login", (req, res) => this.controller.login(req, res));
+  }
+
+  get router() {
+    return this._router;
+  }
+}

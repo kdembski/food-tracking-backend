@@ -1,12 +1,15 @@
-import { ExtendedRecipeDTO } from "@/dtos/recipes/recipe";
-import { CalendarItemRecipesService } from "@/main/calendar/services/calendarItemRecipes";
+import { CalendarItemRecipeDatesManager } from "@/main/calendar/managers/calendarItemRecipes";
 import { Recipe } from "@/main/recipes/models/recipe";
 
 export class RecipeBuilder {
-  private recipe: Recipe;
+  private _recipe: Recipe;
+  private calendarItemRecipeDatesManager: CalendarItemRecipeDatesManager;
 
-  constructor(data: ExtendedRecipeDTO) {
-    this.recipe = new Recipe(data);
+  constructor(
+    calendarItemRecipeDatesManager = new CalendarItemRecipeDatesManager()
+  ) {
+    this._recipe = new Recipe();
+    this.calendarItemRecipeDatesManager = calendarItemRecipeDatesManager;
   }
 
   async produceDatesFromLastYear() {
@@ -14,12 +17,18 @@ export class RecipeBuilder {
       return;
     }
 
-    this.recipe.datesFromLastYear = await new CalendarItemRecipesService(
-      this.recipe.id
-    ).getDatesFromLastYear();
+    const dates =
+      await this.calendarItemRecipeDatesManager.getDatesFromLastYear(
+        this.recipe.id
+      );
+    this.recipe.datesFromLastYear = dates;
   }
 
-  getRecipe() {
-    return this.recipe;
+  get recipe() {
+    return this._recipe;
+  }
+
+  set recipe(value) {
+    this._recipe = value;
   }
 }

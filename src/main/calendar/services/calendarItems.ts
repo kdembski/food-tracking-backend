@@ -1,72 +1,73 @@
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
-import { CalendarItemsRepository } from "@/repositories/calendarItems";
 import { CalendarItemMembersService } from "./calendarItemMembers";
-import { CalendarItemChildServicesFactory } from "../factories/calendarItemChildServices";
-import { CalendarItemQueryResultMapper } from "@/mappers/calendar/calendarItemQueryResult";
-import { CalendarItemsCollection } from "../collections/calendarItems";
+import { CalendarItemChildConfigFactory } from "../factories/calendarItemChildConfig";
 import { CalendarDaysCollection } from "../collections/calendarDays";
-import { IDbEntityService } from "@/interfaces/base/db-entity/dbEntityService";
+import { DbEntityService } from "@/main/_shared/db-entity/services/dbEntity";
+import { CalendarItemsRepository } from "@/repositories/calendar/calendarItems";
+import { CalendarItemMapper } from "@/mappers/calendar/calendarItem";
+import { CalendarItemQueryResultsCollectionMapper } from "@/mappers/calendar/calendarItemQueryResultsCollection";
+import { CalendarItemQueryResult } from "@/dtos/calendar/calendarItem";
 
-export class CalendarItemsService implements IDbEntityService<CalendarItem> {
+export class CalendarItemsService extends DbEntityService<
+  CalendarItem,
+  CalendarItemQueryResult
+> {
+  protected repository: CalendarItemsRepository;
+  private collectionMapper: CalendarItemQueryResultsCollectionMapper;
+  private membersService: CalendarItemMembersService;
+  private childConfigFactory: CalendarItemChildConfigFactory;
+
+  constructor(
+    repository = new CalendarItemsRepository(),
+    mapper = new CalendarItemMapper(),
+    collectionMapper = new CalendarItemQueryResultsCollectionMapper(),
+    membersService = new CalendarItemMembersService(),
+    childConfigFactory = new CalendarItemChildConfigFactory()
+  ) {
+    super(repository, mapper);
+    this.repository = repository;
+    this.collectionMapper = collectionMapper;
+    this.membersService = membersService;
+    this.childConfigFactory = childConfigFactory;
+  }
+
   async getDays(fromDate: Date, toDate: Date, members?: number[]) {
-    const dtos = await new CalendarItemsRepository().selectAll(
-      fromDate,
-      toDate
-    );
-    const calendarItems = new CalendarItemsCollection(
-      dtos.map((dto) => new CalendarItemQueryResultMapper().toDomain(dto))
-    );
+    const dtos = await this.repository.selectAll(fromDate, toDate);
+    const calendarItems = this.collectionMapper.toDomain(dtos);
     await calendarItems.filterByMembers(members);
     const calendarDays = new CalendarDaysCollection(calendarItems.items);
 
     return calendarDays;
   }
 
-  async getById(id: number) {
-    const dto = await new CalendarItemsRepository().selectById(id);
-    return new CalendarItem(dto);
-  }
-
   async create(calendarItem: CalendarItem) {
-    const results = await new CalendarItemsRepository().insert(calendarItem);
-    await new CalendarItemMembersService().addCalendarItemToMembers(
+    const results = await super.create(calendarItem);
+    await this.membersService.addCalendarItemToMembers(
       results.insertId,
       calendarItem.members || []
     );
-
     this.updateChildLastDate(calendarItem);
 
     return results;
   }
 
   async update(calendarItem: CalendarItem) {
-    const results = await new CalendarItemsRepository().update(calendarItem);
-
+    const results = super.update(calendarItem);
     this.updateChildLastDate(calendarItem);
 
     return results;
   }
 
   async delete(id: number) {
-    const calendarItemsRepository = new CalendarItemsRepository();
-    const dto = await calendarItemsRepository.selectById(id);
-    const results = await calendarItemsRepository.delete(id);
-
-    const calendarItem = new CalendarItem(dto);
+    const calendarItem = await super.getById(id);
+    const results = super.delete(id);
     this.updateChildLastDate(calendarItem);
 
     return results;
   }
 
   private async updateChildLastDate(item: CalendarItem) {
-    const childService = await new CalendarItemChildServicesFactory(
-      item
-    ).getChildService();
-
-    if (!childService) {
-      return;
-    }
-
-    childService.updateLastDate();
+    const config = this.childConfigFactory.createChildConfig(item);
+    config.service.updateLastDate(config.id);
   }
 }

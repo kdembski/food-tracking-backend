@@ -1,4 +1,4 @@
-import { CustomError } from "@/base/errors/models/customError";
+import { CustomError } from "@/_shared/errors/models/customError";
 import { RequestParamsData } from "@/types/helpers/requestParams";
 
 export class RequestParamsHelper {

@@ -1,28 +1,26 @@
 import { ShoppingCustomItemsRepository } from "@/repositories/shopping/shoppingCustomItems";
 import { ShoppingCustomItem } from "../models/shoppingCustomItem";
-import { IDbEntityService } from "@/interfaces/base/db-entity/dbEntityService";
+import { DbEntityService } from "@/main/_shared/db-entity/services/dbEntity";
+import { ShoppingCustomItemDTO } from "@/dtos/shopping/shoppingCustomItems";
+import { ShoppingCustomItemMapper } from "@/mappers/shopping/shoppingCustomItem";
 
-export class ShoppingCustomItemsService
-  implements IDbEntityService<ShoppingCustomItem>
-{
+export class ShoppingCustomItemsService extends DbEntityService<
+  ShoppingCustomItem,
+  ShoppingCustomItemDTO
+> {
+  protected repository: ShoppingCustomItemsRepository;
+  protected mapper: ShoppingCustomItemMapper;
+
+  constructor(
+    repository = new ShoppingCustomItemsRepository(),
+    mapper = new ShoppingCustomItemMapper()
+  ) {
+    super(repository, mapper);
+    this.repository = repository;
+    this.mapper = mapper;
+  }
+
   getOptions() {
-    return new ShoppingCustomItemsRepository().selectOptions();
-  }
-
-  async getById(id: number) {
-    const dto = await new ShoppingCustomItemsRepository().selectById(id);
-    return new ShoppingCustomItem(dto);
-  }
-
-  create(list: ShoppingCustomItem) {
-    return new ShoppingCustomItemsRepository().insert(list);
-  }
-
-  update(list: ShoppingCustomItem) {
-    return new ShoppingCustomItemsRepository().update(list);
-  }
-
-  delete(id: number) {
-    return new ShoppingCustomItemsRepository().delete(id);
+    return this.repository.selectOptions();
   }
 }

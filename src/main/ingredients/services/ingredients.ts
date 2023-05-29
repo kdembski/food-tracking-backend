@@ -1,37 +1,59 @@
+import { DbEntityService } from "@/main/_shared/db-entity/services/dbEntity";
+import { Ingredient } from "../models/ingredient";
+import { IngredientDTO } from "@/dtos/ingredients/ingredient";
 import { IngredientsRepository } from "@/repositories/ingredients/ingredients";
-import { RequestQueryData } from "@/types/helpers/requestQuery";
+import { IngredientMapper } from "@/mappers/ingredients/ingredient";
+import { ListService } from "@/main/_shared/list/listService";
+import { IngredientsListFilters } from "@/types/ingredients/ingredients";
 import { IngredientsList } from "../models/ingredientsList";
-import { ListBuilder } from "@/base/list/builders/list";
 import { IngredientBuilder } from "../builders/ingredient";
 import { IngredientUnitsCollectionService } from "./ingredientUnitsCollection";
-import { Ingredient } from "../models/ingredient";
-import { RequestQueryHelper } from "@/helpers/requestQuery";
-import { IDbEntityService } from "@/interfaces/base/db-entity/dbEntityService";
 
-export class IngredientsService implements IDbEntityService<Ingredient> {
-  async getList(query: RequestQueryData) {
-    const { searchPhrase } = new RequestQueryHelper(query);
-    const ingredientsList = new IngredientsList();
-    const listBuilder = new ListBuilder(ingredientsList);
-    await listBuilder.build(query, { searchPhrase });
+export class IngredientsService extends DbEntityService<
+  Ingredient,
+  IngredientDTO
+> {
+  private ingredientUnitsCollectionService: IngredientUnitsCollectionService;
+  private builder: IngredientBuilder;
+  protected repository: IngredientsRepository;
+  protected mapper: IngredientMapper;
+  list: ListService<
+    Ingredient,
+    IngredientDTO,
+    IngredientDTO,
+    IngredientsListFilters
+  >;
 
-    return ingredientsList;
+  constructor(
+    repository = new IngredientsRepository(),
+    mapper = new IngredientMapper(),
+    list = new ListService(new IngredientsList()),
+    ingredientUnitsCollectionService = new IngredientUnitsCollectionService(),
+    builder = new IngredientBuilder()
+  ) {
+    super(repository, mapper);
+    this.repository = repository;
+    this.mapper = mapper;
+    this.list = list;
+    this.ingredientUnitsCollectionService = ingredientUnitsCollectionService;
+    this.builder = builder;
   }
 
   getOptions() {
-    return new IngredientsRepository().selectOptions();
+    return this.repository.selectOptions();
   }
 
   async getById(id: number) {
-    const dto = await new IngredientsRepository().selectById(id);
-    const builder = new IngredientBuilder(dto);
-    await builder.produceUnits();
-    return builder.getIngredient();
+    const ingredient = await super.getById(id);
+    this.builder.ingredient = ingredient;
+    await this.builder.produceUnits();
+
+    return this.builder.ingredient;
   }
 
   async create(ingredient: Ingredient) {
-    const results = await new IngredientsRepository().insert(ingredient);
-    new IngredientUnitsCollectionService().create(
+    const results = await super.create(ingredient);
+    await this.ingredientUnitsCollectionService.create(
       ingredient.units,
       results.insertId
     );
@@ -40,14 +62,10 @@ export class IngredientsService implements IDbEntityService<Ingredient> {
   }
 
   async update(ingredient: Ingredient) {
-    await new IngredientUnitsCollectionService().update(
+    await this.ingredientUnitsCollectionService.update(
       ingredient.units,
       ingredient.id
     );
-    return new IngredientsRepository().update(ingredient);
-  }
-
-  delete(id: number) {
-    return new IngredientsRepository().delete(id);
+    return super.update(ingredient);
   }
 }

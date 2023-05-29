@@ -1,5 +1,5 @@
-import { Queries } from "@/base/queries/queries";
-import { Field } from "@/base/queries/models/field";
+import { Field } from "../_shared/models/field";
+import { Queries } from "../_shared/models/queries";
 
 export class RecipeStepsQueries extends Queries {
   constructor() {

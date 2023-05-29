@@ -1,5 +1,5 @@
+import lodash from "lodash";
 import { IngredientsRepository } from "@/repositories/ingredients/ingredients";
-import { List } from "@/base/list/models/list";
 import { Ingredient } from "./ingredient";
 import {
   IngredientListItemDTO,
@@ -8,6 +8,8 @@ import {
 import { IngredientListItemMapper } from "@/mappers/ingredients/ingredientListItem";
 import { IngredientBuilder } from "../builders/ingredient";
 import { IngredientsListFilters } from "@/types/ingredients/ingredients";
+import { List } from "@/main/_shared/list/models/list";
+import { RequestQueryHelper } from "@/helpers/requestQuery";
 
 export class IngredientsList extends List<
   Ingredient,
@@ -15,13 +17,26 @@ export class IngredientsList extends List<
   IngredientQueryResult,
   IngredientsListFilters
 > {
-  constructor() {
-    super(new IngredientsRepository(), new IngredientListItemMapper());
+  private builder: IngredientBuilder;
+
+  constructor(
+    repository = new IngredientsRepository(),
+    mapper = new IngredientListItemMapper(),
+    builder = new IngredientBuilder()
+  ) {
+    super(repository.list, mapper);
+    this.builder = builder;
   }
 
   async createListItem(data: IngredientQueryResult) {
-    const builder = new IngredientBuilder(data);
+    const builder = lodash.clone(this.builder);
+    builder.ingredient = new Ingredient(data);
     await builder.produceUnits();
-    return builder.getIngredient();
+    return builder.ingredient;
+  }
+
+  createFilters(query: RequestQueryHelper) {
+    const { searchPhrase } = query;
+    return { searchPhrase };
   }
 }

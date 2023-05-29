@@ -1,48 +1,43 @@
 import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
-import { RequestQueryData } from "@/types/helpers/requestQuery";
-import { OrderedFoodRepository } from "@/repositories/orderedFood";
-import { OrderedFoodList } from "../models/orderedFoodList";
-import { ListBuilder } from "@/base/list/builders/list";
-import { TagsBuilder } from "@/base/tags/builders/tags";
-import { RequestQueryHelper } from "@/helpers/requestQuery";
 import { OrderedFoodListFilters } from "@/types/ordered-food/orderedFood";
-import { IDbEntityService } from "@/interfaces/base/db-entity/dbEntityService";
+import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
+import { OrderedFoodRepository } from "@/repositories/ordered-food/orderedFood";
+import { OrderedFoodMapper } from "@/mappers/ordered-food/orderedFood";
+import { ListService } from "@/main/_shared/list/listService";
+import { OrderedFoodList } from "../models/orderedFoodList";
+import { TagsBuilder } from "@/main/_shared/tags/tagsBuilder";
+import { DbEntityService } from "@/main/_shared/db-entity/services/dbEntity";
 
-export class OrderedFoodService implements IDbEntityService<OrderedFood> {
-  async getList(query: RequestQueryData) {
-    const { searchPhrase, tags } = new RequestQueryHelper(query);
-    const orderedFoodList = new OrderedFoodList();
-    const listBuilder = new ListBuilder(orderedFoodList);
-    await listBuilder.build(query, { searchPhrase, tags });
+export class OrderedFoodService extends DbEntityService<
+  OrderedFood,
+  OrderedFoodDTO
+> {
+  private tagsBuilder: TagsBuilder<OrderedFoodListFilters>;
+  protected repository: OrderedFoodRepository;
+  protected mapper: OrderedFoodMapper;
 
-    return orderedFoodList;
+  list: ListService<
+    OrderedFood,
+    OrderedFoodDTO,
+    OrderedFoodDTO,
+    OrderedFoodListFilters
+  >;
+
+  constructor(
+    repository = new OrderedFoodRepository(),
+    mapper = new OrderedFoodMapper(),
+    list = new ListService(new OrderedFoodList()),
+    tagsBuilder = new TagsBuilder(repository)
+  ) {
+    super(repository, mapper);
+    this.repository = repository;
+    this.mapper = mapper;
+    this.list = list;
+    this.tagsBuilder = tagsBuilder;
   }
 
   async getTags(filters: OrderedFoodListFilters) {
-    const tagsBuilder = new TagsBuilder(new OrderedFoodRepository());
-    await tagsBuilder.build(filters);
-
-    return tagsBuilder.tags;
-  }
-
-  getCount(filters: OrderedFoodListFilters) {
-    return new OrderedFoodRepository().selectCount(filters);
-  }
-
-  async getById(id: number) {
-    const dto = await new OrderedFoodRepository().selectById(id);
-    return new OrderedFood(dto);
-  }
-
-  create(orderedFood: OrderedFood) {
-    return new OrderedFoodRepository().insert(orderedFood);
-  }
-
-  update(orderedFood: OrderedFood) {
-    return new OrderedFoodRepository().update(orderedFood);
-  }
-
-  delete(id: number) {
-    return new OrderedFoodRepository().delete(id);
+    await this.tagsBuilder.build(filters);
+    return this.tagsBuilder.tags;
   }
 }

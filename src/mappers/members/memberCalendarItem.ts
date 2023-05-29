@@ -1,4 +1,4 @@
-import { IMapper } from "@/interfaces/base/mapper";
+import { IMapper } from "@/interfaces/_shared/mapper";
 import { MemberCalendarItemDTO } from "@/dtos/members/memberCalendarItem";
 import { MemberCalendarItem } from "@/main/members/models/memberCalendarItem";
 

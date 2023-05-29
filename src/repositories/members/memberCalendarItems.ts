@@ -1,68 +1,50 @@
-import Database from "@/config/database";
 import { OkPacket } from "mysql2";
 import { MemberCalendarItem } from "@/main/members/models/memberCalendarItem";
 import { MemberCalendarItemDTO } from "@/dtos/members/memberCalendarItem";
 import { MemberCalendarItemsQueries } from "@/queries/members/memberCalendarItems";
-import { IRepository } from "@/interfaces/base/db-entity/repository";
+import { BaseRepository } from "../_shared/base";
+import { Database } from "@/config/database";
 
-export class MemberCalendarItemsRepository
-  implements IRepository<MemberCalendarItem, MemberCalendarItemDTO>
-{
-  async selectById(id: number) {
-    const query = new MemberCalendarItemsQueries().getSelectById();
-    const results = await Database.sendQuery(query, [id]);
-    const dto = results[0] as MemberCalendarItemDTO;
+export class MemberCalendarItemsRepository extends BaseRepository<
+  MemberCalendarItem,
+  MemberCalendarItemDTO
+> {
+  protected queries: MemberCalendarItemsQueries;
 
-    return dto;
+  constructor(
+    database = Database.getInstance(),
+    queries = new MemberCalendarItemsQueries()
+  ) {
+    super(database, queries);
+    this.queries = queries;
   }
 
   async selectByItemId(itemId: number) {
-    const query = new MemberCalendarItemsQueries().getSelectByItemId();
-    const results = await Database.sendQuery(query, [itemId]);
+    const query = this.queries.getSelectByItemId();
+    const results = await this.database.sendQuery(query, [itemId]);
 
     return results as MemberCalendarItemDTO[];
   }
 
   async selectByMemberId(memberId: number) {
-    const query = new MemberCalendarItemsQueries().getSelectByMemberId();
-    const results = await Database.sendQuery(query, [memberId]);
+    const query = this.queries.getSelectByMemberId();
+    const results = await this.database.sendQuery(query, [memberId]);
 
     return results as MemberCalendarItemDTO[];
   }
 
-  async insert(data: MemberCalendarItem) {
-    const query = new MemberCalendarItemsQueries().getInsert();
-    const results = await Database.sendQuery(query, [
-      data.itemId,
-      data.memberId,
-    ]);
-
-    return results as OkPacket;
-  }
-
-  async update(data: MemberCalendarItem) {
-    const query = new MemberCalendarItemsQueries().getUpdate();
-    const results = await Database.sendQuery(query, [
-      data.itemId,
-      data.memberId,
-      data.id,
-    ]);
-
-    return results as OkPacket;
-  }
-
-  async delete(id: number) {
-    const query = new MemberCalendarItemsQueries().getDelete();
-    const results = await Database.sendQuery(query, [id]);
-
-    return results as OkPacket;
-  }
-
   async deleteByMemberIdAndItemId(itemId: number, memberId: number) {
-    const query =
-      new MemberCalendarItemsQueries().getDeleteByMemberIdAndItemId();
-    const results = await Database.sendQuery(query, [itemId, memberId]);
+    const query = this.queries.getDeleteByMemberIdAndItemId();
+    const results = await this.database.sendQuery(query, [itemId, memberId]);
 
     return results as OkPacket;
+  }
+
+  getFieldsToInsert(model: MemberCalendarItem) {
+    return [model.itemId, model.memberId];
+  }
+
+  getFieldsToUpdate(model: MemberCalendarItem) {
+    return [model.itemId, model.memberId, model.id];
   }
 }

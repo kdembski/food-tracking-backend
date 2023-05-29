@@ -1,68 +1,42 @@
-import Database from "@/config/database";
-import { OkPacket } from "mysql2";
-import { RecipeIngredientsQueries } from "@/queries/recipes/recipeIngredients";
-import { CustomError } from "@/base/errors/models/customError";
 import { RecipeIngredient } from "@/main/recipes/models/recipeIngredient";
+import { BaseRepository } from "../_shared/base";
 import { RecipeIngredientQueryResult } from "@/dtos/recipes/recipeIngredient";
-import { IRepository } from "@/interfaces/base/db-entity/repository";
+import { RecipeIngredientsQueries } from "@/queries/recipes/recipeIngredients";
+import { Database } from "@/config/database";
 
-export class RecipeIngredientsRepository
-  implements IRepository<RecipeIngredient, RecipeIngredientQueryResult>
-{
-  async selectById(id: number) {
-    const query = new RecipeIngredientsQueries().getSelectById();
-    const results = await Database.sendQuery(query, [id]);
-    const dto = results[0] as RecipeIngredientQueryResult;
+export class RecipeIngredientsRepository extends BaseRepository<
+  RecipeIngredient,
+  RecipeIngredientQueryResult
+> {
+  protected queries: RecipeIngredientsQueries;
 
-    if (!dto) {
-      throw new CustomError({
-        message: "Recipe ingredient with id: '" + id + "' not exists",
-      });
-    }
-
-    return dto;
+  constructor(
+    database = Database.getInstance(),
+    queries = new RecipeIngredientsQueries()
+  ) {
+    super(database, queries);
+    this.queries = queries;
   }
 
   async selectByRecipeId(recipeId: number) {
-    const query = new RecipeIngredientsQueries().getSelectByRecipeId();
-    const results = await Database.sendQuery(query, [recipeId]);
+    const query = this.queries.getSelectByRecipeId();
+    const results = await this.database.sendQuery(query, [recipeId]);
 
     return results as RecipeIngredientQueryResult[];
   }
 
   async selectByIngredientUnitId(recipeId: number) {
-    const query = new RecipeIngredientsQueries().getSelectByIngredientUnitId();
-    const results = await Database.sendQuery(query, [recipeId]);
+    const query = this.queries.getSelectByIngredientUnitId();
+    const results = await this.database.sendQuery(query, [recipeId]);
 
     return results as RecipeIngredientQueryResult[];
   }
 
-  async insert(data: RecipeIngredient) {
-    const query = new RecipeIngredientsQueries().getInsert();
-    const results = await Database.sendQuery(query, [
-      data.recipeId,
-      data.ingredientUnitId,
-      data.amount,
-    ]);
-
-    return results as OkPacket;
+  getFieldsToInsert(model: RecipeIngredient) {
+    return [model.recipeId, model.ingredientUnitId, model.amount];
   }
 
-  async update(data: RecipeIngredient) {
-    const query = new RecipeIngredientsQueries().getUpdate();
-    const results = await Database.sendQuery(query, [
-      data.recipeId,
-      data.ingredientUnitId,
-      data.amount,
-      data.id,
-    ]);
-
-    return results as OkPacket;
-  }
-
-  async delete(id: number) {
-    const query = new RecipeIngredientsQueries().getDelete();
-    const results = await Database.sendQuery(query, [id]);
-    return results as OkPacket;
+  getFieldsToUpdate(model: RecipeIngredient) {
+    return [model.recipeId, model.ingredientUnitId, model.amount, model.id];
   }
 }

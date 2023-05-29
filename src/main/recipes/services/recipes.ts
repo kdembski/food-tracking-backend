@@ -1,63 +1,64 @@
 import { RecipeBuilder } from "./../builders/recipe";
 import { RecipesRepository } from "@/repositories/recipes/recipes";
 import { Recipe } from "@/main/recipes/models/recipe";
-import { RequestQueryData } from "@/types/helpers/requestQuery";
 import { RecipesList } from "../models/recipesList";
-import { TagsBuilder } from "@/base/tags/builders/tags";
 import { RecipesListFilters } from "@/types/recipes/recipes";
-import { ListBuilder } from "@/base/list/builders/list";
-import { RequestQueryHelper } from "@/helpers/requestQuery";
-import { IDbEntityService } from "@/interfaces/base/db-entity/dbEntityService";
+import { ListService } from "@/main/_shared/list/listService";
+import { ExtendedRecipeDTO, RecipeQueryResult } from "@/dtos/recipes/recipe";
+import { DbEntityService } from "@/main/_shared/db-entity/services/dbEntity";
+import { TagsBuilder } from "@/main/_shared/tags/tagsBuilder";
+import { RecipeQueryResultMapper } from "@/mappers/recipes/recipeQueryResult";
 
-export class RecipesService implements IDbEntityService<Recipe> {
-  async getList(query: RequestQueryData) {
-    const { searchPhrase, tags, ingredientIds } = new RequestQueryHelper(query);
-    const recipesList = new RecipesList();
-    const listBuilder = new ListBuilder(recipesList);
-    await listBuilder.build(query, { searchPhrase, tags, ingredientIds });
+export class RecipesService extends DbEntityService<Recipe, RecipeQueryResult> {
+  private tagsBuilder: TagsBuilder<RecipesListFilters>;
+  private builder: RecipeBuilder;
+  protected repository: RecipesRepository;
+  protected mapper: RecipeQueryResultMapper;
 
-    return recipesList;
+  list: ListService<
+    Recipe,
+    ExtendedRecipeDTO,
+    RecipeQueryResult,
+    RecipesListFilters
+  >;
+
+  constructor(
+    repository = new RecipesRepository(),
+    mapper = new RecipeQueryResultMapper(),
+    list = new ListService(new RecipesList()),
+    tagsBuilder = new TagsBuilder(repository),
+    builder = new RecipeBuilder()
+  ) {
+    super(repository, mapper);
+    this.repository = repository;
+    this.mapper = mapper;
+    this.list = list;
+    this.tagsBuilder = tagsBuilder;
+    this.builder = builder;
   }
 
   async getTags(filters: RecipesListFilters) {
-    const tagsBuilder = new TagsBuilder(new RecipesRepository());
-    await tagsBuilder.build(filters);
-
-    return tagsBuilder.tags;
+    await this.tagsBuilder.build(filters);
+    return this.tagsBuilder.tags;
   }
 
   getNames(filters: RecipesListFilters) {
-    return new RecipesRepository().selectNames(filters);
-  }
-
-  getCount(filters: RecipesListFilters) {
-    return new RecipesRepository().selectCount(filters);
+    return this.repository.selectNames(filters);
   }
 
   getOptions() {
-    return new RecipesRepository().selectOptions();
+    return this.repository.selectOptions();
   }
 
   async getById(id: number) {
-    const dto = await new RecipesRepository().selectById(id);
-    const builder = new RecipeBuilder(dto);
-    await builder.produceDatesFromLastYear();
-    return builder.getRecipe();
-  }
+    const recipe = await super.getById(id);
+    this.builder.recipe = recipe;
+    await this.builder.produceDatesFromLastYear();
 
-  create(recipe: Recipe) {
-    return new RecipesRepository().insert(recipe);
-  }
-
-  update(recipe: Recipe) {
-    return new RecipesRepository().update(recipe);
+    return recipe;
   }
 
   updateKcal(kcal: number, id: number) {
-    return new RecipesRepository().updateKcal(kcal, id);
-  }
-
-  delete(id: number) {
-    return new RecipesRepository().delete(id);
+    return this.repository.updateKcal(kcal, id);
   }
 }

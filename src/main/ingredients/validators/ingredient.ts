@@ -1,10 +1,16 @@
 import { IngredientUnitsCollectionValidator } from "./ingredientUnitsCollection";
 import { Ingredient } from "./../models/ingredient";
-import { Validator } from "@/base/validators/validator";
 import { IngredientErrors } from "../models/errors/ingredient";
+import { Validator } from "@/_shared/errors/validator";
 
-export class IngredientValidator extends Validator {
+export class IngredientValidator extends Validator<Ingredient> {
   private _errors?: IngredientErrors;
+  private collectionValidator: IngredientUnitsCollectionValidator;
+
+  constructor(collectionValidator = new IngredientUnitsCollectionValidator()) {
+    super();
+    this.collectionValidator = collectionValidator;
+  }
 
   get errors() {
     return this._errors;
@@ -18,8 +24,7 @@ export class IngredientValidator extends Validator {
     this._errors = new IngredientErrors({
       name: this.getNameError(model.name),
       categoryId: this.getCategoryIdError(model.categoryId),
-      units: new IngredientUnitsCollectionValidator().validate(model.units)
-        .errors,
+      units: this.collectionValidator.validate(model.units).errors,
     });
 
     return this;

@@ -1,8 +1,8 @@
 import { IngredientUnit } from "../models/ingredientUnit";
-import { Validator } from "@/base/validators/validator";
+import { Validator } from "@/_shared/errors/validator";
 import { IngredientUnitErrors } from "../models/errors/ingredientUnit";
 
-export class IngredientUnitValidator extends Validator {
+export class IngredientUnitValidator extends Validator<IngredientUnit> {
   private _errors?: IngredientUnitErrors;
 
   get errors() {

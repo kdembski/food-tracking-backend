@@ -10,7 +10,11 @@ export class Recipe {
   private _cookidooLink?: string;
   private _datesFromLastYear?: Date[][];
 
-  constructor(data: ExtendedRecipeDTO) {
+  constructor(data?: ExtendedRecipeDTO) {
+    if (!data) {
+      return;
+    }
+
     this._id = data.id;
     this._recipeName = data.recipeName;
     this._preparationTime = data.preparationTime;

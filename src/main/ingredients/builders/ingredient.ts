@@ -1,24 +1,31 @@
-import { IngredientPayload } from "@/dtos/ingredients/ingredient";
 import { Ingredient } from "@/main/ingredients/models/ingredient";
 import { IngredientUnitsCollectionService } from "../services/ingredientUnitsCollection";
 
 export class IngredientBuilder {
   private _ingredient: Ingredient;
+  private unitsCollectionService: IngredientUnitsCollectionService;
 
-  constructor(payload: IngredientPayload) {
-    this._ingredient = new Ingredient(payload);
+  constructor(unitsCollectionService = new IngredientUnitsCollectionService()) {
+    this._ingredient = new Ingredient();
+    this.unitsCollectionService = unitsCollectionService;
   }
 
   async produceUnits() {
-    const units =
-      await new IngredientUnitsCollectionService().getByIngredientId(
-        this._ingredient.id as number
-      );
+    if (!this.ingredient.id) {
+      return;
+    }
 
-    this._ingredient.units = units;
+    const units = await this.unitsCollectionService.getByIngredientId(
+      this.ingredient.id
+    );
+    this.ingredient.units = units;
   }
 
-  getIngredient() {
+  get ingredient() {
     return this._ingredient;
+  }
+
+  set ingredient(value) {
+    this._ingredient = value;
   }
 }

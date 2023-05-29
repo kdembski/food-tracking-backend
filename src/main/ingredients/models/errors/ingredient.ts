@@ -1,6 +1,6 @@
-import { IErrors } from "@/interfaces/base/errors";
-import { FieldError } from "@/types/base/errors";
+import { IErrors } from "@/interfaces/_shared/errors/errors";
 import { IngredientUnitErrors } from "./ingredientUnit";
+import { FieldError } from "@/types/_shared/errors";
 
 export class IngredientErrors implements IErrors {
   name?: FieldError;

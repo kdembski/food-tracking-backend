@@ -1,10 +1,10 @@
-import { Validator } from "@/base/validators/validator";
+import { Validator } from "@/_shared/errors/validator";
 import { RecipeIngredientsCollection } from "../collections/recipeIngredients";
 import { RecipeIngredientErrors } from "../models/errors/recipeIngredient";
 import { RecipeIngredientsCollectionErrors } from "../models/errors/recipeIngredientsCollection";
 import { RecipeIngredientValidator } from "./recipeIngredient";
 
-export class RecipeIngredientsCollectionValidator extends Validator {
+export class RecipeIngredientsCollectionValidator extends Validator<RecipeIngredientsCollection> {
   private _errors?: RecipeIngredientsCollectionErrors;
 
   get errors() {

@@ -2,7 +2,7 @@ import {
   RecipeIngredientDTO,
   RecipeIngredientQueryResult,
 } from "@/dtos/recipes/recipeIngredient";
-import { IMapper } from "@/interfaces/base/mapper";
+import { IMapper } from "@/interfaces/_shared/mapper";
 import { RecipeIngredientsCollection } from "@/main/recipes/collections/recipeIngredients";
 import { RecipeIngredient } from "@/main/recipes/models/recipeIngredient";
 import { RecipeIngredientMapper } from "./recipeIngredient";
@@ -20,12 +20,6 @@ export class RecipeIngredientCollectionMapper
   toDomain(dtos: RecipeIngredientDTO[]) {
     return new RecipeIngredientsCollection(
       dtos.map((dto) => new RecipeIngredient(dto))
-    );
-  }
-
-  fromQueryResultToDomain(dtos: RecipeIngredientQueryResult[]) {
-    return new RecipeIngredientsCollection(
-      dtos.map((dto) => new RecipeIngredientQueryResultMapper().toDomain(dto))
     );
   }
 }

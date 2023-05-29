@@ -1,4 +1,4 @@
-import { RecipeIngredientsCollectionService } from "@/main/recipes/services/recipeIngredientsCollection";
+import { RecipeIngredientsCollectionService } from "@/main/recipes/services/recipe-ingredients-collection/recipeIngredientsCollection";
 import { ShoppingItemsRepository } from "@/repositories/shopping/shoppingItems";
 import { ShoppingItem } from "../models/shoppingItem";
 import { ShoppingItemsService } from "./shoppingItems";
@@ -6,16 +6,33 @@ import { ShoppingItemsCollectionMapper } from "@/mappers/shopping/shoppingItemsC
 import { ShoppingItemsCollection } from "../models/shoppingItemsCollection";
 
 export class ShoppingItemsCollectionService {
+  private service: ShoppingItemsService;
+  private repository: ShoppingItemsRepository;
+  private collectionMapper: ShoppingItemsCollectionMapper;
+  private recipeIngredientsCollectionService: RecipeIngredientsCollectionService;
+
+  constructor(
+    service = new ShoppingItemsService(),
+    repository = new ShoppingItemsRepository(),
+    collectionMapper = new ShoppingItemsCollectionMapper(),
+    recipeIngredientsCollectionService = new RecipeIngredientsCollectionService()
+  ) {
+    this.service = service;
+    this.repository = repository;
+    this.collectionMapper = collectionMapper;
+    this.recipeIngredientsCollectionService =
+      recipeIngredientsCollectionService;
+  }
+
   async getNotRemovedByShoppingListId(shoppingListId: number) {
-    const dtos =
-      await new ShoppingItemsRepository().selectNotRemovedByShoppingListId(
-        shoppingListId
-      );
-    return new ShoppingItemsCollectionMapper().fromQueryResultToDomain(dtos);
+    const dtos = await this.repository.selectNotRemovedByShoppingListId(
+      shoppingListId
+    );
+    return this.collectionMapper.fromQueryResultToDomain(dtos);
   }
 
   getNotRemovedCountByShoppingListId(shoppingListId: number) {
-    return new ShoppingItemsRepository().selectNotRemovedCountByShoppingListId(
+    return this.repository.selectNotRemovedCountByShoppingListId(
       shoppingListId
     );
   }
@@ -30,9 +47,7 @@ export class ShoppingItemsCollectionService {
 
   async create(collection: ShoppingItemsCollection) {
     const promises =
-      collection.items?.map((item) => {
-        return new ShoppingItemsService().create(item);
-      }) || [];
+      collection.items?.map((item) => this.service.create(item)) || [];
     await Promise.all(promises);
   }
 
@@ -42,7 +57,7 @@ export class ShoppingItemsCollectionService {
     portions: number
   ) {
     const collection =
-      await new RecipeIngredientsCollectionService().getByRecipeId(recipeId);
+      await this.recipeIngredientsCollectionService.getByRecipeId(recipeId);
     const promises = collection.items.map((ingredient) => {
       const amount = ingredient.amount
         ? ingredient.amount * portions
@@ -55,7 +70,7 @@ export class ShoppingItemsCollectionService {
         amount,
       });
 
-      return new ShoppingItemsService().create(item);
+      return this.service.create(item);
     });
 
     await Promise.all(promises);
@@ -74,10 +89,10 @@ export class ShoppingItemsCollectionService {
       }
 
       if (item.isChecked) {
-        return new ShoppingItemsService().updateIsRemoved(item.id, true);
+        return this.service.updateIsRemoved(item.id, true);
       }
 
-      return new ShoppingItemsService().delete(item.id);
+      return this.service.delete(item.id);
     });
 
     await Promise.all(promises);

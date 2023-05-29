@@ -1,9 +1,9 @@
-import { Queries } from "@/base/queries/queries";
-import { Field } from "@/base/queries/models/field";
 import { UnitsListFilters } from "@/types/ingredients/units";
-import { ListConfig } from "@/types/base/list";
-import { ListQueryBuilder } from "@/base/queries/builders/list";
-import { WhereOperators } from "@/types/base/queries";
+import { Field } from "../_shared/models/field";
+import { Queries } from "../_shared/models/queries";
+import { ListConfig } from "@/types/_shared/list";
+import { ListQueryBuilder } from "../_shared/builders/list";
+import { WhereOperators } from "@/types/_shared/queries";
 
 export class UnitsQueries extends Queries {
   constructor() {
