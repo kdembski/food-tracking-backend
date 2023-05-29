@@ -2,16 +2,16 @@ import { ApiError } from "@/_shared/errors/models/apiError";
 import { RequestParamsHelper } from "@/helpers/requestParams";
 import { IValidator } from "@/interfaces/_shared/errors/validator";
 import { IMapper } from "@/interfaces/_shared/mapper";
-import { DbEntityService } from "@/main/_shared/db-entity/services/dbEntity";
+import { CRUDService } from "@/main/_shared/crud/services/crud";
 import { Request, Response } from "express";
 
-export abstract class DbEntityController<Model, ModelDTO, QueryResult> {
-  protected service: DbEntityService<Model, QueryResult>;
+export abstract class CRUDController<Model, ModelDTO, QueryResult> {
+  protected service: CRUDService<Model, QueryResult>;
   protected mapper: IMapper<Model, ModelDTO>;
   protected validator: IValidator<Model>;
 
   constructor(
-    service: DbEntityService<Model, QueryResult>,
+    service: CRUDService<Model, QueryResult>,
     mapper: IMapper<Model, ModelDTO>,
     validator: IValidator<Model>
   ) {

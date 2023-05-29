@@ -6,9 +6,9 @@ import { RecipesListFilters } from "@/types/recipes/recipes";
 import { RecipesRepository } from "@/repositories/recipes/recipes";
 import { RecipeIngredientsFilterOptionBuilder } from "../builders/recipeIngredientsFilterOptions";
 import { RecipeIngredientQueryResult } from "@/dtos/recipes/recipeIngredient";
-import { DbEntityService } from "@/main/_shared/db-entity/services/dbEntity";
+import { CRUDService } from "@/main/_shared/crud/services/crud";
 
-export class RecipeIngredientsService extends DbEntityService<
+export class RecipeIngredientsService extends CRUDService<
   RecipeIngredient,
   RecipeIngredientQueryResult
 > {

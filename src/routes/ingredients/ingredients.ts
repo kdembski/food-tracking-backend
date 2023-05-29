@@ -1,11 +1,11 @@
 import { Ingredient } from "@/main/ingredients/models/ingredient";
-import { DbEntityRoutesBuilder } from "../_shared/dbEntity";
+import { CRUDRoutesBuilder } from "../_shared/crud";
 import { IngredientDTO } from "@/dtos/ingredients/ingredient";
 import { IngredientsController } from "@/controllers/ingredients/ingredients";
 import { IRoutesBuilder } from "@/interfaces/_shared/routesBuilder";
 
 export class IngredientsRoutesBuilder
-  extends DbEntityRoutesBuilder<Ingredient, IngredientDTO, IngredientDTO>
+  extends CRUDRoutesBuilder<Ingredient, IngredientDTO, IngredientDTO>
   implements IRoutesBuilder
 {
   protected controller: IngredientsController;

@@ -1,10 +1,10 @@
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
-import { BaseRepository } from "../_shared/base";
+import { CRUDRepository } from "../_shared/crud";
 import { CalendarItemQueryResult } from "@/dtos/calendar/calendarItem";
 import { Database } from "@/config/database";
 import { CalendarItemsQueries } from "@/queries/calendar/calendarItems";
 
-export class CalendarItemsRepository extends BaseRepository<
+export class CalendarItemsRepository extends CRUDRepository<
   CalendarItem,
   CalendarItemQueryResult
 > {

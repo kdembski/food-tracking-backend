@@ -10,10 +10,10 @@ import { ShoppingItemValidator } from "@/main/shopping/validators/shoppingItem";
 import { ShoppingItemMapper } from "@/mappers/shopping/shoppingItem";
 import { ShoppingItemsCollectionMapper } from "@/mappers/shopping/shoppingItemsCollection";
 import { ShoppingItem } from "@/main/shopping/models/shoppingItem";
-import { DbEntityController } from "../_shared/dbEntity";
+import { CRUDController } from "../_shared/crud";
 import { ApiError } from "@/_shared/errors/models/apiError";
 
-export class ShoppingItemsController extends DbEntityController<
+export class ShoppingItemsController extends CRUDController<
   ShoppingItem,
   ShoppingItemDTO,
   ShoppingItemQueryResult

@@ -1,11 +1,11 @@
 import { ShoppingItem } from "@/main/shopping/models/shoppingItem";
-import { BaseRepository } from "../_shared/base";
+import { CRUDRepository } from "../_shared/crud";
 import { ShoppingItemQueryResult } from "@/dtos/shopping/shoppingItems";
 import { Database } from "@/config/database";
 import { ShoppingItemsQueries } from "@/queries/shopping/shoppingItems";
 import { OkPacket } from "mysql2";
 
-export class ShoppingItemsRepository extends BaseRepository<
+export class ShoppingItemsRepository extends CRUDRepository<
   ShoppingItem,
   ShoppingItemQueryResult
 > {

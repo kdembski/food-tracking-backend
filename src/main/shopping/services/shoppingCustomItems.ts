@@ -1,10 +1,10 @@
 import { ShoppingCustomItemsRepository } from "@/repositories/shopping/shoppingCustomItems";
 import { ShoppingCustomItem } from "../models/shoppingCustomItem";
-import { DbEntityService } from "@/main/_shared/db-entity/services/dbEntity";
+import { CRUDService } from "@/main/_shared/crud/services/crud";
 import { ShoppingCustomItemDTO } from "@/dtos/shopping/shoppingCustomItems";
 import { ShoppingCustomItemMapper } from "@/mappers/shopping/shoppingCustomItem";
 
-export class ShoppingCustomItemsService extends DbEntityService<
+export class ShoppingCustomItemsService extends CRUDService<
   ShoppingCustomItem,
   ShoppingCustomItemDTO
 > {

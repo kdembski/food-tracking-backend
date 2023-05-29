@@ -1,10 +1,10 @@
 import { IngredientUnit } from "@/main/ingredients/models/ingredientUnit";
-import { BaseRepository } from "../_shared/base";
+import { CRUDRepository } from "../_shared/crud";
 import { IngredientUnitQueryResult } from "@/dtos/ingredients/ingredientUnit";
 import { Database } from "@/config/database";
 import { IngredientUnitsQueries } from "@/queries/ingredients/ingredientUnits";
 
-export class IngredientUnitsRepository extends BaseRepository<
+export class IngredientUnitsRepository extends CRUDRepository<
   IngredientUnit,
   IngredientUnitQueryResult
 > {

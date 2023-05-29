@@ -1,6 +1,6 @@
 import { OkPacket } from "mysql2";
 
-export interface IDbEntityService<Model> {
+export interface ICRUDService<Model> {
   getById: (id: number) => Promise<Model>;
   create: (data: Model) => Promise<OkPacket>;
   update: (data: Model) => Promise<OkPacket>;

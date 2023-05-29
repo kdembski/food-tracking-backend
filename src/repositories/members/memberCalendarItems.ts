@@ -2,10 +2,10 @@ import { OkPacket } from "mysql2";
 import { MemberCalendarItem } from "@/main/members/models/memberCalendarItem";
 import { MemberCalendarItemDTO } from "@/dtos/members/memberCalendarItem";
 import { MemberCalendarItemsQueries } from "@/queries/members/memberCalendarItems";
-import { BaseRepository } from "../_shared/base";
+import { CRUDRepository } from "../_shared/crud";
 import { Database } from "@/config/database";
 
-export class MemberCalendarItemsRepository extends BaseRepository<
+export class MemberCalendarItemsRepository extends CRUDRepository<
   MemberCalendarItem,
   MemberCalendarItemDTO
 > {

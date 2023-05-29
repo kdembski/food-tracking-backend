@@ -1,11 +1,11 @@
 import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
-import { DbEntityRoutesBuilder } from "../_shared/dbEntity";
+import { CRUDRoutesBuilder } from "../_shared/crud";
 import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
 import { OrderedFoodController } from "@/controllers/ordered-food/orderedFood";
 import { IRoutesBuilder } from "@/interfaces/_shared/routesBuilder";
 
 export class OrderedFoodRoutesBuilder
-  extends DbEntityRoutesBuilder<OrderedFood, OrderedFoodDTO, OrderedFoodDTO>
+  extends CRUDRoutesBuilder<OrderedFood, OrderedFoodDTO, OrderedFoodDTO>
   implements IRoutesBuilder
 {
   protected controller: OrderedFoodController;

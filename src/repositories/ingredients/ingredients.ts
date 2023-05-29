@@ -1,8 +1,7 @@
 import { Ingredient } from "@/main/ingredients/models/ingredient";
-import { BaseRepository } from "../_shared/base";
+import { CRUDRepository } from "../_shared/crud";
 import {
   IngredientDTO,
-  IngredientListItemDTO,
   IngredientOptionDTO,
   IngredientQueryResult,
 } from "@/dtos/ingredients/ingredient";
@@ -11,7 +10,7 @@ import { IngredientsListFilters } from "@/types/ingredients/ingredients";
 import { Database } from "@/config/database";
 import { IngredientsQueries } from "@/queries/ingredients/ingredients";
 
-export class IngredientsRepository extends BaseRepository<
+export class IngredientsRepository extends CRUDRepository<
   Ingredient,
   IngredientDTO
 > {

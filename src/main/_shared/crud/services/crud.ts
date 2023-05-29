@@ -1,15 +1,15 @@
-import { IDbEntityService } from "@/interfaces/_shared/db-entity/dbEntityService";
+import { ICRUDService } from "@/interfaces/_shared/crud/crudService";
 import { IMapper } from "@/interfaces/_shared/mapper";
-import { BaseRepository } from "@/repositories/_shared/base";
+import { CRUDRepository } from "@/repositories/_shared/crud";
 
-export abstract class DbEntityService<Model, QueryResult>
-  implements IDbEntityService<Model>
+export abstract class CRUDService<Model, QueryResult>
+  implements ICRUDService<Model>
 {
-  protected repository: BaseRepository<Model, QueryResult>;
+  protected repository: CRUDRepository<Model, QueryResult>;
   protected mapper: IMapper<Model, QueryResult>;
 
   constructor(
-    repository: BaseRepository<Model, QueryResult>,
+    repository: CRUDRepository<Model, QueryResult>,
     mapper: IMapper<Model, QueryResult>
   ) {
     this.repository = repository;

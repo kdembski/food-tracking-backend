@@ -1,5 +1,5 @@
 import { ShoppingCustomItem } from "@/main/shopping/models/shoppingCustomItem";
-import { BaseRepository } from "../_shared/base";
+import { CRUDRepository } from "../_shared/crud";
 import {
   ShoppingCustomItemDTO,
   ShoppingCustomItemOptionDTO,
@@ -7,7 +7,7 @@ import {
 import { ShoppingCustomItemsQueries } from "@/queries/shopping/shoppingCustomItems";
 import { Database } from "@/config/database";
 
-export class ShoppingCustomItemsRepository extends BaseRepository<
+export class ShoppingCustomItemsRepository extends CRUDRepository<
   ShoppingCustomItem,
   ShoppingCustomItemDTO
 > {

@@ -4,12 +4,12 @@ import { IngredientDTO } from "@/dtos/ingredients/ingredient";
 import { IngredientMapper } from "@/mappers/ingredients/ingredient";
 import { IngredientValidator } from "@/main/ingredients/validators/ingredient";
 import { ApiError } from "@/_shared/errors/models/apiError";
-import { DbEntityController } from "../_shared/dbEntity";
+import { CRUDController } from "../_shared/crud";
 import { Ingredient } from "@/main/ingredients/models/ingredient";
 import { ListController } from "../_shared/list";
 import { IngredientsListFilters } from "@/types/ingredients/ingredients";
 
-export class IngredientsController extends DbEntityController<
+export class IngredientsController extends CRUDController<
   Ingredient,
   IngredientDTO,
   IngredientDTO

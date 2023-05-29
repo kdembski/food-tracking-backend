@@ -1,11 +1,11 @@
 import { Unit } from "@/main/ingredients/models/unit";
-import { DbEntityRoutesBuilder } from "../_shared/dbEntity";
+import { CRUDRoutesBuilder } from "../_shared/crud";
 import { UnitDTO } from "@/dtos/ingredients/unit";
 import { UnitsController } from "@/controllers/ingredients/units";
 import { IRoutesBuilder } from "@/interfaces/_shared/routesBuilder";
 
 export class UnitsRoutesBuilder
-  extends DbEntityRoutesBuilder<Unit, UnitDTO, UnitDTO>
+  extends CRUDRoutesBuilder<Unit, UnitDTO, UnitDTO>
   implements IRoutesBuilder
 {
   protected controller: UnitsController;

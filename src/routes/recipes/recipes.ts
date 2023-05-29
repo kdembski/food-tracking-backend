@@ -1,11 +1,11 @@
 import { Recipe } from "@/main/recipes/models/recipe";
-import { DbEntityRoutesBuilder } from "../_shared/dbEntity";
+import { CRUDRoutesBuilder } from "../_shared/crud";
 import { ExtendedRecipeDTO, RecipeQueryResult } from "@/dtos/recipes/recipe";
 import { RecipesController } from "@/controllers/recipes/recipes";
 import { IRoutesBuilder } from "@/interfaces/_shared/routesBuilder";
 
 export class RecipesRoutesBuilder
-  extends DbEntityRoutesBuilder<Recipe, ExtendedRecipeDTO, RecipeQueryResult>
+  extends CRUDRoutesBuilder<Recipe, ExtendedRecipeDTO, RecipeQueryResult>
   implements IRoutesBuilder
 {
   protected controller: RecipesController;

@@ -5,9 +5,9 @@ import { ShoppingCustomItem } from "@/main/shopping/models/shoppingCustomItem";
 import { ShoppingCustomItemsService } from "@/main/shopping/services/shoppingCustomItems";
 import { ShoppingCustomItemValidator } from "@/main/shopping/validators/shoppingCustomItem";
 import { ApiError } from "@/_shared/errors/models/apiError";
-import { DbEntityController } from "../_shared/dbEntity";
+import { CRUDController } from "../_shared/crud";
 
-export class ShoppingCustomItemsController extends DbEntityController<
+export class ShoppingCustomItemsController extends CRUDController<
   ShoppingCustomItem,
   ShoppingCustomItemDTO,
   ShoppingCustomItemDTO

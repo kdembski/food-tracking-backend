@@ -1,5 +1,5 @@
 import { Recipe } from "@/main/recipes/models/recipe";
-import { BaseRepository } from "../_shared/base";
+import { CRUDRepository } from "../_shared/crud";
 import { RecipeOptionDTO, RecipeQueryResult } from "@/dtos/recipes/recipe";
 import { RecipesListFilters } from "@/types/recipes/recipes";
 import { ITagsRepository } from "@/interfaces/_shared/tags/tagsRepository";
@@ -9,7 +9,7 @@ import { Database } from "@/config/database";
 import { OkPacket } from "mysql2";
 
 export class RecipesRepository
-  extends BaseRepository<Recipe, RecipeQueryResult>
+  extends CRUDRepository<Recipe, RecipeQueryResult>
   implements ITagsRepository<RecipesListFilters>
 {
   protected queries: RecipesQueries;

@@ -1,14 +1,14 @@
+import { ICRUDService } from "@/interfaces/_shared/crud/crudService";
 import { IDbEntity } from "@/interfaces/_shared/db-entity/dbEntity";
 import { IDbEntityCollection } from "@/interfaces/_shared/db-entity/dbEntityCollection";
-import { IDbEntityService } from "@/interfaces/_shared/db-entity/dbEntityService";
 
-export abstract class DbEntityCollectionService<
+export abstract class CRUDCollectionService<
   CollectionItem extends IDbEntity,
   Collection extends IDbEntityCollection<CollectionItem>
 > {
-  private collectionItemService: IDbEntityService<CollectionItem>;
+  private collectionItemService: ICRUDService<CollectionItem>;
 
-  constructor(collectionItemService: IDbEntityService<CollectionItem>) {
+  constructor(collectionItemService: ICRUDService<CollectionItem>) {
     this.collectionItemService = collectionItemService;
   }
 

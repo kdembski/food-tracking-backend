@@ -9,9 +9,9 @@ import { RecipeIngredientMapper } from "@/mappers/recipes/recipeIngredient";
 import { RequestQueryHelper } from "@/helpers/requestQuery";
 import { ApiError } from "@/_shared/errors/models/apiError";
 import { RecipeIngredientValidator } from "@/main/recipes/validators/recipeIngredient";
-import { DbEntityController } from "../_shared/dbEntity";
+import { CRUDController } from "../_shared/crud";
 
-export class RecipeIngredientsController extends DbEntityController<
+export class RecipeIngredientsController extends CRUDController<
   RecipeIngredient,
   RecipeIngredientDTO,
   RecipeIngredientQueryResult

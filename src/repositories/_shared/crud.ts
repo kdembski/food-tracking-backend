@@ -1,11 +1,11 @@
 import { OkPacket } from "mysql2";
 import { CustomError } from "@/_shared/errors/models/customError";
 import { Database } from "@/config/database";
-import { IBaseRepository } from "@/interfaces/_shared/db-entity/baseRepository";
+import { ICRUDRepository } from "@/interfaces/_shared/crud/crudRepository";
 import { Queries } from "@/queries/_shared/models/queries";
 
-export abstract class BaseRepository<Model, QueryResult>
-  implements IBaseRepository<Model, QueryResult>
+export abstract class CRUDRepository<Model, QueryResult>
+  implements ICRUDRepository<Model, QueryResult>
 {
   protected database: Database;
   protected queries: Queries;

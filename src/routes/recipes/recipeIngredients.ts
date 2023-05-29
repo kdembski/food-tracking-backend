@@ -1,5 +1,5 @@
 import { RecipeIngredientsController } from "@/controllers/recipes/recipeIngredients";
-import { DbEntityRoutesBuilder } from "../_shared/dbEntity";
+import { CRUDRoutesBuilder } from "../_shared/crud";
 import { RecipeIngredient } from "@/main/recipes/models/recipeIngredient";
 import {
   RecipeIngredientDTO,
@@ -8,7 +8,7 @@ import {
 import { IRoutesBuilder } from "@/interfaces/_shared/routesBuilder";
 
 export class RecipeIngredientsRoutesBuilder
-  extends DbEntityRoutesBuilder<
+  extends CRUDRoutesBuilder<
     RecipeIngredient,
     RecipeIngredientDTO,
     RecipeIngredientQueryResult

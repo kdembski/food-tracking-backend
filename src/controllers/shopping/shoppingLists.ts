@@ -7,11 +7,11 @@ import { ShoppingListValidator } from "@/main/shopping/validators/shoppingList";
 import { ShoppingItemsCollectionMapper } from "@/mappers/shopping/shoppingItemsCollection";
 import { ShoppingListMapper } from "@/mappers/shopping/shoppingList";
 import { ShoppingListsCollectionMapper } from "@/mappers/shopping/shoppingListsCollection";
-import { DbEntityController } from "../_shared/dbEntity";
+import { CRUDController } from "../_shared/crud";
 import { ShoppingList } from "@/main/shopping/models/shoppingList";
 import { ApiError } from "@/_shared/errors/models/apiError";
 
-export class ShoppingListsController extends DbEntityController<
+export class ShoppingListsController extends CRUDController<
   ShoppingList,
   ShoppingListDTO,
   ShoppingListDTO

@@ -6,9 +6,9 @@ import { OrderedFoodMapper } from "@/mappers/ordered-food/orderedFood";
 import { ListService } from "@/main/_shared/list/listService";
 import { OrderedFoodList } from "../models/orderedFoodList";
 import { TagsBuilder } from "@/main/_shared/tags/tagsBuilder";
-import { DbEntityService } from "@/main/_shared/db-entity/services/dbEntity";
+import { CRUDService } from "@/main/_shared/crud/services/crud";
 
-export class OrderedFoodService extends DbEntityService<
+export class OrderedFoodService extends CRUDService<
   OrderedFood,
   OrderedFoodDTO
 > {

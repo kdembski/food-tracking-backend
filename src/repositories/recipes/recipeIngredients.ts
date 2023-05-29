@@ -1,10 +1,10 @@
 import { RecipeIngredient } from "@/main/recipes/models/recipeIngredient";
-import { BaseRepository } from "../_shared/base";
+import { CRUDRepository } from "../_shared/crud";
 import { RecipeIngredientQueryResult } from "@/dtos/recipes/recipeIngredient";
 import { RecipeIngredientsQueries } from "@/queries/recipes/recipeIngredients";
 import { Database } from "@/config/database";
 
-export class RecipeIngredientsRepository extends BaseRepository<
+export class RecipeIngredientsRepository extends CRUDRepository<
   RecipeIngredient,
   RecipeIngredientQueryResult
 > {

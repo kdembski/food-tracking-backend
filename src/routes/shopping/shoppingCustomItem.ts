@@ -1,11 +1,11 @@
 import { ShoppingCustomItem } from "@/main/shopping/models/shoppingCustomItem";
-import { DbEntityRoutesBuilder } from "../_shared/dbEntity";
+import { CRUDRoutesBuilder } from "../_shared/crud";
 import { ShoppingCustomItemDTO } from "@/dtos/shopping/shoppingCustomItems";
 import { ShoppingCustomItemsController } from "@/controllers/shopping/shoppingCustomItem";
 import { IRoutesBuilder } from "@/interfaces/_shared/routesBuilder";
 
 export class ShoppingCustomItemsRoutesBuilder
-  extends DbEntityRoutesBuilder<
+  extends CRUDRoutesBuilder<
     ShoppingCustomItem,
     ShoppingCustomItemDTO,
     ShoppingCustomItemDTO

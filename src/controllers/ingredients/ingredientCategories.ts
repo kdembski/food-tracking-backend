@@ -3,13 +3,13 @@ import { IngredientCategory } from "@/main/ingredients/models/ingredientCategory
 import { IngredientCategoriesService } from "@/main/ingredients/services/ingredientCategories";
 import { IngredientCategoryValidator } from "@/main/ingredients/validators/ingredientCategory";
 import { IngredientCategoryMapper } from "@/mappers/ingredients/ingredientCategory";
-import { DbEntityController } from "../_shared/dbEntity";
+import { CRUDController } from "../_shared/crud";
 import { IngredientCategoryDTO } from "@/dtos/ingredients/ingredientCategory";
 import { ApiError } from "@/_shared/errors/models/apiError";
 import { ListController } from "../_shared/list";
 import { IngredientCategoriesListFilters } from "@/types/ingredients/ingredientCategories";
 
-export class IngredientCategoriesController extends DbEntityController<
+export class IngredientCategoriesController extends CRUDController<
   IngredientCategory,
   IngredientCategoryDTO,
   IngredientCategoryDTO

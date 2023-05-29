@@ -1,10 +1,10 @@
 import { ShoppingItemsRepository } from "@/repositories/shopping/shoppingItems";
 import { ShoppingItem } from "../models/shoppingItem";
 import { ShoppingItemQueryResult } from "@/dtos/shopping/shoppingItems";
-import { DbEntityService } from "@/main/_shared/db-entity/services/dbEntity";
+import { CRUDService } from "@/main/_shared/crud/services/crud";
 import { ShoppingItemQueryResultMapper } from "@/mappers/shopping/shoppingItemQueryResult";
 
-export class ShoppingItemsService extends DbEntityService<
+export class ShoppingItemsService extends CRUDService<
   ShoppingItem,
   ShoppingItemQueryResult
 > {

@@ -6,12 +6,12 @@ import { RequestQueryHelper } from "@/helpers/requestQuery";
 import { OrderedFoodService } from "@/main/ordered-food/services/orderedFood";
 import { OrderedFoodValidator } from "@/main/ordered-food/validators/orderedFood";
 import { ListController } from "../_shared/list";
-import { DbEntityController } from "../_shared/dbEntity";
+import { CRUDController } from "../_shared/crud";
 import { OrderedFoodListFilters } from "@/types/ordered-food/orderedFood";
 import { TagsMapper } from "@/mappers/_shared/tags";
 import { ApiError } from "@/_shared/errors/models/apiError";
 
-export class OrderedFoodController extends DbEntityController<
+export class OrderedFoodController extends CRUDController<
   OrderedFood,
   OrderedFoodDTO,
   OrderedFoodDTO

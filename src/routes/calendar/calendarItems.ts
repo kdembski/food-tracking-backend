@@ -1,11 +1,11 @@
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
-import { DbEntityRoutesBuilder } from "../_shared/dbEntity";
+import { CRUDRoutesBuilder } from "../_shared/crud";
 import { CalendarItemDTO } from "@/dtos/calendar/calendarItem";
 import { CalendarItemsController } from "@/controllers/calendar/calendarItems";
 import { IRoutesBuilder } from "@/interfaces/_shared/routesBuilder";
 
 export class CalendarItemsRoutesBuilder
-  extends DbEntityRoutesBuilder<CalendarItem, CalendarItemDTO, CalendarItemDTO>
+  extends CRUDRoutesBuilder<CalendarItem, CalendarItemDTO, CalendarItemDTO>
   implements IRoutesBuilder
 {
   protected controller: CalendarItemsController;

@@ -1,10 +1,10 @@
 import { Database } from "@/config/database";
 import { ShoppingListsQueries } from "@/queries/shopping/shoppingLists";
-import { BaseRepository } from "../_shared/base";
+import { CRUDRepository } from "../_shared/crud";
 import { ShoppingList } from "@/main/shopping/models/shoppingList";
 import { ShoppingListDTO } from "@/dtos/shopping/shoppingLists";
 
-export class ShoppingListsRepository extends BaseRepository<
+export class ShoppingListsRepository extends CRUDRepository<
   ShoppingList,
   ShoppingListDTO
 > {

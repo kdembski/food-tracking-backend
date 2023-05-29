@@ -1,10 +1,10 @@
 import { MemberCalendarItemsRepository } from "@/repositories/members/memberCalendarItems";
 import { MemberCalendarItem } from "@/main/members/models/memberCalendarItem";
-import { DbEntityService } from "@/main/_shared/db-entity/services/dbEntity";
+import { CRUDService } from "@/main/_shared/crud/services/crud";
 import { MemberCalendarItemDTO } from "@/dtos/members/memberCalendarItem";
 import { MemberCalendarItemMapper } from "@/mappers/members/memberCalendarItem";
 
-export class MemberCalendarItemsService extends DbEntityService<
+export class MemberCalendarItemsService extends CRUDService<
   MemberCalendarItem,
   MemberCalendarItemDTO
 > {

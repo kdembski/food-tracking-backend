@@ -1,5 +1,5 @@
 import { ShoppingItem } from "@/main/shopping/models/shoppingItem";
-import { DbEntityRoutesBuilder } from "../_shared/dbEntity";
+import { CRUDRoutesBuilder } from "../_shared/crud";
 import {
   ShoppingItemDTO,
   ShoppingItemQueryResult,
@@ -8,7 +8,7 @@ import { ShoppingItemsController } from "@/controllers/shopping/shoppingItems";
 import { IRoutesBuilder } from "@/interfaces/_shared/routesBuilder";
 
 export class ShoppingItemsRoutesBuilder
-  extends DbEntityRoutesBuilder<
+  extends CRUDRoutesBuilder<
     ShoppingItem,
     ShoppingItemDTO,
     ShoppingItemQueryResult

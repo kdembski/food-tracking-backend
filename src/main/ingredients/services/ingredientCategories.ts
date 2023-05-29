@@ -4,10 +4,10 @@ import { IngredientCategoryDTO } from "@/dtos/ingredients/ingredientCategory";
 import { IngredientCategoriesListFilters } from "@/types/ingredients/ingredientCategories";
 import { IngredientCategoryMapper } from "@/mappers/ingredients/ingredientCategory";
 import { IngredientCategoriesList } from "../models/ingredientCategoriesList";
-import { DbEntityService } from "@/main/_shared/db-entity/services/dbEntity";
+import { CRUDService } from "@/main/_shared/crud/services/crud";
 import { ListService } from "@/main/_shared/list/listService";
 
-export class IngredientCategoriesService extends DbEntityService<
+export class IngredientCategoriesService extends CRUDService<
   IngredientCategory,
   IngredientCategoryDTO
 > {

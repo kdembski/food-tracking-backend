@@ -7,9 +7,9 @@ import {
 import { IngredientCategoriesQueries } from "@/queries/ingredients/ingredientCategories";
 import { ListRepository } from "../_shared/list";
 import { IngredientCategoriesListFilters } from "@/types/ingredients/ingredientCategories";
-import { BaseRepository } from "../_shared/base";
+import { CRUDRepository } from "../_shared/crud";
 
-export class IngredientCategoriesRepository extends BaseRepository<
+export class IngredientCategoriesRepository extends CRUDRepository<
   IngredientCategory,
   IngredientCategoryDTO
 > {

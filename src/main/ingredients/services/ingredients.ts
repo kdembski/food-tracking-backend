@@ -1,4 +1,4 @@
-import { DbEntityService } from "@/main/_shared/db-entity/services/dbEntity";
+import { CRUDService } from "@/main/_shared/crud/services/crud";
 import { Ingredient } from "../models/ingredient";
 import { IngredientDTO } from "@/dtos/ingredients/ingredient";
 import { IngredientsRepository } from "@/repositories/ingredients/ingredients";
@@ -9,10 +9,7 @@ import { IngredientsList } from "../models/ingredientsList";
 import { IngredientBuilder } from "../builders/ingredient";
 import { IngredientUnitsCollectionService } from "./ingredientUnitsCollection";
 
-export class IngredientsService extends DbEntityService<
-  Ingredient,
-  IngredientDTO
-> {
+export class IngredientsService extends CRUDService<Ingredient, IngredientDTO> {
   private ingredientUnitsCollectionService: IngredientUnitsCollectionService;
   private builder: IngredientBuilder;
   protected repository: IngredientsRepository;

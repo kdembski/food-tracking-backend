@@ -7,13 +7,9 @@ import { UnitValidator } from "@/main/ingredients/validators/unit";
 import { ApiError } from "@/_shared/errors/models/apiError";
 import { UnitsListFilters } from "@/types/ingredients/units";
 import { ListController } from "../_shared/list";
-import { DbEntityController } from "../_shared/dbEntity";
+import { CRUDController } from "../_shared/crud";
 
-export class UnitsController extends DbEntityController<
-  Unit,
-  UnitDTO,
-  UnitDTO
-> {
+export class UnitsController extends CRUDController<Unit, UnitDTO, UnitDTO> {
   protected service: UnitsService;
   protected mapper: UnitMapper;
   protected validator: UnitValidator;

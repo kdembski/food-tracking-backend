@@ -4,10 +4,10 @@ import { RecipeIngredientsRepository } from "@/repositories/recipes/recipeIngred
 import { RecipeIngredientsCollection } from "../../collections/recipeIngredients";
 import { RecipeIngredient } from "../../models/recipeIngredient";
 import { RecipeIngredientsCollectionBuilder } from "../../builders/recipeIngredientsCollection";
-import { DbEntityCollectionService } from "@/main/_shared/db-entity/services/dbEntityCollection";
+import { CRUDCollectionService } from "@/main/_shared/crud/services/crudCollection";
 import { RecipeIngredientQueryResultsCollectionMapper } from "@/mappers/recipes/recipeIngredientQueryResultsCollection";
 
-export class RecipeIngredientsCollectionService extends DbEntityCollectionService<
+export class RecipeIngredientsCollectionService extends CRUDCollectionService<
   RecipeIngredient,
   RecipeIngredientsCollection
 > {

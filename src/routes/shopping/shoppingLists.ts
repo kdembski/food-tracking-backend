@@ -1,11 +1,11 @@
 import { ShoppingList } from "@/main/shopping/models/shoppingList";
-import { DbEntityRoutesBuilder } from "../_shared/dbEntity";
+import { CRUDRoutesBuilder } from "../_shared/crud";
 import { ShoppingListDTO } from "@/dtos/shopping/shoppingLists";
 import { ShoppingListsController } from "@/controllers/shopping/shoppingLists";
 import { IRoutesBuilder } from "@/interfaces/_shared/routesBuilder";
 
 export class ShoppingListsRoutesBuilder
-  extends DbEntityRoutesBuilder<ShoppingList, ShoppingListDTO, ShoppingListDTO>
+  extends CRUDRoutesBuilder<ShoppingList, ShoppingListDTO, ShoppingListDTO>
   implements IRoutesBuilder
 {
   protected controller: ShoppingListsController;

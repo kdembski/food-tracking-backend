@@ -2,10 +2,10 @@ import { IngredientUnitsRepository } from "@/repositories/ingredients/ingredient
 import { IngredientUnitsCollection } from "../collections/ingredientUnits";
 import { IngredientUnit } from "../models/ingredientUnit";
 import { IngredientUnitsService } from "./ingredientUnits";
-import { DbEntityCollectionService } from "@/main/_shared/db-entity/services/dbEntityCollection";
+import { CRUDCollectionService } from "@/main/_shared/crud/services/crudCollection";
 import { IngredientUnitQueryResultCollectionMapper } from "@/mappers/ingredients/ingredientUnitQueryResultsCollection";
 
-export class IngredientUnitsCollectionService extends DbEntityCollectionService<
+export class IngredientUnitsCollectionService extends CRUDCollectionService<
   IngredientUnit,
   IngredientUnitsCollection
 > {

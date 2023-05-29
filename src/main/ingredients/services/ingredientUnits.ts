@@ -2,10 +2,10 @@ import { IngredientUnitsRepository } from "@/repositories/ingredients/ingredient
 import { IngredientUnitQueryResultMapper } from "@/mappers/ingredients/ingredientUnitQueryResult";
 import { IngredientUnit } from "../models/ingredientUnit";
 import { IngredientUnitQueryResult } from "@/dtos/ingredients/ingredientUnit";
-import { DbEntityService } from "@/main/_shared/db-entity/services/dbEntity";
+import { CRUDService } from "@/main/_shared/crud/services/crud";
 import { UpdateKcalForRecipeContainingIngredientUnit } from "@/main/recipes/services/recipe-ingredients-collection/updateKcalForRecipeContainingIngredientUnit";
 
-export class IngredientUnitsService extends DbEntityService<
+export class IngredientUnitsService extends CRUDService<
   IngredientUnit,
   IngredientUnitQueryResult
 > {

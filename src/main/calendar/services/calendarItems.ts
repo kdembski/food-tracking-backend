@@ -2,13 +2,13 @@ import { CalendarItem } from "@/main/calendar/models/calendarItem";
 import { CalendarItemMembersService } from "./calendarItemMembers";
 import { CalendarItemChildConfigFactory } from "../factories/calendarItemChildConfig";
 import { CalendarDaysCollection } from "../collections/calendarDays";
-import { DbEntityService } from "@/main/_shared/db-entity/services/dbEntity";
+import { CRUDService } from "@/main/_shared/crud/services/crud";
 import { CalendarItemsRepository } from "@/repositories/calendar/calendarItems";
 import { CalendarItemMapper } from "@/mappers/calendar/calendarItem";
 import { CalendarItemQueryResultsCollectionMapper } from "@/mappers/calendar/calendarItemQueryResultsCollection";
 import { CalendarItemQueryResult } from "@/dtos/calendar/calendarItem";
 
-export class CalendarItemsService extends DbEntityService<
+export class CalendarItemsService extends CRUDService<
   CalendarItem,
   CalendarItemQueryResult
 > {

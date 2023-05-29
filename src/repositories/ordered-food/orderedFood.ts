@@ -1,5 +1,5 @@
 import { OrderedFood } from "@/main/ordered-food/models/orderedFood";
-import { BaseRepository } from "../_shared/base";
+import { CRUDRepository } from "../_shared/crud";
 import { OrderedFoodListFilters } from "@/types/ordered-food/orderedFood";
 import { OrderedFoodDTO } from "@/dtos/ordered-food/orderedFood";
 import { ITagsRepository } from "@/interfaces/_shared/tags/tagsRepository";
@@ -8,7 +8,7 @@ import { ListRepository } from "../_shared/list";
 import { Database } from "@/config/database";
 
 export class OrderedFoodRepository
-  extends BaseRepository<OrderedFood, OrderedFoodDTO>
+  extends CRUDRepository<OrderedFood, OrderedFoodDTO>
   implements ITagsRepository<OrderedFoodListFilters>
 {
   protected queries: OrderedFoodQueries;

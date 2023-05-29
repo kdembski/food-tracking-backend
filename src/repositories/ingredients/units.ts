@@ -1,12 +1,12 @@
 import { Unit } from "@/main/ingredients/models/unit";
-import { BaseRepository } from "../_shared/base";
+import { CRUDRepository } from "../_shared/crud";
 import { UnitDTO, UnitOptionDTO } from "@/dtos/ingredients/unit";
 import { UnitsQueries } from "@/queries/ingredients/units";
 import { ListRepository } from "../_shared/list";
 import { UnitsListFilters } from "@/types/ingredients/units";
 import { Database } from "@/config/database";
 
-export class UnitsRepository extends BaseRepository<Unit, UnitDTO> {
+export class UnitsRepository extends CRUDRepository<Unit, UnitDTO> {
   protected queries: UnitsQueries;
   list: ListRepository<UnitDTO, UnitsListFilters>;
 

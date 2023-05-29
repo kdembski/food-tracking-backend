@@ -12,11 +12,11 @@ import { RecipeValidator } from "@/main/recipes/validators/recipe";
 import { RecipeIngredientsCollectionValidator } from "@/main/recipes/validators/recipeIngredientsCollection";
 import { ListController } from "../_shared/list";
 import { RecipesListFilters } from "@/types/recipes/recipes";
-import { DbEntityController } from "../_shared/dbEntity";
+import { CRUDController } from "../_shared/crud";
 import { ApiError } from "@/_shared/errors/models/apiError";
 import { TagsMapper } from "@/mappers/_shared/tags";
 
-export class RecipesController extends DbEntityController<
+export class RecipesController extends CRUDController<
   Recipe,
   ExtendedRecipeDTO,
   RecipeQueryResult

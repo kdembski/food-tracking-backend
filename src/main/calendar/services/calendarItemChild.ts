@@ -1,6 +1,6 @@
 import { isEqual } from "date-fns";
 import { ICalendarItemChildAdapter } from "@/interfaces/calendar/calendarItemChildAdapter";
-import { DbEntityService } from "@/main/_shared/db-entity/services/dbEntity";
+import { CRUDService } from "@/main/_shared/crud/services/crud";
 import { ICalendarItemChildService } from "@/interfaces/calendar/calendarItemChildService";
 import { ICalendarItemChildDatesManager } from "@/interfaces/calendar/calendarItemChildDatesManager";
 
@@ -8,12 +8,12 @@ export class CalendarItemChildService<Model, QueryResult>
   implements ICalendarItemChildService
 {
   childAdapter: ICalendarItemChildAdapter<Model>;
-  childService: DbEntityService<Model, QueryResult>;
+  childService: CRUDService<Model, QueryResult>;
   datesManager: ICalendarItemChildDatesManager;
 
   constructor(
     childAdapter: ICalendarItemChildAdapter<Model>,
-    childService: DbEntityService<Model, QueryResult>,
+    childService: CRUDService<Model, QueryResult>,
     datesManager: ICalendarItemChildDatesManager
   ) {
     this.childAdapter = childAdapter;

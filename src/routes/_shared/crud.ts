@@ -1,11 +1,11 @@
-import { DbEntityController } from "@/controllers/_shared/dbEntity";
+import { CRUDController } from "@/controllers/_shared/crud";
 import { Router } from "express";
 
-export abstract class DbEntityRoutesBuilder<Model, ModelDTO, QueryResult> {
-  protected controller: DbEntityController<Model, ModelDTO, QueryResult>;
+export abstract class CRUDRoutesBuilder<Model, ModelDTO, QueryResult> {
+  protected controller: CRUDController<Model, ModelDTO, QueryResult>;
   protected _router: Router;
 
-  constructor(controller: DbEntityController<Model, ModelDTO, QueryResult>) {
+  constructor(controller: CRUDController<Model, ModelDTO, QueryResult>) {
     this.controller = controller;
     this._router = Router();
   }

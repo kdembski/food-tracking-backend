@@ -3,11 +3,11 @@ import { ShoppingList } from "../models/shoppingList";
 import { ShoppingItemsCollectionService } from "./shoppingItemsCollection";
 import { ShoppingListsCollectionBuilder } from "../builders/shoppingListsCollection";
 import { ShoppingListMapper } from "@/mappers/shopping/shoppingList";
-import { DbEntityService } from "@/main/_shared/db-entity/services/dbEntity";
+import { CRUDService } from "@/main/_shared/crud/services/crud";
 import { ShoppingListDTO } from "@/dtos/shopping/shoppingLists";
 import { ShoppingListsCollectionMapper } from "@/mappers/shopping/shoppingListsCollection";
 
-export class ShoppingListsService extends DbEntityService<
+export class ShoppingListsService extends CRUDService<
   ShoppingList,
   ShoppingListDTO
 > {

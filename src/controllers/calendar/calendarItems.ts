@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { RequestQueryHelper } from "@/helpers/requestQuery";
-import { Router } from "express";
 import { RequestParamsHelper } from "@/helpers/requestParams";
 import { CalendarItemsService } from "@/main/calendar/services/calendarItems";
 import { CalendarItemDTO } from "@/dtos/calendar/calendarItem";
@@ -8,11 +7,11 @@ import { CalendarDaysMapper } from "@/mappers/calendar/calendarDays";
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
 import { ApiError } from "@/_shared/errors/models/apiError";
 import { CalendarItemValidator } from "@/main/calendar/validators/calendarItem";
-import { DbEntityController } from "../_shared/dbEntity";
+import { CRUDController } from "../_shared/crud";
 import { CalendarItemMapper } from "@/mappers/calendar/calendarItem";
 import { CalendarItemMembersService } from "@/main/calendar/services/calendarItemMembers";
 
-export class CalendarItemsController extends DbEntityController<
+export class CalendarItemsController extends CRUDController<
   CalendarItem,
   CalendarItemDTO,
   CalendarItemDTO

@@ -5,11 +5,11 @@ import { RecipesList } from "../models/recipesList";
 import { RecipesListFilters } from "@/types/recipes/recipes";
 import { ListService } from "@/main/_shared/list/listService";
 import { ExtendedRecipeDTO, RecipeQueryResult } from "@/dtos/recipes/recipe";
-import { DbEntityService } from "@/main/_shared/db-entity/services/dbEntity";
+import { CRUDService } from "@/main/_shared/crud/services/crud";
 import { TagsBuilder } from "@/main/_shared/tags/tagsBuilder";
 import { RecipeQueryResultMapper } from "@/mappers/recipes/recipeQueryResult";
 
-export class RecipesService extends DbEntityService<Recipe, RecipeQueryResult> {
+export class RecipesService extends CRUDService<Recipe, RecipeQueryResult> {
   private tagsBuilder: TagsBuilder<RecipesListFilters>;
   private builder: RecipeBuilder;
   protected repository: RecipesRepository;
