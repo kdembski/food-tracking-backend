@@ -1,32 +1,10 @@
 import { ShoppingItemQueryResult } from "@/dtos/shopping/shoppingItems";
-import { IMapper } from "@/interfaces/_shared/mapper";
+import { IToDomainMapper } from "@/interfaces/_shared/mappers/toDomainMapper";
 import { ShoppingItem } from "@/main/shopping/models/shoppingItem";
 
 export class ShoppingItemQueryResultMapper
-  implements IMapper<ShoppingItem, ShoppingItemQueryResult>
+  implements IToDomainMapper<ShoppingItem, ShoppingItemQueryResult>
 {
-  toDTO(model: ShoppingItem) {
-    return {
-      id: model.id,
-      recipeId: model.recipeId,
-      ingredientUnitId: model.ingredientUnitId,
-      ingredientId: model.ingredientId,
-      shoppingListId: model.shoppingListId,
-      customItemId: model.customItemId,
-      amount: model.amount?.toString(),
-      ingredientName: model.ingredientName,
-      unitShortcut: model.unitShortcut,
-      primaryUnitShortcut: model.primaryUnitShortcut,
-      customItemName: model.customItemName,
-      isChecked: model.isChecked ? 1 : 0,
-      checkedAt: model.checkedAt,
-      isRemoved: model.isRemoved ? 1 : 0,
-      ingredientCategoryId: model.ingredientCategoryId,
-      isPrimary: model.isPrimary ? 1 : 0,
-      converterToPrimary: model.converterToPrimary?.toString(),
-    };
-  }
-
   toDomain(dto: ShoppingItemQueryResult) {
     return new ShoppingItem({
       id: dto.id,

@@ -1,23 +1,10 @@
 import { IngredientUnitQueryResult } from "@/dtos/ingredients/ingredientUnit";
-import { IMapper } from "@/interfaces/_shared/mapper";
+import { IToDomainMapper } from "@/interfaces/_shared/mappers/toDomainMapper";
 import { IngredientUnit } from "@/main/ingredients/models/ingredientUnit";
 
 export class IngredientUnitQueryResultMapper
-  implements IMapper<IngredientUnit, IngredientUnitQueryResult>
+  implements IToDomainMapper<IngredientUnit, IngredientUnitQueryResult>
 {
-  toDTO(model: IngredientUnit) {
-    return {
-      id: model.id,
-      ingredientId: model.ingredientId,
-      unitId: model.unitId,
-      unitName: model.unitName,
-      unitShortcut: model.unitShortcut,
-      kcalPerUnit: model.kcalPerUnit?.toString(),
-      isPrimary: model.isPrimary ? 1 : 0,
-      converterToPrimary: model.converterToPrimary?.toString(),
-    };
-  }
-
   toDomain(dto: IngredientUnitQueryResult) {
     return new IngredientUnit({
       id: dto.id,

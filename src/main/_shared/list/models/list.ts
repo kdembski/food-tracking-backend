@@ -2,7 +2,7 @@ import { IList } from "@/interfaces/_shared/list/list";
 import { Pagination } from "./pagination";
 import { ListConfig } from "@/types/_shared/list";
 import { IListRepository } from "@/interfaces/_shared/list/listRepository";
-import { IMapper } from "@/interfaces/_shared/mapper";
+import { IMapper } from "@/interfaces/_shared/mappers/mapper";
 import { CustomError } from "@/_shared/errors/models/customError";
 import { RequestQueryHelper } from "@/helpers/requestQuery";
 

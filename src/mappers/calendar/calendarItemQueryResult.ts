@@ -1,22 +1,12 @@
 import { CalendarItemQueryResult } from "@/dtos/calendar/calendarItem";
-import { IMapper } from "@/interfaces/_shared/mapper";
+import { IToDomainMapper } from "@/interfaces/_shared/mappers/toDomainMapper";
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
 
 export class CalendarItemQueryResultMapper
-  implements IMapper<CalendarItem, CalendarItemQueryResult>
+  implements IToDomainMapper<CalendarItem, CalendarItemQueryResult>
 {
-  toDTO(item: CalendarItem) {
-    return {
-      id: item.id,
-      date: item.date,
-      recipeId: item.recipeId,
-      orderedFoodId: item.orderedFoodId,
-      sortOrder: item.sortOrder,
-    };
-  }
-
   toDomain(dto: CalendarItemQueryResult) {
-    const baseDto = {
+    return new CalendarItem({
       id: dto.id,
       date: dto.date,
       recipeId: dto.recipeId,
@@ -25,7 +15,6 @@ export class CalendarItemQueryResultMapper
       tags: dto.recipeTags || dto.orderedFoodTags,
       sortOrder: dto.sortOrder,
       members: dto.memberIds?.split(",").map((id) => parseInt(id)) || [],
-    };
-    return new CalendarItem(baseDto);
+    });
   }
 }

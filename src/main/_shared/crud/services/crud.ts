@@ -1,16 +1,16 @@
 import { ICRUDService } from "@/interfaces/_shared/crud/crudService";
-import { IMapper } from "@/interfaces/_shared/mapper";
+import { IToDomainMapper } from "@/interfaces/_shared/mappers/toDomainMapper";
 import { CRUDRepository } from "@/repositories/_shared/crud";
 
 export abstract class CRUDService<Model, QueryResult>
   implements ICRUDService<Model>
 {
   protected repository: CRUDRepository<Model, QueryResult>;
-  protected mapper: IMapper<Model, QueryResult>;
+  protected mapper: IToDomainMapper<Model, QueryResult>;
 
   constructor(
     repository: CRUDRepository<Model, QueryResult>,
-    mapper: IMapper<Model, QueryResult>
+    mapper: IToDomainMapper<Model, QueryResult>
   ) {
     this.repository = repository;
     this.mapper = mapper;

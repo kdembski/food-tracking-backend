@@ -1,4 +1,4 @@
-import { IMapper } from "@/interfaces/_shared/mapper";
+import { IMapper } from "@/interfaces/_shared/mappers/mapper";
 import { IngredientUnitMapper } from "./ingredientUnit";
 import { IngredientUnitDTO } from "@/dtos/ingredients/ingredientUnit";
 import { IngredientUnitsCollection } from "@/main/ingredients/collections/ingredientUnits";

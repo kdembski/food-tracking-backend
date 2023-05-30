@@ -1,5 +1,5 @@
 import { CalendarItemDTO } from "@/dtos/calendar/calendarItem";
-import { IMapper } from "@/interfaces/_shared/mapper";
+import { IMapper } from "@/interfaces/_shared/mappers/mapper";
 import { CalendarItem } from "@/main/calendar/models/calendarItem";
 
 export class CalendarItemMapper

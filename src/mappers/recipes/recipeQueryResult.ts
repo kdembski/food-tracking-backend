@@ -1,23 +1,10 @@
 import { RecipeQueryResult } from "@/dtos/recipes/recipe";
-import { IMapper } from "@/interfaces/_shared/mapper";
+import { IToDomainMapper } from "@/interfaces/_shared/mappers/toDomainMapper";
 import { Recipe } from "@/main/recipes/models/recipe";
 
 export class RecipeQueryResultMapper
-  implements IMapper<Recipe, RecipeQueryResult>
+  implements IToDomainMapper<Recipe, RecipeQueryResult>
 {
-  toDTO(model: Recipe) {
-    return {
-      id: model.id,
-      recipeName: model.recipeName,
-      preparationTime: model.preparationTime,
-      tags: model.tags,
-      cookidooLink: model.cookidooLink,
-      kcal: model.kcal,
-      cookedDate: model.cookedDate,
-      ingredientIds: "",
-    };
-  }
-
   toDomain(dto: RecipeQueryResult) {
     return new Recipe(dto);
   }

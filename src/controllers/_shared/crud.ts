@@ -1,7 +1,7 @@
 import { ApiError } from "@/_shared/errors/models/apiError";
 import { RequestParamsHelper } from "@/helpers/requestParams";
 import { IValidator } from "@/interfaces/_shared/errors/validator";
-import { IMapper } from "@/interfaces/_shared/mapper";
+import { IMapper } from "@/interfaces/_shared/mappers/mapper";
 import { CRUDService } from "@/main/_shared/crud/services/crud";
 import { Request, Response } from "express";
 

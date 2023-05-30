@@ -1,5 +1,5 @@
 import { ShoppingCustomItemDTO } from "@/dtos/shopping/shoppingCustomItems";
-import { IMapper } from "@/interfaces/_shared/mapper";
+import { IMapper } from "@/interfaces/_shared/mappers/mapper";
 import { ShoppingCustomItem } from "@/main/shopping/models/shoppingCustomItem";
 
 export class ShoppingCustomItemMapper

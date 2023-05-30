@@ -1,5 +1,5 @@
 import { IngredientUnitDTO } from "@/dtos/ingredients/ingredientUnit";
-import { IMapper } from "@/interfaces/_shared/mapper";
+import { IMapper } from "@/interfaces/_shared/mappers/mapper";
 import { IngredientUnit } from "@/main/ingredients/models/ingredientUnit";
 
 export class IngredientUnitMapper

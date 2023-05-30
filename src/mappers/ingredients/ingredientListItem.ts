@@ -1,5 +1,5 @@
 import { IngredientListItemDTO } from "@/dtos/ingredients/ingredient";
-import { IMapper } from "@/interfaces/_shared/mapper";
+import { IMapper } from "@/interfaces/_shared/mappers/mapper";
 import { Ingredient } from "@/main/ingredients/models/ingredient";
 
 export class IngredientListItemMapper
