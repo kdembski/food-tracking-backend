@@ -5,8 +5,17 @@ import { ShoppingListsService } from "@/main/shopping/services/shoppingLists";
 import { ShoppingListsCollectionMapper } from "@/mappers/shopping/shoppingListsCollection";
 
 export class ShoppingListsWebSocketService extends WebSocketService {
-  constructor(server: Server) {
+  private service: ShoppingListsService;
+  private collectionMapper: ShoppingListsCollectionMapper;
+
+  constructor(
+    server: Server,
+    service = new ShoppingListsService(),
+    collectionMapper = new ShoppingListsCollectionMapper()
+  ) {
     super(server, "/shopping/lists");
+    this.service = service;
+    this.collectionMapper = collectionMapper;
   }
 
   init() {
@@ -26,8 +35,8 @@ export class ShoppingListsWebSocketService extends WebSocketService {
   }
 
   private async onMessage(ws: WebSocket) {
-    const collection = await new ShoppingListsService().getAll();
-    const dtos = new ShoppingListsCollectionMapper().toDTO(collection);
+    const collection = await this.service.getAll();
+    const dtos = this.collectionMapper.toDTO(collection);
 
     ws.send(JSON.stringify({ lists: dtos }));
   }

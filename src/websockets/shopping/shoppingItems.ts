@@ -5,8 +5,17 @@ import { ShoppingItemsCollectionService } from "@/main/shopping/services/shoppin
 import { ShoppingItemsCollectionMapper } from "@/mappers/shopping/shoppingItemsCollection";
 
 export class ShoppingItemsWebSocketService extends WebSocketService {
-  constructor(server: Server) {
+  private collectionService: ShoppingItemsCollectionService;
+  private collectionMapper: ShoppingItemsCollectionMapper;
+
+  constructor(
+    server: Server,
+    collectionService = new ShoppingItemsCollectionService(),
+    collectionMapper = new ShoppingItemsCollectionMapper()
+  ) {
     super(server, "/shopping/items");
+    this.collectionService = collectionService;
+    this.collectionMapper = collectionMapper;
   }
 
   init() {
@@ -32,11 +41,10 @@ export class ShoppingItemsWebSocketService extends WebSocketService {
   }
 
   private async onMessage(listId: number, ws: WebSocket) {
-    const items =
-      await new ShoppingItemsCollectionService().getNotRemovedByShoppingListId(
-        listId
-      );
-    const dtos = new ShoppingItemsCollectionMapper().toDTO(items);
+    const items = await this.collectionService.getNotRemovedByShoppingListId(
+      listId
+    );
+    const dtos = this.collectionMapper.toDTO(items);
 
     ws.send(JSON.stringify({ listId, items: dtos }));
   }
