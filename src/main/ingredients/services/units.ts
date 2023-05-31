@@ -10,12 +10,12 @@ import { UnitsList } from "../models/unitsList";
 export class UnitsService extends CRUDService<Unit, UnitDTO> {
   protected repository: UnitsRepository;
   protected mapper: UnitMapper;
-  list: ListService<Unit, UnitDTO, UnitDTO, UnitsListFilters>;
+  list: ListService<Unit, UnitDTO, UnitsListFilters>;
 
   constructor(
     repository = new UnitsRepository(),
     mapper = new UnitMapper(),
-    list = new ListService(new UnitsList())
+    list = new ListService(new UnitsList(), repository.list)
   ) {
     super(repository, mapper);
     this.repository = repository;

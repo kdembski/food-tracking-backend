@@ -14,17 +14,12 @@ export class IngredientsService extends CRUDService<Ingredient, IngredientDTO> {
   private builder: IngredientBuilder;
   protected repository: IngredientsRepository;
   protected mapper: IngredientMapper;
-  list: ListService<
-    Ingredient,
-    IngredientDTO,
-    IngredientDTO,
-    IngredientsListFilters
-  >;
+  list: ListService<Ingredient, IngredientDTO, IngredientsListFilters>;
 
   constructor(
     repository = new IngredientsRepository(),
     mapper = new IngredientMapper(),
-    list = new ListService(new IngredientsList()),
+    list = new ListService(new IngredientsList(), repository.list),
     ingredientUnitsCollectionService = new IngredientUnitsCollectionService(),
     builder = new IngredientBuilder()
   ) {

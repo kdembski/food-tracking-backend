@@ -1,4 +1,4 @@
-import { Where } from "@/base/queries/models/where";
+import { Where } from "@/queries/_shared/models/where";
 
 export type JoinType =
   | "JOIN"

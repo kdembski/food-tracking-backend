@@ -4,7 +4,7 @@ import { Recipe } from "@/main/recipes/models/recipe";
 import { RecipesList } from "../models/recipesList";
 import { RecipesListFilters } from "@/types/recipes/recipes";
 import { ListService } from "@/main/_shared/list/listService";
-import { ExtendedRecipeDTO, RecipeQueryResult } from "@/dtos/recipes/recipe";
+import { RecipeQueryResult } from "@/dtos/recipes/recipe";
 import { CRUDService } from "@/main/_shared/crud/services/crud";
 import { TagsBuilder } from "@/main/_shared/tags/tagsBuilder";
 import { RecipeQueryResultMapper } from "@/mappers/recipes/recipeQueryResult";
@@ -15,17 +15,12 @@ export class RecipesService extends CRUDService<Recipe, RecipeQueryResult> {
   protected repository: RecipesRepository;
   protected mapper: RecipeQueryResultMapper;
 
-  list: ListService<
-    Recipe,
-    ExtendedRecipeDTO,
-    RecipeQueryResult,
-    RecipesListFilters
-  >;
+  list: ListService<Recipe, RecipeQueryResult, RecipesListFilters>;
 
   constructor(
     repository = new RecipesRepository(),
     mapper = new RecipeQueryResultMapper(),
-    list = new ListService(new RecipesList()),
+    list = new ListService(new RecipesList(), repository.list),
     tagsBuilder = new TagsBuilder(repository),
     builder = new RecipeBuilder()
   ) {

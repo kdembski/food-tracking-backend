@@ -16,14 +16,13 @@ export class IngredientCategoriesService extends CRUDService<
   list: ListService<
     IngredientCategory,
     IngredientCategoryDTO,
-    IngredientCategoryDTO,
     IngredientCategoriesListFilters
   >;
 
   constructor(
     repository = new IngredientCategoriesRepository(),
     mapper = new IngredientCategoryMapper(),
-    list = new ListService(new IngredientCategoriesList())
+    list = new ListService(new IngredientCategoriesList(), repository.list)
   ) {
     super(repository, mapper);
     this.repository = repository;

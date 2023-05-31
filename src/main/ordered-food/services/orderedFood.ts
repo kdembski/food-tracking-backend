@@ -16,17 +16,12 @@ export class OrderedFoodService extends CRUDService<
   protected repository: OrderedFoodRepository;
   protected mapper: OrderedFoodMapper;
 
-  list: ListService<
-    OrderedFood,
-    OrderedFoodDTO,
-    OrderedFoodDTO,
-    OrderedFoodListFilters
-  >;
+  list: ListService<OrderedFood, OrderedFoodDTO, OrderedFoodListFilters>;
 
   constructor(
     repository = new OrderedFoodRepository(),
     mapper = new OrderedFoodMapper(),
-    list = new ListService(new OrderedFoodList()),
+    list = new ListService(new OrderedFoodList(), repository.list),
     tagsBuilder = new TagsBuilder(repository)
   ) {
     super(repository, mapper);

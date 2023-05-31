@@ -1,8 +1,7 @@
-import { ListConfig } from "@/types/_shared/list";
+import { RequestQueryHelper } from "@/helpers/requestQuery";
 
 export interface IList<Item, ItemQueryResult, Filters> {
   createListItem(data: ItemQueryResult): Promise<Item> | Item;
-  getListData(config: ListConfig<Filters>): Promise<ItemQueryResult[]>;
-  getListCount(filters: Filters): Promise<number>;
+  createFilters(query: RequestQueryHelper): Filters;
   getDataLength: () => number;
 }

@@ -8,6 +8,7 @@ import { ApiError } from "@/_shared/errors/models/apiError";
 import { UnitsListFilters } from "@/types/ingredients/units";
 import { ListController } from "../_shared/list";
 import { CRUDController } from "../_shared/crud";
+import { ListMapper } from "@/main/_shared/list/listMapper";
 
 export class UnitsController extends CRUDController<Unit, UnitDTO, UnitDTO> {
   protected service: UnitsService;
@@ -19,7 +20,7 @@ export class UnitsController extends CRUDController<Unit, UnitDTO, UnitDTO> {
     service = new UnitsService(),
     mapper = new UnitMapper(),
     validator = new UnitValidator(),
-    list = new ListController(service.list)
+    list = new ListController(service.list, new ListMapper(mapper))
   ) {
     super(service, mapper, validator);
     this.service = service;

@@ -25,7 +25,7 @@ export abstract class CRUDRepository<Model, QueryResult>
 
     if (!dto) {
       throw new CustomError({
-        message: "Record with id: '" + id + "' not exists",
+        message: "Record with id: '" + id + "' does not exists",
       });
     }
 

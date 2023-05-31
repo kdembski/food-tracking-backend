@@ -8,6 +8,7 @@ import { CRUDController } from "../_shared/crud";
 import { Ingredient } from "@/main/ingredients/models/ingredient";
 import { ListController } from "../_shared/list";
 import { IngredientsListFilters } from "@/types/ingredients/ingredients";
+import { ListMapper } from "@/main/_shared/list/listMapper";
 
 export class IngredientsController extends CRUDController<
   Ingredient,
@@ -28,7 +29,7 @@ export class IngredientsController extends CRUDController<
     service = new IngredientsService(),
     mapper = new IngredientMapper(),
     validator = new IngredientValidator(),
-    list = new ListController(service.list)
+    list = new ListController(service.list, new ListMapper(mapper))
   ) {
     super(service, mapper, validator);
     this.service = service;

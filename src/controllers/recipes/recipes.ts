@@ -15,6 +15,7 @@ import { RecipesListFilters } from "@/types/recipes/recipes";
 import { CRUDController } from "../_shared/crud";
 import { ApiError } from "@/_shared/errors/models/apiError";
 import { TagsMapper } from "@/mappers/_shared/tags";
+import { ListMapper } from "@/main/_shared/list/listMapper";
 
 export class RecipesController extends CRUDController<
   Recipe,
@@ -38,7 +39,7 @@ export class RecipesController extends CRUDController<
     service = new RecipesService(),
     mapper = new ExtendedRecipeMapper(),
     validator = new RecipeValidator(),
-    list = new ListController(service.list),
+    list = new ListController(service.list, new ListMapper(mapper)),
     ingredientsCollectionService = new RecipeIngredientsCollectionService(),
     ingredientsCollectionMapper = new RecipeIngredientCollectionMapper(),
     ingredientsCollectionValidator = new RecipeIngredientsCollectionValidator()

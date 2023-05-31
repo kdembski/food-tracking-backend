@@ -8,6 +8,7 @@ import { IngredientCategoryDTO } from "@/dtos/ingredients/ingredientCategory";
 import { ApiError } from "@/_shared/errors/models/apiError";
 import { ListController } from "../_shared/list";
 import { IngredientCategoriesListFilters } from "@/types/ingredients/ingredientCategories";
+import { ListMapper } from "@/main/_shared/list/listMapper";
 
 export class IngredientCategoriesController extends CRUDController<
   IngredientCategory,
@@ -28,7 +29,7 @@ export class IngredientCategoriesController extends CRUDController<
     service = new IngredientCategoriesService(),
     mapper = new IngredientCategoryMapper(),
     validator = new IngredientCategoryValidator(),
-    list = new ListController(service.list)
+    list = new ListController(service.list, new ListMapper(mapper))
   ) {
     super(service, mapper, validator);
     this.service = service;

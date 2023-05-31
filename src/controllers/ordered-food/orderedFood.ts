@@ -10,6 +10,7 @@ import { CRUDController } from "../_shared/crud";
 import { OrderedFoodListFilters } from "@/types/ordered-food/orderedFood";
 import { TagsMapper } from "@/mappers/_shared/tags";
 import { ApiError } from "@/_shared/errors/models/apiError";
+import { ListMapper } from "@/main/_shared/list/listMapper";
 
 export class OrderedFoodController extends CRUDController<
   OrderedFood,
@@ -30,7 +31,7 @@ export class OrderedFoodController extends CRUDController<
     service = new OrderedFoodService(),
     mapper = new OrderedFoodMapper(),
     validator = new OrderedFoodValidator(),
-    list = new ListController(service.list)
+    list = new ListController(service.list, new ListMapper(mapper))
   ) {
     super(service, mapper, validator);
     this.service = service;

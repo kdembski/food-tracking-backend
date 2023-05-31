@@ -1,8 +1,8 @@
 import { RequestQueryData } from "@/types/helpers/requestQuery";
 
-export interface IListBuilder<Filters> {
-  build(query: RequestQueryData, filters: Filters): void;
-  produceConfig(query: RequestQueryData, filters: Filters): void;
+export interface IListBuilder {
+  build(query: RequestQueryData): void;
+  produceConfig(query: RequestQueryData): void;
   produceData(): void;
-  producePagination(): void;
+  producePagination(query: RequestQueryData): void;
 }
