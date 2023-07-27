@@ -1,9 +1,12 @@
-import { Field } from "../_shared/models/field";
-import { Join } from "../_shared/models/join";
-import { Queries } from "../_shared/models/queries";
-import { Where } from "../_shared/models/where";
+import { Field } from "../_shared/components/models/field";
+import { Join } from "../_shared/components/models/join";
+import { Where } from "../_shared/components/models/where";
+import { CRUDQueries } from "../_shared/crud";
+import { DeleteQuery } from "../_shared/models/crud/delete";
+import { SelectByIdQuery } from "../_shared/models/crud/selectById";
+import { UpdateQuery } from "../_shared/models/crud/update";
 
-export class ShoppingItemsQueries extends Queries {
+export class ShoppingItemsQueries extends CRUDQueries {
   constructor() {
     const joins = [
       new Join({
@@ -104,39 +107,46 @@ export class ShoppingItemsQueries extends Queries {
       "amount",
     ];
 
-    super({
-      tableName: "shopping_items",
-      joins,
+    super(
+      "shopping_items",
       fieldsToSelect,
       fieldsToInsert,
       fieldsToUpdate,
-    });
+      joins
+    );
   }
 
   getUpdateIsChecked() {
-    return this.getUpdate(["is_checked", "checked_at"]);
+    return new UpdateQuery(this.tableName, ["is_checked", "checked_at"]).query;
   }
 
   getUpdateIsRemoved() {
-    return this.getUpdate(["is_removed"]);
+    return new UpdateQuery(this.tableName, ["is_removed"]).query;
   }
 
   getSelectNotRemovedByShoppingListId() {
-    return this.getSelectById({
-      id: "shopping_list_id",
-      wheres: [new Where({ field: "is_removed", equals: 0 })],
-    });
+    return new SelectByIdQuery(
+      this.tableName,
+      "shopping_list_id",
+      this.fieldsToSelect,
+      [new Where({ field: "is_removed", equals: 0 })],
+      this.joins
+    ).query;
   }
 
   getSelectNotRemovedCountByShoppingListId() {
-    return this.getSelectById({
-      id: "shopping_list_id",
-      fields: [new Field({ name: "COUNT(*)" })],
-      wheres: [new Where({ field: "is_removed", equals: 0 })],
-    });
+    return new SelectByIdQuery(
+      this.tableName,
+      "shopping_list_id",
+      [new Field({ name: "COUNT(*)" })],
+      [new Where({ field: "is_removed", equals: 0 })],
+      this.joins
+    ).query;
   }
 
   getDeleteByRecipeId() {
-    return `DELETE FROM ${this.tableName} WHERE recipe_id = ?`;
+    return new DeleteQuery(this.tableName, [
+      new Where({ field: "recipe_id", equals: "?" }),
+    ]).query;
   }
 }

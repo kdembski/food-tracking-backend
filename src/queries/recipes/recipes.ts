@@ -1,28 +1,30 @@
-import { RecipesListFilters } from "@/types/recipes/recipes";
-import { Field } from "../_shared/models/field";
-import { Queries } from "../_shared/models/queries";
 import { ListConfig } from "@/types/_shared/list";
-import { Join } from "../_shared/models/join";
-import { ListQueryBuilder } from "../_shared/builders/list";
+import { Field } from "../_shared/components/models/field";
+import { CRUDQueries } from "../_shared/crud";
+import { SelectListQuery } from "../_shared/models/list/selectList";
+import { RecipesListFilters } from "@/types/recipes/recipes";
+import { SelectCountQuery } from "../_shared/models/list/selectCount";
+import { SelectQuery } from "../_shared/models/select";
+import { Where } from "../_shared/components/models/where";
 import { WhereOperators } from "@/types/_shared/queries";
-import { Where } from "../_shared/models/where";
-import { HavingCollection } from "../_shared/collections/having";
+import { HavingCollection } from "../_shared/components/collections/having";
+import { UpdateQuery } from "../_shared/models/crud/update";
+import { Join } from "../_shared/components/models/join";
+import { WheresGenerator } from "../_shared/components/generators/wheres";
 
-export class RecipesQueries extends Queries {
+export class RecipesQueries extends CRUDQueries {
   constructor() {
     const fieldsToSelect = [
       new Field({
         name: "*",
       }),
     ];
-
     const fieldsToInsert = [
       "recipe_name",
       "preparation_time",
       "tags",
       "cookidoo_link",
     ];
-
     const fieldsToUpdate = [
       "recipe_name",
       "preparation_time",
@@ -31,33 +33,31 @@ export class RecipesQueries extends Queries {
       "cookidoo_link",
     ];
 
-    super({
-      tableName: "recipes",
-      fieldsToSelect,
-      fieldsToInsert,
-      fieldsToUpdate,
-    });
+    super("recipes", fieldsToSelect, fieldsToInsert, fieldsToUpdate);
   }
 
   getSelectList(config: ListConfig<RecipesListFilters>) {
     const { filters } = config;
-    const queryBuilder = this.getListQueryBuilderWithFilters(filters);
-    queryBuilder.build(config);
-
-    return queryBuilder.query;
-  }
-
-  getSelectAll(filters: RecipesListFilters) {
-    return this.getListQueryBuilderWithFilters(filters).query;
+    return new SelectListQuery(this.getSelectAll(filters), config).query;
   }
 
   getSelectCount(filters: RecipesListFilters) {
-    return `SELECT COUNT(*) FROM (${this.getSelectAll(filters)}) AS recipes`;
+    return new SelectCountQuery(this.getSelectAll(filters)).query;
   }
 
-  private getListQueryBuilderWithFilters(filters: RecipesListFilters) {
-    let selectQuery = this.getSelect({
-      fields: [
+  getSelectOptions(labelField: string) {
+    return new SelectQuery(this.tableName, [
+      new Field({ name: "id" }),
+      new Field({ name: labelField }),
+    ]).query;
+  }
+
+  getSelectAll(filters: RecipesListFilters) {
+    const { ingredientIds } = filters;
+
+    let query = new SelectQuery(
+      this.tableName,
+      [
         new Field({
           table: "recipes",
           name: "*",
@@ -67,7 +67,8 @@ export class RecipesQueries extends Queries {
           alias: "ingredient_ids",
         }),
       ],
-      joins: [
+      this.getFiltersWheres(filters),
+      [
         new Join({
           type: "LEFT JOIN",
           table: "recipe_ingredients",
@@ -80,29 +81,32 @@ export class RecipesQueries extends Queries {
           on: "recipe_ingredients.ingredient_unit_id",
           equals: "id",
         }),
-      ],
-    });
+      ]
+    ).query;
 
-    const queryBuilder = new ListQueryBuilder(selectQuery);
-    const { searchPhrase, tags, ingredientIds } = filters;
-    queryBuilder.produceMultipleValuesFilterWheres(
-      "tags",
+    query += " GROUP BY recipes.id";
+    query += this.getFilterByIngredientIdsClause(ingredientIds);
+
+    return query;
+  }
+
+  private getFiltersWheres(filters: RecipesListFilters) {
+    const { searchPhrase, tags } = filters;
+    const tagsWheres = new WheresGenerator().generateMultipleValues(
       tags,
+      "tags",
       WhereOperators.AND
     );
-    queryBuilder.produceMultipleFieldsFilterWheres(
+    const searchPhraseWheres = new WheresGenerator().generateMultipleFields(
       ["recipe_name"],
       searchPhrase,
       WhereOperators.OR
     );
-    queryBuilder.produceFilterWheres();
-    queryBuilder.query += " GROUP BY recipes.id";
-    queryBuilder.query += this.getFilterByIngredientIdsQuery(ingredientIds);
 
-    return queryBuilder;
+    return [...tagsWheres, WhereOperators.AND, ...searchPhraseWheres];
   }
 
-  private getFilterByIngredientIdsQuery(ingredientIds?: number[]) {
+  private getFilterByIngredientIdsClause(ingredientIds?: number[]) {
     if (!ingredientIds || ingredientIds.length === 0) {
       return "";
     }
@@ -123,6 +127,10 @@ export class RecipesQueries extends Queries {
   }
 
   getUpdateKcal() {
-    return this.getUpdate(["kcal"]);
+    return new UpdateQuery(
+      this.tableName,
+      ["kcal"],
+      [new Where({ field: "id", equals: "?" })]
+    ).query;
   }
 }

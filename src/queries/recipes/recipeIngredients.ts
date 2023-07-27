@@ -1,8 +1,8 @@
-import { Field } from "../_shared/models/field";
-import { Join } from "../_shared/models/join";
-import { Queries } from "../_shared/models/queries";
+import { Field } from "../_shared/components/models/field";
+import { Join } from "../_shared/components/models/join";
+import { CRUDQueries } from "../_shared/crud";
 
-export class RecipeIngredientsQueries extends Queries {
+export class RecipeIngredientsQueries extends CRUDQueries {
   constructor() {
     const joins = [
       new Join({
@@ -62,20 +62,20 @@ export class RecipeIngredientsQueries extends Queries {
     const fieldsToInsert = ["recipe_id", "ingredient_unit_id", "amount"];
     const fieldsToUpdate = ["recipe_id", "ingredient_unit_id", "amount"];
 
-    super({
-      tableName: "recipe_ingredients",
-      joins,
+    super(
+      "recipe_ingredients",
       fieldsToSelect,
       fieldsToInsert,
       fieldsToUpdate,
-    });
+      joins
+    );
   }
 
   getSelectByRecipeId() {
-    return this.getSelectById({ id: "recipe_id" });
+    return this.getSelectById("recipe_id");
   }
 
   getSelectByIngredientUnitId() {
-    return this.getSelectById({ id: "ingredient_unit_id" });
+    return this.getSelectById("ingredient_unit_id");
   }
 }

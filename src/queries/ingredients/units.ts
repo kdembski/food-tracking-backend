@@ -1,11 +1,14 @@
 import { UnitsListFilters } from "@/types/ingredients/units";
-import { Field } from "../_shared/models/field";
-import { Queries } from "../_shared/models/queries";
-import { ListConfig } from "@/types/_shared/list";
-import { ListQueryBuilder } from "../_shared/builders/list";
 import { WhereOperators } from "@/types/_shared/queries";
+import { Field } from "../_shared/components/models/field";
+import { CRUDQueries } from "../_shared/crud";
+import { SelectListQuery } from "../_shared/models/list/selectList";
+import { SelectCountQuery } from "../_shared/models/list/selectCount";
+import { ListConfig } from "@/types/_shared/list";
+import { SelectQuery } from "../_shared/models/select";
+import { WheresGenerator } from "../_shared/components/generators/wheres";
 
-export class UnitsQueries extends Queries {
+export class UnitsQueries extends CRUDQueries {
   constructor() {
     const fieldsToSelect = [
       new Field({
@@ -16,40 +19,36 @@ export class UnitsQueries extends Queries {
     const fieldsToInsert = ["name", "shortcut"];
     const fieldsToUpdate = ["name", "shortcut"];
 
-    super({
-      tableName: "units",
-      fieldsToSelect,
-      fieldsToInsert,
-      fieldsToUpdate,
-    });
+    super("units", fieldsToSelect, fieldsToInsert, fieldsToUpdate);
   }
 
   getSelectList(config: ListConfig<UnitsListFilters>) {
     const { filters } = config;
-    const queryBuilder = this.getListQueryBuilderWithFilters(filters);
-    queryBuilder.build(config);
-
-    return queryBuilder.query;
-  }
-
-  getSelectAll(filters: UnitsListFilters) {
-    return this.getListQueryBuilderWithFilters(filters).query;
+    return new SelectListQuery(this.getSelectAll(filters), config).query;
   }
 
   getSelectCount(filters: UnitsListFilters) {
-    return `SELECT COUNT(*) FROM (${this.getSelectAll(filters)}) AS units`;
+    return new SelectCountQuery(this.getSelectAll(filters)).query;
   }
 
-  private getListQueryBuilderWithFilters(filters: UnitsListFilters) {
-    const queryBuilder = new ListQueryBuilder(this.getSelect());
+  private getSelectAll(filters: UnitsListFilters) {
     const { searchPhrase } = filters;
-    queryBuilder.produceMultipleFieldsFilterWheres(
-      ["name"],
-      searchPhrase,
-      WhereOperators.OR
-    );
-    queryBuilder.produceFilterWheres();
 
-    return queryBuilder;
+    return new SelectQuery(
+      this.tableName,
+      this.fieldsToSelect,
+      new WheresGenerator().generateMultipleFields(
+        ["name"],
+        searchPhrase,
+        WhereOperators.OR
+      )
+    ).query;
+  }
+
+  getSelectOptions() {
+    return new SelectQuery(this.tableName, [
+      new Field({ name: "id" }),
+      new Field({ name: "name" }),
+    ]).query;
   }
 }

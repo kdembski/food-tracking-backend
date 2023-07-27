@@ -1,12 +1,15 @@
 import { IngredientsListFilters } from "@/types/ingredients/ingredients";
-import { Field } from "../_shared/models/field";
-import { Join } from "../_shared/models/join";
-import { Queries } from "../_shared/models/queries";
-import { ListConfig } from "@/types/_shared/list";
-import { ListQueryBuilder } from "../_shared/builders/list";
 import { WhereOperators } from "@/types/_shared/queries";
+import { ListConfig } from "@/types/_shared/list";
+import { SelectListQuery } from "../_shared/models/list/selectList";
+import { SelectCountQuery } from "../_shared/models/list/selectCount";
+import { SelectQuery } from "../_shared/models/select";
+import { CRUDQueries } from "../_shared/crud";
+import { Join } from "../_shared/components/models/join";
+import { Field } from "../_shared/components/models/field";
+import { WheresGenerator } from "../_shared/components/generators/wheres";
 
-export class IngredientsQueries extends Queries {
+export class IngredientsQueries extends CRUDQueries {
   constructor() {
     const joins = [
       new Join({
@@ -31,43 +34,37 @@ export class IngredientsQueries extends Queries {
     const fieldsToInsert = ["name", "category_id"];
     const fieldsToUpdate = ["name", "category_id"];
 
-    super({
-      tableName: "ingredients",
-      joins,
-      fieldsToSelect,
-      fieldsToInsert,
-      fieldsToUpdate,
-    });
+    super("ingredients", fieldsToSelect, fieldsToInsert, fieldsToUpdate, joins);
   }
 
   getSelectList(config: ListConfig<IngredientsListFilters>) {
     const { filters } = config;
-    const queryBuilder = this.getListQueryBuilderWithFilters(filters);
-    queryBuilder.build(config);
-
-    return queryBuilder.query;
-  }
-
-  getSelectAll(filters: IngredientsListFilters) {
-    return this.getListQueryBuilderWithFilters(filters).query;
+    return new SelectListQuery(this.getSelectAll(filters), config).query;
   }
 
   getSelectCount(filters: IngredientsListFilters) {
-    return `SELECT COUNT(*) FROM (${this.getSelectAll(
-      filters
-    )}) AS ingredients`;
+    return new SelectCountQuery(this.getSelectAll(filters)).query;
   }
 
-  private getListQueryBuilderWithFilters(filters: IngredientsListFilters) {
-    const queryBuilder = new ListQueryBuilder(this.getSelect());
+  private getSelectAll(filters: IngredientsListFilters) {
     const { searchPhrase } = filters;
-    queryBuilder.produceMultipleFieldsFilterWheres(
-      ["ingredients.name"],
-      searchPhrase,
-      WhereOperators.OR
-    );
-    queryBuilder.produceFilterWheres();
 
-    return queryBuilder;
+    return new SelectQuery(
+      this.tableName,
+      this.fieldsToSelect,
+      new WheresGenerator().generateMultipleFields(
+        ["ingredients.name"],
+        searchPhrase,
+        WhereOperators.OR
+      ),
+      this.joins
+    ).query;
+  }
+
+  getSelectOptions() {
+    return new SelectQuery(this.tableName, [
+      new Field({ name: "id" }),
+      new Field({ name: "name" }),
+    ]).query;
   }
 }

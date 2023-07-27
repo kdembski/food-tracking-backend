@@ -19,7 +19,7 @@ export class ShoppingListsRepository extends CRUDRepository<
   }
 
   async selectAll() {
-    const query = this.queries.getSelect();
+    const query = this.queries.getSelectAll();
     const data = await this.database.sendQuery(query);
 
     return data as ShoppingListDTO[];

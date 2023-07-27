@@ -1,7 +1,7 @@
-import { Field } from "./_shared/models/field";
-import { Queries } from "./_shared/models/queries";
+import { Field } from "./_shared/components/models/field";
+import { CRUDQueries } from "./_shared/crud";
 
-export class UsersQueries extends Queries {
+export class UsersQueries extends CRUDQueries {
   constructor() {
     const fieldsToSelect = [
       new Field({
@@ -12,11 +12,6 @@ export class UsersQueries extends Queries {
     const fieldsToInsert = ["password"];
     const fieldsToUpdate = ["password"];
 
-    super({
-      tableName: "users",
-      fieldsToSelect,
-      fieldsToInsert,
-      fieldsToUpdate,
-    });
+    super("users", fieldsToSelect, fieldsToInsert, fieldsToUpdate);
   }
 }

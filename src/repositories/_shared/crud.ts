@@ -2,15 +2,15 @@ import { OkPacket } from "mysql2";
 import { CustomError } from "@/_shared/errors/models/customError";
 import { Database } from "@/config/database";
 import { ICRUDRepository } from "@/interfaces/_shared/crud/crudRepository";
-import { Queries } from "@/queries/_shared/models/queries";
+import { CRUDQueries } from "@/queries/_shared/crud";
 
 export abstract class CRUDRepository<Model, QueryResult>
   implements ICRUDRepository<Model, QueryResult>
 {
   protected database: Database;
-  protected queries: Queries;
+  protected queries: CRUDQueries;
 
-  constructor(database: Database, queries: Queries) {
+  constructor(database: Database, queries: CRUDQueries) {
     this.database = database;
     this.queries = queries;
   }

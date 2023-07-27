@@ -30,7 +30,7 @@ export class IngredientCategoriesRepository extends CRUDRepository<
   }
 
   async selectOptions() {
-    const query = this.queries.getSelectOptions("name");
+    const query = this.queries.getSelectOptions();
     const results = await this.database.sendQuery(query);
 
     return results as IngredientCategoryOptionDTO[];

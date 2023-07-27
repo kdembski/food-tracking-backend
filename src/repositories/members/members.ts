@@ -15,7 +15,7 @@ export class MembersRepository {
   }
 
   async selectAll() {
-    const query = this.queries.getSelect();
+    const query = this.queries.getSelectAll();
     const results = await this.database.sendQuery(query);
     return results as MemberDTO[];
   }

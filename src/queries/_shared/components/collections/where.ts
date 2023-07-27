@@ -1,4 +1,4 @@
-import { WheresCollectionItems } from "@/types/_shared/queries";
+import { WhereOperators, WheresCollectionItems } from "@/types/_shared/queries";
 import { Where } from "../models/where";
 
 export class WheresCollection {
@@ -10,6 +10,15 @@ export class WheresCollection {
 
   prepare() {
     if (!this.items || this.items.length === 0) {
+      return "";
+    }
+
+    const lastWhere = this.items.at(-1);
+    if (lastWhere === WhereOperators.AND || lastWhere === WhereOperators.OR) {
+      this.items.pop();
+    }
+
+    if (this.items.length === 0) {
       return "";
     }
 

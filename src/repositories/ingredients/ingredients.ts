@@ -15,6 +15,7 @@ export class IngredientsRepository extends CRUDRepository<
   IngredientDTO
 > {
   list: ListRepository<IngredientQueryResult, IngredientsListFilters>;
+  protected queries: IngredientsQueries;
 
   constructor(
     database = Database.getInstance(),
@@ -30,7 +31,7 @@ export class IngredientsRepository extends CRUDRepository<
   }
 
   async selectOptions() {
-    const query = this.queries.getSelectOptions("name");
+    const query = this.queries.getSelectOptions();
     const data = await this.database.sendQuery(query);
 
     return data as IngredientOptionDTO[];

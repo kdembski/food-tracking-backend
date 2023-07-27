@@ -1,50 +1,50 @@
 import { IngredientCategoriesListFilters } from "@/types/ingredients/ingredientCategories";
-import { Queries } from "../_shared/models/queries";
-import { Field } from "../_shared/models/field";
 import { ListConfig } from "@/types/_shared/list";
-import { ListQueryBuilder } from "../_shared/builders/list";
 import { WhereOperators } from "@/types/_shared/queries";
+import { CRUDQueries } from "../_shared/crud";
+import { Field } from "../_shared/components/models/field";
+import { SelectListQuery } from "../_shared/models/list/selectList";
+import { SelectCountQuery } from "../_shared/models/list/selectCount";
+import { SelectQuery } from "../_shared/models/select";
+import { WheresGenerator } from "../_shared/components/generators/wheres";
 
-export class IngredientCategoriesQueries extends Queries {
+export class IngredientCategoriesQueries extends CRUDQueries {
   constructor() {
-    super({
-      tableName: "ingredient_categories",
-      fieldsToSelect: [new Field({ name: "*" })],
-      fieldsToInsert: ["name"],
-      fieldsToUpdate: ["name"],
-    });
+    super(
+      "ingredient_categories",
+      [new Field({ name: "*" })],
+      ["name"],
+      ["name"]
+    );
   }
 
   getSelectList(config: ListConfig<IngredientCategoriesListFilters>) {
     const { filters } = config;
-    const queryBuilder = this.getListQueryBuilderWithFilters(filters);
-    queryBuilder.build(config);
-
-    return queryBuilder.query;
-  }
-
-  getSelectAll(filters: IngredientCategoriesListFilters) {
-    return this.getListQueryBuilderWithFilters(filters).query;
+    return new SelectListQuery(this.getSelectAll(filters), config).query;
   }
 
   getSelectCount(filters: IngredientCategoriesListFilters) {
-    return `SELECT COUNT(*) FROM (${this.getSelectAll(
-      filters
-    )}) AS ingredients_categories`;
+    return new SelectCountQuery(this.getSelectAll(filters)).query;
   }
 
-  private getListQueryBuilderWithFilters(
-    filters: IngredientCategoriesListFilters
-  ) {
-    const queryBuilder = new ListQueryBuilder(this.getSelect());
+  private getSelectAll(filters: IngredientCategoriesListFilters) {
     const { searchPhrase } = filters;
-    queryBuilder.produceMultipleFieldsFilterWheres(
-      ["name"],
-      searchPhrase,
-      WhereOperators.OR
-    );
-    queryBuilder.produceFilterWheres();
 
-    return queryBuilder;
+    return new SelectQuery(
+      this.tableName,
+      this.fieldsToSelect,
+      new WheresGenerator().generateMultipleFields(
+        ["name"],
+        searchPhrase,
+        WhereOperators.OR
+      )
+    ).query;
+  }
+
+  getSelectOptions() {
+    return new SelectQuery(this.tableName, [
+      new Field({ name: "id" }),
+      new Field({ name: "name" }),
+    ]).query;
   }
 }

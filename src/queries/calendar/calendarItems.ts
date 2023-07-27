@@ -1,10 +1,12 @@
 import { formatISO9075 } from "date-fns";
-import { Queries } from "../_shared/models/queries";
-import { Join } from "../_shared/models/join";
-import { Field } from "../_shared/models/field";
-import { Where } from "../_shared/models/where";
+import { CRUDQueries } from "../_shared/crud";
+import { Join } from "../_shared/components/models/join";
+import { Field } from "../_shared/components/models/field";
+import { Where } from "../_shared/components/models/where";
+import { SelectByIdQuery } from "../_shared/models/crud/selectById";
+import { SelectQuery } from "../_shared/models/select";
 
-export class CalendarItemsQueries extends Queries {
+export class CalendarItemsQueries extends CRUDQueries {
   constructor() {
     const joins = [
       new Join({
@@ -70,13 +72,13 @@ export class CalendarItemsQueries extends Queries {
       "sort_order",
     ];
 
-    super({
-      tableName: "calendar_items",
-      joins,
+    super(
+      "calendar_items",
       fieldsToSelect,
       fieldsToInsert,
       fieldsToUpdate,
-    });
+      joins
+    );
   }
 
   getSelectDatesByRecipeId(from: Date, to: Date) {
@@ -96,7 +98,7 @@ export class CalendarItemsQueries extends Queries {
       }),
     ];
 
-    return this.getSelectById({ fields, wheres, id });
+    return new SelectByIdQuery(this.tableName, id, fields, wheres).query;
   }
 
   getDateRangeSelect(from: Date, to: Date) {
@@ -107,6 +109,9 @@ export class CalendarItemsQueries extends Queries {
       }),
     ];
 
-    return this.getSelect({ wheres }) + " GROUP BY calendar_items.id";
+    return (
+      new SelectQuery(this.tableName, this.fieldsToSelect, wheres, this.joins)
+        .query + " GROUP BY calendar_items.id"
+    );
   }
 }

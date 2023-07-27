@@ -22,7 +22,7 @@ export class ShoppingCustomItemsRepository extends CRUDRepository<
   }
 
   async selectOptions() {
-    const query = this.queries.getSelectOptions("name");
+    const query = this.queries.getSelectOptions();
     const data = await this.database.sendQuery(query);
 
     return data as ShoppingCustomItemOptionDTO[];

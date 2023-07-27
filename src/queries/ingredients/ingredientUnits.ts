@@ -1,10 +1,12 @@
 import { WhereOperators } from "@/types/_shared/queries";
-import { Field } from "../_shared/models/field";
-import { Join } from "../_shared/models/join";
-import { Queries } from "../_shared/models/queries";
-import { Where } from "../_shared/models/where";
+import { Field } from "../_shared/components/models/field";
+import { Join } from "../_shared/components/models/join";
+import { CRUDQueries } from "../_shared/crud";
+import { SelectByIdQuery } from "../_shared/models/crud/selectById";
+import { SelectQuery } from "../_shared/models/select";
+import { Where } from "../_shared/components/models/where";
 
-export class IngredientUnitsQueries extends Queries {
+export class IngredientUnitsQueries extends CRUDQueries {
   constructor() {
     const joins = [
       new Join({
@@ -47,22 +49,24 @@ export class IngredientUnitsQueries extends Queries {
       "converter_to_primary",
     ];
 
-    super({
-      tableName: "ingredient_units",
-      joins,
+    super(
+      "ingredient_units",
       fieldsToSelect,
       fieldsToInsert,
       fieldsToUpdate,
-    });
+      joins
+    );
   }
 
   getSelectByIngredientId() {
-    return this.getSelectById({ id: "ingredient_id" });
+    return this.getSelectById("ingredient_id");
   }
 
   getSelectByIngredientIdAndUnitId(ingredientId: number, unitId: number) {
-    return this.getSelect({
-      wheres: [
+    return new SelectQuery(
+      this.tableName,
+      this.fieldsToSelect,
+      [
         new Where({
           field: "ingredient_id",
           equals: ingredientId,
@@ -73,6 +77,7 @@ export class IngredientUnitsQueries extends Queries {
           equals: unitId,
         }),
       ],
-    });
+      this.joins
+    ).query;
   }
 }

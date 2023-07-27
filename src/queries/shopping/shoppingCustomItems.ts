@@ -1,13 +1,21 @@
-import { Field } from "../_shared/models/field";
-import { Queries } from "../_shared/models/queries";
+import { Field } from "../_shared/components/models/field";
+import { CRUDQueries } from "../_shared/crud";
+import { SelectQuery } from "../_shared/models/select";
 
-export class ShoppingCustomItemsQueries extends Queries {
+export class ShoppingCustomItemsQueries extends CRUDQueries {
   constructor() {
-    super({
-      tableName: "shopping_custom_items",
-      fieldsToSelect: [new Field({ name: "*" })],
-      fieldsToInsert: ["name"],
-      fieldsToUpdate: ["name"],
-    });
+    super(
+      "shopping_custom_items",
+      [new Field({ name: "*" })],
+      ["name"],
+      ["name"]
+    );
+  }
+
+  getSelectOptions() {
+    return new SelectQuery(this.tableName, [
+      new Field({ name: "id" }),
+      new Field({ name: "name" }),
+    ]).query;
   }
 }

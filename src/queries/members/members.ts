@@ -1,7 +1,8 @@
-import { Field } from "../_shared/models/field";
-import { Queries } from "../_shared/models/queries";
+import { Field } from "../_shared/components/models/field";
+import { CRUDQueries } from "../_shared/crud";
+import { SelectQuery } from "../_shared/models/select";
 
-export class MembersQueries extends Queries {
+export class MembersQueries extends CRUDQueries {
   constructor() {
     const fieldsToSelect = [
       new Field({
@@ -12,11 +13,10 @@ export class MembersQueries extends Queries {
     const fieldsToInsert = ["name"];
     const fieldsToUpdate = ["name"];
 
-    super({
-      tableName: "members",
-      fieldsToSelect,
-      fieldsToInsert,
-      fieldsToUpdate,
-    });
+    super("members", fieldsToSelect, fieldsToInsert, fieldsToUpdate);
+  }
+
+  getSelectAll() {
+    return new SelectQuery(this.tableName, this.fieldsToSelect).query;
   }
 }
