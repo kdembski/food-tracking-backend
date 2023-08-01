@@ -27,7 +27,7 @@ export class CRUDQueries {
     this.joins = joins;
   }
 
-  getSelectById(selector = "id") {
+  getSelectById(selector = this.tableName + ".id") {
     return new SelectByIdQuery(
       this.tableName,
       selector,

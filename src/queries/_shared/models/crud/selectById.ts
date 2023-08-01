@@ -10,7 +10,7 @@ export class SelectByIdQuery implements IQuery {
 
   constructor(
     tableName: string,
-    selector = "id",
+    selector: string,
     fields: Field[] = [],
     wheres: WheresCollectionItems[] = [],
     joins: Join[] = []
