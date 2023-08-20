@@ -1,27 +1,24 @@
-var getConnection = jest.fn();
-var createPool = jest.fn().mockImplementation(() => ({
-  getConnection,
-}));
-import Database from "@/config/database";
+import { Database } from "@/config/database";
 
+var getConnection = jest.fn();
 jest.mock("mysql2", () => ({
-  createPool,
+  createPool: jest.fn().mockImplementation(() => ({
+    getConnection,
+  })),
 }));
 
 describe("Database Config", () => {
-  beforeAll(() => {
-    Database.initializeConnectionPool();
-  });
+  let database: Database;
 
-  it("Should set pool on db init and allow it only once", async () => {
-    expect(() => Database.initializeConnectionPool()).toThrowError();
+  beforeAll(() => {
+    database = Database.getInstance();
   });
 
   it("Should reject promise if getConnection return error", async () => {
     getConnection.mockImplementation((callback: any) => {
       callback("error");
     });
-    expect(async () => await Database.sendQuery("query")).rejects.toEqual(
+    expect(async () => await database.sendQuery("query")).rejects.toEqual(
       "error"
     );
   });
@@ -40,7 +37,7 @@ describe("Database Config", () => {
     getConnection.mockImplementation((callback: any) => {
       callback(null, connection);
     });
-    expect(async () => await Database.sendQuery("query")).rejects.toEqual(
+    expect(async () => await database.sendQuery("query")).rejects.toEqual(
       "error"
     );
     expect(connection.release).toHaveBeenCalledTimes(1);
@@ -60,7 +57,7 @@ describe("Database Config", () => {
     getConnection.mockImplementation((callback: any) => {
       callback(null, connection);
     });
-    expect(Database.sendQuery("query")).resolves.toEqual([
+    expect(database.sendQuery("query")).resolves.toEqual([
       { snakeCase: "value" },
     ]);
     expect(connection.release).toHaveBeenCalledTimes(1);
@@ -80,7 +77,7 @@ describe("Database Config", () => {
     getConnection.mockImplementation((callback: any) => {
       callback(null, connection);
     });
-    expect(Database.sendQuery("query")).resolves.toEqual({
+    expect(database.sendQuery("query")).resolves.toEqual({
       snakeCase: "value",
     });
     expect(connection.release).toHaveBeenCalledTimes(1);

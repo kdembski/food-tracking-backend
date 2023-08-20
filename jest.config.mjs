@@ -18,11 +18,11 @@ export default {
     "^@/(.*)": "<rootDir>/src/$1",
   },
   collectCoverageFrom: [
-    "src/main/**/*.ts",
-    "src/base/**/*.ts",
-    "src/config/**/*.ts",
-    "src/helpers/**/*.ts",
-    "src/middleware/**/*.ts",
-    "!src/main/**/models/*.ts",
+    "src/**/*.ts",
+    "!src/consts/**/*.ts",
+    "!src/dtos/**/*.ts",
+    "!src/interfaces/**/*.ts",
+    "!src/mappers/**/*.ts",
+    "!src/types/**/*.ts",
   ],
 };

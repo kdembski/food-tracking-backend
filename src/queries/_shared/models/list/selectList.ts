@@ -1,5 +1,4 @@
 import { ListConfig } from "@/types/_shared/list";
-import { SelectQuery } from "../select";
 import { IQuery } from "@/interfaces/_shared/queries/query";
 
 export class SelectListQuery implements IQuery {
