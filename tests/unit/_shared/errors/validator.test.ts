@@ -1,7 +1,7 @@
-import { IErrors } from "@/interfaces/base/errors";
 import { Validator } from "@/_shared/errors/validator";
+import { IErrors } from "@/interfaces/_shared/errors/errors";
 
-class TestValidator extends Validator {
+class TestValidator extends Validator<{}> {
   override throwErrors(errors: IErrors) {
     super.throwErrors(errors);
   }
@@ -9,8 +9,12 @@ class TestValidator extends Validator {
   override getRequiredFieldError() {
     return super.getRequiredFieldError();
   }
+
+  validate() {
+    return this;
+  }
 }
-jest.mock("@/base/errors/models/customError", () => ({
+jest.mock("@/_shared/errors/models/customError", () => ({
   CustomError: jest.fn().mockImplementation((data) => data),
 }));
 

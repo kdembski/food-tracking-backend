@@ -24,5 +24,7 @@ export default {
     "!src/interfaces/**/*.ts",
     "!src/mappers/**/*.ts",
     "!src/types/**/*.ts",
+    "!src/main/**/models/**/*.ts",
+    "!src/main/**/collections/**/*.ts",
   ],
 };
